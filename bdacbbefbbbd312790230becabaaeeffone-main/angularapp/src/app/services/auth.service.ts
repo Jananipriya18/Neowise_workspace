@@ -11,9 +11,9 @@ export class AuthService {
 
   apiUrl="https://8080-bdacbbefbbbd312790230becabaaeeffone.premiumproject.examly.io/api/login";
 
-  login(username:string,password:string):Observable<{message:string}>
+  login(username:string,password:string,email:string):Observable<{message:string}>
   {
-    return this.http.post<{message:string}>(this.apiUrl, {username:username   ,password:password} )
+    return this.http.post<{message:string}>(this.apiUrl, {username:username ,password:password,email:email} )
   }
   //Method to check if the user is logged in by checking the local storage
   isLoggedIn():boolean
