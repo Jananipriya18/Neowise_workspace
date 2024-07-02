@@ -18,20 +18,20 @@ describe('AuthService', () => {
 
   afterEach(() => {
     httpMock.verify(); // Verifies that no requests are outstanding after each test
-    localStorage.removeItem('loggedIn'); // Clean up localStorage after each test
+    localStorage.removeItem('isRegisteredIn'); // Clean up localStorage after each test
   });
 
-  fit('Authservice_should_be_created', () => {
+  it('Authservice should be created', () => {
     expect(authService).toBeTruthy();
   });
 
-  fit('AuthService_should_return_true_from_isLoggedIn_when_loggedIn_is_set_to_true', () => {
-    localStorage.setItem('loggedIn', 'true');
-    expect(authService.isLoggedIn()).toBe(true);
+  fit('AuthService should return true from isRegisteredIn when isRegisteredIn is set to true', () => {
+    localStorage.setItem('isRegisteredIn', 'true');
+    expect(authService.isRegisteredIn()).toBe(true);
   });
 
-  fit('AuthService_should_return_false_from_isLoggedIn_when_loggedIn_is_set_to_false', () => {
-    localStorage.setItem('loggedIn', 'false');
-    expect(authService.isLoggedIn()).toBe(false);
+  it('AuthService should return false from isRegisteredIn when isRegisteredIn is set to false', () => {
+    localStorage.setItem('isRegisteredIn', 'false');
+    expect(authService.isRegisteredIn()).toBe(false);
   });
 });

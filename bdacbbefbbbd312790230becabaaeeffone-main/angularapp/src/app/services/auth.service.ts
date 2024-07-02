@@ -16,9 +16,9 @@ export class AuthService {
     return this.http.post<{message:string}>(this.apiUrl, {username:username ,password:password,email:email} )
   }
   //Method to check if the user is logged in by checking the local storage
-  isLoggedIn():boolean
+  isRegisteredIn():boolean
   {
-    if(localStorage.getItem('loggedIn') == 'true')
+    if(localStorage.getItem('registeredIn') == 'true')
     {
       return true;
     }
