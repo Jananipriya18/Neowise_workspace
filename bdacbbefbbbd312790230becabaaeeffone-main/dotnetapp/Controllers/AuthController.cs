@@ -8,7 +8,7 @@ public class AuthController : ControllerBase
     [HttpPost("api/register")]
     public IActionResult Register([FromBody] RegistrationModel register)
     {
-        if (register.Username == "admin" && register.Password == "password" && register.Email == "email@gmail.com")
+        if (register.Username == "manager" && register.Password == "Manager@123" && register.Email == "manager@gmail.com")
         {
             return Ok(new { message = "Registration successful" });
         }
