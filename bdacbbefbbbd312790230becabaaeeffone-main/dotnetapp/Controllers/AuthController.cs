@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using dotnetapp.Models; // Add this line to import the namespace
+using dotnetapp.Models;
 
 // [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
     [HttpPost("api/register")]
-    public IActionResult Register([FromBody] LoginModel login)
+    public IActionResult Register([FromBody] RegistrationModel register)
     {
-        if (login.Username == "admin" && login.Password == "password")
+        if (register.Username == "admin" && register.Password == "password" && register.Email == "email@gmail.com")
         {
-            return Ok(new { message = "Login successful" });
+            return Ok(new { message = "Registration successful" });
         }
         else
         {
-            return Unauthorized(new { message = "Invalid username or password" });
+            return Unauthorized(new { message = "Invalid username or Password or Email" });
         }
     }
 }
-
