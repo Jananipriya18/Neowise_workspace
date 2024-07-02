@@ -5,8 +5,8 @@ using dotnetapp.Models; // Add this line to import the namespace
 [ApiController]
 public class AuthController : ControllerBase
 {
-    [HttpPost("api/login")]
-    public IActionResult Login([FromBody] LoginModel login)
+    [HttpPost("api/register")]
+    public IActionResult Register([FromBody] LoginModel login)
     {
         if (login.Username == "admin" && login.Password == "password")
         {
