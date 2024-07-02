@@ -19,6 +19,19 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  register.service.
+  register()
+  {
+    this.service.register(this.username, this.password, this.email).subscribe(
+      data=>{
+        console.log(data);
+        localStorage.setItem('loggedIn','true');
+        this.router.navigate(["/dashboard"])
+      },
+      error=>
+      {
+        console.log(error);
+      }
+    )
+  }
 
 }

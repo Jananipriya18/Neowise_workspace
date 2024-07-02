@@ -9,9 +9,9 @@ export class AuthService {
 
   constructor(private  http:HttpClient) { }
 
-  apiUrl="https://8080-bdacbbefbbbd312790230becabaaeeffone.premiumproject.examly.io/api/login";
+  apiUrl="https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/api/register";
 
-  login(username:string,password:string,email:string):Observable<{message:string}>
+  register(username:string,password:string,email:string):Observable<{message:string}>
   {
     return this.http.post<{message:string}>(this.apiUrl, {username:username ,password:password,email:email} )
   }
