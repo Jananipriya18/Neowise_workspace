@@ -1,40 +1,28 @@
-import { HttpClient } from '@angular/common/http';
+// auth.service.ts
+
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = 'https://8080-aabdbffdadabafcfd314192923becabaaeeffone.premiumproject.examly.io';
 
-  constructor(private  http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  apiUrl="https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/api/register";
-
-  register(username:string,password:string,email:string):Observable<any>
-  {
-    return this.http.post<{message:string}>(this.apiUrl, {username:username ,password:password,email:email} )
+  register(username: string, password: string,email:string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/register`, { username, password, email }).pipe(
+      tap(response => {
+        if (response && response.message === "Login successful") {
+          localStorage.setItem('registeredIn', 'true');
+        }
+      })
+    );
   }
-  //Method to check if the user is logged in by checking the local storage
-  isRegisteredIn():boolean
-  {
-    if(localStorage.getItem('registeredIn') == 'true')
-    {
-      return true;
-    }
-    return false;
+  isRegisteredIn(): boolean {
+    return localStorage.getItem('registeredIn') === 'true';
   }
-}
-login(username: string, password: string): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}/api/login`, { username, password }).pipe(
-    tap(response => {
-      if (response && response.message === "Login successful") {
-        localStorage.setItem('loggedIn', 'true');
-      }
-    })
-  );
-}
-isLoggedIn(): boolean {
-  return localStorage.getItem('loggedIn') === 'true';
-}
 }

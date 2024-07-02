@@ -18,7 +18,7 @@ describe('AuthService', () => {
 
   afterEach(() => {
     httpMock.verify(); // Verifies that no requests are outstanding after each test
-    localStorage.removeItem('isRegisteredIn'); // Clean up localStorage after each test
+    localStorage.removeItem('registeredIn'); // Clean up localStorage after each test
   });
 
   fit('Authservice should be created', () => {
@@ -26,12 +26,12 @@ describe('AuthService', () => {
   });
 
   fit('AuthService should return true from isRegisteredIn when isRegisteredIn is set to true', () => {
-    localStorage.setItem('isRegisteredIn', 'true');
+    localStorage.setItem('registeredIn', 'true');
     expect(authService.isRegisteredIn()).toBe(true);
   });
 
   fit('AuthService should return false from isRegisteredIn when isRegisteredIn is set to false', () => {
-    localStorage.setItem('isRegisteredIn', 'false');
+    localStorage.setItem('registeredIn', 'false');
     expect(authService.isRegisteredIn()).toBe(false);
   });
 });
