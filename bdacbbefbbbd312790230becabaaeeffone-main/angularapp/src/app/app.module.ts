@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddproductComponent } from './components/addproduct/addproduct.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AddproductComponent } from './components/addproduct/addproduct.componen
     AppComponent,
     DashboardComponent,
     LoginComponent,
-    AddproductComponent
+    AddproductComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
