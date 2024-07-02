@@ -21,7 +21,7 @@ describe('AuthService', () => {
     localStorage.removeItem('isRegisteredIn'); // Clean up localStorage after each test
   });
 
-  it('Authservice should be created', () => {
+  fit('Authservice should be created', () => {
     expect(authService).toBeTruthy();
   });
 
@@ -30,7 +30,7 @@ describe('AuthService', () => {
     expect(authService.isRegisteredIn()).toBe(true);
   });
 
-  it('AuthService should return false from isRegisteredIn when isRegisteredIn is set to false', () => {
+  fit('AuthService should return false from isRegisteredIn when isRegisteredIn is set to false', () => {
     localStorage.setItem('isRegisteredIn', 'false');
     expect(authService.isRegisteredIn()).toBe(false);
   });

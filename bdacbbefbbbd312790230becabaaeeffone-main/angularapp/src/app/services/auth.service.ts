@@ -11,7 +11,7 @@ export class AuthService {
 
   apiUrl="https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/api/register";
 
-  register(username:string,password:string,email:string):Observable<{message:string}>
+  register(username:string,password:string,email:string):Observable<any>
   {
     return this.http.post<{message:string}>(this.apiUrl, {username:username ,password:password,email:email} )
   }
@@ -24,4 +24,17 @@ export class AuthService {
     }
     return false;
   }
+}
+login(username: string, password: string): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/api/login`, { username, password }).pipe(
+    tap(response => {
+      if (response && response.message === "Login successful") {
+        localStorage.setItem('loggedIn', 'true');
+      }
+    })
+  );
+}
+isLoggedIn(): boolean {
+  return localStorage.getItem('loggedIn') === 'true';
+}
 }

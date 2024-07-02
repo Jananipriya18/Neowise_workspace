@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
     this.service.register(this.username, this.password, this.email).subscribe(
       data=>{
         console.log(data);
-        localStorage.setItem('loggedIn','true');
+        localStorage.setItem('registeredIn','true');
         this.router.navigate(["/dashboard"])
       },
       error=>
