@@ -33,7 +33,7 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('Register_component_should_be_create', () => {
     expect(component).toBeTruthy();
   });
 
