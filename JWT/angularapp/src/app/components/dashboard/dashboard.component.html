@@ -1,0 +1,9 @@
+<!-- dashboard.component.html -->
+
+<div *ngIf="isAdmin">
+    <h1>Welcome Admin!</h1>
+  </div>
+  <div *ngIf="!isAdmin">
+    <h1>Welcome User!</h1>
+  </div>
+  
