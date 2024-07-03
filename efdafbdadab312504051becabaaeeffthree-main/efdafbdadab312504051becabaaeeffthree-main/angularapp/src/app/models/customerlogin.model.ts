@@ -1,9 +1,7 @@
 export class CustomerLogin {
-
-    password: string;
     userName: string;
+    password: string;
     email: string;
     phoneNumber: string;
     twoFactorEnabledPassCode: string;
-   
 }
