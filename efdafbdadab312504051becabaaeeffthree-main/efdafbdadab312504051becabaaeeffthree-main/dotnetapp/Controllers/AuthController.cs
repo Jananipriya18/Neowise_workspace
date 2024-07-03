@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using dotnetapp.Models; // Add this line to import the namespace
+using dotnetapp.Models
 
 // [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
-    [HttpPost("api/login")]
+    [HttpPost("api/customerLogin")]
     public IActionResult Login([FromBody] LoginModel login)
     {
         if (login.Username == "admin" && login.Password == "password")
