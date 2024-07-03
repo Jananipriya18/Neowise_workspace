@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://8080-efdafbdadab312504051becabaaeeffthree.premiumproject.examly.io';
+  private apiUrl = 'https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io';
 
   constructor(private http: HttpClient) {}
 
