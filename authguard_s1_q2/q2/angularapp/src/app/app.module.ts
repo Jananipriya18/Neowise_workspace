@@ -5,14 +5,14 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CustomerLoginComponent } from './components/customerlogin/customerlogin.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CustomerloginComponent } from './components/customerlogin/customerlogin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomerLoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    CustomerloginComponent
   ],
   imports: [
     BrowserModule,

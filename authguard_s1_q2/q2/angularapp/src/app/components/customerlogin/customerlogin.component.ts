@@ -8,7 +8,7 @@ import { CustomerLogin } from 'src/app/models/customerlogin.model';
   templateUrl: './customerlogin.component.html',
   styleUrls: ['./customerlogin.component.css']
 })
-export class CustomerLoginComponent {
+export class CustomerloginComponent {
 
   customerLogin: CustomerLogin = {
     userName: '',
