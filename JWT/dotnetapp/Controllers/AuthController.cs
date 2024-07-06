@@ -17,20 +17,6 @@ public class AuthController : ControllerBase
         _jwtSecret = config.GetValue<string>("Jwt:Secret");
     }
 
-    [HttpPost("api/login")]
-    public IActionResult Login([FromBody] LoginModel login)
-    {
-        if (IsValidUser(login.Username, login.Password))
-        {
-            var token = GenerateJwtToken(login.Username);
-            return Ok(new { token });
-        }
-        else
-        {
-            return Unauthorized(new { message = "Invalid username or password" });
-        }
-    }
-
     [HttpPost("api/register")]
     public IActionResult Register([FromBody] RegisterModel register)
     {
@@ -40,16 +26,7 @@ public class AuthController : ControllerBase
             return BadRequest(new { message = "Passwords do not match" });
         }
 
-        // For demo purposes, assume registration is successful
-        // Normally, you would hash the password and save to database
-        // Here, we'll just return a success message with the username
         return Ok(new { message = $"User '{register.Username}' registered successfully" });
-    }
-
-    private bool IsValidUser(string username, string password)
-    {
-        // Replace with actual authentication logic, e.g., database lookup
-        return (username == "admin" && password == "admin@123") || (username == "user" && password == "user@123");
     }
 
     private string GenerateJwtToken(string username)
