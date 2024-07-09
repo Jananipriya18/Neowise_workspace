@@ -1,13 +1,18 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace dotnetapp.Models
 {
-    public class Project
+    public class Freelancer
     {
-        public int ProjectID { get; set; } // Primary Key
-        public string ProjectName { get; set; }
-        public string NumberOfModules { get; set; }
-        public string SubmissionDate { get; set; }
+        public int FreelancerID { get; set; } // Primary Key
+        public string FreelancerName { get; set; }
+        public string Specialization { get; set; }
+        public decimal CommercialPerHour { get; set; }
+        public string MailID { get; set; }
+        public string ContactNumber { get; set; }
 
-        public int FreelancerID { get; set; } // Foreign Key
-        public Freelancer Freelancer { get; set; } // Navigation property
+        // Navigation property for related projects
+        public ICollection<Project> Projects { get; set; }
     }
 }

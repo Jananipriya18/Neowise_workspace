@@ -18,13 +18,17 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
+        // Retrieve all freelancers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Freelancer>>> GetAllFreelancers()
         {
-            var freelancers = await _context.Freelancers.ToListAsync();
+            var freelancers = await _context.Freelancers
+                                             .Include(f => f.Projects) // Include related Projects data
+                                             .ToListAsync();
             return Ok(freelancers);
         }
 
+        // Retrieve all freelancer names
         [HttpGet("FreelancerNames")]
         public async Task<ActionResult<IEnumerable<string>>> GetFreelancerNames()
         {
@@ -32,6 +36,7 @@ namespace dotnetapp.Controllers
             return Ok(names);
         }
 
+        // Add a new freelancer
         [HttpPost]
         public async Task<ActionResult> AddFreelancer(Freelancer freelancer)
         {
@@ -42,9 +47,10 @@ namespace dotnetapp.Controllers
 
             _context.Freelancers.Add(freelancer);
             await _context.SaveChangesAsync();
-            return Ok(); // Returning the created freelancer for confirmation
+            return CreatedAtAction(nameof(GetAllFreelancers), new { id = freelancer.FreelancerID }, freelancer);
         }
 
+        // Delete a freelancer by ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFreelancer(int id)
         {
