@@ -1,3 +1,6 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace dotnetapp.Models
 {
     public class Application
@@ -6,6 +9,7 @@ namespace dotnetapp.Models
         public string ApplicationName { get; set; }
         public string ContactNumber { get; set; }
         public string MailID { get; set; }
-        public string JobTitle { get; set; } // This should match a JobTitle in Job entity
+        public int JobID { get; set; }
+        public Job Job { get; set; }
     }
 }
