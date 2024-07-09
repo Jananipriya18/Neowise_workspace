@@ -9,7 +9,7 @@ namespace dotnetapp.Models
         public string ProjectName { get; set; }
         public string NumberOfModules { get; set; }
         public string SubmissionDate { get; set; }
-        public int FreelancerID { get; set; } 
-        public Freelancer Freelancer { get; set; }
+        // public int FreelancerID { get; set; } 
+        // public Freelancer Freelancer { get; set; }
     }
 }
