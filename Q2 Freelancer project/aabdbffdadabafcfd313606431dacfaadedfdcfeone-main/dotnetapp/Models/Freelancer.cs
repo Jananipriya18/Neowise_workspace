@@ -11,8 +11,5 @@ namespace dotnetapp.Models
         public decimal CommercialPerHour { get; set; }
         public string MailID { get; set; }
         public string ContactNumber { get; set; }
-
-        // Navigation property for related projects
-        public ICollection<Project> Projects { get; set; }
     }
 }
