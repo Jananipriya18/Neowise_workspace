@@ -25,6 +25,13 @@ namespace dotnetapp.Controllers
             return Ok(freelancers);
         }
 
+        [HttpGet("{id}/Projects")]
+        public async Task<ActionResult<IEnumerable<Project>>> GetProjectsForFreelancer(int id)
+        {
+            var projects = await _context.Projects.Where(p => p.FreelancerID == id).ToListAsync();
+            return Ok(projects);
+        }
+
         [HttpGet("FreelancerNames")]
         public async Task<ActionResult<IEnumerable<string>>> GetFreelancerNames()
         {
@@ -50,7 +57,7 @@ namespace dotnetapp.Controllers
         {
             if (id <= 0) // Check for invalid ID
             {
-                return BadRequest("Not a valid Freelancer id");
+                return BadRequest("Not a valid Freelancer ID");
             }
 
             var freelancer = await _context.Freelancers.FindAsync(id);

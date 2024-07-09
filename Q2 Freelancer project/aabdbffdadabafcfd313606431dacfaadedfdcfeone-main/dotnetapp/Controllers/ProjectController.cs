@@ -37,7 +37,7 @@ namespace dotnetapp.Controllers
         {
             if (id <= 0) // Check for invalid ID
             {
-                return BadRequest("Not a valid Project id");
+                return BadRequest("Not a valid Project ID");
             }
 
             var project = await _context.Projects.FindAsync(id);
@@ -50,6 +50,5 @@ namespace dotnetapp.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
     }
 }
