@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace dotnetapp.Controllers
@@ -24,10 +25,22 @@ namespace dotnetapp.Controllers
             return Ok(jobs);
         }
 
-        [HttpGet("JobTitle")]
-        public async Task<ActionResult<IEnumerable<string>>> Get()
+        [HttpGet("titles")]
+        public async Task<ActionResult<IEnumerable<string>>> GetJobTitles()
         {
-            return await _context.Jobs.Select(j => j.JobTitle).ToListAsync();
+            var jobTitles = await _context.Jobs.Select(j => j.JobTitle).ToListAsync();
+            return Ok(jobTitles);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Job>> GetJobById(int id)
+        {
+            var job = await _context.Jobs.FindAsync(id);
+            if (job == null)
+            {
+                return NotFound();
+            }
+            return Ok(job);
         }
 
         [HttpPost]
@@ -35,7 +48,7 @@ namespace dotnetapp.Controllers
         {
             _context.Jobs.Add(job);
             await _context.SaveChangesAsync();
-            return Ok();
+            return CreatedAtAction(nameof(GetJobById), new { id = job.JobID }, job);
         }
 
         [HttpDelete("{id}")]
@@ -43,7 +56,7 @@ namespace dotnetapp.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest("Not a valid Job id");
+                return BadRequest("Not a valid Job ID");
             }
 
             var job = await _context.Jobs.FindAsync(id);
