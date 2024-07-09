@@ -1,2 +1,0 @@
-# bdacbbefbbbd312790230becabaaeeffone
-https://sonarcloud.io/summary/overall?id=iamneo-production_bdacbbefbbbd312790230becabaaeeffone
