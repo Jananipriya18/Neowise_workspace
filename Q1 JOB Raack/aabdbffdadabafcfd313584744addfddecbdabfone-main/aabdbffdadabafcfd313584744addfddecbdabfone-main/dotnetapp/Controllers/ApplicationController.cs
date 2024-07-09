@@ -1,62 +1,8 @@
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using dotnetapp.Models;
-// using System.Collections.Generic;
-// using System.Threading.Tasks;
-
-// namespace dotnetapp.Controllers
-// {
-//     [Route("api/[controller]")]
-//     [ApiController]
-//     public class ApplicationController : ControllerBase
-//     {
-//         private readonly JobApplicationDbContext _context;
-
-//         public ApplicationController(JobApplicationDbContext context)
-//         {
-//             _context = context;
-//         }
-
-//         [HttpGet]
-//         public async Task<ActionResult<IEnumerable<Application>>> GetAllApplications()
-//         {
-//             var applications = await _context.Applications.ToListAsync();
-//             return Ok(applications);
-//         }
-
-//         [HttpPost]
-//         public async Task<ActionResult> AddApplication(Application application)
-//         {
-//             _context.Applications.Add(application);
-//             await _context.SaveChangesAsync();
-//             return Ok();
-//         }
-
-//         [HttpDelete("{id}")]
-//         public async Task<IActionResult> DeleteApplication(int id)
-//         {
-//             if (id <= 0)
-//             {
-//                 return BadRequest("Not a valid Application id");
-//             }
-
-//             var application = await _context.Applications.FindAsync(id);
-//             if (application == null)
-//             {
-//                 return NotFound();
-//             }
-
-//             _context.Applications.Remove(application);
-//             await _context.SaveChangesAsync();
-//             return NoContent();
-//         }
-//     }
-// }
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace dotnetapp.Controllers
@@ -99,15 +45,22 @@ namespace dotnetapp.Controllers
         [HttpPost]
         public async Task<ActionResult> AddApplication(Application application)
         {
+            // Fetch the Job entity using the JobID provided in the Application
             var job = await _context.Jobs.FindAsync(application.JobID);
             if (job == null)
             {
                 return BadRequest("Invalid Job ID");
             }
 
+            // Assign the fetched Job entity to the Application
+            application.Job = job;
+
+            // Reset JobID to avoid EF trying to insert a new Job
+            application.JobID = job.JobID;
+
             _context.Applications.Add(application);
             await _context.SaveChangesAsync();
-            return Ok();
+            return CreatedAtAction(nameof(GetApplicationById), new { id = application.ApplicationID }, application);
         }
 
         [HttpDelete("{id}")]
