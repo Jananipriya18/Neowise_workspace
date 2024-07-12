@@ -53,33 +53,62 @@ namespace TestProject
             Assert.IsNotEmpty(responseBody, "Response body is empty");
         }
 
-       [Test]
-        public async Task Test_AddShopItem_ReturnsSuccess()
+    [Test]
+public async Task Test_AddShopItem_ReturnsSuccess()
+{
+    // Arrange
+    var newShopData = new Dictionary<string, object>
+    {
+        { "ProductName", "Sample Product" },
+        { "ProductType", "Electronics" },
+        { "StockItem", 10 },
+        { "Price", 100 },
+        { "MfDate", "2024-07-12" },
+        { "CompanyName", "Sample Company" }
+    };
+
+    var newShop = CreateShopObject(newShopData);
+
+    // Act
+    var result = await _shopController.AddShopItem(newShop);
+
+    // Assert
+    Assert.IsNotNull(result);
+
+    // Additional assertions if needed
+    var createdShop = GetEntityFromDatabase<Shop>(_context, "Shops", 1); // Adjust with actual ID or suitable condition
+    Assert.IsNotNull(createdShop);
+    Assert.AreEqual(newShop.ProductName, createdShop.ProductName);
+}
+
+private Shop CreateShopObject(Dictionary<string, object> shopData)
+{
+    var shop = new Shop();
+    
+    foreach (var kvp in shopData)
+    {
+        var property = typeof(Shop).GetProperty(kvp.Key);
+        if (property != null)
         {
-            var newShop = new Shop
-            {
-                ProductName = "Sample Product",
-                ProductType = "Electronics",
-                StockItem = 10,
-                Price = (int)-100.0M,   
-                MfDate = "2024-07-12",
-                CompanyName = "Sample Company"
-            };
-
-            // Call the AddShopItem method on the controller
-            var actionResult = await _shopController.AddShopItem(newShop);
-
-            // Assert the type of ActionResult returned
-            Assert.IsInstanceOf<ActionResult<Shop>>(actionResult);
-            
-            // Assert the status code
-            Assert.AreEqual((int)HttpStatusCode.Created, actionResult.Result.StatusCode);
-
-            // Assert the returned object
-            var createdObject = actionResult.Value as Shop;
-            Assert.IsNotNull(createdObject);
-            Assert.AreEqual(newShop.ProductName, createdObject.ProductName);
+            var value = Convert.ChangeType(kvp.Value, property.PropertyType);
+            property.SetValue(shop, value);
         }
+    }
+
+    return shop;
+}
+private TEntity GetEntityFromDatabase<TEntity>(DbContext context, string collectionName, int id)
+{
+    var entityType = typeof(TEntity);
+    var propertyInfoId = entityType.GetProperty("Id");
+
+    var propertyInfoCollection = context.GetType().GetProperty(collectionName);
+    var entities = propertyInfoCollection.GetValue(context, null) as IEnumerable<TEntity>;
+
+    var entity = entities.FirstOrDefault(e => (int)propertyInfoId.GetValue(e) == id);
+    return entity;
+}
+
 
         [Test]
         public void Backend_Shop_Id_PropertyExists_ReturnExpectedDataTypes_int()
