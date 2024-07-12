@@ -2,32 +2,37 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-[ApiController]
-public class StudentsController : ControllerBase
+namespace dotnetapp.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public StudentsController(ApplicationDbContext context)
+    [ApiController]
+    [Route("/")]
+    public class ShopController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    [HttpGet("getAllStudent")]
-    public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
-    {
-        var students = await _context.Students.ToListAsync();
-        return Ok(students);
-    }
+        public ShopController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-    [HttpPost("addStudent")]
-    public async Task<ActionResult<Student>> CreateStudent(Student student)
-    {
-        _context.Students.Add(student);
-        await _context.SaveChangesAsync();
+        // GET /getAllShopitem
+        [HttpGet("getAllShopitem")]
+        public async Task<ActionResult<IEnumerable<Shop>>> GetAllShopItems()
+        {
+            var shopItems = await _context.Shops.ToListAsync();
+            return Ok(shopItems);
+        }
 
-        return CreatedAtAction(nameof(GetStudents), new { }, student);
+        // POST /addShopitem
+        [HttpPost("addShopitem")]
+        public async Task<ActionResult<Shop>> AddShopItem(Shop shop)
+        {
+            _context.Shops.Add(shop);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAllShopItems), new { id = shop.Id }, shop);
+        }
     }
 }
