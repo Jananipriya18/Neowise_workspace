@@ -1,46 +1,47 @@
-using NUnit.Framework;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+using System.Numerics;
+using dotnetapp.Controllers;
 using dotnetapp.Models;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System.Net.Http;
+using System.Net;
+using dotnetapp.Exceptions;
 
-namespace dotnetapp.Tests
+namespace TestProject
 {
-    [TestFixture]
-    public class ShopTests
+    public class Tests
     {
-        private Type _shopType;
-        private PropertyInfo[] _shopProperties; 
-        private Type _controllerType;
-        
         private ApplicationDbContext _context;
-        private HttpClient _client;
+        private ShopController ShopController;
+        private HttpClient _httpClient;
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
-            _shopType = new Shop().GetType();
-            _shopProperties = _shopType.GetProperties();
-            _controllerType = typeof(ShopController);
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:8080/");
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .UseInMemoryDatabase(databaseName: "InMemoryDatabase")
                 .Options;
 
             _context = new ApplicationDbContext(options);
-            _client = new HttpClient();
-            _client.BaseAddress = new System.Uri("http://localhost:8080/");
+            _biketaxiController = new BiketaxiController(_context);
+
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _context.Dispose();
+        } 
 
         [Test]
         public async Task Test_GetAllShopItems_ReturnsSuccess()
         {
-            HttpResponseMessage response = await _client.GetAsync("api/Shop/getAllShopitem");
+            HttpResponseMessage response = await _httpClient.GetAsync("api/Shop/getAllShopitem");
             if ((int)response.StatusCode == 200)
             {
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
@@ -59,7 +60,7 @@ namespace dotnetapp.Tests
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "api/Shop/addShopitem");
             request.Content = new StringContent("{\"productName\": \"Sample Product\",\"productType\": \"Electronics\",\"stockItem\": 10,\"price\": 100,\"mfDate\": \"2024-07-12\",\"companyName\": \"Sample Company\"}",
                 Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await _client.SendAsync(request);
+            HttpResponseMessage response = await _httpClient.SendAsync(request);
 
             if ((int)response.StatusCode == 201)
             {
