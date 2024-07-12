@@ -11,6 +11,6 @@ namespace dotnetapp.Models
         {
         }
 
-        public DbSet<Note> Notes { get; set; }
+        public DbSet<Shop> Shops { get; set; }
     }
 }
