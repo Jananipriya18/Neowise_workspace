@@ -58,7 +58,7 @@ namespace TestProject
         {
             // Creating the HTTP POST request
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/addShopitem");
-            request.Content = new StringContent("{\"ProductName\": \"Sample Product\",\"ProductType\": \"Electronics\",\"StockItem\": 10,\"Price\": 100.0,\"MfDate\": \"2024-07-12T00:00:00\",\"CompanyName\": \"Sample Company\"}",
+            request.Content = new StringContent("{\"ProductName\": \"Sample Product\",\"ProductType\": \"Electronics\",\"StockItem\": 10,\"Price\": 100,\"MfDate\": \"2024-07-12T00:00:00\",\"CompanyName\": \"Sample Company\"}",
                 Encoding.UTF8, "application/json");
 
             // Sending the request
