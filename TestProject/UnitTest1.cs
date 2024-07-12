@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using dotnetapp.Controllers;
+using dotnetapp.Exceptions;
 using dotnetapp.Models;
 
 namespace TestProject
@@ -16,7 +18,7 @@ namespace TestProject
     public class Tests
     {
         private ApplicationDbContext _context;
-        private ShopController _shopController;
+        private PantryItemController _pantryItemController;
         private HttpClient _httpClient;
 
         [SetUp]
@@ -30,20 +32,20 @@ namespace TestProject
                 .Options;
 
             _context = new ApplicationDbContext(options);
-            _shopController = new ShopController(_context);
+            _pantryItemController = new PantryItemController(_context);
         }
 
         [TearDown]
         public void TearDown()
         {
             _context.Dispose();
-        } 
+        }
 
         [Test]
-        public async Task Test_GetAllShopItems_ReturnsSuccess()
+        public async Task Test_GetAllPantryItems_ReturnsSuccess()
         {
             // Sending the GET request
-            HttpResponseMessage response = await _httpClient.GetAsync("/getAllShopitem");
+            HttpResponseMessage response = await _httpClient.GetAsync("/getAllPantryitem");
 
             // Asserting the response status
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, $"Expected OK status code but got {response.StatusCode}");
@@ -53,213 +55,198 @@ namespace TestProject
             Assert.IsNotEmpty(responseBody, "Response body is empty");
         }
 
-    [Test]
-public async Task Test_AddShopItem_ReturnsSuccess()
-{
-    // Arrange
-    var newShopData = new Dictionary<string, object>
-    {
-        { "ProductName", "Sample Product" },
-        { "ProductType", "Electronics" },
-        { "StockItem", 10 },
-        { "Price", 100 },
-        { "MfDate", "2024-07-12" },
-        { "CompanyName", "Sample Company" }
-    };
-
-    var newShop = CreateShopObject(newShopData);
-
-    // Act
-    var result = await _shopController.AddShopItem(newShop);
-
-    // Assert
-    Assert.IsNotNull(result);
-
-    // Additional assertions if needed
-    var createdShop = GetEntityFromDatabase<Shop>(_context, "Shops", 1); // Adjust with actual ID or suitable condition
-    Assert.IsNotNull(createdShop);
-    Assert.AreEqual(newShop.ProductName, createdShop.ProductName);
-}
-
-private Shop CreateShopObject(Dictionary<string, object> shopData)
-{
-    var shop = new Shop();
-    
-    foreach (var kvp in shopData)
-    {
-        var property = typeof(Shop).GetProperty(kvp.Key);
-        if (property != null)
+        [Test]
+        public async Task Test_AddPantryItem_ReturnsSuccess()
         {
-            var value = Convert.ChangeType(kvp.Value, property.PropertyType);
-            property.SetValue(shop, value);
+            // Arrange
+            var newPantryItemData = new Dictionary<string, object>
+            {
+                { "ProductName", "Sample Product" },
+                { "ProductType", "Grocery" },
+                { "StockItem", 10 },
+                { "Price", 100 },
+                { "ExpDate", "2024-07-12" }
+            };
+
+            var newPantryItem = CreatePantryItemObject(newPantryItemData);
+
+            // Act
+            var result = await _pantryItemController.AddPantryItem(newPantryItem);
+
+            // Assert
+            Assert.IsNotNull(result);
+
+            // Additional assertions if needed
+            var createdPantryItem = GetEntityFromDatabase<PantryItem>(_context, "PantryItems", 1); // Adjust with actual ID or suitable condition
+            Assert.IsNotNull(createdPantryItem);
+            Assert.AreEqual(newPantryItem.ProductName, createdPantryItem.ProductName);
         }
-    }
 
-    return shop;
-}
-private TEntity GetEntityFromDatabase<TEntity>(DbContext context, string collectionName, int id)
-{
-    var entityType = typeof(TEntity);
-    var propertyInfoId = entityType.GetProperty("Id");
+        private PantryItem CreatePantryItemObject(Dictionary<string, object> pantryItemData)
+        {
+            var pantryItem = new PantryItem();
 
-    var propertyInfoCollection = context.GetType().GetProperty(collectionName);
-    var entities = propertyInfoCollection.GetValue(context, null) as IEnumerable<TEntity>;
+            foreach (var kvp in pantryItemData)
+            {
+                var property = typeof(PantryItem).GetProperty(kvp.Key);
+                if (property != null)
+                {
+                    var value = Convert.ChangeType(kvp.Value, property.PropertyType);
+                    property.SetValue(pantryItem, value);
+                }
+            }
 
-    var entity = entities.FirstOrDefault(e => (int)propertyInfoId.GetValue(e) == id);
-    return entity;
-}
+            return pantryItem;
+        }
 
+        private TEntity GetEntityFromDatabase<TEntity>(DbContext context, string collectionName, int id)
+        {
+            var entityType = typeof(TEntity);
+            var propertyInfoId = entityType.GetProperty("Id");
+
+            var propertyInfoCollection = context.GetType().GetProperty(collectionName);
+            var entities = propertyInfoCollection.GetValue(context, null) as IEnumerable<TEntity>;
+
+            var entity = entities.FirstOrDefault(e => (int)propertyInfoId.GetValue(e) == id);
+            return entity;
+        }
 
         [Test]
-        public void Backend_Shop_Id_PropertyExists_ReturnExpectedDataTypes_int()
+        public void Backend_PantryItem_Id_PropertyExists_ReturnExpectedDataTypes_int()
         {
             string assemblyName = "dotnetapp";
-            string typeName = "dotnetapp.Models.Shop";
+            string typeName = "dotnetapp.Models.PantryItem";
             Assembly assembly = Assembly.Load(assemblyName);
-            Type shopType = assembly.GetType(typeName);
-            PropertyInfo propertyInfo = shopType.GetProperty("Id");
-            Assert.IsNotNull(propertyInfo, "Property Id does not exist in Shop class");
+            Type pantryItemType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = pantryItemType.GetProperty("Id");
+            Assert.IsNotNull(propertyInfo, "Property Id does not exist in PantryItem class");
             Type expectedType = propertyInfo.PropertyType;
-            Assert.AreEqual(typeof(int), expectedType, "Property Id in Shop class is not of type int");
+            Assert.AreEqual(typeof(int), expectedType, "Property Id in PantryItem class is not of type int");
         }
 
         [Test]
-        public void Backend_Shop_ProductName_PropertyExists_ReturnExpectedDataTypes_string()
+        public void Backend_PantryItem_ProductName_PropertyExists_ReturnExpectedDataTypes_string()
         {
             string assemblyName = "dotnetapp";
-            string typeName = "dotnetapp.Models.Shop";
+            string typeName = "dotnetapp.Models.PantryItem";
             Assembly assembly = Assembly.Load(assemblyName);
-            Type shopType = assembly.GetType(typeName);
-            PropertyInfo propertyInfo = shopType.GetProperty("ProductName");
-            Assert.IsNotNull(propertyInfo, "Property ProductName does not exist in Shop class");
+            Type pantryItemType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = pantryItemType.GetProperty("ProductName");
+            Assert.IsNotNull(propertyInfo, "Property ProductName does not exist in PantryItem class");
             Type expectedType = propertyInfo.PropertyType;
-            Assert.AreEqual(typeof(string), expectedType, "Property ProductName in Shop class is not of type string");
+            Assert.AreEqual(typeof(string), expectedType, "Property ProductName in PantryItem class is not of type string");
         }
 
         [Test]
-        public void Backend_Shop_ProductType_PropertyExists_ReturnExpectedDataTypes_string()
+        public void Backend_PantryItem_ProductType_PropertyExists_ReturnExpectedDataTypes_string()
         {
             string assemblyName = "dotnetapp";
-            string typeName = "dotnetapp.Models.Shop";
+            string typeName = "dotnetapp.Models.PantryItem";
             Assembly assembly = Assembly.Load(assemblyName);
-            Type shopType = assembly.GetType(typeName);
-            PropertyInfo propertyInfo = shopType.GetProperty("ProductType");
-            Assert.IsNotNull(propertyInfo, "Property ProductType does not exist in Shop class");
+            Type pantryItemType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = pantryItemType.GetProperty("ProductType");
+            Assert.IsNotNull(propertyInfo, "Property ProductType does not exist in PantryItem class");
             Type expectedType = propertyInfo.PropertyType;
-            Assert.AreEqual(typeof(string), expectedType, "Property ProductType in Shop class is not of type string");
+            Assert.AreEqual(typeof(string), expectedType, "Property ProductType in PantryItem class is not of type string");
         }
 
         [Test]
-        public void Backend_Shop_StockItem_PropertyExists_ReturnExpectedDataTypes_int()
+        public void Backend_PantryItem_StockItem_PropertyExists_ReturnExpectedDataTypes_int()
         {
             string assemblyName = "dotnetapp";
-            string typeName = "dotnetapp.Models.Shop";
+            string typeName = "dotnetapp.Models.PantryItem";
             Assembly assembly = Assembly.Load(assemblyName);
-            Type shopType = assembly.GetType(typeName);
-            PropertyInfo propertyInfo = shopType.GetProperty("StockItem");
-            Assert.IsNotNull(propertyInfo, "Property StockItem does not exist in Shop class");
+            Type pantryItemType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = pantryItemType.GetProperty("StockItem");
+            Assert.IsNotNull(propertyInfo, "Property StockItem does not exist in PantryItem class");
             Type expectedType = propertyInfo.PropertyType;
-            Assert.AreEqual(typeof(int), expectedType, "Property StockItem in Shop class is not of type int");
+            Assert.AreEqual(typeof(int), expectedType, "Property StockItem in PantryItem class is not of type int");
         }
 
         [Test]
-        public void Backend_Shop_Price_PropertyExists_ReturnExpectedDataTypes_decimal()
+        public void Backend_PantryItem_Price_PropertyExists_ReturnExpectedDataTypes_decimal()
         {
             string assemblyName = "dotnetapp";
-            string typeName = "dotnetapp.Models.Shop";
+            string typeName = "dotnetapp.Models.PantryItem";
             Assembly assembly = Assembly.Load(assemblyName);
-            Type shopType = assembly.GetType(typeName);
-            PropertyInfo propertyInfo = shopType.GetProperty("Price");
-            Assert.IsNotNull(propertyInfo, "Property Price does not exist in Shop class");
+            Type pantryItemType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = pantryItemType.GetProperty("Price");
+            Assert.IsNotNull(propertyInfo, "Property Price does not exist in PantryItem class");
             Type expectedType = propertyInfo.PropertyType;
-            Assert.AreEqual(typeof(int), expectedType, "Property Price in Shop class is not of type decimal");
+            Assert.AreEqual(typeof(int), expectedType, "Property Price in PantryItem class is not of type decimal");
         }
 
         [Test]
-        public void Backend_Shop_MfDate_PropertyExists_ReturnExpectedDataTypes_DateTime()
+        public void Backend_PantryItem_ExpDate_PropertyExists_ReturnExpectedDataTypes_string()
         {
             string assemblyName = "dotnetapp";
-            string typeName = "dotnetapp.Models.Shop";
+            string typeName = "dotnetapp.Models.PantryItem";
             Assembly assembly = Assembly.Load(assemblyName);
-            Type shopType = assembly.GetType(typeName);
-            PropertyInfo propertyInfo = shopType.GetProperty("MfDate");
-            Assert.IsNotNull(propertyInfo, "Property MfDate does not exist in Shop class");
+            Type pantryItemType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = pantryItemType.GetProperty("ExpDate");
+            Assert.IsNotNull(propertyInfo, "Property ExpDate does not exist in PantryItem class");
             Type expectedType = propertyInfo.PropertyType;
-            Assert.AreEqual(typeof(String), expectedType, "Property MfDate in Shop class is not of type String");
+            Assert.AreEqual(typeof(string), expectedType, "Property ExpDate in PantryItem class is not of type string");
         }
 
         [Test]
-        public void Backend_Shop_CompanyName_PropertyExists_ReturnExpectedDataTypes_string()
+        public void Test_PantryItemController_Class_Exists()
         {
-            string assemblyName = "dotnetapp";
-            string typeName = "dotnetapp.Models.Shop";
-            Assembly assembly = Assembly.Load(assemblyName);
-            Type shopType = assembly.GetType(typeName);
-            PropertyInfo propertyInfo = shopType.GetProperty("CompanyName");
-            Assert.IsNotNull(propertyInfo, "Property CompanyName does not exist in Shop class");
-            Type expectedType = propertyInfo.PropertyType;
-            Assert.AreEqual(typeof(string), expectedType, "Property CompanyName in Shop class is not of type string");
-        }
-
-        [Test]
-        public void Test_ShopController_Class_Exists()
-        {
-            var _controllerType = typeof(ShopController);
+            var _controllerType = typeof(PantryItemController);
             Assert.NotNull(_controllerType);
         }
 
         [Test]
-        public void Test_GetAllShopItems_Method_Exists()
+        public void Test_GetAllPantryItems_Method_Exists()
         {
-            var _controllerType = typeof(ShopController);
-            var methodInfo = _controllerType.GetMethod("GetAllShopItems");
+            var _controllerType = typeof(PantryItemController);
+            var methodInfo = _controllerType.GetMethod("GetAllPantryItems");
             Assert.NotNull(methodInfo);
         }
 
         [Test]
-        public void Test_GetAllShopItems_Method_HasHttpGetAttribute()
+        public void Test_GetAllPantryItems_Method_HasHttpGetAttribute()
         {
-            var _controllerType = typeof(ShopController);
-            var methodInfo = _controllerType.GetMethod("GetAllShopItems");
+            var _controllerType = typeof(PantryItemController);
+            var methodInfo = _controllerType.GetMethod("GetAllPantryItems");
             var httpGetAttribute = methodInfo.GetCustomAttributes(typeof(HttpGetAttribute), true).FirstOrDefault();
             Assert.NotNull(httpGetAttribute);
         }
 
         [Test]
-        public void Test_AddShopItem_Method_Exists()
+        public void Test_AddPantryItem_Method_Exists()
         {
-            var _controllerType = typeof(ShopController);
-            var methodInfo = _controllerType.GetMethod("AddShopItem");
+            var _controllerType = typeof(PantryItemController);
+            var methodInfo = _controllerType.GetMethod("AddPantryItem");
             Assert.NotNull(methodInfo);
         }
 
         [Test]
-        public void Test_AddShopItem_Method_HasHttpPostAttribute()
+        public void Test_AddPantryItem_Method_HasHttpPostAttribute()
         {
-            var _controllerType = typeof(ShopController);
-            var methodInfo = _controllerType.GetMethod("AddShopItem");
+            var _controllerType = typeof(PantryItemController);
+            var methodInfo = _controllerType.GetMethod("AddPantryItem");
             var httpPostAttribute = methodInfo.GetCustomAttributes(typeof(HttpPostAttribute), true).FirstOrDefault();
             Assert.NotNull(httpPostAttribute);
         }
 
         [Test]
-public async Task Test_AddShopItem_ReturnsBadRequest_WhenPriceIsNegative()
-{
-    var newShop = new Shop
-    {
-        ProductName = "Sample Product",
-        ProductType = "Electronics",
-        StockItem = 10,
-        Price = (int)-100.0M, // Invalid price
-        MfDate = "2024-07-12",
-        CompanyName = "Sample Company"
-    };
+        public async Task Test_AddPantryItem_ReturnsBadRequest_WhenStockItemIsZero()
+        {
+            var newPantryItem = new PantryItem
+            {
+                ProductName = "Sample Product",
+                ProductType = "Grocery",
+                StockItem = 0, // Invalid stock item
+                Price = 100,
+                ExpDate = "2024-07-12"
+            };
 
-    var result = await _shopController.AddShopItem(newShop);
-var badRequestResult = result.Result as BadRequestObjectResult;
+            var result = await _pantryItemController.AddPantryItem(newPantryItem);
+            var badRequestResult = result.Result as BadRequestObjectResult;
 
-Assert.AreEqual((int)HttpStatusCode.BadRequest, badRequestResult.StatusCode);
-Assert.AreEqual("Price cannot be less than 0.", badRequestResult.Value.GetType().GetProperty("message").GetValue(badRequestResult.Value));
-}
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, badRequestResult.StatusCode);
+            Assert.AreEqual("Stock Item must be greater than 0.", badRequestResult.Value.GetType().GetProperty("message").GetValue(badRequestResult.Value));
+        }
     }
 }

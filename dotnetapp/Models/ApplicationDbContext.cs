@@ -8,6 +8,6 @@ namespace dotnetapp.Models
         {
         }
 
-        public DbSet<Shop> Shops { get; set; }
+        public DbSet<PantryItem> PantryItems { get; set; }
     }
 }

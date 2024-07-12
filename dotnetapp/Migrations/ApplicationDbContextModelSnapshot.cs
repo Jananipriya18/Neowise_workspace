@@ -21,7 +21,7 @@ namespace dotnetapp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("dotnetapp.Models.Shop", b =>
+            modelBuilder.Entity("dotnetapp.Models.PantryItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,11 +29,7 @@ namespace dotnetapp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MfDate")
+                    b.Property<string>("ExpDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -53,7 +49,7 @@ namespace dotnetapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Shops");
+                    b.ToTable("PantryItems");
                 });
 #pragma warning restore 612, 618
         }
