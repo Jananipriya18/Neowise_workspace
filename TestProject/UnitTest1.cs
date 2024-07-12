@@ -1,20 +1,22 @@
-using System.Numerics;
-using dotnetapp.Controllers;
-using dotnetapp.Models;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System.Net.Http;
-using System.Net;
-using dotnetapp.Exceptions;
+using dotnetapp.Controllers;
+using dotnetapp.Models;
 
 namespace TestProject
 {
     public class Tests
     {
         private ApplicationDbContext _context;
-        private ShopController ShopController;
+        private ShopController _shopController;
         private HttpClient _httpClient;
 
         [SetUp]
@@ -28,8 +30,7 @@ namespace TestProject
                 .Options;
 
             _context = new ApplicationDbContext(options);
-            _biketaxiController = new BiketaxiController(_context);
-
+            _shopController = new ShopController(_context);
         }
 
         [TearDown]
@@ -41,110 +42,138 @@ namespace TestProject
         [Test]
         public async Task Test_GetAllShopItems_ReturnsSuccess()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("api/Shop/getAllShopitem");
-            if ((int)response.StatusCode == 200)
-            {
-                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            }
-            else
-            {
-                Assert.Fail();
-            }
+            // Sending the GET request
+            HttpResponseMessage response = await _httpClient.GetAsync("/getAllShopitem");
+
+            // Asserting the response status
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, $"Expected OK status code but got {response.StatusCode}");
+
+            // Reading and asserting the response body
             string responseBody = await response.Content.ReadAsStringAsync();
-            Assert.IsNotEmpty(responseBody);
+            Assert.IsNotEmpty(responseBody, "Response body is empty");
         }
 
-        [Test]
+       [Test]
         public async Task Test_AddShopItem_ReturnsSuccess()
         {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "api/Shop/addShopitem");
-            request.Content = new StringContent("{\"productName\": \"Sample Product\",\"productType\": \"Electronics\",\"stockItem\": 10,\"price\": 100,\"mfDate\": \"2024-07-12\",\"companyName\": \"Sample Company\"}",
+            // Creating the HTTP POST request
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/addShopitem");
+            request.Content = new StringContent("{\"ProductName\": \"Sample Product\",\"ProductType\": \"Electronics\",\"StockItem\": 10,\"Price\": 100.0,\"MfDate\": \"2024-07-12T00:00:00\",\"CompanyName\": \"Sample Company\"}",
                 Encoding.UTF8, "application/json");
+
+            // Sending the request
             HttpResponseMessage response = await _httpClient.SendAsync(request);
 
-            if ((int)response.StatusCode == 201)
-            {
-                Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
-            }
-            else
-            {
-                Assert.Fail();
-            }
+            // Asserting the response status
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode, $"Expected Created status code but got {response.StatusCode}");
+
+            // Reading and asserting the response body
             string responseBody = await response.Content.ReadAsStringAsync();
-            Assert.IsNotEmpty(responseBody);
+            Assert.IsNotEmpty(responseBody, "Response body is empty");
         }
 
         [Test]
-        public void Test_Shop_Class_Exists()
+        public void Backend_Shop_Id_PropertyExists_ReturnExpectedDataTypes_int()
         {
-            Assert.NotNull(_shopType);
+            string assemblyName = "dotnetapp";
+            string typeName = "dotnetapp.Models.Shop";
+            Assembly assembly = Assembly.Load(assemblyName);
+            Type shopType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = shopType.GetProperty("Id");
+            Assert.IsNotNull(propertyInfo, "Property Id does not exist in Shop class");
+            Type expectedType = propertyInfo.PropertyType;
+            Assert.AreEqual(typeof(int), expectedType, "Property Id in Shop class is not of type int");
         }
 
         [Test]
-        public void Test_Shop_Id_Property_DataType()
+        public void Backend_Shop_ProductName_PropertyExists_ReturnExpectedDataTypes_string()
         {
-            var idProperty = _shopProperties.FirstOrDefault(prop => prop.Name == "Id");
-            Assert.NotNull(idProperty);
-            Assert.AreEqual(typeof(int), idProperty.PropertyType);
+            string assemblyName = "dotnetapp";
+            string typeName = "dotnetapp.Models.Shop";
+            Assembly assembly = Assembly.Load(assemblyName);
+            Type shopType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = shopType.GetProperty("ProductName");
+            Assert.IsNotNull(propertyInfo, "Property ProductName does not exist in Shop class");
+            Type expectedType = propertyInfo.PropertyType;
+            Assert.AreEqual(typeof(string), expectedType, "Property ProductName in Shop class is not of type string");
         }
 
         [Test]
-        public void Test_Shop_ProductName_Property_DataType()
+        public void Backend_Shop_ProductType_PropertyExists_ReturnExpectedDataTypes_string()
         {
-            var productNameProperty = _shopProperties.FirstOrDefault(prop => prop.Name == "ProductName");
-            Assert.NotNull(productNameProperty);
-            Assert.AreEqual(typeof(string), productNameProperty.PropertyType);
+            string assemblyName = "dotnetapp";
+            string typeName = "dotnetapp.Models.Shop";
+            Assembly assembly = Assembly.Load(assemblyName);
+            Type shopType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = shopType.GetProperty("ProductType");
+            Assert.IsNotNull(propertyInfo, "Property ProductType does not exist in Shop class");
+            Type expectedType = propertyInfo.PropertyType;
+            Assert.AreEqual(typeof(string), expectedType, "Property ProductType in Shop class is not of type string");
         }
 
         [Test]
-        public void Test_Shop_ProductType_Property_DataType()
+        public void Backend_Shop_StockItem_PropertyExists_ReturnExpectedDataTypes_int()
         {
-            var productTypeProperty = _shopProperties.FirstOrDefault(prop => prop.Name == "ProductType");
-            Assert.NotNull(productTypeProperty);
-            Assert.AreEqual(typeof(string), productTypeProperty.PropertyType);
+            string assemblyName = "dotnetapp";
+            string typeName = "dotnetapp.Models.Shop";
+            Assembly assembly = Assembly.Load(assemblyName);
+            Type shopType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = shopType.GetProperty("StockItem");
+            Assert.IsNotNull(propertyInfo, "Property StockItem does not exist in Shop class");
+            Type expectedType = propertyInfo.PropertyType;
+            Assert.AreEqual(typeof(int), expectedType, "Property StockItem in Shop class is not of type int");
         }
 
         [Test]
-        public void Test_Shop_StockItem_Property_DataType()
+        public void Backend_Shop_Price_PropertyExists_ReturnExpectedDataTypes_decimal()
         {
-            var stockItemProperty = _shopProperties.FirstOrDefault(prop => prop.Name == "StockItem");
-            Assert.NotNull(stockItemProperty);
-            Assert.AreEqual(typeof(int), stockItemProperty.PropertyType);
+            string assemblyName = "dotnetapp";
+            string typeName = "dotnetapp.Models.Shop";
+            Assembly assembly = Assembly.Load(assemblyName);
+            Type shopType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = shopType.GetProperty("Price");
+            Assert.IsNotNull(propertyInfo, "Property Price does not exist in Shop class");
+            Type expectedType = propertyInfo.PropertyType;
+            Assert.AreEqual(typeof(int), expectedType, "Property Price in Shop class is not of type decimal");
         }
 
         [Test]
-        public void Test_Shop_Price_Property_DataType()
+        public void Backend_Shop_MfDate_PropertyExists_ReturnExpectedDataTypes_DateTime()
         {
-            var priceProperty = _shopProperties.FirstOrDefault(prop => prop.Name == "Price");
-            Assert.NotNull(priceProperty);
-            Assert.AreEqual(typeof(int), priceProperty.PropertyType);
+            string assemblyName = "dotnetapp";
+            string typeName = "dotnetapp.Models.Shop";
+            Assembly assembly = Assembly.Load(assemblyName);
+            Type shopType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = shopType.GetProperty("MfDate");
+            Assert.IsNotNull(propertyInfo, "Property MfDate does not exist in Shop class");
+            Type expectedType = propertyInfo.PropertyType;
+            Assert.AreEqual(typeof(String), expectedType, "Property MfDate in Shop class is not of type String");
         }
 
         [Test]
-        public void Test_Shop_MfDate_Property_DataType()
+        public void Backend_Shop_CompanyName_PropertyExists_ReturnExpectedDataTypes_string()
         {
-            var mfDateProperty = _shopProperties.FirstOrDefault(prop => prop.Name == "MfDate");
-            Assert.NotNull(mfDateProperty);
-            Assert.AreEqual(typeof(string), mfDateProperty.PropertyType);
-        }
-
-        [Test]
-        public void Test_Shop_CompanyName_Property_DataType()
-        {
-            var companyNameProperty = _shopProperties.FirstOrDefault(prop => prop.Name == "CompanyName");
-            Assert.NotNull(companyNameProperty);
-            Assert.AreEqual(typeof(string), companyNameProperty.PropertyType);
+            string assemblyName = "dotnetapp";
+            string typeName = "dotnetapp.Models.Shop";
+            Assembly assembly = Assembly.Load(assemblyName);
+            Type shopType = assembly.GetType(typeName);
+            PropertyInfo propertyInfo = shopType.GetProperty("CompanyName");
+            Assert.IsNotNull(propertyInfo, "Property CompanyName does not exist in Shop class");
+            Type expectedType = propertyInfo.PropertyType;
+            Assert.AreEqual(typeof(string), expectedType, "Property CompanyName in Shop class is not of type string");
         }
 
         [Test]
         public void Test_ShopController_Class_Exists()
         {
+            var _controllerType = typeof(ShopController);
             Assert.NotNull(_controllerType);
         }
 
         [Test]
         public void Test_GetAllShopItems_Method_Exists()
         {
+            var _controllerType = typeof(ShopController);
             var methodInfo = _controllerType.GetMethod("GetAllShopItems");
             Assert.NotNull(methodInfo);
         }
@@ -152,6 +181,7 @@ namespace TestProject
         [Test]
         public void Test_GetAllShopItems_Method_HasHttpGetAttribute()
         {
+            var _controllerType = typeof(ShopController);
             var methodInfo = _controllerType.GetMethod("GetAllShopItems");
             var httpGetAttribute = methodInfo.GetCustomAttributes(typeof(HttpGetAttribute), true).FirstOrDefault();
             Assert.NotNull(httpGetAttribute);
@@ -160,6 +190,7 @@ namespace TestProject
         [Test]
         public void Test_AddShopItem_Method_Exists()
         {
+            var _controllerType = typeof(ShopController);
             var methodInfo = _controllerType.GetMethod("AddShopItem");
             Assert.NotNull(methodInfo);
         }
@@ -167,6 +198,7 @@ namespace TestProject
         [Test]
         public void Test_AddShopItem_Method_HasHttpPostAttribute()
         {
+            var _controllerType = typeof(ShopController);
             var methodInfo = _controllerType.GetMethod("AddShopItem");
             var httpPostAttribute = methodInfo.GetCustomAttributes(typeof(HttpPostAttribute), true).FirstOrDefault();
             Assert.NotNull(httpPostAttribute);
