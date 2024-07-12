@@ -56,20 +56,29 @@ namespace TestProject
        [Test]
         public async Task Test_AddShopItem_ReturnsSuccess()
         {
-            // Creating the HTTP POST request
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/addShopitem");
-            request.Content = new StringContent("{\"ProductName\": \"Sample Product\",\"ProductType\": \"Electronics\",\"StockItem\": 10,\"Price\": 100,\"MfDate\": \"2024-07-12T00:00:00\",\"CompanyName\": \"Sample Company\"}",
-                Encoding.UTF8, "application/json");
+            var newShop = new Shop
+            {
+                ProductName = "Sample Product",
+                ProductType = "Electronics",
+                StockItem = 10,
+                Price = (int)-100.0M,   
+                MfDate = "2024-07-12",
+                CompanyName = "Sample Company"
+            };
 
-            // Sending the request
-            HttpResponseMessage response = await _httpClient.SendAsync(request);
+            // Call the AddShopItem method on the controller
+            var actionResult = await _shopController.AddShopItem(newShop);
 
-            // Asserting the response status
-            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode, $"Expected Created status code but got {response.StatusCode}");
+            // Assert the type of ActionResult returned
+            Assert.IsInstanceOf<ActionResult<Shop>>(actionResult);
+            
+            // Assert the status code
+            Assert.AreEqual((int)HttpStatusCode.Created, actionResult.Result.StatusCode);
 
-            // Reading and asserting the response body
-            string responseBody = await response.Content.ReadAsStringAsync();
-            Assert.IsNotEmpty(responseBody, "Response body is empty");
+            // Assert the returned object
+            var createdObject = actionResult.Value as Shop;
+            Assert.IsNotNull(createdObject);
+            Assert.AreEqual(newShop.ProductName, createdObject.ProductName);
         }
 
         [Test]
@@ -203,5 +212,25 @@ namespace TestProject
             var httpPostAttribute = methodInfo.GetCustomAttributes(typeof(HttpPostAttribute), true).FirstOrDefault();
             Assert.NotNull(httpPostAttribute);
         }
+
+        [Test]
+public async Task Test_AddShopItem_ReturnsBadRequest_WhenPriceIsNegative()
+{
+    var newShop = new Shop
+    {
+        ProductName = "Sample Product",
+        ProductType = "Electronics",
+        StockItem = 10,
+        Price = (int)-100.0M, // Invalid price
+        MfDate = "2024-07-12",
+        CompanyName = "Sample Company"
+    };
+
+    var result = await _shopController.AddShopItem(newShop);
+var badRequestResult = result.Result as BadRequestObjectResult;
+
+Assert.AreEqual((int)HttpStatusCode.BadRequest, badRequestResult.StatusCode);
+Assert.AreEqual("Price cannot be less than 0.", badRequestResult.Value.GetType().GetProperty("message").GetValue(badRequestResult.Value));
+}
     }
 }

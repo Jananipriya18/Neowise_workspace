@@ -1,4 +1,5 @@
-﻿using dotnetapp.Models;
+﻿using dotnetapp.Exceptions;
+using dotnetapp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -21,18 +22,46 @@ namespace dotnetapp.Controllers
         [HttpGet("getAllShopitem")]
         public async Task<ActionResult<IEnumerable<Shop>>> GetAllShopItems()
         {
-            var shopItems = await _context.Shops.ToListAsync();
-            return Ok(shopItems);
+            try
+            {
+                var shopItems = await _context.Shops.ToListAsync();
+                return Ok(shopItems);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
 
         // POST /addShopitem
         [HttpPost("addShopitem")]
         public async Task<ActionResult<Shop>> AddShopItem(Shop shop)
         {
-            _context.Shops.Add(shop);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return CreatedAtAction(nameof(GetAllShopItems), new { id = shop.Id }, shop);
+            try
+            {
+                if (shop.Price < 0)
+                {
+                    throw new PriceItemException("Price cannot be less than 0.");
+                }
+
+                _context.Shops.Add(shop);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetAllShopItems), new { id = shop.Id }, shop);
+            }
+            catch (PriceItemException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
     }
 }
