@@ -1,0 +1,62 @@
+<div id="partyHallBookingHomeBody" [ngClass]="{ blur: showDeletePopup }">
+  <div class="main-head">
+    <h1>Party Hall Booking Details</h1>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Party Hall Name</th>
+        <th>Address</th>
+        <th>Number of Persons</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Loop through each booking -->
+      <tr *ngFor="let booking of bookings; let i = index">
+        <td>{{ i+1 }}</td>
+        <td>{{ booking.partyHall?.hallName }}</td>
+        <td>
+          <!-- Display address or provide input for editing -->
+          <span *ngIf="!isEditing || booking !== selectedBooking">{{ booking.address }}</span>
+        </td>
+        <td>
+          <!-- Display number of persons or provide input for editing -->
+          <span *ngIf="!isEditing || booking !== selectedBooking">{{ booking.noOfPersons }}</span>
+        </td>
+        <td>
+          <!-- Display from date or provide input for editing -->
+          <span *ngIf="!isEditing || booking !== selectedBooking">{{ booking.fromDate | date : "dd/MM/yyyy"}}</span>
+        </td>
+        <td>
+          <!-- Display to date or provide input for editing -->
+          <span *ngIf="!isEditing || booking !== selectedBooking">{{ booking.toDate | date : "dd/MM/yyyy"}}</span>
+        </td>
+        <td>{{ booking.totalPrice }}</td>
+        <td>{{ booking.status }}</td>
+        <td>
+          <div class="buttons">
+            <button *ngIf="isEditing && booking === selectedBooking" class="save-btn-grad btn-primary" (click)="updateBooking(booking)">Save</button>
+            <button *ngIf="isEditing && booking === selectedBooking" class="cancel-btn-grad btn-primary" (click)="cancelEdit()">Cancel</button>            
+            <button *ngIf="!isEditing || (isEditing && booking !== selectedBooking)" class="delete-btn-grad btn-danger" (click)="showDeletePopup = true; selectedBooking = booking">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="showDeletePopup" class="delete-popup">
+  <p>Are you sure you want to delete?</p>
+  <button
+    (click)="deleteBooking(selectedBooking); showDeletePopup = false"
+    id="delete-btn"
+  >
+    Yes, Delete
+  </button>
+  <button (click)="showDeletePopup = false">Cancel</button>
+</div>

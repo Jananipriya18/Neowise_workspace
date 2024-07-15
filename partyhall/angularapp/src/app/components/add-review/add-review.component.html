@@ -1,0 +1,53 @@
+<div class="main-container">
+    <h1>Add Party Hall Review Details</h1>
+  
+    <form [formGroup]="addReviewForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="userName">User Name</label>
+        <input type="text" id="userName" formControlName="userName" readonly />
+      </div>
+  
+      <div class="form-group">
+        <div class="validation">
+          <label for="subject">Party Hall Name<span class="asterisk">*</span></label>
+        </div>
+        <select id="subject" formControlName="subject">
+          <option value="" disabled selected>Select Party Hall Name</option>
+          <option *ngFor="let partyhall of partyhalls" [value]="partyhall.partyHall.hallName">{{ partyhall.partyHall.hallName }}</option>
+        </select>
+        <div *ngIf="addReviewForm.get('subject').hasError('required') && addReviewForm.get('subject').touched" class="error-message">
+          *Party Hall name is required
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <div class="validation">
+          <label for="body">Feedback comments<span class="asterisk">*</span></label>
+        </div>
+        <textarea id="body" formControlName="body"></textarea>
+        <div *ngIf="addReviewForm.get('body').hasError('required') && addReviewForm.get('body').touched" class="error-message">
+          *Feedback comment is required
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <div class="validation">
+          <label for="rating">Rating<span class="asterisk">*</span></label>
+        </div>
+        <div class="rating-buttons">
+          <label *ngFor="let i of [1, 2, 3, 4, 5]" class="rating-option">
+            <input type="radio" id="rating{{i}}" formControlName="rating" [value]="i" />
+            {{i}}
+          </label>
+        </div>
+        <div *ngIf="addReviewForm.get('rating').hasError('required') && addReviewForm.get('rating').touched" class="error-message">
+          *Rating is required
+        </div>
+      </div>
+  
+      <div class="add-btn">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,35 @@
+<div class="main-head">
+    <h1>Party Hall Details</h1>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>S.No</th>
+            <th>Hall Name</th>
+            <th>Description</th>
+            <th>Hall Image</th>
+            <th>Availability Status</th>
+            <th>Location</th>
+            <th>Capacity</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let partyHall of partyHalls; let i=index">
+            <td>{{ i+1 }}</td>
+            <td>{{ partyHall.hallName }}</td>
+            <td>{{ partyHall.description }}</td>
+            <td>
+                <img [src]="partyHall.hallImageUrl" alt="Hall Image" class="hall-image">
+            </td>
+            <td>{{ partyHall.hallAvailableStatus }}</td>
+            <td>{{ partyHall.hallLocation }}</td>
+            <td>{{ partyHall.capacity }}</td>
+            <td>{{ partyHall.price }}</td>
+            <td>
+                <button class="edit-btn-grad btn-primary" (click)="navigateToAddBooking(partyHall)">Add Booking</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

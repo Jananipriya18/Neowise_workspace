@@ -1,0 +1,36 @@
+<div id="viewReviewHomeBody" [ngClass]="{ blur: showDeletePopup }">
+  <div class="main-head">
+    <h1>Party Hall Reviews</h1>
+  </div>
+
+  <div class="table-responsive">
+    <ng-container *ngIf="reviews.length > 0; else noRecordsFound">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="column-review-id">S.No</th>
+            <th class="column-user-id">User Name</th>
+            <th class="column-subject">Party Hall Name</th>
+            <th class="column-review">Review</th>
+            <th class="column-rating">Ratings (out of 5)</th>
+            <th class="column-date">Date Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let review of reviews; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ review.user.username }}</td>
+            <td>{{ review.subject }}</td>
+            <td>{{ review.body }}</td>
+            <td>{{ review.rating }}</td>
+            <td>{{ review.dateCreated | date : "dd/MM/yyyy" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+
+    <ng-template #noRecordsFound>
+      <p class="records">No party hall reviews found</p>
+    </ng-template>
+  </div>
+</div>

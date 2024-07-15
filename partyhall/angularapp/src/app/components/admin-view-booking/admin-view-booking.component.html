@@ -1,0 +1,63 @@
+<div>
+  <div class="main-head">
+    <h1>Party Hall Booking Details</h1>
+  </div>
+
+  <ng-container *ngIf="partyHalls.length > 0; else noRecordsFound">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>User Name</th>
+          <th>Party Hall Name</th>
+          <th>Number of Persons</th>
+          <th>From Date</th>
+          <th>To Date</th>
+          <th>Price</th>
+          <th>Address</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let partyHall of partyHalls; let i=index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ partyHall.user.username }}</td>
+          <td>{{ partyHall.partyHall.hallName }}</td>
+          <td>{{ partyHall.noOfPersons }}</td>
+          <td>{{ partyHall.fromDate | date : "dd/MM/yyyy" }}</td>
+          <td>{{ partyHall.toDate | date : "dd/MM/yyyy" }}</td>
+          <td>{{ partyHall.totalPrice }}</td>
+          <td>{{ partyHall.address }}</td>
+          <td>
+            <div class="buttons">
+              <button
+                class="edit-btn-grad btn-primary"
+                (click)="approveBooking(partyHall)"
+                [ngStyle]="{
+                  'background-color':
+                    partyHall.status === 'APPROVED' ? 'blue' : 'green'
+                }"
+              >
+                {{ partyHall.status === "APPROVED" ? "Accepted" : "Accept" }}
+              </button>
+              <button
+                class="delete-btn-grad btn-danger"
+                (click)="rejectBooking(partyHall)"
+                [ngStyle]="{
+                  'background-color':
+                    partyHall.status === 'REJECTED' ? 'blue' : '#f41818'
+                }"
+              >
+                {{ partyHall.status === "REJECTED" ? "Rejected" : "Reject" }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-template #noRecordsFound>
+    <p class="records">No data found</p>
+  </ng-template>
+</div>

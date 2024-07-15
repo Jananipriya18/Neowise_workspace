@@ -1,0 +1,91 @@
+<h1>Add New Party Hall</h1>
+
+<form [formGroup]="addPartyhallForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <div class="validation">
+            <label for="partyhallName">Party Hall Name<span class="asterisk">*</span></label>
+        </div>
+        <input type="text" id="partyhallName" formControlName="partyhallName">
+        <div *ngIf="addPartyhallForm.get('partyhallName').hasError('required') && addPartyhallForm.get('partyhallName').touched" class="error-message">
+            *Party Hall name is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="validation">
+            <label for="partyhallImageUrl">Party Hall Image<span class="asterisk">*</span></label>
+        </div>
+        <input type="file" id="partyhallImageUrl" formControlName="partyhallImageUrl" (change)="handleFileChange($event)" accept=".png, .jpg">
+        <div *ngIf="addPartyhallForm.get('partyhallImageUrl').hasError('required') && addPartyhallForm.get('partyhallImageUrl').touched" class="error-message">
+            *Party Hall Image is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="validation">
+            <label for="partyhallLocation">Party Hall Location<span class="asterisk">*</span></label>
+        </div>
+        <textarea id="partyhallLocation" formControlName="partyhallLocation"></textarea>
+        <div *ngIf="addPartyhallForm.get('partyhallLocation').hasError('required') && addPartyhallForm.get('partyhallLocation').touched" class="error-message">
+            *Party Hall Location is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="validation">
+            <label for="description">Party Hall Description<span class="asterisk">*</span></label>
+        </div>
+        <textarea id="description" formControlName="description"></textarea>
+        <div *ngIf="addPartyhallForm.get('description').hasError('required') && addPartyhallForm.get('description').touched" class="error-message">
+            *Party Hall description is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="validation">
+            <label for="partyhallAvailableStatus">Party Hall Available Status<span class="asterisk">*</span></label>
+        </div>
+        <select id="partyhallAvailableStatus" formControlName="partyhallAvailableStatus">
+            <option value="" disabled selected>Select availability</option>
+            <option value="Available">Available</option>
+            <option value="Unavailable">Unavailable</option>
+        </select>
+        <div *ngIf="addPartyhallForm.get('partyhallAvailableStatus').hasError('required') && addPartyhallForm.get('partyhallAvailableStatus').touched" class="error-message">
+            *Party Hall available status is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="validation">
+            <label for="price">Price<span class="asterisk">*</span></label>
+        </div>
+        <input type="number" id="price" formControlName="price">
+        <div *ngIf="addPartyhallForm.get('price').hasError('required') && addPartyhallForm.get('price').touched" class="error-message">
+            *Price is required.
+        </div>
+        <div *ngIf="addPartyhallForm.get('price').hasError('min') && addPartyhallForm.get('price').touched" class="error-message">
+            *Price must be greater than 0.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="validation">
+            <label for="capacity">Capacity<span class="asterisk">*</span></label>
+        </div>
+        <input type="number" id="capacity" formControlName="capacity">
+        <div *ngIf="addPartyhallForm.get('capacity').hasError('required') && addPartyhallForm.get('capacity').touched" class="error-message">
+            *Capacity is required.
+        </div>
+        <div *ngIf="addPartyhallForm.get('capacity').hasError('min') && addPartyhallForm.get('capacity').touched" class="error-message">
+            *Capacity must be greater than 0.
+        </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+        *{{ errorMessage }}
+    </div>
+
+    <div class="add-btn">
+        <button type="submit">Add Party Hall</button>
+    </div>
+</form>

@@ -1,0 +1,71 @@
+#viewResortHomeBody {
+  /* margin: 20px; */
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.main-head {
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.blur {
+  filter: blur(5px);
+}
+
+/* Set specific widths for th elements with custom classes */
+.column-review-id {
+  width: 50px;
+}
+
+.column-user-id {
+  width: 50px;
+}
+
+.column-subject {
+  width: 150px;
+}
+
+.column-review {
+  width: 500px; /* Adjust as needed */
+}
+
+.column-rating {
+  width: 120px;
+}
+
+.column-date {
+  width: 120px;
+}
+
+h1{
+  text-align: center;
+}
+
+.records{
+  text-align: center;
+  font-size: 20px;
+}
