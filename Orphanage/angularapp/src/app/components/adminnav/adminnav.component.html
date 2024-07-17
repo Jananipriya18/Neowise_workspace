@@ -1,0 +1,15 @@
+<nav>
+  <ul class="nav-links">
+    <ng-container *ngIf="isLoggedIn">
+      <li *ngIf="isAdmin">
+        <a routerLinkActive="active">Orphanage</a>
+        <ul class="sub-menu">
+          <li><a routerLink="/admin/add/orphanage">Add Orphanage</a></li>
+          <li><a routerLink="/admin/view/orphanage">View Orphanage</a></li>
+        </ul>
+      </li>
+      <li *ngIf="isAdmin"><a routerLink="/admin/view/donation">Donations</a></li>
+      <li *ngIf="isAdmin"><a routerLink="/admin/view/feedback">Feedbacks</a></li>
+    </ng-container>
+  </ul>
+</nav>

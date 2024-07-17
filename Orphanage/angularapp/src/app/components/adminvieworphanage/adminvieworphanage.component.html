@@ -1,0 +1,62 @@
+<div id="parent">
+    <div id="orphanageHomeBody" [ngClass]="{ blur: showDeletePopup || showDonationPopup }">
+      <h1>Orphanages</h1>
+      <hr>
+
+      <table class="loan-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Orphanage Name</th>
+            <th>Description</th>
+            <th>Founder</th>
+            <th>Establishment Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="status === 'loading'">
+          <tr>
+            <td>Loading...</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="status === 'error'">
+          <tr>
+            <td>Error loading data</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="availableOrphanages.length > 0; else noRecords">
+          <tr *ngFor="let orphanage of availableOrphanages; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ orphanage.OrphanageName }}</td>
+            <td>{{ orphanage.Description }}</td>
+            <td>{{ orphanage.Founder }}</td>
+            <td>{{ orphanage.EstablishmentDate | date }}</td>
+            <td>{{ orphanage.Status }}</td>
+            <td>
+              <button (click)="navigateToEditOrphanage(orphanage.OrphanageId)">Edit</button>
+              <button (click)="handleDeleteClick(orphanage.OrphanageId)" id="deleteButton">Delete</button>
+              <button (click)="handleDonation(orphanage.OrphanageId)" id="donateButton">Check Donation</button>
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #noRecords>
+          <tr>
+            <td colspan="7" class="no-records-cell">Oops! No records Found</td>
+          </tr>
+        </ng-template>
+      </table>
+    </div>
+
+    <div *ngIf="showDeletePopup" class="delete-popup">
+      <p>Are you sure you want to delete?</p>
+      <button (click)="handleConfirmDelete()" id="delete-btn">Yes, Delete</button>
+      <button (click)="closeDeletePopup()">Cancel</button>
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </div>
+
+    <div *ngIf="showDonationPopup" class="donation-popup">
+      <p>Total Donation Amount: ${{ totalDonationAmount }}</p>
+      <button class="red-button" (click)="closeDonationPopup()">Close</button>
+    </div>
+</div>

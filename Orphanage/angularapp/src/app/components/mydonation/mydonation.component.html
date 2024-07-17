@@ -1,0 +1,46 @@
+<div id="viewdonations" [ngClass]="{ blur: showOrphanagePopup }">
+  <div class="main-head">
+    <h1>Donation Details</h1>
+  </div>
+  <hr>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="column-sno">SNO</th>
+          <th class="column-orphanage-name">Orphanage Name</th>
+          <th class="column-amount">Amount</th>
+          <th class="column-date">Donation Date</th>
+          <th class="column-action">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="donations.length > 0; else noRecords">
+        <tr *ngFor="let donation of donations; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ donation.Orphanage.OrphanageName}}</td>
+          <td>{{ donation.Amount }}</td>
+          <td>{{ donation.DonationDate | date : "dd/MM/yyyy" }}</td>
+          <td>
+            <button class="button" (click)="showOrphanageDetails(donation.Orphanage)">Show Orphanage</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noRecords>
+      <tr>
+        <td colspan="5" class="no-records-cell">Oops! No records Found</td>
+      </tr>
+    </ng-template>
+  </div>
+</div>
+
+<div *ngIf="showOrphanagePopup" class="orphanage-popup">
+  <p>Orphanage Details:</p>
+  <p>Orphanage Name: {{ selectedOrphanage?.OrphanageName }}</p>
+  <p>Description: {{ selectedOrphanage?.Description }}</p>
+  <p>Founder: {{ selectedOrphanage?.Founder }}</p>
+  <p>Establishment Date: {{ selectedOrphanage?.EstablishmentDate | date : "dd/MM/yyyy" }}</p>
+  <p>Status: {{ selectedOrphanage?.Status }}</p>
+  <button (click)="closeOrphanagePopup()">Close</button>
+</div>
