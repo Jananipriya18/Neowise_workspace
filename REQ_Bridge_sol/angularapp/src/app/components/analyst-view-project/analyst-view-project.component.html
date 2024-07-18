@@ -1,0 +1,38 @@
+<div id="parent">
+    <div id="projectHomeBody">
+      <h1>Projects</h1>
+      <hr>
+  
+      <table class="project-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="status === 'error'">
+          <tr>
+            <td colspan="5">Error loading data</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="availableProjects.length > 0; else noRecords">
+          <tr *ngFor="let project of availableProjects; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ project.ProjectTitle }}</td>
+            <td>{{ project.ProjectDescription }}</td>
+            <td>{{ project.StartDate | date }}</td>
+            <td>{{ project.EndDate | date }}</td>
+          </tr>
+        </tbody>
+        <ng-template #noRecords>
+          <tr>
+            <td colspan="5" class="no-records-cell">Oops! No records Found</td>
+          </tr>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+  

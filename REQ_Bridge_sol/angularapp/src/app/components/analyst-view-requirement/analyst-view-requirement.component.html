@@ -1,0 +1,41 @@
+<div class="parent">
+    <div [ngClass]="{ blur: showDeletePopup }">
+      <h1>View Requirements</h1>
+      <table class="requirement-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="requirements.length > 0; else noRecords">
+          <tr *ngFor="let requirement of requirements; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ requirement.RequirementTitle }}</td>
+            <td>{{ requirement.RequirementDescription }}</td>
+            <td>{{ requirement.Status }}</td>
+            <td>
+              <button class="deleteButton" (click)="handleDeleteClick(requirement.RequirementId)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #noRecords>
+          <tr>
+            <td colspan="5" class="no-records-cell">Oops! No records found</td>
+          </tr>
+        </ng-template>
+      </table>
+    </div>
+  
+    <!-- Delete Confirmation Popup -->
+    <div *ngIf="showDeletePopup" class="delete-popup">
+      <p>Are you sure you want to delete this requirement?</p>
+      <button class="deleteButton" (click)="handleConfirmDelete()">Yes, Delete</button>
+      <button (click)="closeDeletePopup()">Cancel</button>
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </div>
+  </div>
+  

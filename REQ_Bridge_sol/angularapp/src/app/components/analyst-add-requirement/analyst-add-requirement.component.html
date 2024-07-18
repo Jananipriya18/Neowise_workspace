@@ -1,0 +1,45 @@
+<div class="form-container">
+    <div [ngClass]="{ blur: successPopup }">
+      <h2>Add Requirement</h2>
+      <hr>
+      <form #requirementForm="ngForm" (ngSubmit)="submitRequirement(requirementForm)">
+        <div class="form-group">
+          <label for="requirementTitle">Requirement Title<span class="required">*</span></label>
+          <input
+            type="text"
+            id="requirementTitle"
+            class="form-control"
+            name="requirementTitle"
+            [(ngModel)]="requirementTitle"
+            required
+            #title="ngModel"
+          />
+          <div *ngIf="title.invalid && (title.dirty || title.touched)" class="error">
+            *Requirement Title is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="requirementDescription">Requirement Description<span class="required">*</span></label>
+          <textarea
+            id="requirementDescription"
+            class="form-control"
+            name="requirementDescription"
+            [(ngModel)]="requirementDescription"
+            rows="5"
+            required
+            #description="ngModel"
+          ></textarea>
+          <div *ngIf="description.invalid && (description.dirty || description.touched)" class="error">
+            *Requirement Description is required.
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="requirementForm.invalid">Submit Requirement</button>
+      </form>
+    </div>
+  
+    <div *ngIf="successPopup" class="success-popup">
+      <p>Requirement Added Successfully!</p>
+      <button (click)="closeSuccessPopup()">Ok</button>
+    </div>
+  </div>
+  
