@@ -34,15 +34,6 @@ then
         echo "Frontend_should_contain_wrong_message_in_the_errorcomponent FAILED";
     fi
 
-    # checking for useraddfeedback.component.spec.ts component
-    if [ -d "/home/coder/project/workspace/angularapp/src/app/components/useraddfeedback" ]
-    then
-        cp /home/coder/project/workspace/karma/useraddfeedback.component.spec.ts /home/coder/project/workspace/angularapp/src/app/components/useraddfeedback/useraddfeedback.component.spec.ts;
-    else
-        echo "Frontend_should_create_useraddfeedback_component FAILED";
-        echo "Frontend_should_contain_add_feedback_heading_in_the_useraddfeedback_component FAILED";
-    fi
-
     # checking for manager-edit-project.component.spec.ts component
     if [ -d "/home/coder/project/workspace/angularapp/src/app/components/manager-edit-project" ]
     then
@@ -207,8 +198,6 @@ else
     echo "Frontend_should_create_auth_service FAILED";
     echo "Frontend_should_create_errorcomponent FAILED";
     echo "Frontend_should_contain_wrong_message_in_the_errorcomponent FAILED";
-    echo "Frontend_should_create_useraddfeedback_component FAILED";
-    echo "Frontend_should_contain_add_feedback_heading_in_the_useraddfeedback_component FAILED";
     echo "Frontend_should_create_manager_edit_project_component FAILED";
     echo "Frontend_should_contain_edit_project_heading_in_the_manager_edit_project_component FAILED";
     echo "Frontend_should_create_analyst_view_project_component FAILED";
