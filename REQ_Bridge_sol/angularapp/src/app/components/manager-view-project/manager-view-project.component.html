@@ -1,0 +1,74 @@
+<div id="parent">
+    <div id="projectHomeBody" [ngClass]="{ blur: showDeletePopup }">
+      <h1>Projects</h1>
+      <hr>
+      <div class="top-container">
+        <input
+          id="searchBox"
+          type="text"
+          placeholder="Search..."
+          [(ngModel)]="searchField"
+          (ngModelChange)="handleSearchChange($event)"
+        />
+      </div>
+  
+      <table class="project-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Front End Tech Stack</th>
+            <th>Backend Tech Stack</th>
+            <th>Database</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="status === 'loading'">
+          <tr>
+            <td>Loading...</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="status === 'error'">
+          <tr>
+            <td>Error loading data</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="projects.length > 0; else noRecords">
+          <tr *ngFor="let project of projects; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ project.ProjectTitle }}</td>
+            <td>{{ project.ProjectDescription }}</td>
+            <td>{{ project.StartDate | date }}</td>
+            <td>{{ project.EndDate | date }}</td>
+            <td>{{ project.FrontEndTechStack }}</td>
+            <td>{{ project.BackendTechStack }}</td>
+            <td>{{ project.Database }}</td>
+            <td>{{ project.Status }}</td>
+            <td>
+              <button (click)="navigateToEditProject(project.ProjectId)">Edit</button>
+              <button (click)="handleDeleteClick(project.ProjectId)" id="deleteButton">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #noRecords>
+          <tr>
+            <td colspan="10" class="no-records-cell">Oops! No records Found</td>
+          </tr>
+        </ng-template>
+      </table>
+    </div>
+  
+    <div *ngIf="showDeletePopup" class="delete-popup">
+      <p>Are you sure you want to delete?</p>
+      <button (click)="handleConfirmDelete()" id="delete-btn">Yes, Delete</button>
+      <button (click)="closeDeletePopup()">Cancel</button>
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </div>
+  
+
+  </div>
+  

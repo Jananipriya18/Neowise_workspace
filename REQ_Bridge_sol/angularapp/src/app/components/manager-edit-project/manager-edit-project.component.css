@@ -1,0 +1,165 @@
+/* General container styling */
+.form-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Header styling */
+  h2 {
+    text-align: center;
+    color: #333333;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Label styling */
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555555;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Input and select styling */
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Placeholder color */
+  input::placeholder,
+  textarea::placeholder {
+    color: #cccccc;
+  }
+  
+  /* Textarea styling */
+  textarea {
+    resize: vertical;
+  }
+  
+  /* Required field indicator */
+  .required {
+    color: red;
+  }
+  
+  /* Error message styling */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  /* Submit button styling */
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  /* Success popup styling */
+  .success-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #ffffff;
+    border: 2px solid #4CAF50;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1000;
+  }
+  
+  .success-popup p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #333333;
+  }
+  
+  .success-popup button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .success-popup button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Blur effect when success popup is shown */
+  .blur {
+    filter: blur(5px);
+  }
+  
+  /* Additional general styling */
+  hr {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 20px 0;
+  }
+  
+  @media (max-width: 768px) {
+    .form-container {
+      padding: 15px;
+    }
+  
+    h2 {
+      font-size: 24px;
+    }
+  
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      width: calc(100% - 15px);
+      padding: 8px;
+      font-size: 14px;
+    }
+  
+    button[type="submit"],
+    .success-popup button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .success-popup p {
+      font-size: 16px;
+    }
+  }
+  
