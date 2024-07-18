@@ -227,15 +227,17 @@ else
     echo "Frontend_should_create_login_component FAILED";
     echo "Frontend_should_contain_login_heading_in_the_login_component FAILED";
     echo "Frontend_should_create_navbar_component FAILED";
+    echo "Frontend_should_contain_req_bridge_pro_heading_in_the_navbar_component FAILED";
+    echo "Frontend_should_create_manager_nav_component FAILED";
     echo "Frontend_should_create_registration_component FAILED";
     echo "Frontend_should_contain_registration_heading_in_the_registration_component FAILED";
-    echo "Frontend_should_create_createorphanage_component FAILED";
-    echo "Frontend_should_contain_orphanage_creation_form_heading_in_the_createorphanage_component FAILED";
-    echo "Frontend_should_create_adminnav_component FAILED";
-    echo "Frontend_should_create_adminvieworphanage_component FAILED";
-    echo "Frontend_should_contain_orphanages_heading_in_the_adminvieworphanage_component FAILED";
-    echo "Frontend_should_create_adminviewfeedback_component FAILED";
-    echo "Frontend_should_contain_feedback_details_heading_in_the_adminviewfeedback_component FAILED";
-    echo "Frontend_should_create_mydonation_component FAILED";
-    echo "Frontend_should_contain_donation_details_heading_in_the_mydonation_component FAILED";
+    echo "Frontend_should_create_analystaddfeedback_component FAILED";
+    echo "Frontend_should_contain_add_feedback_heading_in_the_analystaddfeedback_component FAILED";
+    echo "Frontend_should_create_manager_add_project_component FAILED";
+    echo "Frontend_should_contain_create_new_project_heading_in_the_manager_add_project_component FAILED";
+    echo "Frontend_should_create_analystnav_component FAILED";
+    echo "Frontend_should_create_analyst_view_feedback_component FAILED";
+    echo "Frontend_should_contain_my_feedback_heading_in_the_analyst_view_feedback_component FAILED";
+    echo "Frontend_should_create_analyst_add_requirement_component FAILED";
+    echo "Frontend_should_contain_add_requirement_heading_in_the_analyst_add_requirement_component FAILED";
 fi
