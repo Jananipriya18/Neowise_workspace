@@ -49,7 +49,7 @@ then
         cp /home/coder/project/workspace/karma/manager-edit-project.component.spec.ts /home/coder/project/workspace/angularapp/src/app/components/manager-edit-project/manager-edit-project.component.spec.ts;
     else
         echo "Frontend_should_create_manager_edit_project_component FAILED";
-        echo "Frontend_should_create_manager_edit_project_component FAILED";
+        echo "Frontend_should_contain_edit_project_heading_in_the_manager_edit_project_component FAILED";
     fi
 
     # checking for analyst-view-project.component.spec.ts component
