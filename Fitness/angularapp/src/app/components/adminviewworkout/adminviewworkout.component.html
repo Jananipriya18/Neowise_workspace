@@ -1,0 +1,73 @@
+<div id="parent">
+  <div id="workoutBody" [ngClass]="{ blur: showDeletePopup }">
+    <h1>Workouts</h1>
+    <hr>
+    <div class="top-container">
+      <input
+        id="searchBox"
+        type="text"
+        placeholder="Search..."
+        [(ngModel)]="searchField"
+        (ngModelChange)="handleSearchChange($event)"
+      />
+    </div>
+
+    <table class="plan-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Workout Name</th>
+          <th>Description</th>
+          <th>Difficulty Level</th>
+          <th>Target Area</th>
+          <th>Days Per Week</th>
+          <th>Duration</th>
+          <th>Created At</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="status === 'loading'">
+        <tr>
+          <td colspan="9">Loading...</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="status === 'error'">
+        <tr>
+          <td>Error loading data</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="availableWorkouts.length > 0; else noRecords">
+        <tr *ngFor="let workout of availableWorkouts, let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ workout.WorkoutName }}</td>
+          <td>{{ workout.Description }}</td>
+          <td>{{ workout.DifficultyLevel }}</td>
+          <td>{{ workout.TargetArea }}</td>
+          <td>{{ workout.DaysPerWeek }}</td>
+          <td>{{ workout.AverageWorkoutDurationInMinutes }} mins</td>
+          <td>{{ workout.CreatedAt | date }}</td>
+          <td>
+            <button (click)="navigateToEditWorkout(workout.WorkoutId)">Edit</button>
+            <button (click)="handleDeleteClick(workout.WorkoutId)" id="deleteButton">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <ng-template #noRecords>
+        <tbody *ngIf="status !== 'loading'">
+          <tr>
+            <td colspan="9" class="no-records-cell">Oops! No records Found</td>
+          </tr>
+        </tbody>
+      </ng-template>
+    </table>
+  </div>
+
+  <div *ngIf="showDeletePopup" class="delete-popup">
+    <p>Are you sure you want to delete?</p>
+    <button (click)="handleConfirmDelete()" id="delete-btn">Yes, Delete</button>
+    <button (click)="closeDeletePopup()">Cancel</button>
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </div>
+</div>

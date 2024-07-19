@@ -1,0 +1,104 @@
+<div>
+  <div class="workout-form-container" [ngClass]="{ blur: successPopup }">
+    <h2>Create New Workout</h2>
+    <hr>
+    <form #workoutForm="ngForm" (ngSubmit)="onSubmit(workoutForm)">
+      <label for="WorkoutName">Workout Name<span class="required">*</span></label>
+      <input
+        type="text"
+        name="WorkoutName"
+        [(ngModel)]="formData.WorkoutName"
+        placeholder="Workout Name"
+        required
+        #WorkoutName="ngModel"
+        (change)="handleChange($event, 'WorkoutName')"
+      />
+      <div class="error" *ngIf="WorkoutName.invalid && WorkoutName.touched">
+        *Workout Name is required
+      </div>
+
+      <label for="Description">Description<span class="required">*</span></label>
+      <input
+        type="text"
+        name="Description"
+        [(ngModel)]="formData.Description"
+        placeholder="Workout Description"
+        required
+        #Description="ngModel"
+        (change)="handleChange($event, 'Description')"
+      />
+      <div class="error" *ngIf="Description.invalid && Description.touched">
+        *Description is required
+      </div>
+
+      <label for="DifficultyLevel">Difficulty Level<span class="required">*</span></label>
+      <input
+        type="number"
+        name="DifficultyLevel"
+        [(ngModel)]="formData.DifficultyLevel"
+        placeholder="Difficulty Level"
+        required
+        #DifficultyLevel="ngModel"
+        (change)="handleChange($event, 'DifficultyLevel')"
+      />
+      <div class="error" *ngIf="DifficultyLevel.invalid && DifficultyLevel.touched">
+        *Difficulty Level is required
+      </div>
+
+      <label for="TargetArea">Target Area<span class="required">*</span></label>
+      <select name="TargetArea" [(ngModel)]="formData.TargetArea" #TargetArea="ngModel" (change)="handleChange($event, 'TargetArea')" required>
+        <option value="">Select Target Area</option>
+        <option value="Full body">Full body</option>
+        <option value="Upper body">Upper body</option>
+        <option value="Lower body">Lower body</option>
+        <option value="Core">Core</option>
+        <option value="Arms">Arms</option>
+        <option value="Legs">Legs</option>
+        <option value="Chest">Chest</option>
+        <option value="Back">Back</option>
+      </select>
+      <div class="error" *ngIf="TargetArea.invalid && TargetArea.touched">
+        *Target Area is required
+      </div>
+
+      <label for="DaysPerWeek">Days Per Week<span class="required">*</span></label>
+      <input
+        type="number"
+        name="DaysPerWeek"
+        [(ngModel)]="formData.DaysPerWeek"
+        placeholder="Days Per Week"
+        required
+        #DaysPerWeek="ngModel"
+        (change)="handleChange($event, 'DaysPerWeek')"
+      />
+      <div class="error" *ngIf="DaysPerWeek.invalid && DaysPerWeek.touched">
+        *Days Per Week is required
+      </div>
+
+      <label for="AverageWorkoutDurationInMinutes">Workout Duration (Minutes)<span class="required">*</span></label>
+      <input
+        type="number"
+        name="AverageWorkoutDurationInMinutes"
+        [(ngModel)]="formData.AverageWorkoutDurationInMinutes"
+        placeholder="Workout Duration in Minutes"
+        required
+        #AverageWorkoutDurationInMinutes="ngModel"
+        (change)="handleChange($event, 'AverageWorkoutDurationInMinutes')"
+      />
+      <div class="error" *ngIf="AverageWorkoutDurationInMinutes.invalid && AverageWorkoutDurationInMinutes.touched">
+        *Workout Duration is required
+      </div>
+
+      <div *ngIf="errorMessage" class="error">
+        *{{ errorMessage }}
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div *ngIf="successPopup" class="success-popup">
+    <p>Successfully Added!</p>
+    <button (click)="handleSuccessMessage()">Ok</button>
+  </div>
+</div>
