@@ -3,6 +3,8 @@ using dotnetapp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace dotnetapp.Controllers
 {
@@ -16,7 +18,7 @@ namespace dotnetapp.Controllers
         {
             _collegeService = collegeService;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<College>>> GetAllColleges()
         {
