@@ -1,0 +1,70 @@
+<div class="page-content" [ngClass]="{ blur: showDeletePopup }">
+
+  <h1>Applied Colleges</h1>
+  <hr>
+
+  <!-- Search Box -->
+  <input
+    id="searchBox"
+    type="text"
+    placeholder="Search..."
+    [(ngModel)]="searchValue"
+    (input)="filterApplications()"
+  />
+
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>College Name</th>
+        <th>Degree Name</th>
+        <th>Twelfth Percentage</th>
+        <th>Previous College</th>
+        <th>Previous College CGPA</th>
+        <th>Submission Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="filteredApplications.length > 0; else noRecords">
+      <tr *ngFor="let application of filteredApplications; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ application.College.CollegeName }}</td>
+        <td>{{ application.DegreeName }}</td>
+        <td>{{ application.TwelfthPercentage }}</td>
+        <td>{{ application.PreviousCollege }}</td>
+        <td>{{ application.PreviousCollegeCGPA }}</td>
+        <td>{{ application.CreatedAt | date: 'yyyy-MM-dd' }}</td>
+        <td>
+          {{
+            application.Status === "Pending"
+              ? "Pending"
+              : application.Status === "Approved"
+              ? "Approved"
+              : "Rejected"
+          }}
+        </td>
+        <td>
+          <button id="redButton" (click)="handleDeleteClick(application)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <ng-template #noRecords>
+      <tr>
+        <td colspan="9" class="no-records-cell">Oops! No records Found</td>
+      </tr>
+    </ng-template>
+  </table>
+</div>
+
+<div *ngIf="showDeletePopup" class="delete-popup">
+  <p>Are you sure you want to delete?</p>
+  <button class="confirm-delete-button" (click)="handleConfirmDelete()">
+    Yes, Delete
+  </button>
+  <button class="cancel-delete-button" (click)="closeDeletePopup()">
+    Cancel
+  </button>
+</div>

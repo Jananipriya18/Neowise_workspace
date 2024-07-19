@@ -1,0 +1,57 @@
+<div>
+  <div id="collegeHomeBody">
+    <h1>Available Colleges</h1>
+    <hr>
+
+    <!-- Search Box -->
+    <div class="top-container">
+      <input
+        id="searchBox"
+        type="text"
+        placeholder="Search..."
+        [(ngModel)]="searchField"
+        (ngModelChange)="handleSearchChange($event)"
+      />
+    </div>
+
+    <!-- Available Colleges Table -->
+    <table class="college-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>College Name</th>
+          <th>Location</th>
+          <th>Description</th>
+          <th>Website</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="filteredColleges.length; else noRecords">
+        <tr *ngFor="let college of filteredColleges, let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ college.CollegeName }}</td>
+          <td>{{ college.Location }}</td>
+          <td>{{ college.Description }}</td>
+          <td>{{ college.Website }}</td>
+          <td>
+            <button
+              id="greenButton"
+              *ngIf="!isCollegeApplied(college)"
+              (click)="handleApplyClick(college)"
+            >
+              Apply
+            </button>
+            <button id="appliedButton" *ngIf="isCollegeApplied(college)">Applied</button>
+          </td>
+        </tr>
+      </tbody>
+      <ng-template #noRecords>
+        <tbody>
+          <tr>
+            <td colSpan="6" class="no-records-cell">Oops! No records Found</td>
+          </tr>
+        </tbody>
+      </ng-template>
+    </table>
+  </div>
+</div>

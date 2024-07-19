@@ -1,0 +1,15 @@
+<nav>
+  <ul class="nav-links">
+    <ng-container *ngIf="isLoggedIn">
+      <li *ngIf="isAdmin">
+        <a routerLinkActive="active">College</a>
+        <ul class="sub-menu">
+          <li><a routerLink="/admin/add/college">Add College</a></li>
+          <li><a routerLink="/admin/view/college">View College</a></li>
+        </ul>
+      </li>
+      <li *ngIf="isAdmin"><a routerLink="admin/view/requested">College Requested</a></li>
+      <li *ngIf="isAdmin"><a routerLink="admin/view/feedback">Feedbacks</a></li>
+    </ng-container>
+  </ul>
+</nav>
