@@ -22,7 +22,7 @@ namespace dotnetapp.Controllers
             _workoutRequestService = workoutRequestService;
         }
 
-        // [Authorize]
+         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkoutRequest>>> GetAllWorkoutRequests()
         {
@@ -47,7 +47,7 @@ namespace dotnetapp.Controllers
             }
         }
 
-        // [Authorize]
+         [Authorize]
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<WorkoutRequest>>> GetWorkoutRequestsByUserId(int userId)
         {
@@ -55,7 +55,7 @@ namespace dotnetapp.Controllers
             return Ok(requests);
         }
 
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         [HttpPut("{workoutRequestId}")]
         public async Task<ActionResult> UpdateWorkoutRequest(int workoutRequestId, [FromBody] WorkoutRequest workoutRequest)
         {
@@ -74,7 +74,7 @@ namespace dotnetapp.Controllers
             }
         }
 
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         [HttpDelete("{workoutRequestId}")]
         public async Task<ActionResult> DeleteWorkoutRequest(int workoutRequestId)
         {

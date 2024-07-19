@@ -19,7 +19,7 @@ namespace dotnetapp.Controllers
             _workoutService = workoutService;
         }
 
-        // [Authorize]
+         [Authorize(Roles = "Admin`1")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Workout>>> GetAllWorkouts()
         {
@@ -38,7 +38,7 @@ namespace dotnetapp.Controllers
             return Ok(workout);
         }
 
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> AddWorkout([FromBody] Workout workout)
         {
@@ -56,7 +56,7 @@ namespace dotnetapp.Controllers
             }
         }
 
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         [HttpPut("{workoutId}")]
         public async Task<ActionResult> UpdateWorkout(int workoutId, [FromBody] Workout workout)
         {
@@ -75,7 +75,7 @@ namespace dotnetapp.Controllers
             }
         }
 
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         [HttpDelete("{workoutId}")]
         public async Task<ActionResult> DeleteWorkout(int workoutId)
         {
