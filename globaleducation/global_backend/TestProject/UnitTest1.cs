@@ -1108,7 +1108,6 @@ public async Task Backend_Test_Get_All_Colleges_With_Token_By_Manager_Returns_Ht
     Assert.AreEqual(HttpStatusCode.OK, apiResponse.StatusCode);
 }
 
-
 [Test, Order(4)]
 public async Task Backend_Test_Get_All_Colleges_Without_Token_By_Manager_Returns_HttpStatusCode_Unauthorized()
 {
