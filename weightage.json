@@ -2,7 +2,7 @@
     {
       "testcases": [
         {
-          "name": "Frontend_should_be_create_project_service",
+          "name": "Frontend_should_create_application_service",
           "weightage": 0.003125
         },
         {
@@ -10,51 +10,55 @@
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_errorcomponent",
+          "name": "Frontend_should_create_college_service",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_wrong_message_in_the_errorcomponent",
+          "name": "Frontend_should_create_error_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_manager_edit_project_component",
+          "name": "Frontend_should_contain_wrong_message_in_the_error_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_edit_project_heading_in_the_manager_edit_project_component",
+          "name": "Frontend_should_create_adminaddcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_analyst_view_project_component",
+          "name": "Frontend_should_contain_create_new_college_heading_in_the_adminaddcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_projects_heading_in_the_analyst_view_project_component",
+          "name": "Frontend_should_create_admineditcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_analyst_view_requirement_component",
+          "name": "Frontend_should_contain_edit_college_heading_in_the_admineditcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_view_requirements_heading_in_the_analyst_view_requirement_component",
+          "name": "Frontend_should_create_adminviewcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_manager_view_feedback_component",
+          "name": "Frontend_should_contain_colleges_heading_in_the_adminviewcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_feedback_details_heading_in_the_manager_view_feedback_component",
+          "name": "Frontend_should_create_adminviewfeedback_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_manager_view_project_component",
+          "name": "Frontend_should_contain_feedback_details_heading_in_the_adminviewfeedback_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_projects_heading_in_the_manager_view_project_component",
+          "name": "Frontend_should_create_requestedcollege_component",
+          "weightage": 0.003125
+        },
+        {
+          "name": "Frontend_should_contain_college_application_requests_for_approval_heading_in_the_requestedcollege_component",
           "weightage": 0.003125
         },
         {
@@ -66,15 +70,15 @@
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_req_bridge_pro_heading_in_the_home_component",
+          "name": "Frontend_should_contain_globaledconnect_heading_in_the_home_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_manager_view_requirement_component",
+          "name": "Frontend_should_create_useraddfeedback_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_all_project_requirements_heading_in_the_manager_view_requirement_component",
+          "name": "Frontend_should_contain_add_feedback_heading_in_the_useraddfeedback_component",
           "weightage": 0.003125
         },
         {
@@ -83,18 +87,18 @@
         },
         {
           "name": "Frontend_should_contain_login_heading_in_the_login_component",
-          "weightage": 0.003125
+          "weightage": 0.0015625
         },
         {
           "name": "Frontend_should_create_navbar_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_contain_req_bridge_pro_heading_in_the_navbar_component",
+          "name": "Frontend_should_contain_globaledconnect_heading_in_the_navbar_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_create_manager_nav_component",
+          "name": "Frontent_should_create_adminnav_component",
           "weightage": 0.0015625
         },
         {
@@ -106,40 +110,40 @@
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_create_analystaddfeedback_component",
+          "name": "Frontend_should_create_userapplicationform_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_contain_add_feedback_heading_in_the_analystaddfeedback_component",
+          "name": "Frontend_should_contain_college_application_form_heading_in_the_userapplicationform_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_create_manager_add_project_component",
+          "name": "Frontend_should_create_userappliedcollege_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_contain_create_new_project_heading_in_the_manager_add_project_component",
+          "name": "Frontend_should_contain_applied_colleges_heading_in_the_userappliedcollege_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_create_analystnav_component",
-          "weightage": 0.0015625
-        },
-        {
-          "name": "Frontend_should_create_analyst_view_feedback_component",
+          "name": "Frontend_should_create_usernav_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_my_feedback_heading_in_the_analyst_view_feedback_component",
+          "name": "Frontend_should_create_userviewcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_analyst_add_requirement_component",
+          "name": "Frontend_should_contain_available_colleges_heading_in_the_userviewcollege_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_add_requirement_heading_in_the_analyst_add_requirement_component",
-          "weightage": 0.003125
+          "name": "Frontend_should_create_userviewfeedback_component",
+          "weightage": 0.0015625
+        },
+        {
+          "name": "Frontend_should_contain_my_feedback_heading_in_the_userviewfeedback_component",
+          "weightage": 0.0015625
         }
       ],
       "testcase_path": "/home/coder/project/workspace/karma",
@@ -149,43 +153,43 @@
     {
       "testcases": [
         {
-          "name": "Backend_Test_Post_Method_Register_Manager_Returns_HttpStatusCode_OK",
+          "name": "Backend_Test_Post_Method_Register_Admin_Returns_HttpStatusCode_OK",
           "weightage": 0.0625
         },
         {
-          "name": "Backend_Test_Post_Method_Login_Manager_Returns_HttpStatusCode_OK",
+          "name": "Backend_Test_Post_Method_Login_Admin_Returns_HttpStatusCode_OK",
           "weightage": 0.0625
         },
         {
-          "name": "Backend_Test_Get_All_Projects_With_Token_By_ProjectManager_Returns_HttpStatusCode_OK",
+          "name": "Backend_Test_Get_All_Colleges_With_Token_By_Manager_Returns_HttpStatusCode_OK",
           "weightage": 0.025
         },
         {
-          "name": "Backend_Test_Get_All_Projects_Without_Token_By_ProjectManager_Returns_HttpStatusCode_Unauthorized",
+          "name": "Backend_Test_Get_All_Colleges_Without_Token_By_Manager_Returns_HttpStatusCode_Unauthorized",
           "weightage": 0.025
         },
         {
-          "name": "Backend_Test_Post_Method_Add_Project_In_Project_Service_Adds_Project_Successfully",
+          "name": "Backend_Test_Get_Method_GetAllColleges_In_CollegeService_Returns_All_Colleges",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_Post_Method_Add_Project_In_ProjectService_Throws_ProjectException_If_ProjectTitle_Already_Exists",
+          "name": "Backend_Test_Get_Method_GetCollegeById_In_CollegeService_Returns_Correct_College",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_Get_Method_Get_Project_By_Id_In_Project_Service_Fetches_Project_Successfully",
+          "name": "Backend_Test_Post_Method_AddCollege_In_CollegeService_Adds_College_Successfully",
           "weightage": 0.0625
         },
         {
-          "name": "Backend_Test_Delete_Method_Delete_Project_By_Id_In_Project_Service_Deletes_Project_Successfully",
+          "name": "Backend_Test_Get_Method_GetAllApplications_In_ApplicationService_Returns_All_Applications",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_GetAll_Method_Get_All_Project_Requirements_In_Project_Requirement_Service_Fetches_All_Requirements_Successfully",
+          "name": "Backend_Test_Get_Method_GetApplicationById_In_ApplicationService_Returns_Correct_Application",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_Get_Method_Get_Project_Requirement_By_Id_In_Project_Requirement_Service_Fetches_Requirement_Successfully",
+          "name": "Backend_Test_Post_Method_AddApplication_In_ApplicationService_Throws_CollegeApplicationException_For_Duplicate_Application",
           "weightage": 0.1
         },
         {
