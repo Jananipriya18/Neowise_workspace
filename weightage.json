@@ -83,7 +83,7 @@
         },
         {
           "name": "Frontend_should_create_login_component",
-          "weightage": 0.003125
+          "weightage": 0.0140625
         },
         {
           "name": "Frontend_should_contain_login_heading_in_the_login_component",
@@ -127,15 +127,15 @@
         },
         {
           "name": "Frontend_should_create_usernav_component",
-          "weightage": 0.003125
+          "weightage": 0.0015625
         },
         {
           "name": "Frontend_should_create_userviewcollege_component",
-          "weightage": 0.003125
+          "weightage": 0.0015625
         },
         {
           "name": "Frontend_should_contain_available_colleges_heading_in_the_userviewcollege_component",
-          "weightage": 0.003125
+          "weightage": 0.0015625
         },
         {
           "name": "Frontend_should_create_userviewfeedback_component",
