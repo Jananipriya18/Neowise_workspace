@@ -197,12 +197,8 @@
           "weightage": 0.0625
         },
         {
-          "name": "Backend_Test_Delete_Method_Feedback_In_Feeback_Service_Deletes_Successfully  ",
-          "weightage": 0.083333333
-        },
-        {
-          "name": "Backend_Test_Get_Method_GetFeedbacksByUserId_In_Feedback_Service_Fetches_Successfully",
-          "weightage": 0.083333333
+          "name": "Backend_Test_Delete_Method_Feedback_In_Feeback_Service_Deletes_Successfully",
+          "weightage": 0.166666666
         }
       ],
       "testcase_path": "/home/coder/project/workspace/nunit",

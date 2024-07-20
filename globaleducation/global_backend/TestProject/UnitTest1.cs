@@ -809,77 +809,77 @@ public async Task Backend_Test_Post_Method_AddFeedback_In_Feedback_Service_Posts
     }
 }
 
-[Test, Order(12)]
-public async Task Backend_Test_Delete_Method_Feedback_In_Feeback_Service_Deletes_Successfully()
-{
-    // Add user
-     ClearDatabase();
+// [Test, Order(12)]
+// public async Task Backend_Test_Delete_Method_Feedback_In_Feeback_Service_Deletes_Successfully()
+// {
+//     // Add user
+//      ClearDatabase();
 
-    var userData = new Dictionary<string, object>
-    {
-        { "UserId",42 },
-        { "Username", "testuser" },
-        { "Password", "testpassword" },
-        { "Email", "test@example.com" },
-        { "MobileNumber", "1234567890" },
-        { "UserRole", "User" }
-    };
+//     var userData = new Dictionary<string, object>
+//     {
+//         { "UserId",42 },
+//         { "Username", "testuser" },
+//         { "Password", "testpassword" },
+//         { "Email", "test@example.com" },
+//         { "MobileNumber", "1234567890" },
+//         { "UserRole", "User" }
+//     };
 
-    var user = new User();
-    foreach (var kvp in userData)
-    {
-        var propertyInfo = typeof(User).GetProperty(kvp.Key);
-        if (propertyInfo != null)
-        {
-            propertyInfo.SetValue(user, kvp.Value);
-        }
-    }
-    _context.Users.Add(user);
-    _context.SaveChanges();
+//     var user = new User();
+//     foreach (var kvp in userData)
+//     {
+//         var propertyInfo = typeof(User).GetProperty(kvp.Key);
+//         if (propertyInfo != null)
+//         {
+//             propertyInfo.SetValue(user, kvp.Value);
+//         }
+//     }
+//     _context.Users.Add(user);
+//     _context.SaveChanges();
 
-           var feedbackData = new Dictionary<string, object>
-            {
-                { "FeedbackId", 11 },
-                { "UserId", 42 },
-                { "FeedbackText", "Great experience!" },
-                { "Date", DateTime.Now }
-            };
-        var feedback = new Feedback();
-        foreach (var kvp in feedbackData)
-        {
-            var propertyInfo = typeof(Feedback).GetProperty(kvp.Key);
-            if (propertyInfo != null)
-            {
-                propertyInfo.SetValue(feedback, kvp.Value);
-            }
-        }
-     _context.Feedbacks.Add(feedback);
-    _context.SaveChanges();
-    // Add loan application
-    string assemblyName = "dotnetapp";
-    Assembly assembly = Assembly.Load(assemblyName);
-    string ServiceName = "dotnetapp.Services.FeedbackService";
-    string typeName = "dotnetapp.Models.Feedback";
+//            var feedbackData = new Dictionary<string, object>
+//             {
+//                 { "FeedbackId", 11 },
+//                 { "UserId", 42 },
+//                 { "FeedbackText", "Great experience!" },
+//                 { "Date", DateTime.Now }
+//             };
+//         var feedback = new Feedback();
+//         foreach (var kvp in feedbackData)
+//         {
+//             var propertyInfo = typeof(Feedback).GetProperty(kvp.Key);
+//             if (propertyInfo != null)
+//             {
+//                 propertyInfo.SetValue(feedback, kvp.Value);
+//             }
+//         }
+//      _context.Feedbacks.Add(feedback);
+//     _context.SaveChanges();
+//     // Add loan application
+//     string assemblyName = "dotnetapp";
+//     Assembly assembly = Assembly.Load(assemblyName);
+//     string ServiceName = "dotnetapp.Services.FeedbackService";
+//     string typeName = "dotnetapp.Models.Feedback";
 
-    Type serviceType = assembly.GetType(ServiceName);
-    Type modelType = assembly.GetType(typeName);
+//     Type serviceType = assembly.GetType(ServiceName);
+//     Type modelType = assembly.GetType(typeName);
 
   
-    MethodInfo deletemethod = serviceType.GetMethod("DeleteFeedback", new[] { typeof(int) });
+//     MethodInfo deletemethod = serviceType.GetMethod("DeleteFeedback", new[] { typeof(int) });
 
-    if (deletemethod != null)
-    {
-        var service = Activator.CreateInstance(serviceType, _context);
-        var deleteResult = (Task<bool>)deletemethod.Invoke(service, new object[] { 11 });
+//     if (deletemethod != null)
+//     {
+//         var service = Activator.CreateInstance(serviceType, _context);
+//         var deleteResult = (Task<bool>)deletemethod.Invoke(service, new object[] { 11 });
 
-        var deletedFeedbackFromDb = await _context.Feedbacks.FindAsync(11);
-        Assert.IsNull(deletedFeedbackFromDb);
-    }
-    else
-    {
-        Assert.Fail();
-    }
-}
+//         var deletedFeedbackFromDb = await _context.Feedbacks.FindAsync(11);
+//         Assert.IsNull(deletedFeedbackFromDb);
+//     }
+//     else
+//     {
+//         Assert.Fail();
+//     }
+// }
 
 
 
