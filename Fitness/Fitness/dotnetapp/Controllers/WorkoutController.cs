@@ -19,7 +19,7 @@ namespace dotnetapp.Controllers
             _workoutService = workoutService;
         }
 
-         [Authorize(Roles = "Admin`1")]
+         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Workout>>> GetAllWorkouts()
         {
