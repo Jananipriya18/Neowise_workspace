@@ -2,7 +2,7 @@
     {
       "testcases": [
         {
-          "name": "Frontend_should_create_application_service",
+          "name": "Frontend_should_create_workout_service",
           "weightage": 0.003125
         },
         {
