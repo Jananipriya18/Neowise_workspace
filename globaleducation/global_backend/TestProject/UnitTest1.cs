@@ -40,7 +40,7 @@ namespace dotnetapp.Tests
         }
 
    [Test, Order(1)]
-    public async Task Backend_Test_Post_Method_Register_Admin_Returns_HttpStatusCode_OK()
+    public async Task Backend_Test_Delete_Method_Feedback_In_Feeback_Service_Deletes_Successfully()
     {
         ClearDatabase();
         string uniqueId = Guid.NewGuid().ToString();

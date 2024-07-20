@@ -18,7 +18,8 @@ namespace dotnetapp.Controllers
         {
             _collegeService = collegeService;
         }
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<College>>> GetAllColleges()
         {
