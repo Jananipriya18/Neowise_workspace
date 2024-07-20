@@ -10,7 +10,7 @@
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_college_service",
+          "name": "Frontend_should_create_workoutrequest_service",
           "weightage": 0.003125
         },
         {
@@ -22,27 +22,19 @@
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_adminaddcollege_component",
+          "name": "Frontend_should_create_adminaddworkout_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_create_new_college_heading_in_the_adminaddcollege_component",
+          "name": "Frontend_should_contain_create_new_workout_heading_in_the_adminaddworkout_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_admineditcollege_component",
+          "name": "Frontend_should_create_admineditworkout_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_edit_college_heading_in_the_admineditcollege_component",
-          "weightage": 0.003125
-        },
-        {
-          "name": "Frontend_should_create_adminviewcollege_component",
-          "weightage": 0.003125
-        },
-        {
-          "name": "Frontend_should_contain_colleges_heading_in_the_adminviewcollege_component",
+          "name": "Frontend_should_contain_edit_workout_heading_in_the_admineditworkout_component",
           "weightage": 0.003125
         },
         {
@@ -54,11 +46,19 @@
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_create_requestedcollege_component",
+          "name": "Frontend_should_create_adminviewworkout_component",
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_college_application_requests_for_approval_heading_in_the_requestedcollege_component",
+          "name": "Frontend_should_contain_workouts_heading_in_the_adminviewworkout_component",
+          "weightage": 0.003125
+        },
+        {
+          "name": "Frontend_should_create_requestedworkout_component",
+          "weightage": 0.003125
+        },
+        {
+          "name": "Frontend_should_contain_workout_requests_for_approval_heading_in_the_requestedworkout_component",
           "weightage": 0.003125
         },
         {
@@ -70,7 +70,7 @@
           "weightage": 0.003125
         },
         {
-          "name": "Frontend_should_contain_globaledconnect_heading_in_the_home_component",
+          "name": "Frontend_should_contain_fitness_tracker_heading_in_the_home_component",
           "weightage": 0.003125
         },
         {
@@ -94,7 +94,7 @@
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_contain_globaledconnect_heading_in_the_navbar_component",
+          "name": "Frontend_should_contain_fitness_tracker_heading_in_the_navbar_component",
           "weightage": 0.0015625
         },
         {
@@ -110,19 +110,19 @@
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_create_userapplicationform_component",
+          "name": "Frontend_should_create_userappliedworkout_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_contain_college_application_form_heading_in_the_userapplicationform_component",
+          "name": "Frontend_should_contain_applied_workouts_heading_in_the_userappliedworkout_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_create_userappliedcollege_component",
+          "name": "Frontend_should_create_userviewworkout_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_contain_applied_colleges_heading_in_the_userappliedcollege_component",
+          "name": "Frontend_should_contain_available_workouts_heading_in_the_userviewworkout_component",
           "weightage": 0.0015625
         },
         {
@@ -130,11 +130,11 @@
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_create_userviewcollege_component",
+          "name": "Frontend_should_create_userworkoutform_component",
           "weightage": 0.0015625
         },
         {
-          "name": "Frontend_should_contain_available_colleges_heading_in_the_userviewcollege_component",
+          "name": "Frontend_should_contain_workout_application_form_heading_in_the_userworkoutform_component",
           "weightage": 0.0015625
         },
         {

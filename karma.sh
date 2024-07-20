@@ -202,5 +202,40 @@ then
         npm test
     fi 
 else   
-    
+    echo "Frontend_should_create_workout_service FAILED";
+    echo "Frontend_should_create_auth_service FAILED";
+    echo "Frontend_should_create_college_service FAILED";
+    echo "Frontend_should_create_error_component FAILED";
+    echo "Frontend_should_contain_wrong_message_in_the_error_component FAILED";
+    echo "Frontend_should_create_adminaddcollege_component FAILED";
+    echo "Frontend_should_contain_create_new_college_heading_in_the_adminaddcollege_component FAILED";
+    echo "Frontend_should_create_admineditcollege_component FAILED";
+    echo "Frontend_should_contain_edit_college_heading_in_the_admineditcollege_component FAILED";
+    echo "Frontend_should_create_adminviewcollege_component FAILED";
+    echo "Frontend_should_contain_colleges_heading_in_the_adminviewcollege_component FAILED";
+    echo "Frontend_should_create_adminviewfeedback_component FAILED";
+    echo "Frontend_should_contain_feedback_details_heading_in_the_adminviewfeedback_component FAILED";
+    echo "Frontend_should_create_requestedcollege_component FAILED";
+    echo "Frontend_should_contain_college_application_requests_for_approval_heading_in_the_requestedcollege_component FAILED";
+    echo "Frontend_should_create_feedback_service FAILED";
+    echo "Frontend_should_create_home_component FAILED";
+    echo "Frontend_should_contain_globaledconnect_heading_in_the_home_component FAILED";
+    echo "Frontend_should_create_useraddfeedback_component FAILED";
+    echo "Frontend_should_contain_add_feedback_heading_in_the_useraddfeedback_component FAILED";
+    echo "Frontend_should_create_login_component FAILED";
+    echo "Frontend_should_contain_login_heading_in_the_login_component FAILED";
+    echo "Frontend_should_create_navbar_component FAILED";
+    echo "Frontend_should_contain_globaledconnect_heading_in_the_navbar_component FAILED";
+    echo "Frontent_should_create_adminnav_component FAILED";
+    echo "Frontend_should_create_registration_component FAILED";
+    echo "Frontend_should_contain_registration_heading_in_the_registration_component FAILED";
+    echo "Frontend_should_create_userapplicationform_component FAILED";
+    echo "Frontend_should_contain_college_application_form_heading_in_the_userapplicationform_component FAILED";
+    echo "Frontend_should_create_userappliedcollege_component FAILED";
+    echo "Frontend_should_contain_applied_colleges_heading_in_the_userappliedcollege_component FAILED";
+    echo "Frontend_should_create_usernav_component FAILED";
+    echo "Frontend_should_create_userviewcollege_component FAILED";
+    echo "Frontend_should_contain_available_colleges_heading_in_the_userviewcollege_component FAILED";
+    echo "Frontend_should_create_userviewfeedback_component FAILED";
+    echo "Frontend_should_contain_my_feedback_heading_in_the_userviewfeedback_component FAILED";
 fi
