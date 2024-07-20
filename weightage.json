@@ -161,35 +161,35 @@
           "weightage": 0.0625
         },
         {
-          "name": "Backend_Test_Get_All_Colleges_With_Token_By_Manager_Returns_HttpStatusCode_OK",
+          "name": "Backend_Test_Get_All_Workout_With_Token_By_User_Returns_HttpStatusCode_OK",
           "weightage": 0.025
         },
         {
-          "name": "Backend_Test_Get_All_Colleges_Without_Token_By_Manager_Returns_HttpStatusCode_Unauthorized",
+          "name": "Backend_Test_Get_All_Workout_Without_Token_By_User_Returns_HttpStatusCode_Unauthorized",
           "weightage": 0.025
         },
         {
-          "name": "Backend_Test_Get_Method_GetAllColleges_In_CollegeService_Returns_All_Colleges",
+          "name": "Backend_Test_Get_Method_GetAllWorkouts_In_WorkoutService_Fetches_Successfully",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_Get_Method_GetCollegeById_In_CollegeService_Returns_Correct_College",
+          "name": "Backend_Test_Get_Method_GetWorkoutById_In_WorkoutService_Fetches_Successfully",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_Post_Method_AddCollege_In_CollegeService_Adds_College_Successfully",
+          "name": "Backend_Test_Post_Method_Add_Workout_In_WorkoutService_Adds_Workout_Successfully",
           "weightage": 0.0625
         },
         {
-          "name": "Backend_Test_Get_Method_GetAllApplications_In_ApplicationService_Returns_All_Applications",
+          "name": "Backend_Test_Post_Method_Add_Workout_In_WorkoutService_Throws_WorkoutException_If_Name_Exists",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_Get_Method_GetApplicationById_In_ApplicationService_Returns_Correct_Application",
+          "name": "Backend_Test_Post_Method_AddWorkout_In_Workout_Service_Adds_Successfully",
           "weightage": 0.083333333
         },
         {
-          "name": "Backend_Test_Post_Method_AddApplication_In_ApplicationService_Throws_CollegeApplicationException_For_Duplicate_Application",
+          "name": "Backend_Test_Get_Method_GetWorkoutRequestsByUserId_In_WorkoutRequestService_Fetches_Successfully",
           "weightage": 0.1
         },
         {
@@ -198,7 +198,11 @@
         },
         {
           "name": "Backend_Test_Delete_Method_Feedback_In_Feeback_Service_Deletes_Successfully",
-          "weightage": 0.166666666
+          "weightage": 0.083333333
+        },
+        {
+          "name": "Backend_Test_Get_Method_GetFeedbacksByUserId_In_Feedback_Service_Fetches_Successfully",
+          "weightage": 0.083333333
         }
       ],
       "testcase_path": "/home/coder/project/workspace/nunit",
