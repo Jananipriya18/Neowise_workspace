@@ -200,10 +200,10 @@ public void TourEnrollmentForm_TourFull_Post_Method_ThrowsException_with_message
 
         // This test checks the existence of the Participant class
         [Test]
-        public void ParticipantExists()
+        public void HistoricalTourClassExists()
         {
             // Arrange
-            var classEntity = new Participant();
+            var classEntity = new HistoricalTour();
 
             // Assert
             Assert.IsNotNull(classEntity);
