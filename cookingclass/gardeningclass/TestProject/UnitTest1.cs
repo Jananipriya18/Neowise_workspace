@@ -211,153 +211,166 @@ public void TourEnrollmentForm_TourFull_Post_Method_ThrowsException_with_message
             Assert.IsNotNull(classEntity);
         }
  
-//  //This test check the exists of ApplicationDbContext class has DbSet of Classes
-//  [Test]
-//         public void ApplicationDbContextContainsDbSetClassProperty()
-//         {
+ //This test check the exists of ApplicationDbContext class has DbSet of Participants
+ [Test]
+        public void ApplicationDbContextContainsDbSetParticipantProperty()
+        {
 
-//             var propertyInfo = _context.GetType().GetProperty("Classes");
+            var propertyInfo = _context.GetType().GetProperty("Participants");
         
-//             Assert.IsNotNull(propertyInfo);
-//             Assert.AreEqual(typeof(DbSet<Class>), propertyInfo.PropertyType);
+            Assert.IsNotNull(propertyInfo);
+            Assert.AreEqual(typeof(DbSet<Participant>), propertyInfo.PropertyType);
                    
-//         }
-//         // This test checks the StartTime of Class property is string
-//        [Test]
-//         public void Class_Properties_ClassID_ReturnExpectedDataTypes()
-//         {
-//             Class classEntity = new Class();
-//             Assert.That(classEntity.ClassID, Is.TypeOf<int>());
-//         }
+        }
+        // This test checks the StartTime of Participant property is string
+       [Test]
+        public void HistoricalTour_Properties_HistoricalTourID_ReturnExpectedDataTypes()
+        {
+            HistoricalTour classEntity = new HistoricalTour();
+            Assert.That(classEntity.HistoricalTourID, Is.TypeOf<int>());
+        }
 
-//        // This test checks the StartTime of Class property is string
-//         [Test]
-//         public void Class_Properties_StartTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             Class classEntity = new Class { StartTime = "10:00 AM" };
+       // This test checks the StartTime of HistoricalTour property is string
+        [Test]
+        public void HistoricalTour_Properties_StartTime_ReturnExpectedDataTypes()
+        {
+            // Arrange
+            HistoricalTour classEntity = new HistoricalTour { StartTime = "10:00 AM" };
 
-//             // Assert
-//             Assert.That(classEntity.StartTime, Is.TypeOf<string>());
-//         }
+            // Assert
+            Assert.That(classEntity.StartTime, Is.TypeOf<string>());
+        }
 
-//         // This test checks the EndTime of Class property is string
-//         [Test]
-//         public void Class_Properties_EndTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             Class classEntity = new Class { EndTime = "12:00 PM" };
+        // This test checks the EndTime of HistoricalTour property is string
+        [Test]
+        public void HistoricalTour_Properties_EndTime_ReturnExpectedDataTypes()
+        {
+            // Arrange
+            HistoricalTour classEntity = new HistoricalTour { EndTime = "12:00 PM" };
 
-//             // Assert
-//             Assert.That(classEntity.EndTime, Is.TypeOf<string>());
-//         }
+            // Assert
+            Assert.That(classEntity.EndTime, Is.TypeOf<string>());
+        }
 
-//         // This test checks the Capacity of Class property is int
-//         [Test]
-//         public void Class_Properties_Capacity_ReturnExpectedDataTypes()
-//         {
-//             Class classEntity = new Class();
-//             Assert.That(classEntity.Capacity, Is.TypeOf<int>());
-//         }
+        // This test checks the Capacity of HistoricalTour property is int
+        [Test]
+        public void HistoricalTour_Properties_Capacity_ReturnExpectedDataTypes()
+        {
+            HistoricalTour classEntity = new HistoricalTour();
+            Assert.That(classEntity.Capacity, Is.TypeOf<int>());
+        }
 
-//         // This test checks the expected value of ClassID
-//         [Test]
-//         public void Class_Properties_ClassID_ReturnExpectedValues()
-//         {
-//             // Arrange
-//             int expectedClassID = 100;
+        // This test checks the expected value of ParticipantID
+        [Test]
+        public void Participant_Properties_ParticipantID_ReturnExpectedValues()
+        {
+            // Arrange
+            int expectedParticipantID = 100;
 
-//             Class classEntity = new Class
-//             {
-//                 ClassID = expectedClassID
-//             };
-//             Assert.AreEqual(expectedClassID, classEntity.ClassID);
-//         }
+            Participant classEntity = new Participant
+            {
+                ParticipantID = expectedParticipantID
+            };
+            Assert.AreEqual(expectedParticipantID, classEntity.ParticipantID);
+        }
 
-//         // This test checks the expected value of StartTime
-//         [Test]
-//         public void Class_Properties_StartTime_ReturnExpectedValues()
-//         {
-//             string expectedStartTime = "10:00 AM";
+        // This test checks the expected value of StartTime
+        [Test]
+        public void HistoricalTour_Properties_StartTime_ReturnExpectedValues()
+        {
+            string expectedStartTime = "10:00 AM";
 
-//             Class classEntity = new Class
-//             {
-//                 StartTime = expectedStartTime
-//             };
-//             Assert.AreEqual(expectedStartTime, classEntity.StartTime);
-//         }
+            HistoricalTour classEntity = new HistoricalTour
+            {
+                StartTime = expectedStartTime
+            };
+            Assert.AreEqual(expectedStartTime, classEntity.StartTime);
+        }
 
-//         // This test checks the expected value of EndTime
-//         [Test]
-//         public void Class_Properties_EndTime_ReturnExpectedValues()
-//         {
-//             string expectedEndTime = "12:00 PM";
+        // This test checks the expected value of EndTime
+        [Test]
+        public void HistoricalTour_Properties_EndTime_ReturnExpectedValues()
+        {
+            string expectedEndTime = "12:00 PM";
 
-//             Class classEntity = new Class
-//             {
-//                 EndTime = expectedEndTime
-//             };
-//             Assert.AreEqual(expectedEndTime, classEntity.EndTime);
-//         }
+            HistoricalTour classEntity = new HistoricalTour
+            {
+                EndTime = expectedEndTime
+            };
+            Assert.AreEqual(expectedEndTime, classEntity.EndTime);
+        }
 
-//         // This test checks the expected value of Capacity
-//         [Test]
-//         public void Class_Properties_Capacity_ReturnExpectedValues()
-//         {
-//             int expectedCapacity = 5;
-//             Class classEntity = new Class
-//             {
-//                 Capacity = expectedCapacity
-//             };
-//             Assert.AreEqual(expectedCapacity, classEntity.Capacity);
-//         }
+        // This test checks the expected value of Capacity
+        [Test]
+        public void HistoricalTour_Properties_Capacity_ReturnExpectedValues()
+        {
+            int expectedCapacity = 5;
+            HistoricalTour classEntity = new HistoricalTour
+            {
+                Capacity = expectedCapacity
+            };
+            Assert.AreEqual(expectedCapacity, classEntity.Capacity);
+        }
 
-//         // This test checks the expected value of ParticipantID in Participant class is int
-//         [Test]
-//         public void Participant_Properties_ParticipantID_ReturnExpectedDataTypes()
-//         {
-//             Participant participant = new Participant();
-//             Assert.That(participant.ParticipantID, Is.TypeOf<int>());
-//         }
+        // This test checks the expected value of ParticipantID in Participant class is int
+        [Test]
+        public void Participant_Properties_ParticipantID_ReturnExpectedDataTypes()
+        {
+            Participant participant = new Participant();
+            Assert.That(participant.ParticipantID, Is.TypeOf<int>());
+        }
 
-//         // This test checks the expected value of Name in Participant class is string
-//         [Test]
-//         public void Participant_Properties_Name_ReturnExpectedDataTypes()
-//         {
-//             Participant participant = new Participant();
-//             participant.Name = "";
-//             Assert.That(participant.Name, Is.TypeOf<string>());
-//         }
+        // This test checks the expected value of Name in Participant class is string
+        [Test]
+        public void Participant_Properties_Name_ReturnExpectedDataTypes()
+        {
+            Participant participant = new Participant();
+            participant.Name = "";
+            Assert.That(participant.Name, Is.TypeOf<string>());
+        }
 
-//         // This test checks the expected value of Email in Participant class is string
-//         [Test]
-//         public void Participant_Properties_Email_ReturnExpectedDataTypes()
-//         {
-//             Participant participant = new Participant();
-//             participant.Email = "";
-//             Assert.That(participant.Email, Is.TypeOf<string>());
-//         }
+        // This test checks the expected value of Email in Participant class is string
+        [Test]
+        public void Participant_Properties_Email_ReturnExpectedDataTypes()
+        {
+            Participant participant = new Participant();
+            participant.Email = "";
+            Assert.That(participant.Email, Is.TypeOf<string>());
+        }
 
-//         // This test checks the expected value of ClassID in Participant class is int
-//         [Test]
-//         public void Participant_Properties_ClassID_ReturnExpectedDataTypes()
-//         {
-//             Participant participant = new Participant();
-//             Assert.That(participant.ClassID, Is.TypeOf<int>());
-//         }
+        // This test checks the expected value of HistoricalTourID in Participant class is int
+        [Test]
+        public void Participant_Properties_HistoricalTourID_ReturnExpectedDataTypes()
+        {
+            Participant participant = new Participant();
+            Assert.That(participant.HistoricalTourID, Is.TypeOf<int>());
+        }
 
-//         // This test checks the expected value of Email in Participant class is string
-//         [Test]
-//         public void Participant_Properties_Email_ReturnExpectedValues()
-//         {
-//             string expectedEmail = "john@example.com";
+        // This test checks the expected value of Email in Participant class is string
+        [Test]
+        public void Participant_Properties_Email_ReturnExpectedValues()
+        {
+            string expectedEmail = "john@example.com";
 
-//             Participant participant = new Participant
-//             {
-//                 Email = expectedEmail
-//             };
-//             Assert.AreEqual(expectedEmail, participant.Email);
-//         }
+            Participant participant = new Participant
+            {
+                Email = expectedEmail
+            };
+            Assert.AreEqual(expectedEmail, participant.Email);
+        }
+
+        // This test checks the expected value of PhoneNumber in Participant class is string
+        [Test]
+        public void Participant_Properties_PhoneNumber_ReturnExpectedValues()
+        {
+            string expectedPhoneNumber = "9876543210";
+
+            Participant participant = new Participant
+            {
+                PhoneNumber = expectedPhoneNumber
+            };
+            Assert.AreEqual(expectedPhoneNumber, participant.PhoneNumber);
+        }
 
 //         // This test checks the expected value of Class in Participant class is another entity Class
 //         [Test]
