@@ -172,10 +172,14 @@ const puppeteer = require('puppeteer');
         });
         await page2.waitForSelector('#bookButton', { timeout: 2000 });
         await page2.click('#bookButton');
+        console.log("Hello");
         const urlAfterClick = page2.url();
-        await page2.waitForSelector('#backtoTour', { timeout: 2000 });
+        console.log(urlAfterClick);
+        await page2.waitForSelector('#bookedTours', { timeout: 2000 });
         const message = await page2.$eval('h2', element => element.textContent.toLowerCase());
-        if (message.includes("tour enrollment form") && urlAfterClick.toLowerCase().includes('booking/tourenrollmentform')) {
+        console.log(message);
+        if (message.includes("tour enrollment form") && urlAfterClick.toLowerCase().includes('booking/tourenrollmentform'))
+         {    
             console.log('TESTCASE:Existence_of_id_backtoTour_and_heading_in_tour_enrollment_form_page:success');
         } else {
             console.log('TESTCASE:Existence_of_id_backtoTour_and_heading_in_tour_enrollment_form_page:failure');
