@@ -1,113 +1,138 @@
-// using dotnetapp.Controllers;
-// using dotnetapp.Exceptions;
-// using dotnetapp.Models;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using NUnit.Framework;
-// using System.Linq;
+using dotnetapp.Controllers;
+using dotnetapp.Exceptions;
+using dotnetapp.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System.Linq;
 
 
-// namespace dotnetapp.Tests
-// {
-//     [TestFixture]
-//     public class BookingControllerTests
-//     {
-//         private ApplicationDbContext _context;
-//         private BookingController _controller;
+namespace dotnetapp.Tests
+{
+    [TestFixture]
+    public class BookingControllerTests
+    {
+        private ApplicationDbContext _context;
+        private BookingController _controller;
 
-//         [SetUp]
-//         public void Setup()
-//         {
-//             // Set up the test database context
-//             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-//                 .UseInMemoryDatabase(databaseName: "TestDatabase")
-//                 .Options;
-//             _context = new ApplicationDbContext(options);
-//             _context.Database.EnsureCreated();
+        [SetUp]
+        public void Setup()
+        {
+            // Set up the test database context
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+            _context = new ApplicationDbContext(options);
+            _context.Database.EnsureCreated();
 
-//             _controller = new BookingController(_context);
-//         }
+            _controller = new BookingController(_context);
+        }
 
-//         [TearDown]
-//         public void TearDown()
-//         {
-//             // Clean up the test database context
-//             _context.Database.EnsureDeleted();
-//             // _context.Dispose();
-//         }
+        [TearDown]
+        public void TearDown()
+        {
+            // Clean up the test database context
+            _context.Database.EnsureDeleted();
+            // _context.Dispose();
+        }
 
   
 
-// // Test if BatchEnrollmentForm action with valid BatchID redirects to EnrollmentConfirmation action with correct route values
-//  [Test]
-//         public void ClassEnrollmentForm_Post_Method_ValidClassId_RedirectsToEnrollmentConfirmation()
-//         {
-//             // Arrange
-//             var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 };
-//             _context.Classes.Add(classEntity);
-//             _context.SaveChanges();
+[Test]
+public void TourEnrollmentForm_Post_Method_ValidHistoricalTourID_RedirectsToEnrollmentConfirmation()
+{
+    // Arrange
+    var historicalTour = new HistoricalTour
+    {
+        HistoricalTourID = 100,
+        TourName = "Historical Rome Tour",
+        StartTime = "10:00 AM",
+        EndTime = "12:00 PM",
+        Capacity = 5,
+        Location = "Rome",
+        Description = "Explore the ancient city of Rome"
+    };
+    _context.HistoricalTours.Add(historicalTour);
+    _context.SaveChanges();
 
-//             var student = new Student { StudentID = 1, Name = "John Doe", Email = "john@example.com" };
+    var participant = new Participant
+    {
+        ParticipantID = 1,
+        Name = "Jane Doe",
+        Email = "jane@example.com",
+        PhoneNumber = "123-456-7890"
+    };
 
-//             // Act
-//             var result = _controller.ClassEnrollmentForm(classEntity.ClassID, student) as RedirectToActionResult;
+    // Act
+    var result = _controller.TourEnrollmentForm(historicalTour.HistoricalTourID, participant) as RedirectToActionResult;
 
-//             // Assert
-//             Assert.NotNull(result);
-//             Assert.AreEqual("EnrollmentConfirmation", result.ActionName); // Ensure the correct action is redirected to
-//         }
-
-// //This test checks the invalid classid returns the NotFoundresult or not
-//         [Test]
-//         public void ClassEnrollmentForm_Get_Method_InvalidClassId_ReturnsNotFound()
-//         {
-//             // Arrange
-//           var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5};
-//             // Act
-//             var result = _controller.ClassEnrollmentForm(classEntity.ClassID) as NotFoundResult;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//         }
-
-// // Test if ClassEnrollmentForm action with valid data creates a student and redirects to EnrollmentConfirmation
-// [Test]
-// public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudentAndRedirects()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
-
-//     // Act
-//     var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
-
-//     // Assert
-//     Assert.IsNotNull(result);
-//     Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
-
-// }
+    // Assert
+    Assert.NotNull(result);
+    Assert.AreEqual("EnrollmentConfirmation", result.ActionName); // Ensure the correct action is redirected to
+    Assert.AreEqual(participant.ParticipantID, result.RouteValues["participantId"]); // Ensure the route values are correct
+}
 
 
-// // Test if ClassEnrollmentForm action with valid data creates a student
-// [Test]
-// public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudent()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
+// This test checks if an invalid HistoricalTourID returns the NotFoundResult
+[Test]
+public void TourEnrollmentForm_Get_Method_InvalidHistoricalTourID_ReturnsNotFound()
+{
+    // Arrange
+    var invalidHistoricalTourID = 999; // An ID that does not exist in the database
 
-//     // Act
-//     var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+    // Act
+    var result = _controller.TourEnrollmentForm(invalidHistoricalTourID) as NotFoundResult;
 
-//     // Assert
-//     // Check if the student was created and added to the database
-//     var student = _context.Students.SingleOrDefault(s => s.ClassID == classEntity.ClassID);
-//     Assert.IsNotNull(student);
-//     Assert.AreEqual("John Doe", student.Name);
-//     Assert.AreEqual("john@example.com", student.Email);
-// }
+    // Assert
+    Assert.IsNotNull(result);
+}
+
+// Test if TourEnrollmentForm action with valid data creates a participant and redirects to EnrollmentConfirmation
+[Test]
+public void TourEnrollmentForm_Post_Method_ValidData_CreatesParticipantAndRedirects()
+{
+    // Arrange
+    var tour = new HistoricalTour { HistoricalTourID = 100, TourName = "Historical Tour", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1,Location = "Rome", Description = "Explore the ancient city of Rome" };
+    _context.HistoricalTours.Add(tour);
+    _context.SaveChanges();
+
+    var participant = new Participant { Name = "John Doe", Email = "john@example.com", PhoneNumber = "123-456-7890", HistoricalTourID = tour.HistoricalTourID };
+
+    // Act
+    var result = _controller.TourEnrollmentForm(tour.HistoricalTourID, participant) as RedirectToActionResult;
+
+    // Assert
+    Assert.IsNotNull(result);
+    Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
+
+    var createdParticipant = _context.Participants.FirstOrDefault(p => p.Email == "john@example.com");
+    Assert.IsNotNull(createdParticipant);
+    Assert.AreEqual("John Doe", createdParticipant.Name);
+}
+
+
+
+// Test if TourEnrollmentForm action with valid data creates a participant
+[Test]
+public void TourEnrollmentForm_Post_Method_ValidData_CreatesParticipant()
+{
+    // Arrange
+    var tour = new HistoricalTour { HistoricalTourID = 100, TourName = "Historical Tour", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
+    _context.HistoricalTours.Add(tour);
+    _context.SaveChanges();
+
+    // Act
+    var result = _controller.TourEnrollmentForm(tour.HistoricalTourID, new Participant { Name = "John Doe", Email = "john@example.com", PhoneNumber = "123-456-7890" }) as RedirectToActionResult;
+
+    // Assert
+    // Check if the participant was created and added to the database
+    var participant = _context.Participants.SingleOrDefault(p => p.HistoricalTourID == tour.HistoricalTourID);
+    Assert.IsNotNull(participant);
+    Assert.AreEqual("John Doe", participant.Name);
+    Assert.AreEqual("john@example.com", participant.Email);
+    Assert.AreEqual("123-456-7890", participant.PhoneNumber);
+}
+
 
 
 
@@ -444,6 +469,6 @@
 //             Assert.IsInstanceOf<ViewResult>(result);
 //             Assert.AreEqual(0, classes.Count);
 //         }
-//     }
-// }
+    }
+}
 
