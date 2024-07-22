@@ -36,8 +36,6 @@ namespace dotnetapp.Tests
             // _context.Dispose();
         }
 
-  
-
 [Test]
 public void TourEnrollmentForm_Post_Method_ValidHistoricalTourID_RedirectsToEnrollmentConfirmation()
 {
@@ -372,116 +370,149 @@ public void TourEnrollmentForm_TourFull_Post_Method_ThrowsException_with_message
             Assert.AreEqual(expectedPhoneNumber, participant.PhoneNumber);
         }
 
-//         // This test checks the expected value of Class in Participant class is another entity Class
-//         [Test]
-//         public void Participant_Properties_Returns_Class_ExpectedValues()
-//         {
-//             Class expectedClass = new Class();
+        [Test]
+        public void Participant_HistoricalTour_Returns_ExpectedValue()
+        {
+            // Arrange
+            var expectedTour = new HistoricalTour
+            {
+                HistoricalTourID = 100,
+                TourName = "Historical Tour",
+                StartTime = "10:00 AM",
+                EndTime = "12:00 PM",
+                Capacity = 10,
+                Location = "Rome",
+                Description = "Explore the ancient city of Rome"
+            };
 
-//             Participant participant = new Participant
-//             {
-//                 Class = expectedClass
-//             };
-//             Assert.AreEqual(expectedClass, participant.Class);
-//         }
+            var participant = new Participant
+            {
+                HistoricalTour = expectedTour
+            };
 
-//         [Test]
-//         public void DeleteClass_Post_Method_ValidClassId_RemovesClassFromDatabase()
-//         {
-//             // Arrange
-//             var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 };
-//             _context.Classes.Add(classEntity);
-//             _context.SaveChanges();
-//             var controller = new ClassController(_context);
+            // Act
+            var actualTour = participant.HistoricalTour;
 
-//             // Act
-//             var result = controller.DeleteClassConfirmed(classEntity.ClassID).Result as RedirectToActionResult;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.AreEqual("AvailableClasses", result.ActionName);
-
-//             // Check if the class was removed from the database
-//             var deletedClass = _context.Classes.Find(classEntity.ClassID);
-//             Assert.IsNull(deletedClass);
-//         }
-
-//         // Test if search by class name returns matching classes
-//         [Test]
-//         public async Task AvailableClasses_SearchByName_ReturnsMatchingClasses()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new ClassController(_context);
-//             _context.Classes.AddRange(
-//                 new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = "Italian";
-
-//             // Act
-//             var result = await classController.AvailableClasses(searchString) as ViewResult;
-//             var classes = result.Model as List<Class>;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(1, classes.Count);
-//             Assert.AreEqual("Italian Cooking", classes.First().ClassName);
-//         }
+            // Assert
+            Assert.That(actualTour, Is.EqualTo(expectedTour));
+        }
 
 
-//         // Test if empty search string returns all classes
-//         [Test]
-//         public async Task AvailableClasses_EmptySearchString_ReturnsAllClasses()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new ClassController(_context);
-//             _context.Classes.AddRange(
-//                 new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = string.Empty;
+        [Test]
+        public async Task DeleteHistoricalTour_Post_Method_ValidTourId_RemovesTourFromDatabase()
+        {
+            // Arrange
+            var tour = new HistoricalTour 
+            { 
+                HistoricalTourID = 100, 
+                TourName = "Historical Tour", 
+                StartTime = "10:00 AM", 
+                EndTime = "12:00 PM", 
+                Capacity = 5, 
+                Location = "Rome", 
+                Description = "Explore the ancient city of Rome" 
+            };
+            _context.HistoricalTours.Add(tour);
+            await _context.SaveChangesAsync(); // Ensure the data is saved asynchronously
 
-//             // Act
-//             var result = await classController.AvailableClasses(searchString) as ViewResult;
-//             var classes = result.Model as List<Class>;
+            var controller = new HistoricalTourController(_context);
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(3, classes.Count);
-//         }
+            // Act
+            var result = await controller.DeleteTourConfirmed(tour.HistoricalTourID) as RedirectToActionResult;
 
-//         // Test if no matching classes returns empty list
-//         [Test]
-//         public async Task AvailableClasses_NoMatchingClasses_ReturnsEmptyList()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new ClassController(_context);
-//             _context.Classes.AddRange(
-//                 new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = "NonExistentClass";
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("AvailableTours", result.ActionName);
 
-//             // Act
-//             var result = await classController.AvailableClasses(searchString) as ViewResult;
-//             var classes = result.Model as List<Class>;
+            // Check if the tour was removed from the database
+            var deletedTour = await _context.HistoricalTours.FindAsync(tour.HistoricalTourID);
+            Assert.IsNull(deletedTour);
+        }
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(0, classes.Count);
-//         }
+
+        [Test]
+        public async Task AvailableTours_SearchByName_ReturnsMatchingTours()
+        {
+            // Arrange
+            TearDown(); // Ensure the database is reset before the test
+            var tourController = new HistoricalTourController(_context);
+
+            // Add historical tours to the database
+            _context.HistoricalTours.AddRange(
+                new HistoricalTour { HistoricalTourID = 1, TourName = "Ancient Rome", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5, Location = "Rome", Description = "Explore ancient Rome" },
+                new HistoricalTour { HistoricalTourID = 2, TourName = "Medieval London", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5, Location = "London", Description = "Discover medieval London" },
+                new HistoricalTour { HistoricalTourID = 3, TourName = "Renaissance Florence", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5, Location = "Florence", Description = "Experience Renaissance Florence" }
+            );
+            await _context.SaveChangesAsync();
+
+            // Define the search string
+            string searchString = "Ancient";
+
+            // Act
+            var result = await tourController.AvailableTours(searchString) as ViewResult;
+            var tours = result.Model as List<HistoricalTour>;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual(1, tours.Count);
+            Assert.AreEqual("Ancient Rome", tours.First().TourName);
+        }
+
+
+        [Test]
+        public async Task AvailableTours_EmptySearchString_ReturnsAllTours()
+        {
+            // Arrange
+            TearDown(); // Ensure the database is reset before the test
+            var tourController = new HistoricalTourController(_context);
+
+            // Add historical tours to the database
+            _context.HistoricalTours.AddRange(
+                new HistoricalTour { HistoricalTourID = 1, TourName = "Ancient Rome", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5, Location = "Rome", Description = "Explore ancient Rome" },
+                new HistoricalTour { HistoricalTourID = 2, TourName = "Medieval London", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5, Location = "London", Description = "Discover medieval London" },
+                new HistoricalTour { HistoricalTourID = 3, TourName = "Renaissance Florence", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5, Location = "Florence", Description = "Experience Renaissance Florence" }
+            );
+            await _context.SaveChangesAsync();
+
+            string searchString = string.Empty; // Empty search string
+
+            // Act
+            var result = await tourController.AvailableTours(searchString) as ViewResult;
+            var tours = result.Model as List<HistoricalTour>;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual(3, tours.Count); // Check that all tours are returned
+        }
+
+        [Test]
+        public async Task AvailableTours_NoMatchingTours_ReturnsEmptyList()
+        {
+            // Arrange
+            TearDown(); // Ensure the database is reset before the test
+            var tourController = new HistoricalTourController(_context);
+
+            // Add historical tours to the database
+            _context.HistoricalTours.AddRange(
+                new HistoricalTour { HistoricalTourID = 1, TourName = "Ancient Rome", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5, Location = "Rome", Description = "Explore ancient Rome" },
+                new HistoricalTour { HistoricalTourID = 2, TourName = "Medieval London", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5, Location = "London", Description = "Discover medieval London" },
+                new HistoricalTour { HistoricalTourID = 3, TourName = "Renaissance Florence", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5, Location = "Florence", Description = "Experience Renaissance Florence" }
+            );
+            await _context.SaveChangesAsync();
+
+            string searchString = "NonExistentTour"; // Search string that does not match any tour
+
+            // Act
+            var result = await tourController.AvailableTours(searchString) as ViewResult;
+            var tours = result.Model as List<HistoricalTour>;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual(0, tours.Count); // Verify that the list is empty
+        }
     }
 }
 
