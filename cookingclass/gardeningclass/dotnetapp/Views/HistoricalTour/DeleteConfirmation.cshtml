@@ -1,0 +1,43 @@
+@* @model dotnetapp.Models.Class
+
+<h2>Delete Class</h2>
+
+<div>
+    <p>Are you sure you want to delete this class?</p>
+    <dl class="row">
+        <dt class="col-sm-2">Class Name</dt>
+        <dd class="col-sm-10">@Model.ClassName</dd>
+        <dt class="col-sm-2">Start Time</dt>
+        <dd class="col-sm-10">@Model.StartTime</dd>
+        <dt class="col-sm-2">End Time</dt>
+        <dd class="col-sm-10">@Model.EndTime</dd>
+        <dt class="col-sm-2">Capacity</dt>
+        <dd class="col-sm-10">@Model.Capacity</dd>
+    </dl>
+    <form asp-controller="Class" asp-action="DeleteClass" asp-route-id="@Model.ClassID" method="post">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="AvailableClasses" class="btn btn-secondary">Cancel</a>
+    </form>
+</div> *@
+
+@model dotnetapp.Models.HistoricalTour
+
+<h2>Delete Tour</h2>
+
+<div>
+    <p>Are you sure you want to delete this tour?</p>
+    <dl class="row">
+        <dt class="col-sm-2">Tour Name</dt>
+        <dd class="col-sm-10">@Model.TourName</dd>
+        <dt class="col-sm-2">Start Time</dt>
+        <dd class="col-sm-10">@Model.StartTime</dd>
+        <dt class="col-sm-2">End Time</dt>
+        <dd class="col-sm-10">@Model.EndTime</dd>
+        <dt class="col-sm-2">Capacity</dt>
+        <dd class="col-sm-10">@Model.Capacity</dd>
+    </dl>
+    <form asp-controller="HistoricalTour" asp-action="DeleteTour" asp-route-id="@Model.HistoricalTourID" method="post">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="AvailableTours" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

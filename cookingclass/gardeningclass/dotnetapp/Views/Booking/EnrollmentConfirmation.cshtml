@@ -1,10 +1,10 @@
-@model dotnetapp.Models.Student
+@model dotnetapp.Models.Participant
 
 <h2>Enrollment Confirmation</h2>
 
-<p>You have successfully enrolled in the class:</p>
-<p>Class Name: @Model.Class.ClassName</p>
-<p>Start Time: @Model.Class.StartTime</p>
-<p>End Time: @Model.Class.EndTime</p>
+<p>You have successfully enrolled in the tour:</p>
+<p>Tour Name: @Model.HistoricalTour.TourName</p>
+<p>Start Time: @Model.HistoricalTour.StartTime</p>
+<p>End Time: @Model.HistoricalTour.EndTime</p>
 
-<a id="backButton" asp-controller="Class" asp-action="AvailableClasses" class="btn btn-primary">Back to available classes</a>
+<a id="backButton" asp-controller="HistoricalTour" asp-action="AvailableTours" class="btn btn-primary">Back to available tours</a>

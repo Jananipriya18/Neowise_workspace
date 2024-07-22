@@ -31,6 +31,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Class}/{action=AvailableClasses}/{id?}");
+    pattern: "{controller=HistoricalTour}/{action=AvailableTours}/{id?}");
 
 app.Run();
