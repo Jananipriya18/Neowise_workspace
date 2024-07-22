@@ -117,7 +117,7 @@ public void TourEnrollmentForm_Post_Method_ValidData_CreatesParticipantAndRedire
 public void TourEnrollmentForm_Post_Method_ValidData_CreatesParticipant()
 {
     // Arrange
-    var tour = new HistoricalTour { HistoricalTourID = 100, TourName = "Historical Tour", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
+    var tour = new HistoricalTour { HistoricalTourID = 100, TourName = "Historical Tour", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 , Location = "Rome", Description = "Explore the ancient city of Rome"};
     _context.HistoricalTours.Add(tour);
     _context.SaveChanges();
 
@@ -136,80 +136,80 @@ public void TourEnrollmentForm_Post_Method_ValidData_CreatesParticipant()
 
 
 
-// // Test if ClassEnrollmentForm action throws CookingClassBookingException after reaching capacity 0
-// [Test]
-// public void ClassEnrollmentForm_Post_Method_ClassFull_ThrowsException()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0 };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
+// Test if TourEnrollmentForm action throws HistoricalTourBookingException after reaching capacity 0
+[Test]
+public void TourEnrollmentForm_Post_Method_TourFull_ThrowsException()
+{
+    // Arrange
+    var tour = new HistoricalTour { HistoricalTourID = 100, TourName = "Historical Tour", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0 , Location = "Rome", Description = "Explore the ancient city of Rome" };
+    _context.HistoricalTours.Add(tour);
+    _context.SaveChanges();
 
-//     // Act and Assert
-//     Assert.Throws<CookingClassBookingException>(() =>
-//     {
-//         // Act
-//         _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" });
-//     });
-// }
+    // Act and Assert
+    Assert.Throws<HistoricalTourBookingException>(() =>
+    {
+        // Act
+        _controller.TourEnrollmentForm(tour.HistoricalTourID, new Participant { Name = "John Doe", Email = "john@example.com", PhoneNumber = "123-456-7890" });
+    });
+}
 
-// // This test checks if CookingClassBookingException throws the message "Maximum Number Reached" or not
-// // Test if ClassEnrollmentForm action throws CookingClassBookingException with correct message after reaching capacity 0
-// [Test]
-// public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_message()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0, Students = new List<Student>() };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
+// Test if TourEnrollmentForm action throws HistoricalTourBookingException with correct message after reaching capacity 0
+[Test]
+public void TourEnrollmentForm_TourFull_Post_Method_ThrowsException_with_message()
+{
+    // Arrange
+    var tour = new HistoricalTour { HistoricalTourID = 100, TourName = "Historical Tour", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0, Location = "Rome", Description = "Explore the ancient city of Rome" };
+    // Participants = new List<Participant>() };
+    _context.HistoricalTours.Add(tour);
+    _context.SaveChanges();
 
-//     // Act and Assert
-//     var exception = Assert.Throws<CookingClassBookingException>(() =>
-//     {
-//         // Act
-//         _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" });
-//     });
+    // Act and Assert
+    var exception = Assert.Throws<HistoricalTourBookingException>(() =>
+    {
+        // Act
+        _controller.TourEnrollmentForm(tour.HistoricalTourID, new Participant { Name = "John Doe", Email = "john@example.com", PhoneNumber = "123-456-7890" });
+    });
 
-//     // Assert
-//     Assert.AreEqual("Maximum Number Reached", exception.Message);
-// }
+    // Assert
+    Assert.AreEqual("Maximum Number Reached", exception.Message);
+}
 
     
-// // This test checks if EnrollmentConfirmation action returns NotFound for a non-existent student ID
-//         [Test]
-//         public void EnrollmentConfirmation_Get_Method_NonexistentStudentId_ReturnsNotFound()
-//         {
-//             // Arrange
-//             var studentId = 1;
+// This test checks if EnrollmentConfirmation action returns NotFound for a non-existent participant ID
+        [Test]
+        public void EnrollmentConfirmation_Get_Method_NonexistentParticipantId_ReturnsNotFound()
+        {
+            // Arrange
+            var participantId = 1;
 
-//             // Act
-//             var result = _controller.EnrollmentConfirmation(studentId) as NotFoundResult;
+            // Act
+            var result = _controller.EnrollmentConfirmation(participantId) as NotFoundResult;
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+        }
 
-//         // This test checks the existence of the Student class
-//         [Test]
-//         public void StudentClassExists()
-//         {
-//             // Arrange
-//             var student = new Student();
+        // This test checks the existence of the Participant class
+        [Test]
+        public void ParticipantClassExists()
+        {
+            // Arrange
+            var participant = new Participant();
 
-//             // Assert
-//             Assert.IsNotNull(student);
-//         }
+            // Assert
+            Assert.IsNotNull(participant);
+        }
 
-//         // This test checks the existence of the Class class
-//         [Test]
-//         public void ClassClassExists()
-//         {
-//             // Arrange
-//             var classEntity = new Class();
+        // This test checks the existence of the Participant class
+        [Test]
+        public void ParticipantExists()
+        {
+            // Arrange
+            var classEntity = new Participant();
 
-//             // Assert
-//             Assert.IsNotNull(classEntity);
-//         }
+            // Assert
+            Assert.IsNotNull(classEntity);
+        }
  
 //  //This test check the exists of ApplicationDbContext class has DbSet of Classes
 //  [Test]
@@ -312,64 +312,64 @@ public void TourEnrollmentForm_Post_Method_ValidData_CreatesParticipant()
 //             Assert.AreEqual(expectedCapacity, classEntity.Capacity);
 //         }
 
-//         // This test checks the expected value of StudentID in Student class is int
+//         // This test checks the expected value of ParticipantID in Participant class is int
 //         [Test]
-//         public void Student_Properties_StudentID_ReturnExpectedDataTypes()
+//         public void Participant_Properties_ParticipantID_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             Assert.That(student.StudentID, Is.TypeOf<int>());
+//             Participant participant = new Participant();
+//             Assert.That(participant.ParticipantID, Is.TypeOf<int>());
 //         }
 
-//         // This test checks the expected value of Name in Student class is string
+//         // This test checks the expected value of Name in Participant class is string
 //         [Test]
-//         public void Student_Properties_Name_ReturnExpectedDataTypes()
+//         public void Participant_Properties_Name_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             student.Name = "";
-//             Assert.That(student.Name, Is.TypeOf<string>());
+//             Participant participant = new Participant();
+//             participant.Name = "";
+//             Assert.That(participant.Name, Is.TypeOf<string>());
 //         }
 
-//         // This test checks the expected value of Email in Student class is string
+//         // This test checks the expected value of Email in Participant class is string
 //         [Test]
-//         public void Student_Properties_Email_ReturnExpectedDataTypes()
+//         public void Participant_Properties_Email_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             student.Email = "";
-//             Assert.That(student.Email, Is.TypeOf<string>());
+//             Participant participant = new Participant();
+//             participant.Email = "";
+//             Assert.That(participant.Email, Is.TypeOf<string>());
 //         }
 
-//         // This test checks the expected value of ClassID in Student class is int
+//         // This test checks the expected value of ClassID in Participant class is int
 //         [Test]
-//         public void Student_Properties_ClassID_ReturnExpectedDataTypes()
+//         public void Participant_Properties_ClassID_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             Assert.That(student.ClassID, Is.TypeOf<int>());
+//             Participant participant = new Participant();
+//             Assert.That(participant.ClassID, Is.TypeOf<int>());
 //         }
 
-//         // This test checks the expected value of Email in Student class is string
+//         // This test checks the expected value of Email in Participant class is string
 //         [Test]
-//         public void Student_Properties_Email_ReturnExpectedValues()
+//         public void Participant_Properties_Email_ReturnExpectedValues()
 //         {
 //             string expectedEmail = "john@example.com";
 
-//             Student student = new Student
+//             Participant participant = new Participant
 //             {
 //                 Email = expectedEmail
 //             };
-//             Assert.AreEqual(expectedEmail, student.Email);
+//             Assert.AreEqual(expectedEmail, participant.Email);
 //         }
 
-//         // This test checks the expected value of Class in Student class is another entity Class
+//         // This test checks the expected value of Class in Participant class is another entity Class
 //         [Test]
-//         public void Student_Properties_Returns_Class_ExpectedValues()
+//         public void Participant_Properties_Returns_Class_ExpectedValues()
 //         {
 //             Class expectedClass = new Class();
 
-//             Student student = new Student
+//             Participant participant = new Participant
 //             {
 //                 Class = expectedClass
 //             };
-//             Assert.AreEqual(expectedClass, student.Class);
+//             Assert.AreEqual(expectedClass, participant.Class);
 //         }
 
 //         [Test]
