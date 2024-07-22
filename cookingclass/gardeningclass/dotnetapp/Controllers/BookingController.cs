@@ -92,9 +92,9 @@ namespace dotnetapp.Controllers
         }
 
         // GET: Booking/TourEnrollmentForm/5
-        public IActionResult TourEnrollmentForm(int tourId)
+        public IActionResult TourEnrollmentForm(int HistoricalTourID)
         {
-            var tour = _context.HistoricalTours.Find(tourId);
+            var tour = _context.HistoricalTours.Find(HistoricalTourID);
             if (tour == null)
             {
                 return NotFound();
@@ -106,15 +106,15 @@ namespace dotnetapp.Controllers
         // POST: Booking/TourEnrollmentForm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult TourEnrollmentForm(int tourId, Participant participant)
+        public IActionResult TourEnrollmentForm(int HistoricalTourID, Participant participant)
         {
-            var tour = _context.HistoricalTours.Include(t => t.Participants).FirstOrDefault(t => t.HistoricalTourID == tourId);
+            var tour = _context.HistoricalTours.Include(t => t.Participants).FirstOrDefault(t => t.HistoricalTourID == HistoricalTourID);
             if (tour == null)
             {
                 return NotFound();
             }
 
-            participant.HistoricalTourID = tourId;
+            participant.HistoricalTourID = HistoricalTourID;
 
             if (tour.Participants.Count >= tour.Capacity)
             {
