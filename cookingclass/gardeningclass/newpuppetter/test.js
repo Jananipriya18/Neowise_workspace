@@ -173,7 +173,7 @@ const puppeteer = require('puppeteer');
         await page2.waitForSelector('#bookButton', { timeout: 2000 });
         await page2.click('#bookButton');
         const urlAfterClick = page2.url();
-        console.log(urlAfterClick);
+        // console.log(urlAfterClick);
         const message = await page2.$eval('h2', element => element.textContent.toLowerCase());
         // console.log(message);
         if (message.includes("tour enrollment form") && urlAfterClick.toLowerCase().includes('booking/tourenrollmentform'))
