@@ -2,9 +2,9 @@ using System;
 
 namespace dotnetapp.Exceptions
 {
-    public class CookingClassBookingException : Exception
+    public class HistoricalTourBookingException : Exception
     {
-        public CookingClassBookingException(string message) : base(message) { }
+        public HistoricalTourBookingException(string message) : base(message) { }
 
        
     }
