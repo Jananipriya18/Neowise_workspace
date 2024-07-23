@@ -20,6 +20,6 @@ namespace dotnetapp.Models
 
         public int VRExperienceID { get; set; }
 
-        public virtual VRExperience VRExperience { get; set; }
+        public virtual VRExperience? VRExperience { get; set; }
     }
 }
