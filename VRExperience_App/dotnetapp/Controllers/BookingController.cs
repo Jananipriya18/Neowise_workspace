@@ -1,24 +1,25 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using dotnetapp.Exceptions;
-using dotnetapp.Models;
-using System.Linq;
-using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using dotnetapp.Exceptions;
+    using dotnetapp.Models;
+    using System.Linq;
+    using System.Threading.Tasks;
 
 
-namespace dotnetapp.Controllers
-{
-    public class BookingController : Controller
+    namespace dotnetapp.Controllers
     {
-        private readonly ApplicationDbContext _context;
-
-        public BookingController(ApplicationDbContext context)
+        public class BookingController : Controller
         {
-            _context = context;
-        }
+            private readonly ApplicationDbContext _context;
 
-        // GET: Booking/ExperienceEnrollmentForm/5
-        public IActionResult ExperienceEnrollmentForm(int VRExperienceID)
+            public BookingController(ApplicationDbContext context)
+            {
+                _context = context;
+            }
+
+            // GET: Booking/ExperienceEnrollmentForm/5
+            // GET: Booking/ExperienceEnrollmentForm/5
+public IActionResult ExperienceEnrollmentForm(int VRExperienceID)
 {
     var experience = _context.VRExperiences.Find(VRExperienceID);
     if (experience == null)
@@ -31,21 +32,26 @@ namespace dotnetapp.Controllers
     return View(attendee);
 }
 
+
 [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> ExperienceEnrollmentForm(int VRExperienceID, Attendee attendee)
 {
+    Console.WriteLine("Form submitted with VRExperienceID: " + VRExperienceID);
+
     var experience = await _context.VRExperiences
         .Include(e => e.Attendees)
         .FirstOrDefaultAsync(e => e.VRExperienceID == VRExperienceID);
 
     if (experience == null)
     {
+        Console.WriteLine("Experience not found");
         return NotFound();
     }
 
     if (experience.Attendees.Count >= experience.MaxCapacity)
     {
+        Console.WriteLine("Maximum capacity reached");
         throw new VRExperienceBookingException("Maximum Number Reached");
     }
 
@@ -60,30 +66,29 @@ public async Task<IActionResult> ExperienceEnrollmentForm(int VRExperienceID, At
     }
 
     attendee.VRExperienceID = VRExperienceID;
-    attendee.VRExperience = experience; // Set the VRExperience object
 
     _context.Attendees.Add(attendee);
     experience.MaxCapacity -= 1; // Reduce the capacity
     await _context.SaveChangesAsync();
 
+    Console.WriteLine("Attendee enrolled successfully");
     // Redirect to the confirmation view
     return RedirectToAction("EnrollmentConfirmation", new { AttendeeID = attendee.AttendeeID });
 }
 
-
-        public async Task<IActionResult> EnrollmentConfirmation(int AttendeeID)
-        {
-            var attendee = await _context.Attendees
-                .Include(a => a.VRExperience)
-                .SingleOrDefaultAsync(a => a.AttendeeID == AttendeeID);
-
-            if (attendee == null)
+            public async Task<IActionResult> EnrollmentConfirmation(int AttendeeID)
             {
-                return NotFound();
+                var attendee = await _context.Attendees
+                    .Include(a => a.VRExperience)
+                    .SingleOrDefaultAsync(a => a.AttendeeID == AttendeeID);
+
+                if (attendee == null)
+                {
+                    return NotFound();
+                }
+
+                return View(attendee); // Ensure this view expects an Attendee model
             }
 
-            return View(attendee); // Ensure this view expects an Attendee model
         }
-
     }
-}

@@ -14,45 +14,45 @@
         </div>
     </form>
 
-    @if (Model != null && Model.Count > 0)
-    {
-        <table class="table">
-            <thead>
+   @if (Model != null && Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Experience Name</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Remaining Capacity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var experience in Model)
+            {
                 <tr>
-                    <th>Experience Name</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Remaining Capacity</th>
-                    <th>Actions</th>
+                    <td>@experience.ExperienceName</td>
+                    <td>@experience.StartTime</td>
+                    <td>@experience.EndTime</td>
+                    <td>@(experience.MaxCapacity)</td>
+                    <td>
+                        @if (experience.MaxCapacity > 0)
+                        {
+                            <a asp-controller="Booking" asp-action="ExperienceEnrollmentForm" asp-route-VRExperienceID="@experience.VRExperienceID" class="btn btn-primary">Book</a>
+                        }
+                    </td>
+                    <td>
+                        <form method="post" asp-controller="VRExperience" asp-action="DeleteConfirmation" asp-route-id="@experience.VRExperienceID">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var experience in Model)
-                {
-                    <tr>
-                        <td>@experience.ExperienceName</td>
-                        <td>@experience.StartTime</td>
-                        <td>@experience.EndTime</td>
-                        <td>@(experience.MaxCapacity)</td>
-                        <td>
-                            @if (experience.MaxCapacity > 0)
-                            {
-                                <a asp-controller="Booking" asp-action="ExperienceEnrollmentForm" asp-route-VRExperienceID="@experience.VRExperienceID" class="btn btn-primary">Book</a>
-                            }
-                        </td>
-                        <td>
-                            <form method="post" asp-controller="VRExperience" asp-action="DeleteConfirmation" asp-route-id="@experience.VRExperienceID">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>No available experiences.</p>
-    }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No available experiences.</p>
+}
 
-    <a asp-controller="VRExperience" asp-action="BookedExperiences" class="btn btn-primary">Booked Experiences</a>
+<a asp-controller="VRExperience" asp-action="BookedExperiences" class="btn btn-primary">Booked Experiences</a>
