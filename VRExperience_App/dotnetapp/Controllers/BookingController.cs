@@ -16,59 +16,63 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
-        // GET: Booking/ClassEnrollmentForm/5
-        public IActionResult ClassEnrollmentForm(int classId)  // Ensure the parameter name is classId
+        // GET: Booking/ExperienceEnrollmentForm/5
+        public IActionResult ExperienceEnrollmentForm(int VRExperienceID)
         {
-            var classEntity = _context.Classes.Find(classId);
-            if (classEntity == null)
+            var experience = _context.VRExperiences.Find(VRExperienceID);
+            if (experience == null)
             {
                 return NotFound();
             }
 
-            return View();
+            return View(experience);
         }
 
-        // POST: Booking/ClassEnrollmentForm
+        // POST: Booking/ExperienceEnrollmentForm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ClassEnrollmentForm(int classId, Attendee student)  // Ensure the parameter name is classId
+        public async Task<IActionResult> ExperienceEnrollmentForm(int VRExperienceID, Attendee attendee)
         {
-            var classEntity = _context.Classes.Include(c => c.Attendees).FirstOrDefault(c => c.VRExperienceID == classId);
-            if (classEntity == null)
+            var experience = await _context.VRExperiences
+                .Include(e => e.Attendees)
+                .FirstOrDefaultAsync(e => e.VRExperienceID == VRExperienceID);
+
+            if (experience == null)
             {
                 return NotFound();
             }
 
-            student.VRExperienceID = classId;
-
-            if (classEntity.Attendees.Count >= classEntity.MaxCapacity)
+            if (experience.Attendees.Count >= experience.MaxCapacity)
             {
                 throw new VRExperienceBookingException("Maximum Number Reached");
             }
 
             if (!ModelState.IsValid)
             {
-                return View(student);
+                return View(attendee);
             }
 
-            _context.Attendees.Add(student);
-            classEntity.MaxCapacity -= 1; // Reduce the capacity
-            _context.SaveChanges();
+            attendee.VRExperienceID = VRExperienceID;
+            _context.Attendees.Add(attendee);
+            experience.MaxCapacity -= 1; // Reduce the capacity
+            await _context.SaveChangesAsync();
 
-            // Redirect to EnrollmentConfirmation action
-            return RedirectToAction("EnrollmentConfirmation", new { studentId = student.AttendeeID });
+            return RedirectToAction("EnrollmentConfirmation", new { participantId = attendee.AttendeeID });
         }
 
         // GET: Booking/EnrollmentConfirmation/5
-        public IActionResult EnrollmentConfirmation(int studentId)
+        public async Task<IActionResult> EnrollmentConfirmation(int participantId)
         {
-            var student = _context.Attendees.Include(s => s.Class).SingleOrDefault(s => s.AttendeeID == studentId);
-            if (student == null)
+            var attendee = await _context.Attendees
+                .Include(a => a.VRExperience)
+                .SingleOrDefaultAsync(a => a.AttendeeID == participantId);
+
+            if (attendee == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(attendee);
         }
     }
 }

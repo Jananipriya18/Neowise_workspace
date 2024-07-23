@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using dotnetapp.Models;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace dotnetapp.Controllers
@@ -15,54 +15,57 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
-        // GET: VRExperience/AvailableVRExperiences
-        public async Task<IActionResult> AvailableVRExperiences(string searchString)
+        // GET: VRExperience/AvailableExperiences
+        public async Task<IActionResult> AvailableExperiences(string searchString)
         {
-            var classes = from c in _context.VRExperiences select c;
+            var experiences = from e in _context.VRExperiences select e;
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                classes = classes.Where(c => c.VRExperienceName.Contains(searchString));
+                experiences = experiences.Where(e => e.ExperienceName.Contains(searchString));
             }
 
-          
-
-            return View(await classes.ToListAsync());
+            return View(await experiences.ToListAsync());
         }
 
-        // GET: VRExperience/BookedVRExperiences
-        public async Task<IActionResult> BookedVRExperiences()
+        // GET: VRExperience/BookedExperiences
+        public async Task<IActionResult> BookedExperiences()
         {
-            var classes = await _context.VRExperiences.Include(c => c.Attendees).Where(c => c.Attendees.Any()).ToListAsync();
-            return View(classes);
+            var experiences = await _context.VRExperiences
+                .Include(e => e.Attendees)
+                .Where(e => e.Attendees.Any())
+                .ToListAsync();
+
+            return View(experiences);
         }
 
         // GET: VRExperience/DeleteConfirmation/5
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            var classEntity = await _context.VRExperiences.FindAsync(id);
-            if (classEntity == null)
+            var experience = await _context.VRExperiences.FindAsync(id);
+            if (experience == null)
             {
                 return NotFound();
             }
 
-            return View(classEntity);
+            return View(experience);
         }
 
-        // POST: VRExperience/DeleteVRExperience/5
-        [HttpPost, ActionName("DeleteVRExperience")]
+        // POST: VRExperience/DeleteExperience/5
+        [HttpPost, ActionName("DeleteExperience")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteVRExperienceConfirmed(int id)
+        public async Task<IActionResult> DeleteExperienceConfirmed(int id)
         {
-            var classEntity = await _context.VRExperiences.FindAsync(id);
-            if (classEntity == null)
+            var experience = await _context.VRExperiences.FindAsync(id);
+            if (experience == null)
             {
                 return NotFound();
             }
 
-            _context.VRExperiences.Remove(classEntity);
+            _context.VRExperiences.Remove(experience);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(AvailableVRExperiences));
+
+            return RedirectToAction(nameof(AvailableExperiences));
         }
     }
 }
