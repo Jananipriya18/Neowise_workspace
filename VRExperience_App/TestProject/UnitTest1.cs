@@ -1,61 +1,58 @@
-// using dotnetapp.Controllers;
-// using dotnetapp.Exceptions;
-// using dotnetapp.Models;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using NUnit.Framework;
-// using System.Linq;
+using dotnetapp.Controllers;
+using dotnetapp.Exceptions;
+using dotnetapp.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System.Linq;
 
 
-// namespace dotnetapp.Tests
-// {
-//     [TestFixture]
-//     public class BookingControllerTests
-//     {
-//         private ApplicationDbContext _context;
-//         private BookingController _controller;
+namespace dotnetapp.Tests
+{
+    [TestFixture]
+    public class BookingControllerTests
+    {
+        private ApplicationDbContext _context;
+        private BookingController _controller;
 
-//         [SetUp]
-//         public void Setup()
-//         {
-//             // Set up the test database context
-//             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-//                 .UseInMemoryDatabase(databaseName: "TestDatabase")
-//                 .Options;
-//             _context = new ApplicationDbContext(options);
-//             _context.Database.EnsureCreated();
+        [SetUp]
+        public void Setup()
+        {
+            // Set up the test database context
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+            _context = new ApplicationDbContext(options);
+            _context.Database.EnsureCreated();
 
-//             _controller = new BookingController(_context);
-//         }
+            _controller = new BookingController(_context);
+        }
 
-//         [TearDown]
-//         public void TearDown()
-//         {
-//             // Clean up the test database context
-//             _context.Database.EnsureDeleted();
-//             // _context.Dispose();
-//         }
+        [TearDown]
+        public void TearDown()
+        {
+            // Clean up the test database context
+            _context.Database.EnsureDeleted();
+            // _context.Dispose();
+        }
 
   
 
-// // Test if BatchEnrollmentForm action with valid BatchID redirects to EnrollmentConfirmation action with correct route values
-//  [Test]
-//         public void VRExperienceEnrollmentForm_Post_Method_ValidVRExperienceId_RedirectsToEnrollmentConfirmation()
-//         {
-//             // Arrange
-//             var classEntity = new VRExperience { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 };
-//             _context.Experiences.Add(classEntity);
-//             _context.SaveChanges();
+// Test if BatchEnrollmentForm action with valid BatchID redirects to EnrollmentConfirmation action with correct route values
+ [Test]
+        public void VRExperienceEnrollmentForm_Post_Method_ValidVRExperienceId_RedirectsToEnrollmentConfirmation()
+        {
+            var vrExperience = new VRExperience { VRExperienceID = 100, ExperienceName = "Virtual Reality Adventure", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5, Location = "DemoLocation", Description = "DemoDescription" };
+            _context.VRExperiences.Add(vrExperience);
+            _context.SaveChanges();
 
-//             var student = new Attendee { AttendeeID = 1, Name = "John Doe", Email = "john@example.com" };
+            var attendee = new Attendee { AttendeeID = 1, Name = "John Doe", Email = "john@example.com",PhoneNumber = "9876543210", VRExperienceID = VRExperience.VRExperienceID };
 
-//             // Act
-//             var result = _controller.VRExperienceEnrollmentForm(classEntity.VRExperienceID, student) as RedirectToActionResult;
+            var result = _controller.ExperienceEnrollmentForm(VRExperience.VRExperienceID, attendee) as RedirectToActionResult;
 
-//             // Assert
-//             Assert.NotNull(result);
-//             Assert.AreEqual("EnrollmentConfirmation", result.ActionName); // Ensure the correct action is redirected to
-//         }
+            Assert.NotNull(result);
+            Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
+        }
 
 // //This test checks the invalid classid returns the NotFoundresult or not
 //         [Test]
@@ -444,6 +441,6 @@
 //             Assert.IsInstanceOf<ViewResult>(result);
 //             Assert.AreEqual(0, classes.Count);
 //         }
-//     }
-// }
+    }
+}
 
