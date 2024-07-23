@@ -1,10 +1,6 @@
 @model dotnetapp.Models.Attendee
 
-<h2>Enrollment Confirmation</h2>
-
-<p>You have successfully enrolled in the class:</p>
-<p>VRExperience Name: @Model.VRExperience.ExperienceName</p>
-<p>Start Time: @Model.VRExperience.StartTime</p>
-<p>End Time: @Model.VRExperience.EndTime</p>
-
-<a id="backButton" asp-controller="VRExperience" asp-action="AvailableExperiences" class="btn btn-primary">Back to available classes</a>
+<h1>Enrollment Confirmation</h1>
+<p>Name: @Model.Name</p>
+<p>Email: @Model.Email</p>
+<!-- Display other attendee details here -->

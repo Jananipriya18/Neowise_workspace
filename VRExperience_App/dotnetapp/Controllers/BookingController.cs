@@ -61,11 +61,11 @@ namespace dotnetapp.Controllers
         }
 
         // GET: Booking/EnrollmentConfirmation/5
-        public async Task<IActionResult> EnrollmentConfirmation(int participantId)
+        public async Task<IActionResult> EnrollmentConfirmation(int attendeeId)
         {
             var attendee = await _context.Attendees
                 .Include(a => a.VRExperience)
-                .SingleOrDefaultAsync(a => a.AttendeeID == participantId);
+                .SingleOrDefaultAsync(a => a.AttendeeID == attendeeId);
 
             if (attendee == null)
             {
