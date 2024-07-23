@@ -32,10 +32,17 @@ namespace dotnetapp.Controllers
 }
 
 
-        [HttpPost]
+       [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> ExperienceEnrollmentForm(int VRExperienceID, Attendee attendee)
 {
+    // Check if the VRExperienceID in the model matches the one provided in the request
+    if (attendee.VRExperienceID != VRExperienceID)
+    {
+        ModelState.AddModelError(string.Empty, "The VR Experience ID does not match.");
+        return View(attendee);
+    }
+
     var experience = await _context.VRExperiences
         .Include(e => e.Attendees)
         .FirstOrDefaultAsync(e => e.VRExperienceID == VRExperienceID);
@@ -52,8 +59,11 @@ public async Task<IActionResult> ExperienceEnrollmentForm(int VRExperienceID, At
 
     if (!ModelState.IsValid)
     {
-        Console.WriteLine("Not Valid");
-        // Return to the form view with validation errors
+        var errors = ModelState.Values.SelectMany(v => v.Errors);
+        foreach (var error in errors)
+        {
+            Console.WriteLine(error.ErrorMessage);
+        }
         return View(attendee);
     }
 
@@ -62,7 +72,6 @@ public async Task<IActionResult> ExperienceEnrollmentForm(int VRExperienceID, At
     experience.MaxCapacity -= 1; // Reduce the capacity
     await _context.SaveChangesAsync();
 
-    // Redirect to the confirmation view
     return RedirectToAction("EnrollmentConfirmation", new { AttendeeID = attendee.AttendeeID });
 }
 

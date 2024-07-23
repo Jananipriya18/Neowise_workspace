@@ -20,6 +20,9 @@
             <input type="text" asp-for="PhoneNumber" class="form-control" />
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
+
+        <input type="hidden" asp-for="VRExperienceID" value="@Model.VRExperienceID" />
+
     </div>
     <button type="submit" class="btn btn-primary">Enroll</button>
     <a asp-action="AvailableExperiences" class="btn btn-secondary">Back to Available Experiences</a>
