@@ -28,7 +28,6 @@ namespace dotnetapp.Controllers
             return View(experience);
         }
 
-        // POST: Booking/ExperienceEnrollmentForm
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExperienceEnrollmentForm(int VRExperienceID, Attendee attendee)
@@ -49,7 +48,7 @@ namespace dotnetapp.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(attendee);
+                return View(attendee); // Returns the view with the Attendee model
             }
 
             attendee.VRExperienceID = VRExperienceID;
@@ -57,22 +56,23 @@ namespace dotnetapp.Controllers
             experience.MaxCapacity -= 1; // Reduce the capacity
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("EnrollmentConfirmation", new { participantId = attendee.AttendeeID });
+            return RedirectToAction("EnrollmentConfirmation", new { AttendeeID = attendee.AttendeeID });
         }
 
-        // GET: Booking/EnrollmentConfirmation/5
-        public async Task<IActionResult> EnrollmentConfirmation(int attendeeId)
+
+        public async Task<IActionResult> EnrollmentConfirmation(int AttendeeID)
         {
             var attendee = await _context.Attendees
                 .Include(a => a.VRExperience)
-                .SingleOrDefaultAsync(a => a.AttendeeID == attendeeId);
+                .SingleOrDefaultAsync(a => a.AttendeeID == AttendeeID);
 
             if (attendee == null)
             {
                 return NotFound();
             }
 
-            return View(attendee);
+            return View(attendee); // Ensure this view expects an Attendee model
         }
+
     }
 }
