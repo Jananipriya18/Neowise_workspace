@@ -1,0 +1,33 @@
+@model List<dotnetapp.Models.Class>
+
+<h2>Booked Classes</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Attendees Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var classItem in Model)
+            {
+                <tr>
+                    <td>@classItem.ExperienceName</td>
+                    <td>@classItem.StartTime</td>
+                    <td>@classItem.EndTime</td>
+                    <td>@(classItem.Attendees?.Count ?? 0)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No classes have been booked.</p>
+}
+<a id="backButton" asp-controller="Class" asp-action="AvailableClasses" class="btn btn-primary">Back to available classes</a>

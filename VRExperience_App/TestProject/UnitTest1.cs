@@ -43,14 +43,14 @@ namespace dotnetapp.Tests
         public void ClassEnrollmentForm_Post_Method_ValidClassId_RedirectsToEnrollmentConfirmation()
         {
             // Arrange
-            var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 };
+            var classEntity = new Class { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 };
             _context.Classes.Add(classEntity);
             _context.SaveChanges();
 
-            var student = new Student { StudentID = 1, Name = "John Doe", Email = "john@example.com" };
+            var student = new Attendee { AttendeeID = 1, Name = "John Doe", Email = "john@example.com" };
 
             // Act
-            var result = _controller.ClassEnrollmentForm(classEntity.ClassID, student) as RedirectToActionResult;
+            var result = _controller.ClassEnrollmentForm(classEntity.VRExperienceID, student) as RedirectToActionResult;
 
             // Assert
             Assert.NotNull(result);
@@ -62,9 +62,9 @@ namespace dotnetapp.Tests
         public void ClassEnrollmentForm_Get_Method_InvalidClassId_ReturnsNotFound()
         {
             // Arrange
-          var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5};
+          var classEntity = new Class { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5};
             // Act
-            var result = _controller.ClassEnrollmentForm(classEntity.ClassID) as NotFoundResult;
+            var result = _controller.ClassEnrollmentForm(classEntity.VRExperienceID) as NotFoundResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -72,15 +72,15 @@ namespace dotnetapp.Tests
 
 // Test if ClassEnrollmentForm action with valid data creates a student and redirects to EnrollmentConfirmation
 [Test]
-public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudentAndRedirects()
+public void ClassEnrollmentForm_Post_Method_ValidData_CreatesAttendeeAndRedirects()
 {
     // Arrange
-    var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
+    var classEntity = new Class { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 1 };
     _context.Classes.Add(classEntity);
     _context.SaveChanges();
 
     // Act
-    var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+    var result = _controller.ClassEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
 
     // Assert
     Assert.IsNotNull(result);
@@ -91,19 +91,19 @@ public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudentAndRedirects
 
 // Test if ClassEnrollmentForm action with valid data creates a student
 [Test]
-public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudent()
+public void ClassEnrollmentForm_Post_Method_ValidData_CreatesAttendee()
 {
     // Arrange
-    var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
+    var classEntity = new Class { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 1 };
     _context.Classes.Add(classEntity);
     _context.SaveChanges();
 
     // Act
-    var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+    var result = _controller.ClassEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
 
     // Assert
     // Check if the student was created and added to the database
-    var student = _context.Students.SingleOrDefault(s => s.ClassID == classEntity.ClassID);
+    var student = _context.Attendees.SingleOrDefault(s => s.VRExperienceID == classEntity.VRExperienceID);
     Assert.IsNotNull(student);
     Assert.AreEqual("John Doe", student.Name);
     Assert.AreEqual("john@example.com", student.Email);
@@ -111,38 +111,38 @@ public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudent()
 
 
 
-// Test if ClassEnrollmentForm action throws CookingClassBookingException after reaching capacity 0
+// Test if ClassEnrollmentForm action throws VRExperienceBookingException after reaching capacity 0
 [Test]
 public void ClassEnrollmentForm_Post_Method_ClassFull_ThrowsException()
 {
     // Arrange
-    var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0 };
+    var classEntity = new Class { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 0 };
     _context.Classes.Add(classEntity);
     _context.SaveChanges();
 
     // Act and Assert
-    Assert.Throws<CookingClassBookingException>(() =>
+    Assert.Throws<VRExperienceBookingException>(() =>
     {
         // Act
-        _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" });
+        _controller.ClassEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" });
     });
 }
 
-// This test checks if CookingClassBookingException throws the message "Maximum Number Reached" or not
-// Test if ClassEnrollmentForm action throws CookingClassBookingException with correct message after reaching capacity 0
+// This test checks if VRExperienceBookingException throws the message "Maximum Number Reached" or not
+// Test if ClassEnrollmentForm action throws VRExperienceBookingException with correct message after reaching capacity 0
 [Test]
 public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_message()
 {
     // Arrange
-    var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0, Students = new List<Student>() };
+    var classEntity = new Class { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 0, Attendees = new List<Attendee>() };
     _context.Classes.Add(classEntity);
     _context.SaveChanges();
 
     // Act and Assert
-    var exception = Assert.Throws<CookingClassBookingException>(() =>
+    var exception = Assert.Throws<VRExperienceBookingException>(() =>
     {
         // Act
-        _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" });
+        _controller.ClassEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" });
     });
 
     // Assert
@@ -152,7 +152,7 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
     
 // This test checks if EnrollmentConfirmation action returns NotFound for a non-existent student ID
         [Test]
-        public void EnrollmentConfirmation_Get_Method_NonexistentStudentId_ReturnsNotFound()
+        public void EnrollmentConfirmation_Get_Method_NonexistentAttendeeId_ReturnsNotFound()
         {
             // Arrange
             var studentId = 1;
@@ -164,12 +164,12 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
             Assert.IsNotNull(result);
         }
 
-        // This test checks the existence of the Student class
+        // This test checks the existence of the Attendee class
         [Test]
-        public void StudentClassExists()
+        public void AttendeeClassExists()
         {
             // Arrange
-            var student = new Student();
+            var student = new Attendee();
 
             // Assert
             Assert.IsNotNull(student);
@@ -199,10 +199,10 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
         }
         // This test checks the StartTime of Class property is string
        [Test]
-        public void Class_Properties_ClassID_ReturnExpectedDataTypes()
+        public void Class_Properties_VRExperienceID_ReturnExpectedDataTypes()
         {
             Class classEntity = new Class();
-            Assert.That(classEntity.ClassID, Is.TypeOf<int>());
+            Assert.That(classEntity.VRExperienceID, Is.TypeOf<int>());
         }
 
        // This test checks the StartTime of Class property is string
@@ -227,26 +227,26 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
             Assert.That(classEntity.EndTime, Is.TypeOf<string>());
         }
 
-        // This test checks the Capacity of Class property is int
+        // This test checks the MaxCapacity of Class property is int
         [Test]
-        public void Class_Properties_Capacity_ReturnExpectedDataTypes()
+        public void Class_Properties_MaxCapacity_ReturnExpectedDataTypes()
         {
             Class classEntity = new Class();
-            Assert.That(classEntity.Capacity, Is.TypeOf<int>());
+            Assert.That(classEntity.MaxCapacity, Is.TypeOf<int>());
         }
 
-        // This test checks the expected value of ClassID
+        // This test checks the expected value of VRExperienceID
         [Test]
-        public void Class_Properties_ClassID_ReturnExpectedValues()
+        public void Class_Properties_VRExperienceID_ReturnExpectedValues()
         {
             // Arrange
-            int expectedClassID = 100;
+            int expectedVRExperienceID = 100;
 
             Class classEntity = new Class
             {
-                ClassID = expectedClassID
+                VRExperienceID = expectedVRExperienceID
             };
-            Assert.AreEqual(expectedClassID, classEntity.ClassID);
+            Assert.AreEqual(expectedVRExperienceID, classEntity.VRExperienceID);
         }
 
         // This test checks the expected value of StartTime
@@ -275,72 +275,72 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
             Assert.AreEqual(expectedEndTime, classEntity.EndTime);
         }
 
-        // This test checks the expected value of Capacity
+        // This test checks the expected value of MaxCapacity
         [Test]
-        public void Class_Properties_Capacity_ReturnExpectedValues()
+        public void Class_Properties_MaxCapacity_ReturnExpectedValues()
         {
-            int expectedCapacity = 5;
+            int expectedMaxCapacity = 5;
             Class classEntity = new Class
             {
-                Capacity = expectedCapacity
+                MaxCapacity = expectedMaxCapacity
             };
-            Assert.AreEqual(expectedCapacity, classEntity.Capacity);
+            Assert.AreEqual(expectedMaxCapacity, classEntity.MaxCapacity);
         }
 
-        // This test checks the expected value of StudentID in Student class is int
+        // This test checks the expected value of AttendeeID in Attendee class is int
         [Test]
-        public void Student_Properties_StudentID_ReturnExpectedDataTypes()
+        public void Attendee_Properties_AttendeeID_ReturnExpectedDataTypes()
         {
-            Student student = new Student();
-            Assert.That(student.StudentID, Is.TypeOf<int>());
+            Attendee student = new Attendee();
+            Assert.That(student.AttendeeID, Is.TypeOf<int>());
         }
 
-        // This test checks the expected value of Name in Student class is string
+        // This test checks the expected value of Name in Attendee class is string
         [Test]
-        public void Student_Properties_Name_ReturnExpectedDataTypes()
+        public void Attendee_Properties_Name_ReturnExpectedDataTypes()
         {
-            Student student = new Student();
+            Attendee student = new Attendee();
             student.Name = "";
             Assert.That(student.Name, Is.TypeOf<string>());
         }
 
-        // This test checks the expected value of Email in Student class is string
+        // This test checks the expected value of Email in Attendee class is string
         [Test]
-        public void Student_Properties_Email_ReturnExpectedDataTypes()
+        public void Attendee_Properties_Email_ReturnExpectedDataTypes()
         {
-            Student student = new Student();
+            Attendee student = new Attendee();
             student.Email = "";
             Assert.That(student.Email, Is.TypeOf<string>());
         }
 
-        // This test checks the expected value of ClassID in Student class is int
+        // This test checks the expected value of VRExperienceID in Attendee class is int
         [Test]
-        public void Student_Properties_ClassID_ReturnExpectedDataTypes()
+        public void Attendee_Properties_VRExperienceID_ReturnExpectedDataTypes()
         {
-            Student student = new Student();
-            Assert.That(student.ClassID, Is.TypeOf<int>());
+            Attendee student = new Attendee();
+            Assert.That(student.VRExperienceID, Is.TypeOf<int>());
         }
 
-        // This test checks the expected value of Email in Student class is string
+        // This test checks the expected value of Email in Attendee class is string
         [Test]
-        public void Student_Properties_Email_ReturnExpectedValues()
+        public void Attendee_Properties_Email_ReturnExpectedValues()
         {
             string expectedEmail = "john@example.com";
 
-            Student student = new Student
+            Attendee student = new Attendee
             {
                 Email = expectedEmail
             };
             Assert.AreEqual(expectedEmail, student.Email);
         }
 
-        // This test checks the expected value of Class in Student class is another entity Class
+        // This test checks the expected value of Class in Attendee class is another entity Class
         [Test]
-        public void Student_Properties_Returns_Class_ExpectedValues()
+        public void Attendee_Properties_Returns_Class_ExpectedValues()
         {
             Class expectedClass = new Class();
 
-            Student student = new Student
+            Attendee student = new Attendee
             {
                 Class = expectedClass
             };
@@ -351,20 +351,20 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
         public void DeleteClass_Post_Method_ValidClassId_RemovesClassFromDatabase()
         {
             // Arrange
-            var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 };
+            var classEntity = new Class { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 };
             _context.Classes.Add(classEntity);
             _context.SaveChanges();
             var controller = new ClassController(_context);
 
             // Act
-            var result = controller.DeleteClassConfirmed(classEntity.ClassID).Result as RedirectToActionResult;
+            var result = controller.DeleteClassConfirmed(classEntity.VRExperienceID).Result as RedirectToActionResult;
 
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual("AvailableClasses", result.ActionName);
 
             // Check if the class was removed from the database
-            var deletedClass = _context.Classes.Find(classEntity.ClassID);
+            var deletedClass = _context.Classes.Find(classEntity.VRExperienceID);
             Assert.IsNull(deletedClass);
         }
 
@@ -376,9 +376,9 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
             TearDown();
             var classController = new ClassController(_context);
             _context.Classes.AddRange(
-                new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-                new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-                new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
+                new Class { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
+                new Class { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 5 },
+                new Class { VRExperienceID = 3, ExperienceName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", MaxCapacity = 5 }
             );
             _context.SaveChanges();
             string searchString = "Italian";
@@ -391,7 +391,7 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<ViewResult>(result);
             Assert.AreEqual(1, classes.Count);
-            Assert.AreEqual("Italian Cooking", classes.First().ClassName);
+            Assert.AreEqual("Italian Cooking", classes.First().ExperienceName);
         }
 
 
@@ -403,9 +403,9 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
             TearDown();
             var classController = new ClassController(_context);
             _context.Classes.AddRange(
-                new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-                new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-                new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
+                new Class { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
+                new Class { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 5 },
+                new Class { VRExperienceID = 3, ExperienceName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", MaxCapacity = 5 }
             );
             _context.SaveChanges();
             string searchString = string.Empty;
@@ -428,9 +428,9 @@ public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_messa
             TearDown();
             var classController = new ClassController(_context);
             _context.Classes.AddRange(
-                new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-                new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-                new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
+                new Class { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
+                new Class { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 5 },
+                new Class { VRExperienceID = 3, ExperienceName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", MaxCapacity = 5 }
             );
             _context.SaveChanges();
             string searchString = "NonExistentClass";

@@ -366,7 +366,7 @@ public async Task Backend_Test_Get_All_Colleges_Without_Token_By_Manager_Returns
                     { "Password", "password1" },
                     { "Email", "user1@example.com" },
                     { "MobileNumber", "1234567890" },
-                    { "UserRole", "Student" }
+                    { "UserRole", "Attendee" }
                 },
                 new Dictionary<string, object>
                 {
@@ -375,7 +375,7 @@ public async Task Backend_Test_Get_All_Colleges_Without_Token_By_Manager_Returns
                     { "Password", "password2" },
                     { "Email", "user2@example.com" },
                     { "MobileNumber", "0987654321" },
-                    { "UserRole", "Student" }
+                    { "UserRole", "Attendee" }
                 }
             };
 
@@ -514,7 +514,7 @@ public async Task Backend_Test_Get_All_Colleges_Without_Token_By_Manager_Returns
                 { "Password", "password1" },
                 { "Email", "user1@example.com" },
                 { "MobileNumber", "1234567890" },
-                { "UserRole", "Student" }
+                { "UserRole", "Attendee" }
             };
 
             var user = new User();
@@ -618,7 +618,7 @@ public async Task Backend_Test_Get_All_Colleges_Without_Token_By_Manager_Returns
                 { "Password", "password1" },
                 { "Email", "user1@example.com" },
                 { "MobileNumber", "1234567890" },
-                { "UserRole", "Student" }
+                { "UserRole", "Attendee" }
             };
 
             var user = new User();
