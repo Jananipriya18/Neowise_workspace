@@ -1,10 +1,26 @@
-@model dotnetapp.Models.Attendee
+@model dotnetapp.Models.VRExperience
 
-<h2>Enrollment Confirmation</h2>
+<h1>VR Experience Enrollment</h1>
 
-<p>You have successfully enrolled in the class:</p>
-<p>Class Name: @Model.Class.ExperienceName</p>
-<p>Start Time: @Model.Class.StartTime</p>
-<p>End Time: @Model.Class.EndTime</p>
-
-<a id="backButton" asp-controller="Class" asp-action="AvailableClasses" class="btn btn-primary">Back to available classes</a>
+<form asp-controller="Booking" asp-action="ExperienceEnrollmentForm" method="post" class="mb-4">
+    <input type="hidden" asp-for="VRExperienceID" />
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Name">Name:</label>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Email">Email:</label>
+            <input type="email" asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PhoneNumber">Phone Number:</label>
+            <input type="text" asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Enroll</button>
+    <a asp-action="AvailableExperiences" class="btn btn-secondary">Back to Available Experiences</a>
+</form>

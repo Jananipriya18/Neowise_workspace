@@ -1,26 +1,26 @@
-@model List<dotnetapp.Models.Class>
+@model List<dotnetapp.Models.VRExperience>
 
-<h2>Booked Classes</h2>
+<h2>Booked VR Experiences</h2>
 
 @if (Model.Any())
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Class Name</th>
+                <th>Experience Name</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Attendees Count</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var classItem in Model)
+            @foreach (var experience in Model)
             {
                 <tr>
-                    <td>@classItem.ExperienceName</td>
-                    <td>@classItem.StartTime</td>
-                    <td>@classItem.EndTime</td>
-                    <td>@(classItem.Attendees?.Count ?? 0)</td>
+                    <td>@experience.ExperienceName</td>
+                    <td>@experience.StartTime</td>
+                    <td>@experience.EndTime</td>
+                    <td>@(experience.Attendees?.Count ?? 0)</td>
                 </tr>
             }
         </tbody>
@@ -28,6 +28,7 @@
 }
 else
 {
-    <p>No classes have been booked.</p>
+    <p>No experiences have been booked.</p>
 }
-<a id="backButton" asp-controller="Class" asp-action="AvailableClasses" class="btn btn-primary">Back to available classes</a>
+
+<a asp-controller="VRExperience" asp-action="AvailableExperiences" class="btn btn-primary">Back to Available Experiences</a>

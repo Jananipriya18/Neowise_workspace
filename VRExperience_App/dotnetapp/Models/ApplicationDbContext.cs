@@ -16,9 +16,9 @@ namespace dotnetapp.Models
         {
             // Configure the relationships between entities
             modelBuilder.Entity<Attendee>()
-                .HasOne(s => s.Class)
-                .WithMany(c => c.Attendees)
-                .HasForeignKey(s => s.VRExperienceID);
+                .HasOne(a => a.VRExperience)
+                .WithMany(v => v.Attendees)
+                .HasForeignKey(a => a.VRExperienceID);
 
             // Seed data for Classes
             modelBuilder.Entity<VRExperience>().HasData(

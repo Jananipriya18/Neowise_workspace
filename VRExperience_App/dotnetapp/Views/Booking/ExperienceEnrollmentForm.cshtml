@@ -1,36 +1,26 @@
-@model dotnetapp.Models.Attendee
+@model dotnetapp.Models.VRExperience
 
-<h2>Class Enrollment Form</h2>
+<h1>VR Experience Enrollment</h1>
 
-@using (Html.BeginForm("ClassEnrollmentForm", "Booking", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.HiddenFor(model => model.VRExperienceID)
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+<form asp-controller="Booking" asp-action="ExperienceEnrollmentForm" method="post" class="mb-4">
+    <input type="hidden" asp-for="VRExperienceID" />
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Name">Name:</label>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Email">Email:</label>
+            <input type="email" asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PhoneNumber">Phone Number:</label>
+            <input type="text" asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-primary">Enroll</button>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink("Back to available classes", "AvailableClasses", "Class", null, new { id = "backtoclass", @class = "btn btn-secondary" })
-        </div>
-    </div>
-}
+    <button type="submit" class="btn btn-primary">Enroll</button>
+    <a asp-action="AvailableExperiences" class="btn btn-secondary">Back to Available Experiences</a>
+</form>
