@@ -21,13 +21,14 @@ namespace dotnetapp.Models
                 .HasForeignKey(s => s.VRExperienceID);
 
             // Seed data for Classes
-            modelBuilder.Entity<Class>().HasData(
-                new Class { VRExperienceID = 1, ExperienceName = "Italian Cooking Basics", StartTime = "2023-01-01 10:00 AM", EndTime = "2023-01-01 12:00 PM", MaxCapacity = 8 },
-                new Class { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "2023-01-11 10:00 AM", EndTime = "2023-01-11 01:00 PM", MaxCapacity = 8 },
-                new Class { VRExperienceID = 3, ExperienceName = "Sushi Rolling Techniques", StartTime = "2023-01-21 10:00 AM", EndTime = "2023-01-21 12:00 PM", MaxCapacity = 8 },
-                new Class { VRExperienceID = 4, ExperienceName = "Indian Curry Mastery", StartTime = "2023-01-31 10:00 AM", EndTime = "2023-01-31 12:00 PM", MaxCapacity = 8 },
-                new Class { VRExperienceID = 5, ExperienceName = "Mexican Street Food", StartTime = "2023-02-10 10:00 AM", EndTime = "2023-02-10 12:00 PM", MaxCapacity = 8 }
+            modelBuilder.Entity<VRExperience>().HasData(
+                new VRExperience { VRExperienceID = 1, ExperienceName = "Virtual Space Exploration", StartTime = new DateTime(2023, 1, 1, 10, 0, 0), EndTime = new DateTime(2023, 1, 1, 12, 0, 0), MaxCapacity = 10, Location = "Virtual", Description = "Explore the wonders of space in a fully immersive virtual reality experience." },
+                new VRExperience { VRExperienceID = 2, ExperienceName = "Historical VR Tour", StartTime = new DateTime(2023, 1, 11, 10, 0, 0), EndTime = new DateTime(2023, 1, 11, 13, 0, 0), MaxCapacity = 10, Location = "Virtual", Description = "Take a tour through history with this engaging VR experience." },
+                new VRExperience { VRExperienceID = 3, ExperienceName = "Underwater Adventure", StartTime = new DateTime(2023, 2, 1, 14, 0, 0), EndTime = new DateTime(2023, 2, 1, 16, 0, 0), MaxCapacity = 10, Location = "Virtual", Description = "Dive into the depths of the ocean and explore underwater life like never before." },
+                new VRExperience { VRExperienceID = 4, ExperienceName = "Mountain Climbing Expedition", StartTime = new DateTime(2023, 2, 15, 9, 0, 0), EndTime = new DateTime(2023, 2, 15, 11, 0, 0), MaxCapacity = 10, Location = "Virtual", Description = "Experience the thrill of mountain climbing from the safety of your home." },
+                new VRExperience { VRExperienceID = 5, ExperienceName = "Ancient Rome Tour", StartTime = new DateTime(2023, 3, 1, 10, 0, 0), EndTime = new DateTime(2023, 3, 1, 12, 0, 0), MaxCapacity = 10, Location = "Virtual", Description = "Travel back in time to ancient Rome and witness its grandeur and history." }
             );
+
 
             base.OnModelCreating(modelBuilder);
         }
