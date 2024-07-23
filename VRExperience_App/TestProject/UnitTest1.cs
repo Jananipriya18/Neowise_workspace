@@ -4,8 +4,9 @@ using dotnetapp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace dotnetapp.Tests
 {
@@ -33,414 +34,237 @@ namespace dotnetapp.Tests
         {
             // Clean up the test database context
             _context.Database.EnsureDeleted();
-            // _context.Dispose();
         }
 
-  
-
-// Test if BatchEnrollmentForm action with valid BatchID redirects to EnrollmentConfirmation action with correct route values
- [Test]
-        public void VRExperienceEnrollmentForm_Post_Method_ValidVRExperienceId_RedirectsToEnrollmentConfirmation()
+        // Test if ExperienceEnrollmentForm action with valid VRExperienceID redirects to EnrollmentConfirmation action
+        [Test]
+        public void ExperienceEnrollmentForm_Post_Method_ValidVRExperienceId_RedirectsToEnrollmentConfirmation()
         {
-            var vrExperience = new VRExperience { VRExperienceID = 100, ExperienceName = "Virtual Reality Adventure", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5, Location = "DemoLocation", Description = "DemoDescription" };
+            var vrExperience = new VRExperience 
+            { 
+                VRExperienceID = 100, 
+                ExperienceName = "Virtual Reality Adventure", 
+                StartTime = "10:00 AM", 
+                EndTime = "12:00 PM", 
+                MaxCapacity = 5, 
+                Location = "DemoLocation", 
+                Description = "DemoDescription" 
+            };
             _context.VRExperiences.Add(vrExperience);
             _context.SaveChanges();
 
-            var attendee = new Attendee { AttendeeID = 1, Name = "John Doe", Email = "john@example.com",PhoneNumber = "9876543210", VRExperienceID = VRExperience.VRExperienceID };
+            var attendee = new Attendee 
+            { 
+                AttendeeID = 1, 
+                Name = "John Doe", 
+                Email = "john@example.com",
+                PhoneNumber = "9876543210", 
+                VRExperienceID = vrExperience.VRExperienceID 
+            };
 
-            var result = _controller.ExperienceEnrollmentForm(VRExperience.VRExperienceID, attendee) as RedirectToActionResult;
+            var result = _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, attendee) as RedirectToActionResult;
 
             Assert.NotNull(result);
             Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
         }
 
-// //This test checks the invalid classid returns the NotFoundresult or not
-//         [Test]
-//         public void VRExperienceEnrollmentForm_Get_Method_InvalidVRExperienceId_ReturnsNotFound()
-//         {
-//             // Arrange
-//           var classEntity = new VRExperience { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5};
-//             // Act
-//             var result = _controller.VRExperienceEnrollmentForm(classEntity.VRExperienceID) as NotFoundResult;
+        // Test if ExperienceEnrollmentForm action with invalid VRExperienceID returns NotFound
+        [Test]
+        public void ExperienceEnrollmentForm_Get_Method_InvalidVRExperienceId_ReturnsNotFound()
+        {
+            // Act
+            var result = _controller.ExperienceEnrollmentForm(999) as NotFoundResult; // Using a non-existent ID
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+        }
 
-// // Test if VRExperienceEnrollmentForm action with valid data creates a student and redirects to EnrollmentConfirmation
-// [Test]
-// public void VRExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendeeAndRedirects()
-// {
-//     // Arrange
-//     var classEntity = new VRExperience { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 1 };
-//     _context.Experiences.Add(classEntity);
-//     _context.SaveChanges();
+        // Test if ExperienceEnrollmentForm action with valid data creates an attendee and redirects to EnrollmentConfirmation
+        [Test]
+        public void ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendeeAndRedirects()
+        {
+            // Arrange
+            var vrExperience = new VRExperience { VRExperienceID = 100, ExperienceName = "Virtual Reality Adventure", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 1 };
+            _context.VRExperiences.Add(vrExperience);
+            _context.SaveChanges();
 
-//     // Act
-//     var result = _controller.VRExperienceEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+            // Act
+            var result = _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
 
-//     // Assert
-//     Assert.IsNotNull(result);
-//     Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
 
-// }
+            // Check if the attendee was created and added to the database
+            var attendee = _context.Attendees.SingleOrDefault(a => a.VRExperienceID == vrExperience.VRExperienceID);
+            Assert.IsNotNull(attendee);
+            Assert.AreEqual("John Doe", attendee.Name);
+            Assert.AreEqual("john@example.com", attendee.Email);
+        }
 
+        // Test if ExperienceEnrollmentForm action throws VRExperienceBookingException after reaching capacity 0
+        [Test]
+        public void ExperienceEnrollmentForm_Post_Method_VRExperienceFull_ThrowsException()
+        {
+            // Arrange
+            var vrExperience = new VRExperience { VRExperienceID = 100, ExperienceName = "Virtual Reality Adventure", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 0 };
+            _context.VRExperiences.Add(vrExperience);
+            _context.SaveChanges();
 
-// // Test if VRExperienceEnrollmentForm action with valid data creates a student
-// [Test]
-// public void VRExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendee()
-// {
-//     // Arrange
-//     var classEntity = new VRExperience { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 1 };
-//     _context.Experiences.Add(classEntity);
-//     _context.SaveChanges();
+            // Act and Assert
+            var exception = Assert.Throws<VRExperienceBookingException>(() =>
+            {
+                _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" });
+            });
 
-//     // Act
-//     var result = _controller.VRExperienceEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+            Assert.AreEqual("Maximum Number Reached", exception.Message);
+        }
 
-//     // Assert
-//     // Check if the student was created and added to the database
-//     var student = _context.Attendees.SingleOrDefault(s => s.VRExperienceID == classEntity.VRExperienceID);
-//     Assert.IsNotNull(student);
-//     Assert.AreEqual("John Doe", student.Name);
-//     Assert.AreEqual("john@example.com", student.Email);
-// }
+        // Test if EnrollmentConfirmation action returns NotFound for a non-existent attendee ID
+        [Test]
+        public void EnrollmentConfirmation_Get_Method_NonexistentAttendeeId_ReturnsNotFound()
+        {
+            // Arrange
+            var attendeeId = 999; // Non-existent attendee ID
 
+            // Act
+            var result = _controller.EnrollmentConfirmation(attendeeId) as NotFoundResult;
 
+            // Assert
+            Assert.IsNotNull(result);
+        }
 
-// // Test if VRExperienceEnrollmentForm action throws VRExperienceBookingException after reaching capacity 0
-// [Test]
-// public void VRExperienceEnrollmentForm_Post_Method_VRExperienceFull_ThrowsException()
-// {
-//     // Arrange
-//     var classEntity = new VRExperience { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 0 };
-//     _context.Experiences.Add(classEntity);
-//     _context.SaveChanges();
+        // Test if Attendee class exists
+        [Test]
+        public void Attendee_Class_Exists()
+        {
+            // Arrange
+            var attendee = new Attendee();
 
-//     // Act and Assert
-//     Assert.Throws<VRExperienceBookingException>(() =>
-//     {
-//         // Act
-//         _controller.VRExperienceEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" });
-//     });
-// }
+            // Assert
+            Assert.IsNotNull(attendee);
+        }
 
-// // This test checks if VRExperienceBookingException throws the message "Maximum Number Reached" or not
-// // Test if VRExperienceEnrollmentForm action throws VRExperienceBookingException with correct message after reaching capacity 0
-// [Test]
-// public void VRExperienceEnrollmentForm_VRExperienceFull_Post_Method_ThrowsException_with_message()
-// {
-//     // Arrange
-//     var classEntity = new VRExperience { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 0, Attendees = new List<Attendee>() };
-//     _context.Experiences.Add(classEntity);
-//     _context.SaveChanges();
+        // Test if VRExperience class exists
+        [Test]
+        public void VRExperience_Class_Exists()
+        {
+            // Arrange
+            var vrExperience = new VRExperience();
 
-//     // Act and Assert
-//     var exception = Assert.Throws<VRExperienceBookingException>(() =>
-//     {
-//         // Act
-//         _controller.VRExperienceEnrollmentForm(classEntity.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" });
-//     });
+            // Assert
+            Assert.IsNotNull(vrExperience);
+        }
 
-//     // Assert
-//     Assert.AreEqual("Maximum Number Reached", exception.Message);
-// }
-
-    
-// // This test checks if EnrollmentConfirmation action returns NotFound for a non-existent student ID
-//         [Test]
-//         public void EnrollmentConfirmation_Get_Method_NonexistentAttendeeId_ReturnsNotFound()
-//         {
-//             // Arrange
-//             var studentId = 1;
-
-//             // Act
-//             var result = _controller.EnrollmentConfirmation(studentId) as NotFoundResult;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//         }
-
-//         // This test checks the existence of the Attendee class
-//         [Test]
-//         public void AttendeeVRExperienceExists()
-//         {
-//             // Arrange
-//             var student = new Attendee();
-
-//             // Assert
-//             Assert.IsNotNull(student);
-//         }
-
-//         // This test checks the existence of the VRExperience class
-//         [Test]
-//         public void VRExperienceVRExperienceExists()
-//         {
-//             // Arrange
-//             var classEntity = new VRExperience();
-
-//             // Assert
-//             Assert.IsNotNull(classEntity);
-//         }
- 
-//  //This test check the exists of ApplicationDbContext class has DbSet of Experiences
-//  [Test]
-//         public void ApplicationDbContextContainsDbSetVRExperienceProperty()
-//         {
-
-//             var propertyInfo = _context.GetType().GetProperty("Experiences");
+        // Test if ApplicationDbContext contains DbSet<VRExperience>
+        [Test]
+        public void ApplicationDbContextContainsDbSetVRExperienceProperty()
+        {
+            var propertyInfo = _context.GetType().GetProperty("VRExperiences");
         
-//             Assert.IsNotNull(propertyInfo);
-//             Assert.AreEqual(typeof(DbSet<VRExperience>), propertyInfo.PropertyType);
-                   
-//         }
-//         // This test checks the StartTime of VRExperience property is string
-//        [Test]
-//         public void VRExperience_Properties_VRExperienceID_ReturnExpectedDataTypes()
-//         {
-//             VRExperience classEntity = new VRExperience();
-//             Assert.That(classEntity.VRExperienceID, Is.TypeOf<int>());
-//         }
+            Assert.IsNotNull(propertyInfo);
+            Assert.AreEqual(typeof(DbSet<VRExperience>), propertyInfo.PropertyType);
+        }
 
-//        // This test checks the StartTime of VRExperience property is string
-//         [Test]
-//         public void VRExperience_Properties_StartTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             VRExperience classEntity = new VRExperience { StartTime = "10:00 AM" };
+        // Test VRExperience properties return expected data types
+        [Test]
+        public void VRExperience_Properties_ReturnExpectedDataTypes()
+        {
+            var vrExperience = new VRExperience();
 
-//             // Assert
-//             Assert.That(classEntity.StartTime, Is.TypeOf<string>());
-//         }
+            Assert.That(vrExperience.VRExperienceID, Is.TypeOf<int>());
+            Assert.That(vrExperience.StartTime, Is.TypeOf<string>());
+            Assert.That(vrExperience.EndTime, Is.TypeOf<string>());
+            Assert.That(vrExperience.MaxCapacity, Is.TypeOf<int>());
+        }
 
-//         // This test checks the EndTime of VRExperience property is string
-//         [Test]
-//         public void VRExperience_Properties_EndTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             VRExperience classEntity = new VRExperience { EndTime = "12:00 PM" };
+        // Test VRExperience properties return expected values
+        [Test]
+        public void VRExperience_Properties_ReturnExpectedValues()
+        {
+            var vrExperience = new VRExperience
+            {
+                VRExperienceID = 100,
+                StartTime = "10:00 AM",
+                EndTime = "12:00 PM",
+                MaxCapacity = 5
+            };
 
-//             // Assert
-//             Assert.That(classEntity.EndTime, Is.TypeOf<string>());
-//         }
+            Assert.AreEqual(100, vrExperience.VRExperienceID);
+            Assert.AreEqual("10:00 AM", vrExperience.StartTime);
+            Assert.AreEqual("12:00 PM", vrExperience.EndTime);
+            Assert.AreEqual(5, vrExperience.MaxCapacity);
+        }
 
-//         // This test checks the MaxCapacity of VRExperience property is int
-//         [Test]
-//         public void VRExperience_Properties_MaxCapacity_ReturnExpectedDataTypes()
-//         {
-//             VRExperience classEntity = new VRExperience();
-//             Assert.That(classEntity.MaxCapacity, Is.TypeOf<int>());
-//         }
+        // Test Attendee properties return expected data types
+        [Test]
+        public void Attendee_Properties_ReturnExpectedDataTypes()
+        {
+            var attendee = new Attendee();
 
-//         // This test checks the expected value of VRExperienceID
-//         [Test]
-//         public void VRExperience_Properties_VRExperienceID_ReturnExpectedValues()
-//         {
-//             // Arrange
-//             int expectedVRExperienceID = 100;
+            Assert.That(attendee.AttendeeID, Is.TypeOf<int>());
+            Assert.That(attendee.Name, Is.TypeOf<string>());
+            Assert.That(attendee.Email, Is.TypeOf<string>());
+            Assert.That(attendee.VRExperienceID, Is.TypeOf<int>());
+        }
 
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 VRExperienceID = expectedVRExperienceID
-//             };
-//             Assert.AreEqual(expectedVRExperienceID, classEntity.VRExperienceID);
-//         }
+        // Test Attendee properties return expected values
+        [Test]
+        public void Attendee_Properties_ReturnExpectedValues()
+        {
+            var attendee = new Attendee
+            {
+                Email = "john@example.com",
+                VRExperience = new VRExperience()
+            };
 
-//         // This test checks the expected value of StartTime
-//         [Test]
-//         public void VRExperience_Properties_StartTime_ReturnExpectedValues()
-//         {
-//             string expectedStartTime = "10:00 AM";
+            Assert.AreEqual("john@example.com", attendee.Email);
+            Assert.IsNotNull(attendee.VRExperience);
+        }
 
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 StartTime = expectedStartTime
-//             };
-//             Assert.AreEqual(expectedStartTime, classEntity.StartTime);
-//         }
+        // Test if DeleteVRExperience action removes VRExperience from database
+        [Test]
+        public async Task DeleteVRExperience_Post_Method_ValidVRExperienceId_RemovesVRExperienceFromDatabase()
+        {
+            // Arrange
+            var vrExperience = new VRExperience { VRExperienceID = 100, ExperienceName = "Virtual Reality Adventure", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 };
+            _context.VRExperiences.Add(vrExperience);
+            _context.SaveChanges();
+            var controller = new VRExperienceController(_context);
 
-//         // This test checks the expected value of EndTime
-//         [Test]
-//         public void VRExperience_Properties_EndTime_ReturnExpectedValues()
-//         {
-//             string expectedEndTime = "12:00 PM";
+            // Act
+            var result = await controller.DeleteVRExperienceConfirmed(vrExperience.VRExperienceID) as RedirectToActionResult;
 
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 EndTime = expectedEndTime
-//             };
-//             Assert.AreEqual(expectedEndTime, classEntity.EndTime);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("AvailableExperiences", result.ActionName);
 
-//         // This test checks the expected value of MaxCapacity
-//         [Test]
-//         public void VRExperience_Properties_MaxCapacity_ReturnExpectedValues()
-//         {
-//             int expectedMaxCapacity = 5;
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 MaxCapacity = expectedMaxCapacity
-//             };
-//             Assert.AreEqual(expectedMaxCapacity, classEntity.MaxCapacity);
-//         }
+            // Check if the VRExperience was removed from the database
+            var deletedVRExperience = _context.VRExperiences.Find(vrExperience.VRExperienceID);
+            Assert.IsNull(deletedVRExperience);
+        }
 
-//         // This test checks the expected value of AttendeeID in Attendee class is int
-//         [Test]
-//         public void Attendee_Properties_AttendeeID_ReturnExpectedDataTypes()
-//         {
-//             Attendee student = new Attendee();
-//             Assert.That(student.AttendeeID, Is.TypeOf<int>());
-//         }
+        // Test if search by name returns matching experiences
+        [Test]
+        public async Task AvailableExperiences_SearchByName_ReturnsMatchingExperiences()
+        {
+            // Arrange
+            var controller = new VRExperienceController(_context);
+            _context.VRExperiences.AddRange(
+                new VRExperience { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
+                new VRExperience { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 10 }
+            );
+            _context.SaveChanges();
 
-//         // This test checks the expected value of Name in Attendee class is string
-//         [Test]
-//         public void Attendee_Properties_Name_ReturnExpectedDataTypes()
-//         {
-//             Attendee student = new Attendee();
-//             student.Name = "";
-//             Assert.That(student.Name, Is.TypeOf<string>());
-//         }
+            // Act
+            var result = await controller.AvailableExperiences("Italian") as ViewResult;
 
-//         // This test checks the expected value of Email in Attendee class is string
-//         [Test]
-//         public void Attendee_Properties_Email_ReturnExpectedDataTypes()
-//         {
-//             Attendee student = new Attendee();
-//             student.Email = "";
-//             Assert.That(student.Email, Is.TypeOf<string>());
-//         }
-
-//         // This test checks the expected value of VRExperienceID in Attendee class is int
-//         [Test]
-//         public void Attendee_Properties_VRExperienceID_ReturnExpectedDataTypes()
-//         {
-//             Attendee student = new Attendee();
-//             Assert.That(student.VRExperienceID, Is.TypeOf<int>());
-//         }
-
-//         // This test checks the expected value of Email in Attendee class is string
-//         [Test]
-//         public void Attendee_Properties_Email_ReturnExpectedValues()
-//         {
-//             string expectedEmail = "john@example.com";
-
-//             Attendee student = new Attendee
-//             {
-//                 Email = expectedEmail
-//             };
-//             Assert.AreEqual(expectedEmail, student.Email);
-//         }
-
-//         // This test checks the expected value of VRExperience in Attendee class is another entity VRExperience
-//         [Test]
-//         public void Attendee_Properties_Returns_VRExperience_ExpectedValues()
-//         {
-//             VRExperience expectedVRExperience = new VRExperience();
-
-//             Attendee student = new Attendee
-//             {
-//                 VRExperience = expectedVRExperience
-//             };
-//             Assert.AreEqual(expectedVRExperience, student.VRExperience);
-//         }
-
-//         [Test]
-//         public void DeleteVRExperience_Post_Method_ValidVRExperienceId_RemovesVRExperienceFromDatabase()
-//         {
-//             // Arrange
-//             var classEntity = new VRExperience { VRExperienceID = 100, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 };
-//             _context.Experiences.Add(classEntity);
-//             _context.SaveChanges();
-//             var controller = new VRExperienceController(_context);
-
-//             // Act
-//             var result = controller.DeleteVRExperienceConfirmed(classEntity.VRExperienceID).Result as RedirectToActionResult;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.AreEqual("AvailableExperiences", result.ActionName);
-
-//             // Check if the class was removed from the database
-//             var deletedVRExperience = _context.Experiences.Find(classEntity.VRExperienceID);
-//             Assert.IsNull(deletedVRExperience);
-//         }
-
-//         // Test if search by class name returns matching classes
-//         [Test]
-//         public async Task AvailableExperiences_SearchByName_ReturnsMatchingExperiences()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new VRExperienceController(_context);
-//             _context.Experiences.AddRange(
-//                 new VRExperience { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
-//                 new VRExperience { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 5 },
-//                 new VRExperience { VRExperienceID = 3, ExperienceName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", MaxCapacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = "Italian";
-
-//             // Act
-//             var result = await classController.AvailableExperiences(searchString) as ViewResult;
-//             var classes = result.Model as List<VRExperience>;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(1, classes.Count);
-//             Assert.AreEqual("Italian Cooking", classes.First().ExperienceName);
-//         }
-
-
-//         // Test if empty search string returns all classes
-//         [Test]
-//         public async Task AvailableExperiences_EmptySearchString_ReturnsAllExperiences()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new VRExperienceController(_context);
-//             _context.Experiences.AddRange(
-//                 new VRExperience { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
-//                 new VRExperience { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 5 },
-//                 new VRExperience { VRExperienceID = 3, ExperienceName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", MaxCapacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = string.Empty;
-
-//             // Act
-//             var result = await classController.AvailableExperiences(searchString) as ViewResult;
-//             var classes = result.Model as List<VRExperience>;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(3, classes.Count);
-//         }
-
-//         // Test if no matching classes returns empty list
-//         [Test]
-//         public async Task AvailableExperiences_NoMatchingExperiences_ReturnsEmptyList()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new VRExperienceController(_context);
-//             _context.Experiences.AddRange(
-//                 new VRExperience { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
-//                 new VRExperience { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 5 },
-//                 new VRExperience { VRExperienceID = 3, ExperienceName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", MaxCapacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = "NonExistentVRExperience";
-
-//             // Act
-//             var result = await classController.AvailableExperiences(searchString) as ViewResult;
-//             var classes = result.Model as List<VRExperience>;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(0, classes.Count);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+            var model = result.Model as IEnumerable<VRExperience>;
+            Assert.IsNotNull(model);
+            Assert.AreEqual(1, model.Count());
+            Assert.AreEqual("Italian Cooking", model.First().ExperienceName);
+        }
     }
 }
-
