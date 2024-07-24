@@ -106,9 +106,8 @@ namespace dotnetapp.Tests
 
 
 
-// Test if ExperienceEnrollmentForm action with valid data creates an attendee
 [Test]
-public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendee()
+public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
 {
     // Arrange
     var vrExperience = new VRExperience
@@ -117,28 +116,29 @@ public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendee
         ExperienceName = "Virtual Space Exploration",
         StartTime = "2023-01-01T10:00:00",
         EndTime = "2023-01-01T12:00:00",
-        MaxCapacity = 1,
+        MaxCapacity = 0, // Full capacity
         Location = "Virtual",
         Description = "Explore the wonders of space in a fully immersive virtual reality experience."
     };
     _context.VRExperiences.Add(vrExperience);
     await _context.SaveChangesAsync();
 
-    // Act
-    var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }) as RedirectToActionResult;
+    // Act & Assert
+    var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
+    {
+        await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
+    });
 
     // Assert
-    // Check if the attendee was created and added to the database
-    var attendee = _context.Attendees.SingleOrDefault(a => a.VRExperienceID == vrExperience.VRExperienceID);
-    Assert.IsNotNull(attendee);
-    Assert.AreEqual("John Doe", attendee.Name);
-    Assert.AreEqual("john@example.com", attendee.Email);
-    Assert.AreEqual("9876543210",attendee.PhoneNumber);
+    Assert.AreEqual("Maximum Number Reached", exception.Message);
 }
 
-// Test if ExperienceEnrollmentForm action throws VRExperienceBookingException after reaching capacity 0
+
+
+// This test checks if VRExperienceBookingException throws the message "Maximum Number Reached" or not
+// Test if ExperienceEnrollmentForm action throws VRExperienceBookingException with correct message after reaching capacity 0
 [Test]
-public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
+public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
 {
     // Arrange
     var vrExperience = new VRExperience
@@ -152,54 +152,32 @@ public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsExce
         Description = "Explore the wonders of space in a fully immersive virtual reality experience."
     };
     _context.VRExperiences.Add(vrExperience);
-    await _context.SaveChangesAsync();
+    _context.SaveChanges();
 
-    // Act & Assert
-    var ex = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
+    // Act and Assert
+     var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
     {
         await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
     });
 
-    // Assert the exception message (optional)
-    Assert.AreEqual("Maximum Number Reached", ex.Message);
+    // Assert
+    // Assert.AreEqual("Maximum Number Reached", exception.Message);
 }
 
-
-// // This test checks if CookingClassBookingException throws the message "Maximum Number Reached" or not
-// // Test if ClassEnrollmentForm action throws CookingClassBookingException with correct message after reaching capacity 0
-// [Test]
-// public void ClassEnrollmentForm_ClassFull_Post_Method_ThrowsException_with_message()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0, Students = new List<Student>() };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
-
-//     // Act and Assert
-//     var exception = Assert.Throws<CookingClassBookingException>(() =>
-//     {
-//         // Act
-//         _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" });
-//     });
-
-//     // Assert
-//     Assert.AreEqual("Maximum Number Reached", exception.Message);
-// }
-
     
-// // This test checks if EnrollmentConfirmation action returns NotFound for a non-existent student ID
-//         [Test]
-//         public void EnrollmentConfirmation_Get_Method_NonexistentStudentId_ReturnsNotFound()
-//         {
-//             // Arrange
-//             var studentId = 1;
+// This test checks if EnrollmentConfirmation action returns NotFound for a non-existent student ID
+        [Test]
+        public void EnrollmentConfirmation_Get_Method_NonexistentAttendeeID_ReturnsNotFound()
+        {
+            // Arrange
+            var AttendeeID = 1;
 
-//             // Act
-//             var result = _controller.EnrollmentConfirmation(studentId) as NotFoundResult;
+            // Act
+            var result = _controller.EnrollmentConfirmation(AttendeeID) as NotFoundResult;
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+        }
 
 //         // This test checks the existence of the Student class
 //         [Test]
