@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
     // Test case to verify the existence of correct heading, table, and back button in the booked batches page
     const page = await browser.newPage();
     try {
-      await page.goto('https://8081-abfdabeabcbaed313801225dbafbddbadadbdone.premiumproject.examly.io/Class/BookedClasses');
+      await page.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/VRExperience/BookedExperiences');
       await page.setViewport({
         width: 1200,
         height: 1200,
@@ -32,7 +32,7 @@ const puppeteer = require('puppeteer');
     // Test case to verify the existence of book and delete buttons in the available batches page
     const page1 = await browser.newPage();
     try {
-      await page1.goto('https://8081-abfdabeabcbaed313801225dbafbddbadadbdone.premiumproject.examly.io/');
+      await page1.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page1.setViewport({
         width: 1200,
         height: 1200,
@@ -55,7 +55,7 @@ const puppeteer = require('puppeteer');
     // Test case to verify the existence of back button and heading in the batch enrollment form page
     const page2 = await browser.newPage();
     try {
-      await page2.goto('https://8081-abfdabeabcbaed313801225dbafbddbadadbdone.premiumproject.examly.io/');
+      await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page2.setViewport({
         width: 1200,
         height: 1200,
@@ -79,7 +79,7 @@ const puppeteer = require('puppeteer');
 
     const page3 = await browser.newPage();
     try {
-      await page3.goto('https://8081-abfdabeabcbaed313801225dbafbddbadadbdone.premiumproject.examly.io/');
+      await page3.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page3.setViewport({
         width: 1200,
         height: 1200,
