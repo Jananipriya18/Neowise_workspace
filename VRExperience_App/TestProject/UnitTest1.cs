@@ -136,10 +136,9 @@ public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendee
     Assert.AreEqual("9876543210",attendee.PhoneNumber);
 }
 
-
 // Test if ExperienceEnrollmentForm action throws VRExperienceBookingException after reaching capacity 0
 [Test]
-public void ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
+public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
 {
     // Arrange
     var vrExperience = new VRExperience
@@ -153,19 +152,17 @@ public void ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException(
         Description = "Explore the wonders of space in a fully immersive virtual reality experience."
     };
     _context.VRExperiences.Add(vrExperience);
-    _context.SaveChanges();
+    await _context.SaveChangesAsync();
 
-    // Act and Assert
-    var ex = Assert.Throws<VRExperienceBookingException>(() =>
+    // Act & Assert
+    var ex = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
     {
-        // Act
-        var result = _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }).Result;
+        await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
     });
 
     // Assert the exception message (optional)
     Assert.AreEqual("Maximum Number Reached", ex.Message);
 }
-
 
 
 // // This test checks if CookingClassBookingException throws the message "Maximum Number Reached" or not
