@@ -20,14 +20,14 @@ const puppeteer = require('puppeteer');
       const rowCount = await page.$$eval('tr', rows => rows.length, { timeout: 2000 });
       if (rowCount>1) 
       {
-        console.log('TESTCASE:Existence_of_correct_heading_table_along_with_rows_and_back_button_in_book_batches_page:success');
+        console.log('TESTCASE:Existence_of_correct_heading_table_along_with_rows_and_back_button_in_book_experiences_page:success');
       } 
       else 
       {
-      console.log('TESTCASE:Existence_of_correct_heading_table_along_with_rows_and_back_button_in_book_batches_page:failure');
+      console.log('TESTCASE:Existence_of_correct_heading_table_along_with_rows_and_back_button_in_book_experiences_page:failure');
       }
     } catch (e) {
-      console.log('TESTCASE:Existence_of_correct_heading_table_along_with_rows_and_back_button_in_book_batches_page:failure');
+      console.log('TESTCASE:Existence_of_correct_heading_table_along_with_rows_and_back_button_in_book_experiences_page:failure');
     } 
     // Test case to verify the existence of book and delete buttons in the available batches page
     const page1 = await browser.newPage();
@@ -43,14 +43,14 @@ const puppeteer = require('puppeteer');
     
       if (rowCount >2) 
       {
-        console.log('TESTCASE:Existence_of_book_and_delete_button_and_table_along_with_rows_in_available_batches_page:success');
+        console.log('TESTCASE:Existence_of_book_and_delete_button_and_table_along_with_rows_in_available_experiences_page:success');
       } 
       else 
       {
-        console.log('TESTCASE:Existence_of_book_and_delete_button_and_table_along_with_rows_in_available_batches_page:failure');
+        console.log('TESTCASE:Existence_of_book_and_delete_button_and_table_along_with_rows_in_available_experiences_page:failure');
       }
     } catch (e) {
-      console.log('TESTCASE:Existence_of_book_and_delete_button_and_table_along_with_rows_in_available_batches_page:failure');
+      console.log('TESTCASE:Existence_of_book_and_delete_button_and_table_along_with_rows_in_available_experiences_page:failure');
     }  
     // Test case to verify the existence of back button and heading in the batch enrollment form page
     const page2 = await browser.newPage();
@@ -68,13 +68,13 @@ const puppeteer = require('puppeteer');
       // console.log(Message);
     if(Message.includes("vr experience enrollment")&&urlAfterClick.toLowerCase().includes('booking/experienceenrollmentform'))
     {
-    console.log('TESTCASE:Existence_of_id_backtobatch_and_heading_in_batch_enrollment_form_page:success');
+    console.log('TESTCASE:Existence_of_id_backtoexperiences_and_heading_in_experience_enrollment_form_page:success');
     }    
     else{
-    console.log('TESTCASE:Existence_of_id_backtobatch_and_heading_in_batch_enrollment_form_page:failure');
+    console.log('TESTCASE:Existence_of_id_backtoexperiences_and_heading_in_experience_enrollment_form_page:failure');
     }
     } catch (e) {
-      console.log('TESTCASE:Existence_of_id_backtobatch_and_heading_in_batch_enrollment_form_page:failure');
+      console.log('TESTCASE:Existence_of_id_backtoexperiences_and_heading_in_experience_enrollment_form_page:failure');
     } 
 
 
