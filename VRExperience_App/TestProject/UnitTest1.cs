@@ -156,12 +156,16 @@ public void ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException(
     _context.SaveChanges();
 
     // Act and Assert
-    Assert.Throws<VRExperienceBookingException>(() =>
+    var ex = Assert.Throws<VRExperienceBookingException>(() =>
     {
         // Act
-        _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" });
+        var result = _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }).Result;
     });
+
+    // Assert the exception message (optional)
+    Assert.AreEqual("Maximum Number Reached", ex.Message);
 }
+
 
 
 // // This test checks if CookingClassBookingException throws the message "Maximum Number Reached" or not
