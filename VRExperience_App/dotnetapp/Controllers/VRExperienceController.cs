@@ -48,11 +48,14 @@ namespace dotnetapp.Controllers
                 return NotFound();
             }
 
+            Console.WriteLine("Returned View");
             return View(experience);
+
         }
 
         // POST: VRExperience/DeleteExperience/5
-        [HttpPost, ActionName("DeleteExperience")]
+        // POST: VRExperience/DeleteExperienceConfirmed/5
+        [HttpPost, ActionName("DeleteExperienceConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteExperienceConfirmed(int id)
         {
