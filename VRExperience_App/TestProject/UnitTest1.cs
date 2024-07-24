@@ -279,30 +279,30 @@ public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
             Assert.AreEqual(expectedStartTime, classEntity.StartTime);
         }
 
-//         // This test checks the expected value of EndTime
-//         [Test]
-//         public void Class_Properties_EndTime_ReturnExpectedValues()
-//         {
-//             string expectedEndTime = "12:00 PM";
+        // This test checks the expected value of EndTime
+        [Test]
+        public void VRExperience_Properties_EndTime_ReturnExpectedValues()
+        {
+            string expectedEndTime = "12:00 PM";
 
-//             Class classEntity = new Class
-//             {
-//                 EndTime = expectedEndTime
-//             };
-//             Assert.AreEqual(expectedEndTime, classEntity.EndTime);
-//         }
+            VRExperience classEntity = new VRExperience
+            {
+                EndTime = expectedEndTime
+            };
+            Assert.AreEqual(expectedEndTime, classEntity.EndTime);
+        }
 
-//         // This test checks the expected value of Capacity
-//         [Test]
-//         public void Class_Properties_Capacity_ReturnExpectedValues()
-//         {
-//             int expectedCapacity = 5;
-//             Class classEntity = new Class
-//             {
-//                 Capacity = expectedCapacity
-//             };
-//             Assert.AreEqual(expectedCapacity, classEntity.Capacity);
-//         }
+        // This test checks the expected value of Capacity
+        [Test]
+        public void VRExperience_Properties_Capacity_ReturnExpectedValues()
+        {
+            int expectedCapacity = 5;
+            VRExperience classEntity = new VRExperience
+            {
+                MaxCapacity = expectedCapacity
+            };
+            Assert.AreEqual(expectedCapacity, classEntity.MaxCapacity);
+        }
 
 //         // This test checks the expected value of AttendeeID in Attendee class is int
 //         [Test]
