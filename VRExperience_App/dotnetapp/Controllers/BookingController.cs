@@ -51,7 +51,7 @@
 //     if (experience.Attendees.Count >= experience.MaxCapacity)
 //     {
 //         Console.WriteLine("Maximum capacity reached");
-//         throw new VRExperienceBookingException("Maximum Number Reached");
+//         throw new VRExperienceBookingException("Maximum Attendees Registered");
 //     }
 
 //     if (!ModelState.IsValid)
@@ -147,7 +147,7 @@ namespace dotnetapp.Controllers
             if (experience.Attendees.Count >= experience.MaxCapacity)
             {
                 Console.WriteLine("Maximum capacity reached");
-                throw new VRExperienceBookingException("Maximum Number Reached");
+                throw new VRExperienceBookingException("Maximum Attendees Registered");
             }
 
             if (!ModelState.IsValid)

@@ -64,7 +64,7 @@ namespace dotnetapp.Tests
             Assert.AreEqual("EnrollmentConfirmation", result.ActionName); // Ensure the correct action is redirected to
         }
     
-// This test checks if the ExperienceEnrollmentForm action with an invalid VRExperienceID returns NotFoundResult
+        // This test checks if the ExperienceEnrollmentForm action with an invalid VRExperienceID returns NotFoundResult
         [Test]
         public void ExperienceEnrollmentForm_Get_Method_InvalidVRExperienceId_ReturnsNotFound()
         {
@@ -106,36 +106,36 @@ namespace dotnetapp.Tests
 
 
 
-[Test]
-public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
-{
-    // Arrange
-    var vrExperience = new VRExperience
-    {
-        VRExperienceID = 100,
-        ExperienceName = "Virtual Space Exploration",
-        StartTime = "2023-01-01T10:00:00",
-        EndTime = "2023-01-01T12:00:00",
-        MaxCapacity = 0, // Full capacity
-        Location = "Virtual",
-        Description = "Explore the wonders of space in a fully immersive virtual reality experience."
-    };
-    _context.VRExperiences.Add(vrExperience);
-    await _context.SaveChangesAsync();
+        [Test]
+        public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
+        {
+            // Arrange
+            var vrExperience = new VRExperience
+            {
+                VRExperienceID = 100,
+                ExperienceName = "Virtual Space Exploration",
+                StartTime = "2023-01-01T10:00:00",
+                EndTime = "2023-01-01T12:00:00",
+                MaxCapacity = 0, // Full capacity
+                Location = "Virtual",
+                Description = "Explore the wonders of space in a fully immersive virtual reality experience."
+            };
+            _context.VRExperiences.Add(vrExperience);
+            await _context.SaveChangesAsync();
 
-    // Act & Assert
-    var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
-    {
-        await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
-    });
+            // Act & Assert
+            var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
+            {
+                await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
+            });
 
-    // Assert
-    Assert.AreEqual("Maximum Number Reached", exception.Message);
-}
+            // Assert
+            Assert.AreEqual("Maximum Attendees Registered", exception.Message);
+        }
 
 
 
-// This test checks if VRExperienceBookingException throws the message "Maximum Number Reached" or not
+// This test checks if VRExperienceBookingException throws the message "Maximum Attendees Registered" or not
 // Test if ExperienceEnrollmentForm action throws VRExperienceBookingException with correct message after reaching capacity 0
 [Test]
 public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
@@ -161,7 +161,7 @@ public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
     });
 
     // Assert
-    // Assert.AreEqual("Maximum Number Reached", exception.Message);
+    // Assert.AreEqual("Maximum Attendees Registered", exception.Message);
 }
 
     
@@ -374,101 +374,58 @@ public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
         }
 
         [Test]
-        public void DeleteClass_Post_Method_ValidClassId_RemovesClassFromDatabase()
+        public void DeleteVRExperience_Post_Method_ValidVRExperienceId_RemovesVRExperienceFromDatabase()
         {
             // Arrange
-            var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 };
-            _context.Classes.Add(classEntity);
+            var vrExperience = new VRExperience 
+            { 
+                VRExperienceID = 100, 
+                ExperienceName = "Virtual Space Exploration", 
+                StartTime = "2023-01-01T10:00:00", 
+                EndTime = "2023-01-01T12:00:00", 
+                MaxCapacity = 5, 
+                Location = "Virtual", 
+                Description = "Explore the wonders of space in a fully immersive virtual reality experience." 
+            };
+            _context.VRExperiences.Add(vrExperience);
             _context.SaveChanges();
-            var controller = new ClassController(_context);
+            var controller = new VRExperienceController(_context);
 
             // Act
-            var result = controller.DeleteClassConfirmed(classEntity.ClassID).Result as RedirectToActionResult;
+            var result = controller.DeleteExperienceConfirmed(vrExperience.VRExperienceID).Result as RedirectToActionResult;
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("AvailableClasses", result.ActionName);
+            Assert.AreEqual("AvailableExperiences", result.ActionName);
 
-            // Check if the class was removed from the database
-            var deletedClass = _context.Classes.Find(classEntity.ClassID);
-            Assert.IsNull(deletedClass);
+            // Check if the VR experience was removed from the database
+            var deletedExperience = _context.VRExperiences.Find(vrExperience.VRExperienceID);
+            Assert.IsNull(deletedExperience);
         }
 
-//         // Test if search by class name returns matching classes
-//         [Test]
-//         public async Task AvailableClasses_SearchByName_ReturnsMatchingClasses()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new ClassController(_context);
-//             _context.Classes.AddRange(
-//                 new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = "Italian";
+        [Test]
+        public async Task AvailableExperiences_SortByNameAscending_ReturnsSortedExperiences()
+        {
+            // Arrange
+            //  TearDown();
+            var vrExperienceController = new VRExperienceController(_context);
+            _context.VRExperiences.AddRange(
+                new VRExperience { VRExperienceID = 121, ExperienceName = "Aaaa Space Exploration", StartTime = "2023-01-01T10:00:00", EndTime = "2023-01-01T12:00:00", MaxCapacity = 5, Location = "Virtual", Description = "Explore the wonders of space in a fully immersive virtual reality experience." },
+                new VRExperience { VRExperienceID = 221, ExperienceName = "Zzzebra Ocean Adventure", StartTime = "2023-01-02T10:00:00", EndTime = "2023-01-02T12:00:00", MaxCapacity = 5, Location = "Virtual", Description = "Dive into the depths of the ocean in a virtual reality experience." },
+                new VRExperience { VRExperienceID = 321, ExperienceName = "Rabbit Mountain Hiking", StartTime = "2023-01-03T10:00:00", EndTime = "2023-01-03T12:00:00", MaxCapacity = 5, Location = "Virtual", Description = "Experience the thrill of mountain hiking in virtual reality." }
+            );
+            _context.SaveChanges();
 
-//             // Act
-//             var result = await classController.AvailableClasses(searchString) as ViewResult;
-//             var classes = result.Model as List<Class>;
+            // Act
+            var result = await vrExperienceController.AvailableExperiences("asc") as ViewResult;
+            var experiences = result.Model as List<VRExperience>;
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(1, classes.Count);
-//             Assert.AreEqual("Italian Cooking", classes.First().ClassName);
-//         }
-
-
-//         // Test if empty search string returns all classes
-//         [Test]
-//         public async Task AvailableClasses_EmptySearchString_ReturnsAllClasses()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new ClassController(_context);
-//             _context.Classes.AddRange(
-//                 new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = string.Empty;
-
-//             // Act
-//             var result = await classController.AvailableClasses(searchString) as ViewResult;
-//             var classes = result.Model as List<Class>;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(3, classes.Count);
-//         }
-
-//         // Test if no matching classes returns empty list
-//         [Test]
-//         public async Task AvailableClasses_NoMatchingClasses_ReturnsEmptyList()
-//         {
-//             // Arrange
-//             TearDown();
-//             var classController = new ClassController(_context);
-//             _context.Classes.AddRange(
-//                 new Class { ClassID = 1, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 2, ClassName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", Capacity = 5 },
-//                 new Class { ClassID = 3, ClassName = "Sushi Rolling", StartTime = "4:00 PM", EndTime = "6:00 PM", Capacity = 5 }
-//             );
-//             _context.SaveChanges();
-//             string searchString = "NonExistentClass";
-
-//             // Act
-//             var result = await classController.AvailableClasses(searchString) as ViewResult;
-//             var classes = result.Model as List<Class>;
-
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             Assert.AreEqual(0, classes.Count);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<ViewResult>(result);
+            // Assert.AreEqual(3, experiences.Count);
+            Assert.AreEqual("Aaaa Space Exploration", experiences.First().ExperienceName);
+            Assert.AreEqual("Zzzebra Ocean Adventure", experiences.Last().ExperienceName);
+        }
     }
 }
