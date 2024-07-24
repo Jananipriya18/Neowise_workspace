@@ -266,18 +266,18 @@ public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
             Assert.AreEqual(expectedVRExperienceID, classEntity.VRExperienceID);
         }
 
-//         // This test checks the expected value of StartTime
-//         [Test]
-//         public void Class_Properties_StartTime_ReturnExpectedValues()
-//         {
-//             string expectedStartTime = "10:00 AM";
+        // This test checks the expected value of StartTime
+        [Test]
+        public void VRExperience_Properties_StartTime_ReturnExpectedValues()
+        {
+            string expectedStartTime = "10:00 AM";
 
-//             Class classEntity = new Class
-//             {
-//                 StartTime = expectedStartTime
-//             };
-//             Assert.AreEqual(expectedStartTime, classEntity.StartTime);
-//         }
+            VRExperience classEntity = new VRExperience
+            {
+                StartTime = expectedStartTime
+            };
+            Assert.AreEqual(expectedStartTime, classEntity.StartTime);
+        }
 
 //         // This test checks the expected value of EndTime
 //         [Test]
