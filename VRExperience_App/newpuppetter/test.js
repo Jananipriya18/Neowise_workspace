@@ -41,7 +41,7 @@ const puppeteer = require('puppeteer');
       await page1.waitForSelector('#bookButton', { timeout: 2000 });
       const rowCount = await page1.$$eval('tr', rows => rows.length, { timeout: 2000 });
     
-      if (rowCount >1) 
+      if (rowCount >2) 
       {
         console.log('TESTCASE:Existence_of_book_and_delete_button_and_table_along_with_rows_in_available_batches_page:success');
       } 
@@ -63,9 +63,10 @@ const puppeteer = require('puppeteer');
       await page2.waitForSelector('#bookButton', { timeout: 2000 });
       await page2.click('#bookButton');
       const urlAfterClick = page2.url();
-      await page2.waitForSelector('#backtoclass', { timeout: 2000 });
-      const Message = await page2.$eval('h2', element => element.textContent.toLowerCase());
-    if(Message.includes("class enrollment form")&&urlAfterClick.toLowerCase().includes('booking/classenrollmentform'))
+      await page2.waitForSelector('#backtoexperiences', { timeout: 2000 });
+      const Message = await page2.$eval('h1', element => element.textContent.toLowerCase());
+      // console.log(Message);
+    if(Message.includes("vr experience enrollment")&&urlAfterClick.toLowerCase().includes('booking/experienceenrollmentform'))
     {
     console.log('TESTCASE:Existence_of_id_backtobatch_and_heading_in_batch_enrollment_form_page:success');
     }    
@@ -89,7 +90,7 @@ const puppeteer = require('puppeteer');
       await page3.waitForSelector('h2', { timeout: 2000 });
       const urlAfterClick = page3.url();
          const Message = await page3.$eval('h2', element => element.textContent.toLowerCase());
-    if(Message.includes("delete class")&&urlAfterClick.toLowerCase().includes('class/deleteconfirmation'))
+    if(Message.includes("delete vr experience")&&urlAfterClick.toLowerCase().includes('vrexperience/deleteconfirmation'))
     {
     console.log('TESTCASE:Existence_of_delete_button_and_heading_in_delete_confirmation_page:success');
     }    

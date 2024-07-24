@@ -14,7 +14,7 @@
         <dt class="col-sm-2">Max Capacity</dt>
         <dd class="col-sm-10">@Model.MaxCapacity</dd>
     </dl>
-    <form asp-controller="VRExperience" asp-action="DeleteExperienceConfirmed" asp-route-id="@Model.VRExperienceID" method="post">
+    <form  id = "deleteButton" asp-controller="VRExperience" asp-action="DeleteExperienceConfirmed" asp-route-id="@Model.VRExperienceID" method="post">
         <input type="submit" value="Delete" class="btn btn-danger" />
         <a asp-action="AvailableExperiences" class="btn btn-secondary">Cancel</a>
     </form>
