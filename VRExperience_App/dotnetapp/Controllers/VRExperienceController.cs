@@ -16,17 +16,15 @@ namespace dotnetapp.Controllers
         }
 
         // GET: VRExperience/AvailableExperiences
-        public async Task<IActionResult> AvailableExperiences(string searchString)
+        public async Task<IActionResult> AvailableExperiences()
         {
-            var experiences = from e in _context.VRExperiences select e;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                experiences = experiences.Where(e => e.ExperienceName.Contains(searchString));
-            }
+            var experiences = from e in _context.VRExperiences
+                            orderby e.ExperienceName descending
+                            select e;
 
             return View(await experiences.ToListAsync());
         }
+
 
         // GET: VRExperience/BookedExperiences
         public async Task<IActionResult> BookedExperiences()

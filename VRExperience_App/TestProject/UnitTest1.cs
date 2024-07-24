@@ -245,26 +245,26 @@ namespace dotnetapp.Tests
         }
 
         // Test if search by name returns matching experiences
-        [Test]
-        public async Task AvailableExperiences_SearchByName_ReturnsMatchingExperiences()
-        {
-            // Arrange
-            var controller = new VRExperienceController(_context);
-            _context.VRExperiences.AddRange(
-                new VRExperience { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
-                new VRExperience { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 10 }
-            );
-            _context.SaveChanges();
+        // [Test]
+        // public async Task AvailableExperiences_SearchByName_ReturnsMatchingExperiences()
+        // {
+        //     // Arrange
+        //     var controller = new VRExperienceController(_context);
+        //     _context.VRExperiences.AddRange(
+        //         new VRExperience { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
+        //         new VRExperience { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 10 }
+        //     );
+        //     _context.SaveChanges();
 
-            // Act
-            var result = await controller.AvailableExperiences("Italian") as ViewResult;
+        //     // Act
+        //     var result = await controller.AvailableExperiences("Italian") as ViewResult;
 
-            // Assert
-            Assert.IsNotNull(result);
-            var model = result.Model as IEnumerable<VRExperience>;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.Count());
-            Assert.AreEqual("Italian Cooking", model.First().ExperienceName);
-        }
+        //     // Assert
+        //     Assert.IsNotNull(result);
+        //     var model = result.Model as IEnumerable<VRExperience>;
+        //     Assert.IsNotNull(model);
+        //     Assert.AreEqual(1, model.Count());
+        //     Assert.AreEqual("Italian Cooking", model.First().ExperienceName);
+        // }
     }
 }
