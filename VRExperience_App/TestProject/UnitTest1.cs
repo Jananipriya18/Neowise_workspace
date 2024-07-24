@@ -165,104 +165,106 @@ public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
 }
 
     
-// This test checks if EnrollmentConfirmation action returns NotFound for a non-existent student ID
+// This test checks if EnrollmentConfirmation action returns NotFound for a non-existent attendee ID
         [Test]
-        public void EnrollmentConfirmation_Get_Method_NonexistentAttendeeID_ReturnsNotFound()
+        public async Task EnrollmentConfirmation_Get_Method_NonexistentAttendeeID_ReturnsNotFound()
         {
             // Arrange
-            var AttendeeID = 1;
+            var nonExistentAttendeeId = 999; // An ID that does not exist in the database
 
             // Act
-            var result = _controller.EnrollmentConfirmation(AttendeeID) as NotFoundResult;
+            var result = await _controller.EnrollmentConfirmation(nonExistentAttendeeId) as NotFoundResult;
 
             // Assert
             Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
         }
 
-//         // This test checks the existence of the Student class
-//         [Test]
-//         public void StudentClassExists()
-//         {
-//             // Arrange
-//             var student = new Student();
 
-//             // Assert
-//             Assert.IsNotNull(student);
-//         }
+        // This test checks the existence of the Attendee class
+        [Test]
+        public void AttendeeClassExists()
+        {
+            // Arrange
+            var attendee = new Attendee();
 
-//         // This test checks the existence of the Class class
-//         [Test]
-//         public void ClassClassExists()
-//         {
-//             // Arrange
-//             var classEntity = new Class();
+            // Assert
+            Assert.IsNotNull(attendee);
+        }
 
-//             // Assert
-//             Assert.IsNotNull(classEntity);
-//         }
+        // This test checks the existence of the Class class
+        [Test]
+        public void VRExperienceExists()
+        {
+            // Arrange
+            var classEntity = new VRExperience();
+
+            // Assert
+            Assert.IsNotNull(classEntity);
+        }
  
-//  //This test check the exists of ApplicationDbContext class has DbSet of Classes
-//  [Test]
-//         public void ApplicationDbContextContainsDbSetClassProperty()
-//         {
+ //This test check the exists of ApplicationDbContext class has DbSet of VRExperiences
+ [Test]
+        public void ApplicationDbContextContainsDbSetVRExperienceProperty()
+        {
 
-//             var propertyInfo = _context.GetType().GetProperty("Classes");
+            var propertyInfo = _context.GetType().GetProperty("VRExperiences");
         
-//             Assert.IsNotNull(propertyInfo);
-//             Assert.AreEqual(typeof(DbSet<Class>), propertyInfo.PropertyType);
+            Assert.IsNotNull(propertyInfo);
+            Assert.AreEqual(typeof(DbSet<VRExperience>), propertyInfo.PropertyType);
                    
-//         }
-//         // This test checks the StartTime of Class property is string
-//        [Test]
-//         public void Class_Properties_ClassID_ReturnExpectedDataTypes()
-//         {
-//             Class classEntity = new Class();
-//             Assert.That(classEntity.ClassID, Is.TypeOf<int>());
-//         }
+        }
+        // This test checks the StartTime of VRExperiences property is string
+       [Test]
+        public void VRExperience_Properties_VRExperienceID_ReturnExpectedDataTypes()
+        {
+            VRExperience classEntity = new VRExperience();
+            Assert.That(classEntity.VRExperienceID, Is.TypeOf<int>());
+        }
 
-//        // This test checks the StartTime of Class property is string
-//         [Test]
-//         public void Class_Properties_StartTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             Class classEntity = new Class { StartTime = "10:00 AM" };
+       // This test checks the StartTime of VRExperience property is string
+        [Test]
+        public void VRExperience_Properties_StartTime_ReturnExpectedDataTypes()
+        {
+            // Arrange
+            VRExperience classEntity = new VRExperience { StartTime = "10:00 AM" };
 
-//             // Assert
-//             Assert.That(classEntity.StartTime, Is.TypeOf<string>());
-//         }
+            // Assert
+            Assert.That(classEntity.StartTime, Is.TypeOf<string>());
+        }
 
-//         // This test checks the EndTime of Class property is string
-//         [Test]
-//         public void Class_Properties_EndTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             Class classEntity = new Class { EndTime = "12:00 PM" };
+        // This test checks the EndTime of VRExperience property is string
+        [Test]
+        public void VRExperience_Properties_EndTime_ReturnExpectedDataTypes()
+        {
+            // Arrange
+            VRExperience classEntity = new VRExperience { EndTime = "12:00 PM" };
 
-//             // Assert
-//             Assert.That(classEntity.EndTime, Is.TypeOf<string>());
-//         }
+            // Assert
+            Assert.That(classEntity.EndTime, Is.TypeOf<string>());
+        }
 
-//         // This test checks the Capacity of Class property is int
-//         [Test]
-//         public void Class_Properties_Capacity_ReturnExpectedDataTypes()
-//         {
-//             Class classEntity = new Class();
-//             Assert.That(classEntity.Capacity, Is.TypeOf<int>());
-//         }
+        // This test checks the Capacity of VRExperience property is int
+        [Test]
+        public void VRExperience_Properties_MaxCapacity_ReturnExpectedDataTypes()
+        {
+            VRExperience classEntity = new VRExperience();
+            Assert.That(classEntity.MaxCapacity, Is.TypeOf<int>());
+        }
 
-//         // This test checks the expected value of ClassID
-//         [Test]
-//         public void Class_Properties_ClassID_ReturnExpectedValues()
-//         {
-//             // Arrange
-//             int expectedClassID = 100;
+        // This test checks the expected value of VRExperienceID
+        [Test]
+        public void VRExperience_Properties_VRExperienceID_ReturnExpectedValues()
+        {
+            // Arrange
+            int expectedVRExperienceID = 100;
 
-//             Class classEntity = new Class
-//             {
-//                 ClassID = expectedClassID
-//             };
-//             Assert.AreEqual(expectedClassID, classEntity.ClassID);
-//         }
+            VRExperience classEntity = new VRExperience
+            {
+                VRExperienceID = expectedVRExperienceID
+            };
+            Assert.AreEqual(expectedVRExperienceID, classEntity.VRExperienceID);
+        }
 
 //         // This test checks the expected value of StartTime
 //         [Test]
@@ -302,64 +304,64 @@ public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
 //             Assert.AreEqual(expectedCapacity, classEntity.Capacity);
 //         }
 
-//         // This test checks the expected value of StudentID in Student class is int
+//         // This test checks the expected value of AttendeeID in Attendee class is int
 //         [Test]
-//         public void Student_Properties_StudentID_ReturnExpectedDataTypes()
+//         public void Attendee_Properties_AttendeeID_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             Assert.That(student.StudentID, Is.TypeOf<int>());
+//             Attendee attendee = new Attendee();
+//             Assert.That(attendee.AttendeeID, Is.TypeOf<int>());
 //         }
 
-//         // This test checks the expected value of Name in Student class is string
+//         // This test checks the expected value of Name in Attendee class is string
 //         [Test]
-//         public void Student_Properties_Name_ReturnExpectedDataTypes()
+//         public void Attendee_Properties_Name_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             student.Name = "";
-//             Assert.That(student.Name, Is.TypeOf<string>());
+//             Attendee attendee = new Attendee();
+//             attendee.Name = "";
+//             Assert.That(attendee.Name, Is.TypeOf<string>());
 //         }
 
-//         // This test checks the expected value of Email in Student class is string
+//         // This test checks the expected value of Email in Attendee class is string
 //         [Test]
-//         public void Student_Properties_Email_ReturnExpectedDataTypes()
+//         public void Attendee_Properties_Email_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             student.Email = "";
-//             Assert.That(student.Email, Is.TypeOf<string>());
+//             Attendee attendee = new Attendee();
+//             attendee.Email = "";
+//             Assert.That(attendee.Email, Is.TypeOf<string>());
 //         }
 
-//         // This test checks the expected value of ClassID in Student class is int
+//         // This test checks the expected value of ClassID in Attendee class is int
 //         [Test]
-//         public void Student_Properties_ClassID_ReturnExpectedDataTypes()
+//         public void Attendee_Properties_ClassID_ReturnExpectedDataTypes()
 //         {
-//             Student student = new Student();
-//             Assert.That(student.ClassID, Is.TypeOf<int>());
+//             Attendee attendee = new Attendee();
+//             Assert.That(attendee.ClassID, Is.TypeOf<int>());
 //         }
 
-//         // This test checks the expected value of Email in Student class is string
+//         // This test checks the expected value of Email in Attendee class is string
 //         [Test]
-//         public void Student_Properties_Email_ReturnExpectedValues()
+//         public void Attendee_Properties_Email_ReturnExpectedValues()
 //         {
 //             string expectedEmail = "john@example.com";
 
-//             Student student = new Student
+//             Attendee attendee = new Attendee
 //             {
 //                 Email = expectedEmail
 //             };
-//             Assert.AreEqual(expectedEmail, student.Email);
+//             Assert.AreEqual(expectedEmail, attendee.Email);
 //         }
 
-//         // This test checks the expected value of Class in Student class is another entity Class
+//         // This test checks the expected value of Class in Attendee class is another entity Class
 //         [Test]
-//         public void Student_Properties_Returns_Class_ExpectedValues()
+//         public void Attendee_Properties_Returns_Class_ExpectedValues()
 //         {
 //             Class expectedClass = new Class();
 
-//             Student student = new Student
+//             Attendee attendee = new Attendee
 //             {
 //                 Class = expectedClass
 //             };
-//             Assert.AreEqual(expectedClass, student.Class);
+//             Assert.AreEqual(expectedClass, attendee.Class);
 //         }
 
 //         [Test]
