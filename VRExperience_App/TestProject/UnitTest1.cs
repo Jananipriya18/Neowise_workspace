@@ -78,44 +78,53 @@ namespace dotnetapp.Tests
             Assert.IsNotNull(result);
         }
 
-// // Test if ClassEnrollmentForm action with valid data creates a student and redirects to EnrollmentConfirmation
-// [Test]
-// public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudentAndRedirects()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
+        // Test if ExperienceEnrollmentForm action with valid data creates an attendee and redirects to EnrollmentConfirmation
+        [Test]
+        public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendeeAndRedirects()
+        {
+            // Arrange
+            var vrExperience = new VRExperience
+            {
+                VRExperienceID = 100,
+                ExperienceName = "Virtual Space Exploration",
+                StartTime = "2023-01-01T10:00:00",
+                EndTime = "2023-01-01T12:00:00",
+                MaxCapacity = 1,
+                Location = "Virtual",
+                Description = "Explore the wonders of space in a fully immersive virtual reality experience."
+            };
+            _context.VRExperiences.Add(vrExperience);
+            await _context.SaveChangesAsync();
 
-//     // Act
-//     var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+            // Act
+            var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }) as RedirectToActionResult;
 
-//     // Assert
-//     Assert.IsNotNull(result);
-//     Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
+        }
 
-// }
 
 
-// // Test if ClassEnrollmentForm action with valid data creates a student
-// [Test]
-// public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudent()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
+// Test if ClassEnrollmentForm action with valid data creates a student
+[Test]
+public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudent()
+{
+    // Arrange
+    var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
+    _context.Classes.Add(classEntity);
+    _context.SaveChanges();
 
-//     // Act
-//     var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+    // Act
+    var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
 
-//     // Assert
-//     // Check if the student was created and added to the database
-//     var student = _context.Students.SingleOrDefault(s => s.ClassID == classEntity.ClassID);
-//     Assert.IsNotNull(student);
-//     Assert.AreEqual("John Doe", student.Name);
-//     Assert.AreEqual("john@example.com", student.Email);
-// }
+    // Assert
+    // Check if the student was created and added to the database
+    var student = _context.Students.SingleOrDefault(s => s.ClassID == classEntity.ClassID);
+    Assert.IsNotNull(student);
+    Assert.AreEqual("John Doe", student.Name);
+    Assert.AreEqual("john@example.com", student.Email);
+}
 
 
 
