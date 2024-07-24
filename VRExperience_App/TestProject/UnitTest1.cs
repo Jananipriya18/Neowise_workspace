@@ -106,44 +106,63 @@ namespace dotnetapp.Tests
 
 
 
-// Test if ClassEnrollmentForm action with valid data creates a student
+// Test if ExperienceEnrollmentForm action with valid data creates an attendee
 [Test]
-public void ClassEnrollmentForm_Post_Method_ValidData_CreatesStudent()
+public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendee()
 {
     // Arrange
-    var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 1 };
-    _context.Classes.Add(classEntity);
-    _context.SaveChanges();
+    var vrExperience = new VRExperience
+    {
+        VRExperienceID = 100,
+        ExperienceName = "Virtual Space Exploration",
+        StartTime = "2023-01-01T10:00:00",
+        EndTime = "2023-01-01T12:00:00",
+        MaxCapacity = 1,
+        Location = "Virtual",
+        Description = "Explore the wonders of space in a fully immersive virtual reality experience."
+    };
+    _context.VRExperiences.Add(vrExperience);
+    await _context.SaveChangesAsync();
 
     // Act
-    var result = _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" }) as RedirectToActionResult;
+    var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }) as RedirectToActionResult;
 
     // Assert
-    // Check if the student was created and added to the database
-    var student = _context.Students.SingleOrDefault(s => s.ClassID == classEntity.ClassID);
-    Assert.IsNotNull(student);
-    Assert.AreEqual("John Doe", student.Name);
-    Assert.AreEqual("john@example.com", student.Email);
+    // Check if the attendee was created and added to the database
+    var attendee = _context.Attendees.SingleOrDefault(a => a.VRExperienceID == vrExperience.VRExperienceID);
+    Assert.IsNotNull(attendee);
+    Assert.AreEqual("John Doe", attendee.Name);
+    Assert.AreEqual("john@example.com", attendee.Email);
+    Assert.AreEqual("9876543210",attendee.PhoneNumber);
 }
 
 
+// Test if ExperienceEnrollmentForm action throws VRExperienceBookingException after reaching capacity 0
+[Test]
+public void ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
+{
+    // Arrange
+    var vrExperience = new VRExperience
+    {
+        VRExperienceID = 100,
+        ExperienceName = "Virtual Space Exploration",
+        StartTime = "2023-01-01T10:00:00",
+        EndTime = "2023-01-01T12:00:00",
+        MaxCapacity = 0,
+        Location = "Virtual",
+        Description = "Explore the wonders of space in a fully immersive virtual reality experience."
+    };
+    _context.VRExperiences.Add(vrExperience);
+    _context.SaveChanges();
 
-// // Test if ClassEnrollmentForm action throws CookingClassBookingException after reaching capacity 0
-// [Test]
-// public void ClassEnrollmentForm_Post_Method_ClassFull_ThrowsException()
-// {
-//     // Arrange
-//     var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 0 };
-//     _context.Classes.Add(classEntity);
-//     _context.SaveChanges();
+    // Act and Assert
+    Assert.Throws<VRExperienceBookingException>(() =>
+    {
+        // Act
+        _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com" });
+    });
+}
 
-//     // Act and Assert
-//     Assert.Throws<CookingClassBookingException>(() =>
-//     {
-//         // Act
-//         _controller.ClassEnrollmentForm(classEntity.ClassID, new Student { Name = "John Doe", Email = "john@example.com" });
-//     });
-// }
 
 // // This test checks if CookingClassBookingException throws the message "Maximum Number Reached" or not
 // // Test if ClassEnrollmentForm action throws CookingClassBookingException with correct message after reaching capacity 0
