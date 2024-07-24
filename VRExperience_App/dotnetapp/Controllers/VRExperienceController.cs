@@ -16,11 +16,20 @@ namespace dotnetapp.Controllers
         }
 
         // GET: VRExperience/AvailableExperiences
-        public async Task<IActionResult> AvailableExperiences()
+        public async Task<IActionResult> AvailableExperiences(string sortOrder)
         {
-            var experiences = from e in _context.VRExperiences
-                            orderby e.ExperienceName descending
-                            select e;
+            ViewData["SortOrder"] = sortOrder;
+
+            var experiences = from e in _context.VRExperiences select e;
+
+            if (sortOrder == "asc")
+            {
+                experiences = experiences.OrderBy(e => e.ExperienceName);
+            }
+            else
+            {
+                experiences = experiences.OrderByDescending(e => e.ExperienceName);
+            }
 
             return View(await experiences.ToListAsync());
         }

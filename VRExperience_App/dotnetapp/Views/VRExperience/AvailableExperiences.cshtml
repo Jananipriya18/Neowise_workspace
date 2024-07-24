@@ -17,13 +17,15 @@
     <form asp-controller="VRExperience" asp-action="AvailableExperiences" method="get" class="mb-4">
     <div class="form-row">
         <div class="form-group col-md-8">
-            <label for="Sort">Sort by experience name:</label>
+            <label for="SortOrder">Sort by experience name:</label>
         </div>
         <div class="form-group col-md-4 align-self-end">
-            <button type="submit" class="btn btn-primary mb-2">Sort</button>
+            <button type="submit" name="sortOrder" value="asc" class="btn btn-primary mb-2">
+                Sort Ascending
+            </button>
         </div>
     </div>
-    </form>
+</form>
 
    @if (Model != null && Model.Count > 0)
 {

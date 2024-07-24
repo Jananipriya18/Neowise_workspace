@@ -167,7 +167,7 @@ namespace dotnetapp.Tests
         }
 
         // Test VRExperience properties return expected data types
-        [Test]
+        [Test]`
         public void VRExperience_Properties_ReturnExpectedDataTypes()
         {
             var vrExperience = new VRExperience();
@@ -244,27 +244,39 @@ namespace dotnetapp.Tests
             Assert.IsNull(deletedVRExperience);
         }
 
-        // Test if search by name returns matching experiences
-        // [Test]
-        // public async Task AvailableExperiences_SearchByName_ReturnsMatchingExperiences()
-        // {
-        //     // Arrange
-        //     var controller = new VRExperienceController(_context);
-        //     _context.VRExperiences.AddRange(
-        //         new VRExperience { VRExperienceID = 1, ExperienceName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5 },
-        //         new VRExperience { VRExperienceID = 2, ExperienceName = "French Pastry Making", StartTime = "1:00 PM", EndTime = "3:00 PM", MaxCapacity = 10 }
-        //     );
-        //     _context.SaveChanges();
+        [Test]
+public async Task AvailableExperiences_SortByName_ReturnsSortedExperiences()
+{
+    // Arrange
+    var controller = new VRExperienceController(_context);
+    _context.VRExperiences.AddRange(
+        new VRExperience { VRExperienceID = 1, ExperienceName = "Zebra", StartTime = "2023-01-01T10:00:00", EndTime = "2023-01-01T12:00:00", MaxCapacity = 10, Location = "Virtual", Description = "Explore the wonders of space in a fully immersive virtual reality experience." },
+        new VRExperience { VRExperienceID = 2, ExperienceName = "Apple", StartTime = "2023-01-01T13:00:00", EndTime = "2023-01-01T15:00:00", MaxCapacity = 10, Location = "Virtual", Description = "Explore the wonders of space in a fully immersive virtual reality experience." }
+    );
+    _context.SaveChanges();
 
-        //     // Act
-        //     var result = await controller.AvailableExperiences("Italian") as ViewResult;
+    // Act: Sort by ascending order
+    var resultAsc = await controller.AvailableExperiences("asc") as ViewResult;
 
-        //     // Assert
-        //     Assert.IsNotNull(result);
-        //     var model = result.Model as IEnumerable<VRExperience>;
-        //     Assert.IsNotNull(model);
-        //     Assert.AreEqual(1, model.Count());
-        //     Assert.AreEqual("Italian Cooking", model.First().ExperienceName);
-        // }
+    // Assert: Check ascending order
+    Assert.IsNotNull(resultAsc);
+    var modelAsc = resultAsc.Model as IEnumerable<VRExperience>;
+    Assert.IsNotNull(modelAsc);
+    Assert.AreEqual(2, modelAsc.Count());
+    Assert.AreEqual("Apple", modelAsc.First().ExperienceName);  // "Apple" should come first in ascending order
+    Assert.AreEqual("Zebra", modelAsc.Last().ExperienceName);   // "Zebra" should come last in ascending order
+
+    // Act: Sort by descending order
+    var resultDesc = await controller.AvailableExperiences("desc") as ViewResult;
+
+    // Assert: Check descending order
+    Assert.IsNotNull(resultDesc);
+    var modelDesc = resultDesc.Model as IEnumerable<VRExperience>;
+    Assert.IsNotNull(modelDesc);
+    Assert.AreEqual(2, modelDesc.Count());
+    Assert.AreEqual("Zebra", modelDesc.First().ExperienceName);  // "Zebra" should come first in descending order
+    Assert.AreEqual("Apple", modelDesc.Last().ExperienceName);   // "Apple" should come last in descending order
+}
+
     }
 }
