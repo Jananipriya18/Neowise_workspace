@@ -104,8 +104,6 @@ namespace dotnetapp.Tests
             Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
         }
 
-
-
         [Test]
         public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
         {
@@ -133,39 +131,36 @@ namespace dotnetapp.Tests
             Assert.AreEqual("Maximum Attendees Registered", exception.Message);
         }
 
+        // Test if ExperienceEnrollmentForm action throws VRExperienceBookingException with correct message after reaching capacity 0
+        [Test]
+        public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
+        {
+            // Arrange
+            var vrExperience = new VRExperience
+            {
+                VRExperienceID = 100,
+                ExperienceName = "Virtual Space Exploration",
+                StartTime = "2023-01-01T10:00:00",
+                EndTime = "2023-01-01T12:00:00",
+                MaxCapacity = 0,
+                Location = "Virtual",
+                Description = "Explore the wonders of space in a fully immersive virtual reality experience."
+            };
+            _context.VRExperiences.Add(vrExperience);
+            _context.SaveChanges();
 
+            // Act and Assert
+            var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
+            {
+                await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
+            });
 
-// This test checks if VRExperienceBookingException throws the message "Maximum Attendees Registered" or not
-// Test if ExperienceEnrollmentForm action throws VRExperienceBookingException with correct message after reaching capacity 0
-[Test]
-public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
-{
-    // Arrange
-    var vrExperience = new VRExperience
-    {
-        VRExperienceID = 100,
-        ExperienceName = "Virtual Space Exploration",
-        StartTime = "2023-01-01T10:00:00",
-        EndTime = "2023-01-01T12:00:00",
-        MaxCapacity = 0,
-        Location = "Virtual",
-        Description = "Explore the wonders of space in a fully immersive virtual reality experience."
-    };
-    _context.VRExperiences.Add(vrExperience);
-    _context.SaveChanges();
-
-    // Act and Assert
-     var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
-    {
-        await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
-    });
-
-    // Assert
-    // Assert.AreEqual("Maximum Attendees Registered", exception.Message);
-}
+            // Assert
+            // Assert.AreEqual("Maximum Attendees Registered", exception.Message);
+        }
 
     
-// This test checks if EnrollmentConfirmation action returns NotFound for a non-existent attendee ID
+        // This test checks if EnrollmentConfirmation action returns NotFound for a non-existent attendee ID
         [Test]
         public async Task EnrollmentConfirmation_Get_Method_NonexistentAttendeeID_ReturnsNotFound()
         {
@@ -203,8 +198,8 @@ public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
             Assert.IsNotNull(classEntity);
         }
  
- //This test check the exists of ApplicationDbContext class has DbSet of VRExperiences
- [Test]
+        //This test check the exists of ApplicationDbContext class has DbSet of VRExperiences
+        [Test]
         public void ApplicationDbContextContainsDbSetVRExperienceProperty()
         {
 
