@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace dotnetapp.Tests
 {
@@ -33,42 +33,50 @@ namespace dotnetapp.Tests
         {
             // Clean up the test database context
             _context.Database.EnsureDeleted();
-            // _context.Dispose();
+            _context.Dispose();
         }
 
-  
-
-// Test if VRExperienceEnrollmentForm action with valid VRExperienceID redirects to EnrollmentConfirmation action with correct route values
+        // Test if VRExperienceEnrollmentForm action with valid VRExperienceID redirects to EnrollmentConfirmation action with correct route values
         [Test]
-        public void VRExperienceEnrollmentForm_Post_Method_ValidVRExperienceId_RedirectsToEnrollmentConfirmation()
+        public async Task VRExperienceEnrollmentForm_Post_Method_ValidVRExperienceId_RedirectsToEnrollmentConfirmation()
         {
             // Arrange
-            var vrExperience = new VRExperience { VRExperienceID = 100, ExperienceName = "Virtual Space Exploration", StartTime = "2023-01-01T10:00:00", EndTime = "2023-01-01T12:00:00", MaxCapacity = 10, Location = "Virtual", Description = "Explore the wonders of space in a fully immersive virtual reality experience." };
+            var vrExperience = new VRExperience
+            {
+                VRExperienceID = 100,
+                ExperienceName = "Virtual Space Exploration",
+                StartTime = "2023-01-01T10:00:00",
+                EndTime = "2023-01-01T12:00:00",
+                MaxCapacity = 10,
+                Location = "Virtual",
+                Description = "Explore the wonders of space in a fully immersive virtual reality experience."
+            };
             _context.VRExperiences.Add(vrExperience);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            var attendee = new Attendee { AttendeeID = 1, Name = "John Doe", Email = "john@example.com" };
+            var attendee = new Attendee { AttendeeID = 1, Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" };
 
             // Act
-            var result = _controller.VRExperienceEnrollmentForm(vrExperience.VRExperienceID, attendee) as RedirectToActionResult;
+            var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, attendee) as RedirectToActionResult;
 
             // Assert
             Assert.NotNull(result);
             Assert.AreEqual("EnrollmentConfirmation", result.ActionName); // Ensure the correct action is redirected to
         }
+    
+// This test checks if the ExperienceEnrollmentForm action with an invalid VRExperienceID returns NotFoundResult
+        [Test]
+        public void ExperienceEnrollmentForm_Get_Method_InvalidVRExperienceId_ReturnsNotFound()
+        {
+            // Arrange
+            var VRExperienceID = 999; // An ID that does not exist
 
-// //This test checks the invalid classid returns the NotFoundresult or not
-//         [Test]
-//         public void ClassEnrollmentForm_Get_Method_InvalidClassId_ReturnsNotFound()
-//         {
-//             // Arrange
-//           var classEntity = new Class { ClassID = 100, ClassName = "Italian Cooking", StartTime = "10:00 AM", EndTime = "12:00 PM", Capacity = 5};
-//             // Act
-//             var result = _controller.ClassEnrollmentForm(classEntity.ClassID) as NotFoundResult;
+            // Act
+            var result = _controller.ExperienceEnrollmentForm(VRExperienceID) as NotFoundResult;
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+        }
 
 // // Test if ClassEnrollmentForm action with valid data creates a student and redirects to EnrollmentConfirmation
 // [Test]
