@@ -7,7 +7,7 @@ import { Playlist } from '../models/playlist.model';
   providedIn: 'root'
 })
 export class PlaylistService {
-  private apiUrl = 'https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io'; // Replace this with your API endpoint
+  private apiUrl = 'https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'; // Replace this with your API endpoint
 
   constructor(private http: HttpClient) { }
 
