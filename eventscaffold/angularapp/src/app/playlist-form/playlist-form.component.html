@@ -1,33 +1,33 @@
 <form (submit)="addPlaylist()">
     <div>
         <label for="playlistName">Playlist Name:</label>
-        <input type="text" id="playlistName" [(ngModel)]="newPlaylist.playlistName" name="playlistName" required>
-        <div *ngIf="isFieldInvalid('playlistName')" class="error-message">Playlist Name is required</div>
+        <input type="text" id="playlistName" [(ngModel)]="newPlaylist.playlistName" name="playlistName" required maxlength="100">
+        <div *ngIf="isFieldInvalid('playlistName')" class="error-message">Playlist name must be between 1 and 100 characters.</div>
     </div>
     <div>
         <label for="songName">Song Name:</label>
-        <input type="text" id="songName" [(ngModel)]="newPlaylist.songName" name="songName" required>
-        <div *ngIf="isFieldInvalid('songName')" class="error-message">Song Name is required</div>
+        <input type="text" id="songName" [(ngModel)]="newPlaylist.songName" name="songName" required maxlength="500">
+        <div *ngIf="isFieldInvalid('songName')" class="error-message">Song name must be between 1 and 500 characters.</div>
     </div>
     <div>
         <label for="yearOfRelease">Year of Release:</label>
-        <input type="text" id="yearOfRelease" [(ngModel)]="newPlaylist.yearOfRelease" name="yearOfRelease" required>
-        <div *ngIf="isFieldInvalid('yearOfRelease')" class="error-message">Year of Release is required</div>
+        <input type="text" id="yearOfRelease" [(ngModel)]="newPlaylist.yearOfRelease" name="yearOfRelease" required pattern="^\d{4}-\d{2}-\d{2}$">
+        <div *ngIf="isFieldInvalid('yearOfRelease')" class="error-message">Year of release must be in the format YYYY-MM-DD.</div>
     </div>
     <div>
         <label for="artistName">Artist Name:</label>
-        <input type="text" id="artistName" [(ngModel)]="newPlaylist.artistName" name="artistName" required>
-        <div *ngIf="isFieldInvalid('artistName')" class="error-message">Artist Name is required</div>
+        <input type="text" id="artistName" [(ngModel)]="newPlaylist.artistName" name="artistName" required maxlength="50">
+        <div *ngIf="isFieldInvalid('artistName')" class="error-message">Artist name must be between 1 and 50 characters.</div>
     </div>
     <div>
         <label for="genre">Genre:</label>
-        <input type="text" id="genre" [(ngModel)]="newPlaylist.genre" name="genre" required>
-        <div *ngIf="isFieldInvalid('genre')" class="error-message">Genre is required</div>
+        <input type="text" id="genre" [(ngModel)]="newPlaylist.genre" name="genre" required maxlength="200">
+        <div *ngIf="isFieldInvalid('genre')" class="error-message">Genre must be between 1 and 200 characters.</div>
     </div>
     <div>
         <label for="MovieName">Movie Name:</label>
-        <input type="text" id="MovieName" [(ngModel)]="newPlaylist.MovieName" name="MovieName" required>
-        <div *ngIf="isFieldInvalid('MovieName')" class="error-message">Movie Name is required</div>
+        <input type="text" id="MovieName" [(ngModel)]="newPlaylist.MovieName" name="MovieName" required maxlength="100">
+        <div *ngIf="isFieldInvalid('MovieName')" class="error-message">Movie name must be between 1 and 100 characters.</div>
     </div>
     <button type="submit">Add Playlist</button>
 </form>
