@@ -19,7 +19,7 @@ namespace dotnetapp.Models
         public string yearOfRelease { get; set; }
 
         [Required(ErrorMessage = "Artist Name is required.")]
-        [StringLength(5, MinimumLength = 5, ErrorMessage = "Artist Name must be between 1 and 50 characters.")]
+        [StringLength(10, MinimumLength = 1, ErrorMessage = "Artist Name must be between 1 and 50 characters.")]
         public string artistName { get; set; }
 
         [Required(ErrorMessage = "Genre is required.")]
