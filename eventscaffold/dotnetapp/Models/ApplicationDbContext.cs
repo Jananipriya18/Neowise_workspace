@@ -10,6 +10,6 @@ namespace dotnetapp.Data
         {
         }
         
-        public DbSet<Event> Events { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
     }
 }
