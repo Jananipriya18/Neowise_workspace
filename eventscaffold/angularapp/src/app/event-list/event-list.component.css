@@ -1,0 +1,91 @@
+/* Table Styles */
+.event-table {
+  width: 100%; /* Set table width to fill its container */
+  border-collapse: collapse; /* Collapse borders for a cleaner look */
+}
+
+.event-table th,
+.event-table td {
+  padding: 12px; /* Add padding for cells */
+  border-bottom: 1px solid #ddd; /* Add bottom border for rows */
+  text-align: left; /* Align text to the left */
+}
+
+.event-table th {
+  background-color: #f2f2f2; /* Set background color for header row */
+}
+
+.event-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Alternate row background color */
+}
+
+.event-table tbody tr:hover {
+  background-color: #ddd; /* Change background color on hover */
+}
+
+/* Button Styles */
+.delete-button {
+  background-color: #ff2600; /* Coral */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #cc1e00; /* Darker shade on hover */
+}
+
+/* Search Box Styles */
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333; /* Dark text color */
+}
+
+#search {
+  padding: 10px; /* Increase padding for better input field spacing */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px; /* Adjust max-width as needed */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  font-size: 14px; /* Set a readable font size */
+}
+
+#search:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #66afe9; /* Change border color on focus */
+}
+
+.search-button {
+  background-color: #007bff; /* Primary blue color */
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  margin-left: 10px; /* Add some margin for button spacing */
+  margin-bottom: 30px;
+}
+
+.search-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  #search {
+    padding: 8px;
+    font-size: 12px; /* Adjust font size for small screens */
+  }
+
+  .search-button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
