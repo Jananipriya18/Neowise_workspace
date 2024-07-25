@@ -2,17 +2,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { PlaylistFormComponent } from './event-form.component';
-import { PlaylistService } from '../services/event.service';
+import { PlaylistFormComponent } from './playlist-form.component';
+import { PlaylistService } from '../services/playlist.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { Playlist } from '../models/event.model';
+import { Playlist } from '../models/playlist.model';
 
 describe('PlaylistFormComponent', () => {
   let component: PlaylistFormComponent;
   let fixture: ComponentFixture<PlaylistFormComponent>;
-  let eventService: PlaylistService;
+  let playlistService: PlaylistService;
   let router: Router;
 
   beforeEach(async () => {
@@ -26,7 +26,7 @@ describe('PlaylistFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PlaylistFormComponent);
     component = fixture.componentInstance;
-    eventService = TestBed.inject(PlaylistService);
+    playlistService = TestBed.inject(PlaylistService);
     router = TestBed.inject(Router);
     fixture.detectChanges();
   });
@@ -69,9 +69,9 @@ describe('PlaylistFormComponent', () => {
     expect(fixture.debugElement.query(By.css('#MovieName + .error-message'))).toBeTruthy();
   });
 
-  fit('PlaylistFormComponent_should_call_addPlaylist_method_while_adding_the_event', () => {
+  fit('PlaylistFormComponent_should_call_addPlaylist_method_while_adding_the_playlist', () => {
     // Create a mock Playlist object with all required properties
-    const event: Playlist = {
+    const playlist: Playlist = {
       playlistId: 1,
       playlistName: 'Test Playlist Name',
       songName: 'Test Playlist Description',

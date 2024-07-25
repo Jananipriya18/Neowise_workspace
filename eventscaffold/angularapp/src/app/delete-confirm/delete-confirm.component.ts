@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PlaylistService } from '../services/event.service' // Adjusted service name
-import { Playlist } from '../models/event.model'; // Adjusted model name
+import { PlaylistService } from '../services/playlist.service' // Adjusted service name
+import { Playlist } from '../models/playlist.model'; // Adjusted model name
 
 @Component({
   selector: 'app-delete-confirm',

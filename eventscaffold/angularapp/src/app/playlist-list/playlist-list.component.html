@@ -1,0 +1,38 @@
+<div class="container">
+    <h2>Playlist List</h2>
+  
+    <div>
+        <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Search by playlist name">
+        <button id="search" class="search-button" (click)="searchPlaylists()">Search</button>
+      </div>
+
+    <div *ngIf="playlists.length === 0" class="no-playlists-message">
+        No playlists available.
+    </div>
+  
+    <table *ngIf="playlists.length > 0" class="playlist-table">
+        <thead>
+            <tr>
+                <th>Playlist Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Location</th>
+                <th>Organizer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let playlist of playlists" class="playlist-item">
+                <td>{{ playlist.playlistName }}</td>
+                <td>{{ playlist.songName }}</td>
+                <td>{{ playlist.yearOfRelease }}</td>
+                <td>{{ playlist.artistName }}</td>
+                <td>{{ playlist.genre }}</td>
+                <td>{{ playlist.MovieName }}</td>
+                <td>
+                    <button id="delete" class="delete-button" (click)="deletePlaylist(playlist.playlistId)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
