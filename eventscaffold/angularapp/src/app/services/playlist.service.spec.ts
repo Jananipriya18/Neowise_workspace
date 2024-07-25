@@ -103,7 +103,7 @@ describe('PlaylistService', () => {
     const mockPlaylists: Playlist[] = [
       {
         playlistId: 100,
-        playlistName: 'Appllih',
+        playlistName: 'Test Playlist Name',
         songName: 'Test Playlist Description',
         yearOfRelease: 'Test Playlist Date',
         artistName: 'Test Playlist Time',
@@ -126,5 +126,6 @@ describe('PlaylistService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockPlaylists);
   }); 
-
+  
 });
+
