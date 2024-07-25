@@ -4,7 +4,7 @@
 
 namespace dotnetapp.Migrations
 {
-    public partial class sdfghjkl : Migration
+    public partial class sdfghjk : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,11 +53,11 @@ namespace dotnetapp.Migrations
                 columns: new[] { "VRExperienceID", "Description", "EndTime", "ExperienceName", "Location", "MaxCapacity", "StartTime" },
                 values: new object[,]
                 {
-                    { 1, "Explore the wonders of space in a fully immersive virtual reality experience.", "2023-01-01T12:00:00", "Virtual Space Exploration", "Virtual", 10, "2023-01-01T10:00:00" },
-                    { 2, "Take a tour through history with this engaging VR experience.", "2023-01-11T13:00:00", "Historical VR Tour", "Virtual", 10, "2023-01-11T10:00:00" },
-                    { 3, "Dive into the depths of the ocean and explore underwater life like never before.", "2023-02-01T16:00:00", "Underwater Adventure", "Virtual", 10, "2023-02-01T14:00:00" },
-                    { 4, "Experience the thrill of mountain climbing from the safety of your home.", "2023-02-15T11:00:00", "Mountain Climbing Expedition", "Virtual", 10, "2023-02-15T09:00:00" },
-                    { 5, "Travel back in time to ancient Rome and witness its grandeur and history.", "2023-03-01T12:00:00", "Ancient Rome Tour", "Virtual", 10, "2023-03-01T10:00:00" }
+                    { 1, "Explore the wonders of space in a fully immersive virtual reality experience.", "12:00 PM", "Virtual Space Exploration", "Virtual", 10, "10:00 AM" },
+                    { 2, "Take a tour through history with this engaging VR experience.", "01:00 PM", "Historical VR Tour", "Virtual", 10, "10:00 AM" },
+                    { 3, "Dive into the depths of the ocean and explore underwater life like never before.", "04:00 PM", "Underwater Adventure", "Virtual", 10, "02:00 PM" },
+                    { 4, "Experience the thrill of mountain climbing from the safety of your home.", "11:00 AM", "Mountain Climbing Expedition", "Virtual", 10, "09:00 AM" },
+                    { 5, "Travel back in time to ancient Rome and witness its grandeur and history.", "12:00 PM", "Ancient Rome Tour", "Virtual", 10, "10:00 AM" }
                 });
 
             migrationBuilder.CreateIndex(

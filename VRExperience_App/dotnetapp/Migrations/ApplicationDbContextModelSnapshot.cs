@@ -91,51 +91,51 @@ namespace dotnetapp.Migrations
                         {
                             VRExperienceID = 1,
                             Description = "Explore the wonders of space in a fully immersive virtual reality experience.",
-                            EndTime = "2023-01-01T12:00:00",
+                            EndTime = "12:00 PM",
                             ExperienceName = "Virtual Space Exploration",
                             Location = "Virtual",
                             MaxCapacity = 10,
-                            StartTime = "2023-01-01T10:00:00"
+                            StartTime = "10:00 AM"
                         },
                         new
                         {
                             VRExperienceID = 2,
                             Description = "Take a tour through history with this engaging VR experience.",
-                            EndTime = "2023-01-11T13:00:00",
+                            EndTime = "01:00 PM",
                             ExperienceName = "Historical VR Tour",
                             Location = "Virtual",
                             MaxCapacity = 10,
-                            StartTime = "2023-01-11T10:00:00"
+                            StartTime = "10:00 AM"
                         },
                         new
                         {
                             VRExperienceID = 3,
                             Description = "Dive into the depths of the ocean and explore underwater life like never before.",
-                            EndTime = "2023-02-01T16:00:00",
+                            EndTime = "04:00 PM",
                             ExperienceName = "Underwater Adventure",
                             Location = "Virtual",
                             MaxCapacity = 10,
-                            StartTime = "2023-02-01T14:00:00"
+                            StartTime = "02:00 PM"
                         },
                         new
                         {
                             VRExperienceID = 4,
                             Description = "Experience the thrill of mountain climbing from the safety of your home.",
-                            EndTime = "2023-02-15T11:00:00",
+                            EndTime = "11:00 AM",
                             ExperienceName = "Mountain Climbing Expedition",
                             Location = "Virtual",
                             MaxCapacity = 10,
-                            StartTime = "2023-02-15T09:00:00"
+                            StartTime = "09:00 AM"
                         },
                         new
                         {
                             VRExperienceID = 5,
                             Description = "Travel back in time to ancient Rome and witness its grandeur and history.",
-                            EndTime = "2023-03-01T12:00:00",
+                            EndTime = "12:00 PM",
                             ExperienceName = "Ancient Rome Tour",
                             Location = "Virtual",
                             MaxCapacity = 10,
-                            StartTime = "2023-03-01T10:00:00"
+                            StartTime = "10:00 AM"
                         });
                 });
 
