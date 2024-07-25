@@ -23,14 +23,14 @@
         </thead>
         <tbody>
             <tr *ngFor="let event of events" class="event-item">
-                <td>{{ event.eventName }}</td>
-                <td>{{ event.eventDescription }}</td>
-                <td>{{ event.eventDate }}</td>
-                <td>{{ event.eventTime }}</td>
-                <td>{{ event.eventLocation }}</td>
-                <td>{{ event.eventOrganizer }}</td>
+                <td>{{ event.playlistName }}</td>
+                <td>{{ event.songName }}</td>
+                <td>{{ event.yearOfRelease }}</td>
+                <td>{{ event.artistName }}</td>
+                <td>{{ event.genre }}</td>
+                <td>{{ event.MovieName }}</td>
                 <td>
-                    <button id="delete" class="delete-button" (click)="deleteEvent(event.eventId)">Delete</button>
+                    <button id="delete" class="delete-button" (click)="deleteEvent(event.playlistId)">Delete</button>
                 </td>
             </tr>
         </tbody>

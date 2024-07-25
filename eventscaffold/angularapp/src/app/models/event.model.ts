@@ -1,9 +1,9 @@
 export interface Event {
-  eventId: number;
-  eventName: string;
-  eventDescription: string;
-  eventDate: string;
-  eventTime: string;
-  eventLocation: string;
-  eventOrganizer: string;
+  playlistId: number;
+  playlistName: string;
+  songName: string;
+  yearOfRelease: string;
+  artistName: string;
+  genre: string;
+  MovieName: string;
 }

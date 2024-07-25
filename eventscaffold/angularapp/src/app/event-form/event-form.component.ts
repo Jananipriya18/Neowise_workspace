@@ -10,13 +10,13 @@ import { Router } from '@angular/router';
 })
 export class EventFormComponent {
   newEvent: Event = {
-    eventId: 0,
-    eventName: '',
-    eventDescription: '',
-    eventDate: '',
-    eventTime: '',
-    eventLocation: '',
-    eventOrganizer: ''
+    playlistId: 0,
+    playlistName: '',
+    songName: '',
+    yearOfRelease: '',
+    artistName: '',
+    genre: '',
+    MovieName: ''
   }; // Initialize newEvent with empty fields
 
   formSubmitted = false; // Track form submission
@@ -39,8 +39,8 @@ export class EventFormComponent {
   }
 
   isFormValid(): boolean {
-    return !this.isFieldInvalid('eventName') && !this.isFieldInvalid('eventDescription') &&
-      !this.isFieldInvalid('eventDate') && !this.isFieldInvalid('eventTime') &&
-      !this.isFieldInvalid('eventLocation') && !this.isFieldInvalid('eventOrganizer');
+    return !this.isFieldInvalid('playlistName') && !this.isFieldInvalid('songName') &&
+      !this.isFieldInvalid('yearOfRelease') && !this.isFieldInvalid('artistName') &&
+      !this.isFieldInvalid('genre') && !this.isFieldInvalid('MovieName');
   }
 }

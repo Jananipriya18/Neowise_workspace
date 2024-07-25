@@ -9,7 +9,7 @@ import { Event } from '../models/event.model'; // Adjusted model name
   styleUrls: ['./delete-confirm.component.css']
 })
 export class DeleteConfirmComponent implements OnInit {
-  eventId: number;
+  playlistId: number;
   event: Event = {} as Event; // Initialize event property with an empty object
 
   constructor(
@@ -20,8 +20,8 @@ export class DeleteConfirmComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.eventId = +params['id']; // Adjust parameter name to 'id' if it matches the route parameter
-      this.eventService.getEvent(this.eventId).subscribe(
+      this.playlistId = +params['id']; // Adjust parameter name to 'id' if it matches the route parameter
+      this.eventService.getEvent(this.playlistId).subscribe(
         (event: Event) => {
           this.event = event;
         },
@@ -32,8 +32,8 @@ export class DeleteConfirmComponent implements OnInit {
     });
   }
 
-  confirmDelete(eventId: number): void { // Adjust method signature
-    this.eventService.deleteEvent(eventId).subscribe(
+  confirmDelete(playlistId: number): void { // Adjust method signature
+    this.eventService.deleteEvent(playlistId).subscribe(
       () => {
         console.log('Event deleted successfully.');
         this.router.navigate(['/viewEvents']); // Adjust the route to navigate after deletion

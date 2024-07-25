@@ -41,13 +41,13 @@ describe('DeleteConfirmComponent', () => {
     });
 
     fit('DeleteConfirmComponent_should_call_deleteEvent_method_when_confirmDelete_is_called', () => {
-        const eventId = 1; // Adjusted ID name
+        const playlistId = 1; // Adjusted ID name
         
         mockEventService.deleteEvent.and.returnValue(of(null)); // Adjusted method name
 
-        component.confirmDelete(eventId); // Adjusted parameter name
+        component.confirmDelete(playlistId); // Adjusted parameter name
 
-        expect(mockEventService.deleteEvent).toHaveBeenCalledWith(eventId); // Adjusted method name and parameter
+        expect(mockEventService.deleteEvent).toHaveBeenCalledWith(playlistId); // Adjusted method name and parameter
     });
 });
 

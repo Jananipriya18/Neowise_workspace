@@ -47,7 +47,7 @@ namespace dotnetapp.Controllers
             _context.Events.Add(Event);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvent", new { id = Event.eventId }, Event);
+            return CreatedAtAction("GetEvent", new { id = Event.playlistId }, Event);
         }
 
         // DELETE: api/Event/5
@@ -78,7 +78,7 @@ namespace dotnetapp.Controllers
             var lowerSearchTerm = searchTerm.ToLower();
 
             var events = await _context.Events
-                .Where(e => e.eventName.ToLower().Contains(lowerSearchTerm))
+                .Where(e => e.playlistName.ToLower().Contains(lowerSearchTerm))
                 .ToListAsync();
 
             return events;

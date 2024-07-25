@@ -38,13 +38,13 @@ describe('EventFormComponent', () => {
   fit('EventFormComponent_should_render_error_messages_when_required_fields_are_empty_on_submit', () => {
     // Set all fields to empty strings
     component.newEvent = {
-      eventId: 0,
-      eventName: '',
-      eventDescription: '',
-      eventDate: '',
-      eventTime: '',
-      eventLocation: '',
-      eventOrganizer: ''
+      playlistId: 0,
+      playlistName: '',
+      songName: '',
+      yearOfRelease: '',
+      artistName: '',
+      genre: '',
+      MovieName: ''
     } as Event;
 
     // Manually trigger form submission
@@ -61,24 +61,24 @@ describe('EventFormComponent', () => {
     fixture.detectChanges();
 
     // Check if error messages are rendered for each field
-    expect(fixture.debugElement.query(By.css('#eventName + .error-message'))).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('#eventDescription + .error-message'))).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('#eventDate + .error-message'))).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('#eventTime + .error-message'))).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('#eventLocation + .error-message'))).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('#eventOrganizer + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#playlistName + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#songName + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#yearOfRelease + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#artistName + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#genre + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#MovieName + .error-message'))).toBeTruthy();
   });
 
   fit('EventFormComponent_should_call_addEvent_method_while_adding_the_event', () => {
     // Create a mock Event object with all required properties
     const event: Event = {
-      eventId: 1,
-      eventName: 'Test Event Name',
-      eventDescription: 'Test Event Description',
-      eventDate: 'Test Event Date',
-      eventTime: 'Test Event Time',
-      eventLocation: 'Test Event Location',
-      eventOrganizer: 'Test Event Organizer'
+      playlistId: 1,
+      playlistName: 'Test Event Name',
+      songName: 'Test Event Description',
+      yearOfRelease: 'Test Event Date',
+      artistName: 'Test Event Time',
+      genre: 'Test Event Location',
+      MovieName: 'Test Event Organizer'
     };
 
     const addEventSpy = spyOn(component, 'addEvent').and.callThrough();

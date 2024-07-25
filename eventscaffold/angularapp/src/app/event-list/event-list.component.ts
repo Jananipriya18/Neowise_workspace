@@ -23,9 +23,9 @@ export class EventListComponent implements OnInit {
     this.eventService.getEvents().subscribe(events => this.events = events); // Adjusted the service method name
   }
 
-  deleteEvent(eventId: number): void { // Adjusted the method name and parameter
+  deleteEvent(playlistId: number): void { // Adjusted the method name and parameter
     // Navigate to confirm delete page with the event ID as a parameter
-    this.router.navigate(['/confirmDelete', eventId]);
+    this.router.navigate(['/confirmDelete', playlistId]);
   }
   searchEvents(): void {
     if (this.searchTerm) {

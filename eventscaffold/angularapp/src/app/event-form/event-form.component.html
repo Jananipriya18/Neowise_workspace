@@ -1,33 +1,33 @@
 <form (submit)="addEvent()">
     <div>
-        <label for="eventName">Event Name:</label>
-        <input type="text" id="eventName" [(ngModel)]="newEvent.eventName" name="eventName" required>
-        <div *ngIf="isFieldInvalid('eventName')" class="error-message">Event Name is required</div>
+        <label for="playlistName">Event Name:</label>
+        <input type="text" id="playlistName" [(ngModel)]="newEvent.playlistName" name="playlistName" required>
+        <div *ngIf="isFieldInvalid('playlistName')" class="error-message">Event Name is required</div>
     </div>
     <div>
-        <label for="eventDescription">Event Description:</label>
-        <input type="text" id="eventDescription" [(ngModel)]="newEvent.eventDescription" name="eventDescription" required>
-        <div *ngIf="isFieldInvalid('eventDescription')" class="error-message">Event Description is required</div>
+        <label for="songName">Event Description:</label>
+        <input type="text" id="songName" [(ngModel)]="newEvent.songName" name="songName" required>
+        <div *ngIf="isFieldInvalid('songName')" class="error-message">Event Description is required</div>
     </div>
     <div>
-        <label for="eventDate">Event Date:</label>
-        <input type="text" id="eventDate" [(ngModel)]="newEvent.eventDate" name="eventDate" required>
-        <div *ngIf="isFieldInvalid('eventDate')" class="error-message">Event Date is required</div>
+        <label for="yearOfRelease">Event Date:</label>
+        <input type="text" id="yearOfRelease" [(ngModel)]="newEvent.yearOfRelease" name="yearOfRelease" required>
+        <div *ngIf="isFieldInvalid('yearOfRelease')" class="error-message">Event Date is required</div>
     </div>
     <div>
-        <label for="eventTime">Event Time:</label>
-        <input type="text" id="eventTime" [(ngModel)]="newEvent.eventTime" name="eventTime" required>
-        <div *ngIf="isFieldInvalid('eventTime')" class="error-message">Event Time is required</div>
+        <label for="artistName">Event Time:</label>
+        <input type="text" id="artistName" [(ngModel)]="newEvent.artistName" name="artistName" required>
+        <div *ngIf="isFieldInvalid('artistName')" class="error-message">Event Time is required</div>
     </div>
     <div>
-        <label for="eventLocation">Event Location:</label>
-        <input type="text" id="eventLocation" [(ngModel)]="newEvent.eventLocation" name="eventLocation" required>
-        <div *ngIf="isFieldInvalid('eventLocation')" class="error-message">Event Location is required</div>
+        <label for="genre">Event Location:</label>
+        <input type="text" id="genre" [(ngModel)]="newEvent.genre" name="genre" required>
+        <div *ngIf="isFieldInvalid('genre')" class="error-message">Event Location is required</div>
     </div>
     <div>
-        <label for="eventOrganizer">Event Organizer:</label>
-        <input type="text" id="eventOrganizer" [(ngModel)]="newEvent.eventOrganizer" name="eventOrganizer" required>
-        <div *ngIf="isFieldInvalid('eventOrganizer')" class="error-message">Event Organizer is required</div>
+        <label for="MovieName">Event Organizer:</label>
+        <input type="text" id="MovieName" [(ngModel)]="newEvent.MovieName" name="MovieName" required>
+        <div *ngIf="isFieldInvalid('MovieName')" class="error-message">Event Organizer is required</div>
     </div>
     <button type="submit">Add Event</button>
 </form>

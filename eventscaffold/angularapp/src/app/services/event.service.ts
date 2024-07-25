@@ -19,13 +19,13 @@ export class EventService {
     return this.http.get<Event[]>(`${this.apiUrl}/api/Event`);
   }
 
-  deleteEvent(eventId: number): Observable<void> {
-    const url = `${this.apiUrl}/api/Event/${eventId}`; // Adjust the URL to match your API endpoint
+  deleteEvent(playlistId: number): Observable<void> {
+    const url = `${this.apiUrl}/api/Event/${playlistId}`; // Adjust the URL to match your API endpoint
     return this.http.delete<void>(url);
   }
 
-  getEvent(eventId: number): Observable<Event> {
-    const url = `${this.apiUrl}/api/Event/${eventId}`;
+  getEvent(playlistId: number): Observable<Event> {
+    const url = `${this.apiUrl}/api/Event/${playlistId}`;
     return this.http.get<Event>(url);
   }
 
