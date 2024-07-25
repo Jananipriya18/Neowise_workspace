@@ -99,4 +99,32 @@ describe('PlaylistService', () => {
     req.flush(mockPlaylist);
   });
 
+  fit('PlaylistService_should_search_playlistnames', () => {
+    const mockPlaylists: Playlist[] = [
+      {
+        playlistId: 100,
+        playlistName: 'Test Playlist Name',
+        songName: 'Test Playlist Description',
+        yearOfRelease: 'Test Playlist Date',
+        artistName: 'Test Playlist Time',
+        genre: 'Test Playlist Location',
+        MovieName: 'Test Playlist Organizer'
+      }
+    ];
+  
+    const searchTerm = 'Test Playlist name';
+  
+    service.searchPlaylists(searchTerm).subscribe((playlists) => {
+      expect(playlists).toEqual(mockPlaylists);
+    });
+  
+    const req = httpTestingController.expectOne((request) => 
+      request.url.includes(`${service['apiUrl']}/api/Playlist/search`) && 
+      request.params.get('searchTerm') === searchTerm
+    );
+    
+    expect(req.request.method).toBe('GET');
+    req.flush(mockPlaylists);
+  });  
+
 });
