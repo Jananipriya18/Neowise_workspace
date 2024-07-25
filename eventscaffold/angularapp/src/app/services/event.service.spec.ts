@@ -1,18 +1,18 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { EventService } from './event.service'; // Adjusted service import
-import { Event } from '../models/event.model';
+import { PlaylistService } from './event.service'; // Adjusted service import
+import { Playlist } from '../models/event.model';
 
-describe('EventService', () => {
-  let service: EventService;
+describe('PlaylistService', () => {
+  let service: PlaylistService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [EventService], // Changed service provider to EventService
+      providers: [PlaylistService], // Changed service provider to PlaylistService
     });
-    service = TestBed.inject(EventService); // Changed service variable assignment to EventService
+    service = TestBed.inject(PlaylistService); // Changed service variable assignment to PlaylistService
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
@@ -20,83 +20,83 @@ describe('EventService', () => {
     httpTestingController.verify();
   });
 
-  fit('EventService_should_be_created', () => {
+  fit('PlaylistService_should_be_created', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('EventService_should_add_an_event_and_return_it', () => {
-    const mockEvent: Event = {
+  fit('PlaylistService_should_add_an_event_and_return_it', () => {
+    const mockPlaylist: Playlist = {
       playlistId: 100,
-      playlistName: 'Test Event Name',
-      songName: 'Test Event Description',
-      yearOfRelease: 'Test Event Date',
-      artistName: 'Test Event Time',
-      genre: 'Test Event Location',
-      MovieName: 'Test Event Organizer'
+      playlistName: 'Test Playlist Name',
+      songName: 'Test Playlist Description',
+      yearOfRelease: 'Test Playlist Date',
+      artistName: 'Test Playlist Time',
+      genre: 'Test Playlist Location',
+      MovieName: 'Test Playlist Organizer'
     };
 
-    service.addEvent(mockEvent).subscribe((event) => {
-      expect(event).toEqual(mockEvent);
+    service.addPlaylist(mockPlaylist).subscribe((event) => {
+      expect(event).toEqual(mockPlaylist);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Event`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist`); // Adjusted API endpoint
     expect(req.request.method).toBe('POST');
-    req.flush(mockEvent);
+    req.flush(mockPlaylist);
   });
 
-  fit('EventService_should_get_events', () => {
-    const mockEvents: Event[] = [
+  fit('PlaylistService_should_get_events', () => {
+    const mockPlaylists: Playlist[] = [
       {
         playlistId: 100,
-        playlistName: 'Test Event Name',
-        songName: 'Test Event Description',
-        yearOfRelease: 'Test Event Date',
-        artistName: 'Test Event Time',
-        genre: 'Test Event Location',
-        MovieName: 'Test Event Organizer'
+        playlistName: 'Test Playlist Name',
+        songName: 'Test Playlist Description',
+        yearOfRelease: 'Test Playlist Date',
+        artistName: 'Test Playlist Time',
+        genre: 'Test Playlist Location',
+        MovieName: 'Test Playlist Organizer'
       }
     ];
 
-    service.getEvents().subscribe((events) => {
-      expect(events).toEqual(mockEvents);
+    service.getPlaylists().subscribe((events) => {
+      expect(events).toEqual(mockPlaylists);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Event`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist`); // Adjusted API endpoint
     expect(req.request.method).toBe('GET');
-    req.flush(mockEvents);
+    req.flush(mockPlaylists);
   });
 
-  fit('EventService_should_delete_event', () => {
+  fit('PlaylistService_should_delete_event', () => {
     const playlistId = 100;
 
-    service.deleteEvent(playlistId).subscribe(() => {
+    service.deletePlaylist(playlistId).subscribe(() => {
       expect().nothing();
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Event/${playlistId}`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist/${playlistId}`); // Adjusted API endpoint
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
 
-  fit('EventService_should_get_event_by_id', () => {
+  fit('PlaylistService_should_get_event_by_id', () => {
     const playlistId = 100;
-    const mockEvent: Event = {
+    const mockPlaylist: Playlist = {
       playlistId: playlistId,
-      playlistName: 'Test Event Name',
-      songName: 'Test Event Description',
-      yearOfRelease: 'Test Event Date',
-      artistName: 'Test Event Time',
-      genre: 'Test Event Location',
-      MovieName: 'Test Event Organizer'
+      playlistName: 'Test Playlist Name',
+      songName: 'Test Playlist Description',
+      yearOfRelease: 'Test Playlist Date',
+      artistName: 'Test Playlist Time',
+      genre: 'Test Playlist Location',
+      MovieName: 'Test Playlist Organizer'
     };
 
-    service.getEvent(playlistId).subscribe((event) => {
-      expect(event).toEqual(mockEvent);
+    service.getPlaylist(playlistId).subscribe((event) => {
+      expect(event).toEqual(mockPlaylist);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Event/${playlistId}`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist/${playlistId}`); // Adjusted API endpoint
     expect(req.request.method).toBe('GET');
-    req.flush(mockEvent);
+    req.flush(mockPlaylist);
   });
 
 });

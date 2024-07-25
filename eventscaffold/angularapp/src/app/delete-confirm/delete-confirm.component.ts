@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EventService } from '../services/event.service' // Adjusted service name
-import { Event } from '../models/event.model'; // Adjusted model name
+import { PlaylistService } from '../services/event.service' // Adjusted service name
+import { Playlist } from '../models/event.model'; // Adjusted model name
 
 @Component({
   selector: 'app-delete-confirm',
@@ -10,19 +10,19 @@ import { Event } from '../models/event.model'; // Adjusted model name
 })
 export class DeleteConfirmComponent implements OnInit {
   playlistId: number;
-  event: Event = {} as Event; // Initialize event property with an empty object
+  event: Playlist = {} as Playlist; // Initialize event property with an empty object
 
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private eventService: EventService // Adjusted service name
+    private eventService: PlaylistService // Adjusted service name
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.playlistId = +params['id']; // Adjust parameter name to 'id' if it matches the route parameter
-      this.eventService.getEvent(this.playlistId).subscribe(
-        (event: Event) => {
+      this.eventService.getPlaylist(this.playlistId).subscribe(
+        (event: Playlist) => {
           this.event = event;
         },
         error => {
@@ -33,10 +33,10 @@ export class DeleteConfirmComponent implements OnInit {
   }
 
   confirmDelete(playlistId: number): void { // Adjust method signature
-    this.eventService.deleteEvent(playlistId).subscribe(
+    this.eventService.deletePlaylist(playlistId).subscribe(
       () => {
-        console.log('Event deleted successfully.');
-        this.router.navigate(['/viewEvents']); // Adjust the route to navigate after deletion
+        console.log('Playlist deleted successfully.');
+        this.router.navigate(['/viewPlaylists']); // Adjust the route to navigate after deletion
       },
       (error) => {
         console.error('Error deleting event:', error);
@@ -45,6 +45,6 @@ export class DeleteConfirmComponent implements OnInit {
   }
 
   cancelDelete(): void {
-    this.router.navigate(['/viewEvents']); // Adjust the route to navigate on cancel
+    this.router.navigate(['/viewPlaylists']); // Adjust the route to navigate on cancel
   }
 }

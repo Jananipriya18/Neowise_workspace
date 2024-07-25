@@ -78,8 +78,13 @@ namespace dotnetapp.Controllers
             var lowerSearchTerm = searchTerm.ToLower();
 
             var events = await _context.Playlists
-                .Where(e => e.playlistName.ToLower().Contains(lowerSearchTerm))
+                .Where(e => e.playlistName.ToLower().Equals(lowerSearchTerm))
                 .ToListAsync();
+
+            if (!events.Any())
+            {
+                return NotFound("The searched playlist does not exist.");
+            }
 
             return events;
         }

@@ -1,4 +1,4 @@
-export interface Event {
+export interface Playlist {
   playlistId: number;
   playlistName: string;
   songName: string;

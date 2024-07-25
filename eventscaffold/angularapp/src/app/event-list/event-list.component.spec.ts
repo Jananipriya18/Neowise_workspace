@@ -1,47 +1,47 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { EventService } from '../services/event.service'; // Import EventService
-import { EventListComponent } from './event-list.component'; // Adjust the import path
+import { PlaylistService } from '../services/event.service'; // Import PlaylistService
+import { PlaylistListComponent } from './event-list.component'; // Adjust the import path
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Event } from '../models/event.model'; // Import Event model
+import { Playlist } from '../models/event.model'; // Import Playlist model
 
-describe('EventListComponent', () => {
-    let component: EventListComponent;
-    let fixture: ComponentFixture<EventListComponent>;
-    let mockEventService: jasmine.SpyObj<EventService>; // Specify the type of mock
+describe('PlaylistListComponent', () => {
+    let component: PlaylistListComponent;
+    let fixture: ComponentFixture<PlaylistListComponent>;
+    let mockPlaylistService: jasmine.SpyObj<PlaylistService>; // Specify the type of mock
 
     beforeEach(waitForAsync(() => {
         // Create a spy object with the methods you want to mock
-        mockEventService = jasmine.createSpyObj<EventService>('EventService', ['getEvents', 'deleteEvent'] as any);
+        mockPlaylistService = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'deletePlaylist'] as any);
 
         TestBed.configureTestingModule({
-            declarations: [EventListComponent],
+            declarations: [PlaylistListComponent],
             imports: [RouterTestingModule, HttpClientTestingModule],
             providers: [
                 // Provide the mock service instead of the actual service
-                { provide: EventService, useValue: mockEventService }
+                { provide: PlaylistService, useValue: mockPlaylistService }
             ]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(EventListComponent);
+        fixture = TestBed.createComponent(PlaylistListComponent);
         component = fixture.componentInstance;
     });
 
-    fit('should_create_EventListComponent', () => { // Change the function name
+    fit('should_create_PlaylistListComponent', () => { // Change the function name
         expect(component).toBeTruthy();
     });
 
-    fit('EventListComponent_should_call_loadEvents_on_ngOnInit', () => { // Change the function name
-        spyOn(component, 'loadEvents'); // Adjust the method name
+    fit('PlaylistListComponent_should_call_loadPlaylists_on_ngOnInit', () => { // Change the function name
+        spyOn(component, 'loadPlaylists'); // Adjust the method name
         fixture.detectChanges();
-        expect(component.loadEvents).toHaveBeenCalled(); // Adjust the method name
+        expect(component.loadPlaylists).toHaveBeenCalled(); // Adjust the method name
     });
 
-    fit('EventListComponent_should_have_searchEvents_method', () => {
-        expect(component.searchEvents).toBeDefined();
+    fit('PlaylistListComponent_should_have_searchPlaylists_method', () => {
+        expect(component.searchPlaylists).toBeDefined();
       }); 
 
 });

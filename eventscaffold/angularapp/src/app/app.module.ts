@@ -5,9 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { EventFormComponent } from './event-form/event-form.component';
+import { PlaylistFormComponent } from './playlist-form/event-form.component';
 import { HeaderComponent } from './header/header.component';
-import { EventListComponent } from './event-list/event-list.component';
+import { PlaylistListComponent } from './event-list/event-list.component';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 
@@ -16,9 +16,9 @@ import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.componen
 @NgModule({
   declarations: [
     AppComponent,
-    EventFormComponent,
+    PlaylistFormComponent,
     HeaderComponent,
-    EventListComponent,
+    PlaylistListComponent,
     DeleteConfirmComponent
   ],
   imports: [

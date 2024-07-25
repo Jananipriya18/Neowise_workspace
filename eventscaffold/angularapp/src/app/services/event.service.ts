@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Event } from '../models/event.model';
+import { Playlist } from '../models/event.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class PlaylistService {
   private apiUrl = 'https://8080-bfdeeddcedfa313953410ebabbcadeeefceacone.premiumproject.examly.io'; // Replace this with your API endpoint
 
   constructor(private http: HttpClient) { }
 
-  addEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>(`${this.apiUrl}/api/Event`, event);
+  addPlaylist(event: Playlist): Observable<Playlist> {
+    return this.http.post<Playlist>(`${this.apiUrl}/api/Playlist`, event);
   }
 
-  getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/api/Event`);
+  getPlaylists(): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${this.apiUrl}/api/Playlist`);
   }
 
-  deleteEvent(playlistId: number): Observable<void> {
-    const url = `${this.apiUrl}/api/Event/${playlistId}`; // Adjust the URL to match your API endpoint
+  deletePlaylist(playlistId: number): Observable<void> {
+    const url = `${this.apiUrl}/api/Playlist/${playlistId}`; // Adjust the URL to match your API endpoint
     return this.http.delete<void>(url);
   }
 
-  getEvent(playlistId: number): Observable<Event> {
-    const url = `${this.apiUrl}/api/Event/${playlistId}`;
-    return this.http.get<Event>(url);
+  getPlaylist(playlistId: number): Observable<Playlist> {
+    const url = `${this.apiUrl}/api/Playlist/${playlistId}`;
+    return this.http.get<Playlist>(url);
   }
 
-  searchEvents(searchTerm: string): Observable<Event[]> {
+  searchPlaylists(searchTerm: string): Observable<Playlist[]> {
     const params = new HttpParams().set('searchTerm', searchTerm);
-    return this.http.get<Event[]>(`${this.apiUrl}/api/Event/search`, { params });
+    return this.http.get<Playlist[]>(`${this.apiUrl}/api/Playlist/search`, { params });
   }
 }
