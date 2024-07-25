@@ -103,7 +103,7 @@ describe('PlaylistService', () => {
     const mockPlaylists: Playlist[] = [
       {
         playlistId: 100,
-        playlistName: 'Test Playlist Name',
+        playlistName: 'Appllih',
         songName: 'Test Playlist Description',
         yearOfRelease: 'Test Playlist Date',
         artistName: 'Test Playlist Time',
@@ -112,7 +112,7 @@ describe('PlaylistService', () => {
       }
     ];
   
-    const searchTerm = 'Test Playlist name';
+    const searchTerm = 'Apple';
   
     service.searchPlaylists(searchTerm).subscribe((playlists) => {
       expect(playlists).toEqual(mockPlaylists);
@@ -122,9 +122,9 @@ describe('PlaylistService', () => {
       request.url.includes(`${service['apiUrl']}/api/Playlist/search`) && 
       request.params.get('searchTerm') === searchTerm
     );
-    
+  
     expect(req.request.method).toBe('GET');
     req.flush(mockPlaylists);
-  });  
+  }); 
 
 });

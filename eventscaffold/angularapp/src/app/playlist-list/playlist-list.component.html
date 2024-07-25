@@ -4,9 +4,13 @@
     <div>
         <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Search by playlist name">
         <button id="search" class="search-button" (click)="searchPlaylists()">Search</button>
-      </div>
+    </div>
 
-    <div *ngIf="playlists.length === 0" class="no-playlists-message">
+    <div *ngIf="searchTerm && playlists.length === 0" class="error-message">
+        The searched playlist does not exist.
+    </div>
+
+    <div *ngIf="!searchTerm && playlists.length === 0" class="no-playlists-message">
         No playlists available.
     </div>
   
