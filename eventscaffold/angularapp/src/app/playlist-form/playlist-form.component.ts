@@ -1,46 +1,46 @@
 import { Component } from '@angular/core';
-import { Playlist } from '../models/playlist.model';
-import { PlaylistService } from '../services/playlist.service';
+import { CartoonEpisode } from '../models/cartoon-episode.model';
+import { CartoonEpisodeService } from '../services/cartoon-episode.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-playlist-form',
-  templateUrl: './playlist-form.component.html',
-  styleUrls: ['./playlist-form.component.css']
+  selector: 'app-cartoon-episode-form',
+  templateUrl: './cartoon-episode-form.component.html',
+  styleUrls: ['./cartoon-episode-form.component.css']
 })
-export class PlaylistFormComponent {
-  newPlaylist: Playlist = {
-    playlistId: 0,
-    playlistName: '',
-    songName: '',
-    yearOfRelease: '',
-    artistName: '',
-    genre: '',
-    MovieName: ''
-  }; // Initialize newPlaylist with empty fields
+export class CartoonEpisodeFormComponent {
+  newEpisode: CartoonEpisode = {
+    episodeId: 0,
+    cartoonSeriesName: '',
+    episodeTitle: '',
+    releaseDate: '',
+    directorName: '',
+    duration: '',
+    description: ''
+  };
 
-  formSubmitted = false; // Track form submission
+  formSubmitted = false; 
 
-  constructor(private playlistService: PlaylistService, private router: Router) { }
+  constructor(private cartoonEpisodeService: CartoonEpisodeService, private router: Router) { }
 
-  addPlaylist(): void {
-    this.formSubmitted = true; // Set formSubmitted to true on form submission
+  addCartoonEpisode(): void {
+    this.formSubmitted = true; 
     if (this.isFormValid()) {
-      this.playlistService.addPlaylist(this.newPlaylist).subscribe(() => {
-        console.log('Playlist added successfully!');
-        this.router.navigate(['/viewPlaylists']);
+      this.cartoonEpisodeService.addCartoonEpisode(this.newEpisode).subscribe(() => {
+        console.log('Cartoon episode added successfully!');
+        this.router.navigate(['/viewEpisodes']);
       });
     }
   }
 
   isFieldInvalid(fieldName: string): boolean {
-    const fieldValue = this.newPlaylist[fieldName];
+    const fieldValue = this.newEpisode[fieldName];
     return !fieldValue && this.formSubmitted;
   }
 
   isFormValid(): boolean {
-    return !this.isFieldInvalid('playlistName') && !this.isFieldInvalid('songName') &&
-      !this.isFieldInvalid('yearOfRelease') && !this.isFieldInvalid('artistName') &&
-      !this.isFieldInvalid('genre') && !this.isFieldInvalid('MovieName');
+    return !this.isFieldInvalid('cartoonSeriesName') && !this.isFieldInvalid('episodeTitle') &&
+      !this.isFieldInvalid('releaseDate') && !this.isFieldInvalid('directorName') &&
+      !this.isFieldInvalid('duration') && !this.isFieldInvalid('genre');
   }
 }

@@ -4,6 +4,7 @@ namespace dotnetapp.Models
 {
     public class CartoonEpisode
     {
+        [Key]
         public int EpisodeId { get; set; }
 
         [Required(ErrorMessage = "Cartoon series name is required.")]
@@ -28,9 +29,5 @@ namespace dotnetapp.Models
 
         [StringLength(1000, ErrorMessage = "Description can't exceed 1000 characters.")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "Genre is required.")]
-        [StringLength(100, MinimumLength = 1, ErrorMessage = "Genre must be between 1 and 100 characters.")]
-        public string Genre { get; set; }
     }
 }

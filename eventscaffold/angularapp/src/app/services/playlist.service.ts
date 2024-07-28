@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Playlist } from '../models/playlist.model';
+import { CartoonEpisode } from '../models/cartoon-episode.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlaylistService {
-  private apiUrl = 'https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io'; // Replace this with your API endpoint
+export class CartoonEpisodeService {
+  private apiUrl = 'https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io';
 
   constructor(private http: HttpClient) { }
 
-  addPlaylist(playlist: Playlist): Observable<Playlist> {
-    return this.http.post<Playlist>(`${this.apiUrl}/api/Playlist`, playlist);
+  addCartoonEpisode(cartoonEpisode: CartoonEpisode): Observable<CartoonEpisode> {
+    return this.http.post<CartoonEpisode>(`${this.apiUrl}/api/CartoonEpisode`, cartoonEpisode);
   }
 
-  getPlaylists(): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>(`${this.apiUrl}/api/Playlist`);
+  getCartoonEpisodes(): Observable<CartoonEpisode[]> {
+    return this.http.get<CartoonEpisode[]>(`${this.apiUrl}/api/CartoonEpisode`);
   }
 
-  deletePlaylist(playlistId: number): Observable<void> {
-    const url = `${this.apiUrl}/api/Playlist/${playlistId}`; // Adjust the URL to match your API endpoint
+  deleteCartoonEpisode(episodeId: number): Observable<void> {
+    const url = `${this.apiUrl}/api/CartoonEpisode/${episodeId}`; // Adjust the URL to match your API endpoint
     return this.http.delete<void>(url);
   }
 
-  getPlaylist(playlistId: number): Observable<Playlist> {
-    const url = `${this.apiUrl}/api/Playlist/${playlistId}`;
-    return this.http.get<Playlist>(url);
+  getCartoonEpisode(episodeId: number): Observable<CartoonEpisode> {
+    const url = `${this.apiUrl}/api/CartoonEpisode/${episodeId}`;
+    return this.http.get<CartoonEpisode>(url);
   }
 
-  searchPlaylists(searchTerm: string): Observable<Playlist[]> {
+  searchCartoonEpisodes(searchTerm: string): Observable<CartoonEpisode[]> {
     const params = new HttpParams().set('searchTerm', searchTerm);
-    return this.http.get<Playlist[]>(`${this.apiUrl}/api/Playlist/search`, { params });
+    return this.http.get<CartoonEpisode[]>(`${this.apiUrl}/api/CartoonEpisode/search`, { params });
   }
 }
