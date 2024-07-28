@@ -1,18 +1,18 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { PlaylistService } from './playlist.service'; // Adjusted service import
-import { Playlist } from '../models/playlist.model';
+import { CartoonEpisodeService } from './cartoon-episode.service'; // Adjusted service import
+import { CartoonEpisode } from '../models/cartoon-episode.model';
 
-describe('PlaylistService', () => {
-  let service: PlaylistService;
+describe('CartoonEpisodeService', () => {
+  let service: CartoonEpisodeService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [PlaylistService], // Changed service provider to PlaylistService
+      providers: [CartoonEpisodeService], // Changed service provider to CartoonEpisodeService
     });
-    service = TestBed.inject(PlaylistService); // Changed service variable assignment to PlaylistService
+    service = TestBed.inject(CartoonEpisodeService); // Changed service variable assignment to CartoonEpisodeService
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
@@ -20,112 +20,115 @@ describe('PlaylistService', () => {
     httpTestingController.verify();
   });
 
-  fit('PlaylistService_should_be_created', () => {
+  fit('CartoonEpisodeService_should_be_created', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('PlaylistService_should_add_an_event_and_return_it', () => {
-    const mockPlaylist: Playlist = {
-      playlistId: 100,
-      playlistName: 'Test Playlist Name',
-      songName: 'Test Playlist Description',
-      yearOfRelease: 'Test Playlist Date',
-      artistName: 'Test Playlist Time',
-      genre: 'Test Playlist Location',
-      MovieName: 'Test Playlist Organizer'
+  fit('CartoonEpisodeService_should_add_an_episode_and_return_it', () => {
+    const mockCartoonEpisode: CartoonEpisode = {
+      episodeId: 100,
+      cartoonSeriesName: 'Test Cartoon Series Name',
+      episodeTitle: 'Test Episode Title',
+      releaseDate: '2024-07-28',
+      directorName: 'Test Director Name',
+      duration: 30,
+      description: 'Test Description',
+      genre: 'Test Genre'
     };
 
-    service.addPlaylist(mockPlaylist).subscribe((event) => {
-      expect(event).toEqual(mockPlaylist);
+    service.addCartoonEpisode(mockCartoonEpisode).subscribe((episode) => {
+      expect(episode).toEqual(mockCartoonEpisode);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CartoonEpisode`); // Adjusted API endpoint
     expect(req.request.method).toBe('POST');
-    req.flush(mockPlaylist);
+    req.flush(mockCartoonEpisode);
   });
 
-  fit('PlaylistService_should_get_events', () => {
-    const mockPlaylists: Playlist[] = [
+  fit('CartoonEpisodeService_should_get_episodes', () => {
+    const mockCartoonEpisodes: CartoonEpisode[] = [
       {
-        playlistId: 100,
-        playlistName: 'Test Playlist Name',
-        songName: 'Test Playlist Description',
-        yearOfRelease: 'Test Playlist Date',
-        artistName: 'Test Playlist Time',
-        genre: 'Test Playlist Location',
-        MovieName: 'Test Playlist Organizer'
+        episodeId: 100,
+        cartoonSeriesName: 'Test Cartoon Series Name',
+        episodeTitle: 'Test Episode Title',
+        releaseDate: '2024-07-28',
+        directorName: 'Test Director Name',
+        duration: 30,
+        description: 'Test Description',
+        genre: 'Test Genre'
       }
     ];
 
-    service.getPlaylists().subscribe((events) => {
-      expect(events).toEqual(mockPlaylists);
+    service.getCartoonEpisodes().subscribe((episodes) => {
+      expect(episodes).toEqual(mockCartoonEpisodes);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CartoonEpisode`); // Adjusted API endpoint
     expect(req.request.method).toBe('GET');
-    req.flush(mockPlaylists);
+    req.flush(mockCartoonEpisodes);
   });
 
-  fit('PlaylistService_should_delete_event', () => {
-    const playlistId = 100;
+  fit('CartoonEpisodeService_should_delete_episode', () => {
+    const episodeId = 100;
 
-    service.deletePlaylist(playlistId).subscribe(() => {
+    service.deleteCartoonEpisode(episodeId).subscribe(() => {
       expect().nothing();
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist/${playlistId}`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CartoonEpisode/${episodeId}`); // Adjusted API endpoint
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
 
-  fit('PlaylistService_should_get_event_by_id', () => {
-    const playlistId = 100;
-    const mockPlaylist: Playlist = {
-      playlistId: playlistId,
-      playlistName: 'Test Playlist Name',
-      songName: 'Test Playlist Description',
-      yearOfRelease: 'Test Playlist Date',
-      artistName: 'Test Playlist Time',
-      genre: 'Test Playlist Location',
-      MovieName: 'Test Playlist Organizer'
+  fit('CartoonEpisodeService_should_get_episode_by_id', () => {
+    const episodeId = 100;
+    const mockCartoonEpisode: CartoonEpisode = {
+      episodeId: episodeId,
+      cartoonSeriesName: 'Test Cartoon Series Name',
+      episodeTitle: 'Test Episode Title',
+      releaseDate: '2024-07-28',
+      directorName: 'Test Director Name',
+      duration: 30,
+      description: 'Test Description',
+      genre: 'Test Genre'
     };
 
-    service.getPlaylist(playlistId).subscribe((event) => {
-      expect(event).toEqual(mockPlaylist);
+    service.getCartoonEpisode(episodeId).subscribe((episode) => {
+      expect(episode).toEqual(mockCartoonEpisode);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/Playlist/${playlistId}`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CartoonEpisode/${episodeId}`); // Adjusted API endpoint
     expect(req.request.method).toBe('GET');
-    req.flush(mockPlaylist);
+    req.flush(mockCartoonEpisode);
   });
 
-  fit('PlaylistService_should_search_playlistnames', () => {
-    const mockPlaylists: Playlist[] = [
+  fit('CartoonEpisodeService_should_search_cartoonEpisodes', () => {
+    const mockCartoonEpisodes: CartoonEpisode[] = [
       {
-        playlistId: 100,
-        playlistName: 'Test Playlist Name',
-        songName: 'Test Playlist Description',
-        yearOfRelease: 'Test Playlist Date',
-        artistName: 'Test Playlist Time',
-        genre: 'Test Playlist Location',
-        MovieName: 'Test Playlist Organizer'
+        episodeId: 100,
+        cartoonSeriesName: 'Test Cartoon Series Name',
+        episodeTitle: 'Test Episode Title',
+        releaseDate: '2024-07-28',
+        directorName: 'Test Director Name',
+        duration: 30,
+        description: 'Test Description',
+        genre: 'Test Genre'
       }
     ];
   
     const searchTerm = 'Apple';
   
-    service.searchPlaylists(searchTerm).subscribe((playlists) => {
-      expect(playlists).toEqual(mockPlaylists);
+    service.searchCartoonEpisodes(searchTerm).subscribe((episodes) => {
+      expect(episodes).toEqual(mockCartoonEpisodes);
     });
   
     const req = httpTestingController.expectOne((request) => 
-      request.url.includes(`${service['apiUrl']}/api/Playlist/search`) && 
+      request.url.includes(`${service['apiUrl']}/api/CartoonEpisode/search`) && 
       request.params.get('searchTerm') === searchTerm
     );
   
     expect(req.request.method).toBe('GET');
-    req.flush(mockPlaylists);
+    req.flush(mockCartoonEpisodes);
   }); 
   
 });
-
