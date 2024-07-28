@@ -10,6 +10,6 @@ namespace dotnetapp.Data
         {
         }
         
-        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<CartoonEpisode> CartoonEpisodes { get; set; }
     }
 }
