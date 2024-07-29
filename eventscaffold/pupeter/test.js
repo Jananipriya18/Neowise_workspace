@@ -125,7 +125,7 @@ try {
   await page5.waitForSelector('#releaseDate');
   await page5.waitForSelector('#directorName');
   await page5.waitForSelector('#duration');
-  await.page5.waitForSelector(#description)
+  await page5.waitForSelector('#description');
   await page5.waitForSelector('button[type="submit"]');
 
   // Click the Add CartoonEpisodes button without entering any data
@@ -141,27 +141,31 @@ try {
     { id: '#releaseDate', message: 'Release date is required' },
     { id: '#directorName', message: 'Director name is required' },
     { id: '#duration', message: 'Duration is required' },
+    { id: '#description', message: 'Description is required' },
   ];
 
   let isValidationFailed = false;
 
   // Iterate through each field and check its corresponding error message
   for (const fieldData of fieldsToCheck) {
-    const errorMessage = await page5.$eval(fieldData.id + ' + .error-message', el => el.textContent);
+    const errorMessage = await page5.$eval(fieldData.id + ' + .error', el => el.textContent);
     if (!errorMessage.includes(fieldData.message)) {
       isValidationFailed = true;
     }
+    console.log(errorMessage);
   }
 
   // Log a single failure message if any validation fails
   if (isValidationFailed) {
-    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
-  } else {
     console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:success');
+  } else {
+    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
   }
 } catch (error) {
+  console.error('Error:', error);
   console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
 }
+
 
 
 const page6 = await browser.newPage();
@@ -180,6 +184,7 @@ try {
   await page6.type('#releaseDate', '2024-07-10');
   await page6.type('#directorName', 'Test Director name');
   await page6.type('#duration', '45');
+  await page6.type('#description', 'Test Description');
   console.log('Form filled out');
 
   // Submit the form

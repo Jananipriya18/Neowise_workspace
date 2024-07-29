@@ -29,6 +29,7 @@
       <div class="form-group">
         <label for="description">Description</label>
         <textarea id="description" [(ngModel)]="newEpisode.description" name="description"></textarea>
+        <div *ngIf="isFieldInvalid('description')" class="error">Description is required</div>
       </div>
       <button type="submit">Add Episode</button>
     </form>
