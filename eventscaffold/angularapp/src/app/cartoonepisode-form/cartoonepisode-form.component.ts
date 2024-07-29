@@ -41,6 +41,6 @@ export class CartoonEpisodeFormComponent {
   isFormValid(): boolean {
     return !this.isFieldInvalid('cartoonSeriesName') && !this.isFieldInvalid('episodeTitle') &&
       !this.isFieldInvalid('releaseDate') && !this.isFieldInvalid('directorName') &&
-      !this.isFieldInvalid('duration') && !this.isFieldInvalid('genre');
+      !this.isFieldInvalid('duration') && !this.isFieldInvalid('description');
   }
 }

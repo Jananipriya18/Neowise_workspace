@@ -6,24 +6,24 @@ import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CartoonEpisodeService } from '../services/cartoonepisode.service'; // Adjusted service name
-import { CartoonEpisode } from '../models/cartoonepisode.model'; // Adjusted model name
+import { CartoonEpisodeService } from '../services/cartoonepisode.service'; 
+import { CartoonEpisode } from '../models/cartoonepisode.model'; 
 
 describe('DeleteConfirmComponent', () => {
     let component: DeleteConfirmComponent;
     let fixture: ComponentFixture<DeleteConfirmComponent>;
     let router: Router;
     let activatedRoute: ActivatedRoute;
-    let mockCartoonEpisodeService: jasmine.SpyObj<CartoonEpisodeService>; // Adjusted service name
+    let mockCartoonEpisodeService: jasmine.SpyObj<CartoonEpisodeService>; 
 
     beforeEach(waitForAsync(() => {
-        mockCartoonEpisodeService = jasmine.createSpyObj<CartoonEpisodeService>('CartoonEpisodeService', ['getCartoonEpisode', 'deleteCartoonEpisode'] as any); // Adjusted service name and methods
+        mockCartoonEpisodeService = jasmine.createSpyObj<CartoonEpisodeService>('CartoonEpisodeService', ['getCartoonEpisode', 'deleteCartoonEpisode'] as any); 
 
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, HttpClientModule, FormsModule, HttpClientTestingModule],
             declarations: [DeleteConfirmComponent],
             providers: [
-                { provide: CartoonEpisodeService, useValue: mockCartoonEpisodeService } // Adjusted service name
+                { provide: CartoonEpisodeService, useValue: mockCartoonEpisodeService } 
             ]
         }).compileComponents();
         router = TestBed.inject(Router);
@@ -41,12 +41,12 @@ describe('DeleteConfirmComponent', () => {
     });
 
     fit('DeleteConfirmComponent_should_call_deleteCartoonEpisode_method_when_confirmDelete_is_called', () => {
-        const episodeId = 1; // Adjusted ID name
+        const episodeId = 1; 
         
-        mockCartoonEpisodeService.deleteCartoonEpisode.and.returnValue(of(null)); // Adjusted method name
+        mockCartoonEpisodeService.deleteCartoonEpisode.and.returnValue(of(null)); 
 
-        component.confirmDelete(episodeId); // Adjusted parameter name
+        component.confirmDelete(episodeId); 
 
-        expect(mockCartoonEpisodeService.deleteCartoonEpisode).toHaveBeenCalledWith(episodeId); // Adjusted method name and parameter
+        expect(mockCartoonEpisodeService.deleteCartoonEpisode).toHaveBeenCalledWith(episodeId); 
     });
 });
