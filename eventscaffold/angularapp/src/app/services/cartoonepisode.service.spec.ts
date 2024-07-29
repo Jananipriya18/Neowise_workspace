@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CartoonEpisodeService } from './cartoon-episode.service'; // Adjusted service import
-import { CartoonEpisode } from '../models/cartoon-episode.model';
+import { CartoonEpisodeService } from './cartoonepisode.service'; // Adjusted service import
+import { CartoonEpisode } from '../models/cartoonepisode.model';
 
 describe('CartoonEpisodeService', () => {
   let service: CartoonEpisodeService;
@@ -31,9 +31,8 @@ describe('CartoonEpisodeService', () => {
       episodeTitle: 'Test Episode Title',
       releaseDate: '2024-07-28',
       directorName: 'Test Director Name',
-      duration: 30,
+      duration: '30',
       description: 'Test Description',
-      genre: 'Test Genre'
     };
 
     service.addCartoonEpisode(mockCartoonEpisode).subscribe((episode) => {
@@ -53,9 +52,8 @@ describe('CartoonEpisodeService', () => {
         episodeTitle: 'Test Episode Title',
         releaseDate: '2024-07-28',
         directorName: 'Test Director Name',
-        duration: 30,
+        duration: '30',
         description: 'Test Description',
-        genre: 'Test Genre'
       }
     ];
 
@@ -88,9 +86,8 @@ describe('CartoonEpisodeService', () => {
       episodeTitle: 'Test Episode Title',
       releaseDate: '2024-07-28',
       directorName: 'Test Director Name',
-      duration: 30,
+      duration: '30',
       description: 'Test Description',
-      genre: 'Test Genre'
     };
 
     service.getCartoonEpisode(episodeId).subscribe((episode) => {
@@ -110,9 +107,8 @@ describe('CartoonEpisodeService', () => {
         episodeTitle: 'Test Episode Title',
         releaseDate: '2024-07-28',
         directorName: 'Test Director Name',
-        duration: 30,
+        duration: '30',
         description: 'Test Description',
-        genre: 'Test Genre'
       }
     ];
   

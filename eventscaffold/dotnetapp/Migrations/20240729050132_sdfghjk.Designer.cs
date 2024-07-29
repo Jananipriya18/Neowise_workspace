@@ -11,8 +11,8 @@ using dotnetapp.Data;
 namespace dotnetapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240728142724_qwertyu")]
-    partial class qwertyu
+    [Migration("20240729050132_sdfghjk")]
+    partial class sdfghjk
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,11 +53,6 @@ namespace dotnetapp.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ReleaseDate")
                         .IsRequired()

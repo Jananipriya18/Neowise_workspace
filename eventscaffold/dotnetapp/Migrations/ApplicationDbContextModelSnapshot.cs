@@ -52,11 +52,6 @@ namespace dotnetapp.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasMaxLength(10)

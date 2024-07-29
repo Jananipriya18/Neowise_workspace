@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CartoonEpisodeService } from '../services/cartoon-episode.service'; // Import CartoonEpisodeService
-import { CartoonEpisodeListComponent } from './cartoon-episode-list.component'; // Adjust the import path
+import { CartoonEpisodeService } from '../services/cartoonepisode.service'; // Import CartoonEpisodeService
+import { CartoonEpisodeListComponent } from './cartoonepisode-list.component'; // Adjust the import path
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CartoonEpisode } from '../models/cartoon-episode.model'; // Import CartoonEpisode model
+import { CartoonEpisode } from '../models/cartoonepisode.model'; // Import CartoonEpisode model
 
 describe('CartoonEpisodeListComponent', () => {
     let component: CartoonEpisodeListComponent;

@@ -4,7 +4,7 @@
 
 namespace dotnetapp.Migrations
 {
-    public partial class qwertyu : Migration
+    public partial class sdfghjk : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,8 +19,7 @@ namespace dotnetapp.Migrations
                     ReleaseDate = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     DirectorName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Genre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {

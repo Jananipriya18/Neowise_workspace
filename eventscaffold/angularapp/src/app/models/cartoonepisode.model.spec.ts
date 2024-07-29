@@ -1,4 +1,4 @@
-import { CartoonEpisode } from './cartoon-episode.model';
+import { CartoonEpisode } from './cartoonepisode.model';
 
 describe('CartoonEpisode', () => {
   it('should_create_episode_instance', () => {

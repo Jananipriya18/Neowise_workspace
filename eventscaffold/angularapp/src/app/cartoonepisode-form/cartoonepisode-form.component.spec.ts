@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CartoonEpisodeFormComponent } from './cartoon-episode-form.component';
-import { CartoonEpisodeService } from '../services/cartoon-episode.service';
+import { CartoonEpisodeFormComponent } from './cartoonepisode-form.component';
+import { CartoonEpisodeService } from '../services/cartoonepisode.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { CartoonEpisode } from '../models/cartoon-episode.model';
+import { CartoonEpisode } from '../models/cartoonepisode.model';
 
 describe('CartoonEpisodeFormComponent', () => {
   let component: CartoonEpisodeFormComponent;
