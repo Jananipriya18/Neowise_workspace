@@ -39,13 +39,7 @@
 }
 
 /* Search Box Styles */
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #333; /* Dark text color */
-}
-
-#search {
+#searchBox {
   padding: 10px; /* Increase padding for better input field spacing */
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -55,7 +49,7 @@ label {
   font-size: 14px; /* Set a readable font size */
 }
 
-#search:focus {
+#searchBox:focus {
   outline: none; /* Remove default focus outline */
   border-color: #66afe9; /* Change border color on focus */
 }
@@ -79,7 +73,7 @@ label {
 
 /* Responsive Adjustments */
 @media (max-width: 480px) {
-  #search {
+  #searchBox {
     padding: 8px;
     font-size: 12px; /* Adjust font size for small screens */
   }

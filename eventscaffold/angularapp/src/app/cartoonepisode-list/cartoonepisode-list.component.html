@@ -2,41 +2,43 @@
     <h2>Cartoon Episode List</h2>
   
     <div>
-        <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Search by cartoon series name">
-        <button id="search" class="search-button" (click)="searchCartoonEpisodes()">Search</button>
-    </div>
-
-    <div *ngIf="searchTerm && cartoonEpisodes.length === 0" class="error-message">
-        The searched cartoon episode does not exist.
-    </div>
-
-    <div *ngIf="!searchTerm && cartoonEpisodes.length === 0" class="no-cartoon-episodes-message">
-        No cartoon episodes available.
+      <input type="text" id="searchBox" [(ngModel)]="searchTerm" placeholder="Search by cartoon series name">
+      <button id="searchButton" class="search-button" (click)="searchCartoonEpisodes()">Search</button>
     </div>
   
-    <table *ngIf="cartoonEpisodes.length > 0" class="cartoon-episode-table">
-        <thead>
-            <tr>
-                <th>Cartoon Series Name</th>
-                <th>Episode Title</th>
-                <th>Release Date</th>
-                <th>Director Name</th>
-                <th>Duration</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let episode of cartoonEpisodes" class="cartoon-episode-item">
-                <td>{{ episode.cartoonSeriesName }}</td>
-                <td>{{ episode.episodeTitle }}</td>
-                <td>{{ episode.releaseDate }}</td>
-                <td>{{ episode.directorName }}</td>
-                <td>{{ episode.duration }}</td>
-                <td>{{ episode.description }}</td>
-                <td>
-                    <button id="delete" class="delete-button" (click)="deleteCartoonEpisode(episode.episodeId)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
+    <div *ngIf="searchTerm && cartoonEpisodes.length === 0" class="error-message">
+      The searched cartoon episode does not exist.
+    </div>
+  
+    <div *ngIf="!searchTerm && cartoonEpisodes.length === 0" class="no-cartoon-episodes-message">
+      No cartoon episodes available.
+    </div>
+  
+    <table *ngIf="cartoonEpisodes.length > 0" class="cartoonEpisodes-table">
+      <thead>
+        <tr>
+          <th>Cartoon Series Name</th>
+          <th>Episode Title</th>
+          <th>Release Date</th>
+          <th>Director Name</th>
+          <th>Duration</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let episode of cartoonEpisodes" class="cartoon-episode-item">
+          <td>{{ episode.cartoonSeriesName }}</td>
+          <td>{{ episode.episodeTitle }}</td>
+          <td>{{ episode.releaseDate }}</td>
+          <td>{{ episode.directorName }}</td>
+          <td>{{ episode.duration }}</td>
+          <td>{{ episode.description }}</td>
+          <td>
+            <button id="deleteButton" class="delete-button" (click)="deleteCartoonEpisode(episode.episodeId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</div>
+  </div>
+  
