@@ -36,7 +36,7 @@ export class DeleteConfirmComponent implements OnInit {
     this.cartoonEpisodeService.deleteCartoonEpisode(episodeId).subscribe(
       () => {
         console.log('Cartoon episode deleted successfully.');
-        this.router.navigate(['/viewCartoonEpisodes']); 
+        this.router.navigate(['/viewEpisodes']); 
       },
       (error) => {
         console.error('Error deleting cartoon episode:', error);
@@ -45,6 +45,6 @@ export class DeleteConfirmComponent implements OnInit {
   }
 
   cancelDelete(): void {
-    this.router.navigate(['/viewCartoonEpisodes']); 
+    this.router.navigate(['/viewEpisodes']); 
   }
 }
