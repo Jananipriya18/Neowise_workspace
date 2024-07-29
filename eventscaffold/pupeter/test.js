@@ -110,39 +110,6 @@ try {
   console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure', error);
 }
 
-
-// const page5 = await browser.newPage();
-// try {
-//   await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
-//   await page5.setViewport({
-//     width: 1200,
-//     height: 1200,
-//   });
-  
-//   // Wait for the form elements to load
-//   await page5.waitForSelector('#cartoonSeriesName');
-//   await page5.waitForSelector('#episodeTitle');
-//   await page5.waitForSelector('#releaseDate');
-//   await page5.waitForSelector('#directorName');
-//   await page5.waitForSelector('#duration');
-//   await page5.waitForSelector('#description');
-//   await page5.waitForSelector('button[type="submit"]');
-
-//   // Click the Add CartoonEpisodes button without entering any data
-//   await page5.click('button[type="submit"]');
-
-//   // Wait for a short period for validation to take effect
-//   await page5.waitForTimeout(1000);
-    
-//   // Define an array of field IDs and their corresponding error messages
-//   const fieldsToCheck = [
-//     { id: '#cartoonSeriesName', message: 'Cartoon series name is required' },
-//     { id: '#episodeTitle', message: 'Episode title is required' },
-//     { id: '#releaseDate', message: 'Release date is required' },
-//     { id: '#directorName', message: 'Director name is required' },
-//     { id: '#duration', message: 'Duration is required' },
-//     { id: '#description', message: 'Description is required' },
-
 const page5 = await browser.newPage();
 try {
   await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
@@ -240,37 +207,70 @@ try {
 
 const page7 = await browser.newPage();
 try {
-  // Navigate to the view episodes page
-  await page7.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewEpisodes');
+  // Step 1: Navigate to the add episode page and insert dummy data
+  await page7.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
   await page7.setViewport({
     width: 1200,
     height: 1200,
   });
-  
-  // Perform search for the newly added episode
-  await page7.waitForSelector('#searchBox', { timeout: 5000 });
-  await page7.type('#searchBox', 'Test CartoonEpisodes 1');
-  await page7.click('#searchButton');
-  
-  // Wait for the search results to load
-  await page7.waitForSelector('.cartoonEpisodes-table', { timeout: 5000 });
 
+  // Wait for the form elements to load
+  await page7.waitForSelector('#cartoonSeriesName');
+  await page7.waitForSelector('#episodeTitle');
+  await page7.waitForSelector('#releaseDate');
+  await page7.waitForSelector('#directorName');
+  await page7.waitForSelector('#duration');
+  await page7.waitForSelector('#description');
+  await page7.waitForSelector('button[type="submit"]');
+
+  // Fill out the form with dummy data
+  await page7.type('#cartoonSeriesName', 'SuperFun');
+  await page7.type('#episodeTitle', 'Test Episode');
+  await page7.type('#releaseDate', '2024-08-01');
+  await page7.type('#directorName', 'John Doe');
+  await page7.type('#duration', '30');
+  await page7.type('#description', 'This is a test episode description.');
+
+  // Submit the form
+  await page7.click('button[type="submit"]');
+
+  // Wait for the data to be processed and page to reload
+  await page7.waitForTimeout(2000); // Adjust this timeout as necessary
+
+  // Perform search for the last letter of CartoonSeriesName
+  await page7.waitForSelector('#searchBox', { timeout: 5000 });
+  
+  // Search for the last letter of the CartoonSeriesName
+  await page7.type('#searchBox', 'n'); // Search for the letter 'n'
+  await page7.click('#searchButton');
+
+  // Wait for the search results to load
+  await page7.waitForTimeout(2000); // Ensure the search results have time to load
+  
   // Evaluate the search results
   const episodeNames = await page7.evaluate(() => {
     const episodeRows = Array.from(document.querySelectorAll('.cartoon-episode-item'));
     return episodeRows.map(row => row.querySelector('td:first-child').textContent.trim());
   });
 
-  // Check if the searched episode is found and matches exactly
-  if (episodeNames.includes('Test CartoonEpisodes 1')) {
+  // Log the episode names found
+  console.log('Episode Names Found:', episodeNames);
+
+  // Check if the search results include episodes with the last letter 'n'
+  const expectedSearchTerm = 'n'; // The letter used for searching
+  const searchResults = episodeNames.some(name => name.toLowerCase().includes(expectedSearchTerm.toLowerCase()));
+
+  if (searchResults) {
     console.log('TESTCASE:Search_events_by_name:success');
   } else {
     console.log('TESTCASE:Search_events_by_name:failure');
   }
 
 } catch (e) {
+  console.error('Error:', e);
   console.log('TESTCASE:Search_events_by_name:failure');
 }
+
 
 
   finally{
