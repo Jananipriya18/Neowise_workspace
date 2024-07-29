@@ -70,17 +70,15 @@ namespace dotnetapp.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<CartoonEpisode>>> SearchCartoonEpisodes([FromQuery] string searchTerm)
         {
-            if (string.IsNullOrEmpty(searchTerm))
+            if (string.IsNullOrEmpty(searchTerm) || searchTerm.Length != 1)
             {
-                return BadRequest("Search term cannot be empty.");
+                return BadRequest("Search term must be a single character.");
             }
 
             var lowerSearchTerm = searchTerm.ToLower();
 
             var episodes = await _context.CartoonEpisodes
-                .Where(e => e.CartoonSeriesName.ToLower().Contains(lowerSearchTerm)
-                         || e.EpisodeTitle.ToLower().Contains(lowerSearchTerm)
-                         || e.DirectorName.ToLower().Contains(lowerSearchTerm))
+                .Where(e => e.CartoonSeriesName.ToLower().EndsWith(lowerSearchTerm))
                 .ToListAsync();
 
             if (!episodes.Any())
@@ -88,7 +86,7 @@ namespace dotnetapp.Controllers
                 return NotFound("No matching cartoon episodes found.");
             }
 
-            return episodes;
+            return Ok(episodes);
         }
     }
 }

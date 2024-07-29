@@ -1,7 +1,7 @@
 import { CartoonEpisode } from './cartoonepisode.model';
 
 describe('CartoonEpisode', () => {
-  it('should_create_episode_instance', () => {
+  fit('should_create_episode_instance', () => {
     const episode: CartoonEpisode = {
       episodeId: 1,
       cartoonSeriesName: 'Test Cartoon Series Name',

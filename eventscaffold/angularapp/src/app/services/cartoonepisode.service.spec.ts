@@ -112,7 +112,7 @@ describe('CartoonEpisodeService', () => {
       }
     ];
   
-    const searchTerm = 'Apple';
+    const searchTerm = 'e';
   
     service.searchCartoonEpisodes(searchTerm).subscribe((episodes) => {
       expect(episodes).toEqual(mockCartoonEpisodes);
