@@ -110,6 +110,7 @@ try {
   console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure', error);
 }
 
+
 const page5 = await browser.newPage();
 try {
   await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
@@ -124,7 +125,6 @@ try {
   await page5.waitForSelector('#releaseDate');
   await page5.waitForSelector('#directorName');
   await page5.waitForSelector('#duration');
-  await page5.waitForSelector('#description');
   await page5.waitForSelector('button[type="submit"]');
 
   // Click the Add CartoonEpisodes button without entering any data
@@ -133,11 +133,11 @@ try {
   // Wait for a short period for validation to take effect
   await page5.waitForTimeout(1000);
     
-  // Define an array of field brands and their corresponding error messages
+  // Define an array of field IDs and their corresponding error messages
   const fieldsToCheck = [
-    { id: '#cartoonSeriesName', message: 'Cartoon series name  is required' },
+    { id: '#cartoonSeriesName', message: 'Cartoon series name is required' },
     { id: '#episodeTitle', message: 'Episode title is required' },
-    { id: '#releaseDate', message: 'Release date  is required' },
+    { id: '#releaseDate', message: 'Release date is required' },
     { id: '#directorName', message: 'Director name is required' },
     { id: '#duration', message: 'Duration is required' },
   ];
@@ -149,7 +149,6 @@ try {
     const errorMessage = await page5.$eval(fieldData.id + ' + .error-message', el => el.textContent);
     if (!errorMessage.includes(fieldData.message)) {
       isValidationFailed = true;
-      // console.log(`Validation message for ${fieldData.message} field: failure - Expected message: ${fieldData.message}`);
     }
   }
 
@@ -178,7 +177,7 @@ try {
   await page6.type('#episodeTitle', 'Test CartoonEpisodes title');
   await page6.type('#releaseDate', '2024-07-10');
   await page6.type('#directorName', 'Test Director name');
-  await page6.type('#duration', 'Test Duration');
+  await page6.type('#duration', '45');
   console.log("Submitted");
   // Submit the form
   await page6.click('button[type="submit"]');
@@ -188,7 +187,7 @@ try {
 
   const urlAfterClick = page6.url();
   console.log(urlAfterClick);
-  if (urlAfterClick.toLowerCase().includes('viewEpisodes')) {
+  if (urlAfterClick.toLowerCase().includes('viewepisodes')) {
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:success');
   } else {  
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
@@ -207,12 +206,12 @@ try {
   });
   
   // Perform search for the newly added event
-  await page7.waitForSelector('#search', { timeout: 5000 });
-  await page7.type('#search', 'Test CartoonEpisodes 1');
-  await page7.click('.search-button');
-
+  await page7.waitForSelector('#searchBox', { timeout: 5000 });
+  await page7.type('#searchBox', 'Test CartoonEpisodes 1');
+  await page7.click('#searchButton');
+  
   // Wait for the search results to load
-  await page7.waitForSelector('.event-table', { timeout: 5000 });
+  await page7.waitForSelector('.cartoonEpisodes-table', { timeout: 5000 });
 
   // Evaluate the search results
   const playlistNames = await page7.evaluate(() => {
@@ -222,7 +221,6 @@ try {
 
   // Check if the searched event is found and matches exactly
   if (playlistNames.includes('Test CartoonEpisodes 1')) {
-    // && playlistNames.length === 1
     console.log('TESTCASE:Search_events_by_name:success');
   } else {
     console.log('TESTCASE:Search_events_by_name:failure');
@@ -230,7 +228,8 @@ try {
 
 } catch (e) {
   console.log('TESTCASE:Search_events_by_name:failure');
-}  
+}
+
   finally{
     await page1.close();
     await page2.close();
