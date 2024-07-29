@@ -5,9 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { PlaylistFormComponent } from './playlist-form/playlist-form.component';
+import { PlaylistFormComponent } from './cartoonepisode-form/cartoonepisode-form.component';
 import { HeaderComponent } from './header/header.component';
-import { PlaylistListComponent } from './playlist-list/playlist-list.component';
+import { PlaylistListComponent } from './cartoonepisode-list/cartoonepisode-list.component';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 @NgModule({

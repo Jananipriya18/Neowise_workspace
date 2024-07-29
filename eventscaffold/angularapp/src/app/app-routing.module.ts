@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PlaylistFormComponent } from './playlist-form/playlist-form.component';
-import { PlaylistListComponent } from './playlist-list/playlist-list.component';
-import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
-
+import { CartoonEpisodeFormComponent } from './cartoon-episode-form/cartoon-episode-form.component';
+import { CartoonEpisodeListComponent } from './cartoon-episode-list/cartoon-episode-list.component';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component'; // Assuming this component can be reused
 
 const routes: Routes = [
-  { path: 'addNewPlaylist', component: PlaylistFormComponent },
-  { path: 'viewPlaylists', component: PlaylistListComponent },
+  { path: 'addNewEpisode', component: CartoonEpisodeFormComponent },
+  { path: 'viewEpisodes', component: CartoonEpisodeListComponent },
   { path: 'confirmDelete/:id', component: DeleteConfirmComponent},
-
 ];
 
 @NgModule({
