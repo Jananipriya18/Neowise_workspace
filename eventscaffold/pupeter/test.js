@@ -111,6 +111,38 @@ try {
 }
 
 
+// const page5 = await browser.newPage();
+// try {
+//   await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
+//   await page5.setViewport({
+//     width: 1200,
+//     height: 1200,
+//   });
+  
+//   // Wait for the form elements to load
+//   await page5.waitForSelector('#cartoonSeriesName');
+//   await page5.waitForSelector('#episodeTitle');
+//   await page5.waitForSelector('#releaseDate');
+//   await page5.waitForSelector('#directorName');
+//   await page5.waitForSelector('#duration');
+//   await page5.waitForSelector('#description');
+//   await page5.waitForSelector('button[type="submit"]');
+
+//   // Click the Add CartoonEpisodes button without entering any data
+//   await page5.click('button[type="submit"]');
+
+//   // Wait for a short period for validation to take effect
+//   await page5.waitForTimeout(1000);
+    
+//   // Define an array of field IDs and their corresponding error messages
+//   const fieldsToCheck = [
+//     { id: '#cartoonSeriesName', message: 'Cartoon series name is required' },
+//     { id: '#episodeTitle', message: 'Episode title is required' },
+//     { id: '#releaseDate', message: 'Release date is required' },
+//     { id: '#directorName', message: 'Director name is required' },
+//     { id: '#duration', message: 'Duration is required' },
+//     { id: '#description', message: 'Description is required' },
+
 const page5 = await browser.newPage();
 try {
   await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
@@ -146,26 +178,24 @@ try {
 
   let isValidationFailed = false;
 
-  // Iterate through each field and check its corresponding error message
   for (const fieldData of fieldsToCheck) {
-    const errorMessage = await page5.$eval(fieldData.id + ' + .error', el => el.textContent);
-    if (!errorMessage.includes(fieldData.message)) {
-      isValidationFailed = true;
-    }
-    console.log(errorMessage);
-  }
+        const errorMessage = await page5.$eval(fieldData.id + ' + .error', el => el.textContent);
+        if (!errorMessage.includes(fieldData.message)) {
+          isValidationFailed = true;
+        }
+        console.log(errorMessage);
+      }
 
   // Log a single failure message if any validation fails
   if (isValidationFailed) {
-    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:success');
-  } else {
     console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
+  } else {
+    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:success');
   }
 } catch (error) {
   console.error('Error:', error);
   console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
 }
-
 
 
 const page6 = await browser.newPage();
