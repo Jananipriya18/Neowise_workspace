@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartoonEpisodeService } from '../services/cartoonepisode.service'; // Adjusted service name
-import { cartoonepisode } from '../models/cartoonepisode.model'; // Adjusted model name
+import { CartoonEpisodeService } from '../services/cartoonepisode.service'; 
+import { CartoonEpisode } from '../models/cartoonepisode.model';
 
 @Component({
   selector: 'app-delete-confirm',
@@ -10,17 +10,17 @@ import { cartoonepisode } from '../models/cartoonepisode.model'; // Adjusted mod
 })
 export class DeleteConfirmComponent implements OnInit {
   episodeId: number;
-  cartoonEpisode: CartoonEpisode = {} as CartoonEpisode; // Initialize cartoonEpisode property with an empty object
+  cartoonEpisode: CartoonEpisode = {} as CartoonEpisode; 
 
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private cartoonEpisodeService: CartoonEpisodeService // Adjusted service name
+    private cartoonEpisodeService: CartoonEpisodeService 
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.episodeId = +params['id']; // Adjust parameter name to 'id' if it matches the route parameter
+      this.episodeId = +params['id'];
       this.cartoonEpisodeService.getCartoonEpisode(this.episodeId).subscribe(
         (cartoonEpisode: CartoonEpisode) => {
           this.cartoonEpisode = cartoonEpisode;
@@ -32,11 +32,11 @@ export class DeleteConfirmComponent implements OnInit {
     });
   }
 
-  confirmDelete(episodeId: number): void { // Adjust method signature
+  confirmDelete(episodeId: number): void { 
     this.cartoonEpisodeService.deleteCartoonEpisode(episodeId).subscribe(
       () => {
         console.log('Cartoon episode deleted successfully.');
-        this.router.navigate(['/viewCartoonEpisodes']); // Adjust the route to navigate after deletion
+        this.router.navigate(['/viewCartoonEpisodes']); 
       },
       (error) => {
         console.error('Error deleting cartoon episode:', error);
@@ -45,6 +45,6 @@ export class DeleteConfirmComponent implements OnInit {
   }
 
   cancelDelete(): void {
-    this.router.navigate(['/viewCartoonEpisodes']); // Adjust the route to navigate on cancel
+    this.router.navigate(['/viewCartoonEpisodes']); 
   }
 }

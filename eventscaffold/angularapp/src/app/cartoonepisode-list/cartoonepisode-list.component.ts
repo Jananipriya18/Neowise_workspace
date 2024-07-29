@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { cartoonepisode } from '../models/cartoonepisode.model'; 
-import { CartoonEpisodeService } from '../services/cartoon-episode.service'; 
+import { CartoonEpisode } from '../models/cartoonepisode.model'; 
+import { CartoonEpisodeService } from '../services/cartoonepisode.service'; 
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cartoon-episode-list', 
-  templateUrl: './cartoon-episode-list.component.html',
-  styleUrls: ['./cartoon-episode-list.component.css'] 
+  selector: 'app-cartoonepisode-list', 
+  templateUrl: './cartoonepisode-list.component.html',
+  styleUrls: ['./cartoonepisode-list.component.css'] 
 })
 export class CartoonEpisodeListComponent implements OnInit {
-  cartoonEpisodes: cartoonepisode[] = [];
+  cartoonEpisodes: CartoonEpisode[] = [];
   searchTerm: string = '';
 
   constructor(private cartoonEpisodeService: CartoonEpisodeService, private router: Router) { } 

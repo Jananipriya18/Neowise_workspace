@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { artoonEpisode } from '../models/cartoon-episode.model';
-import { CartoonEpisodeService } from '../services/cartoon-episode.service';
+import { CartoonEpisode } from '../models/cartoonepisode.model';
+import { CartoonEpisodeService } from '../services/cartoonepisode.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cartoon-episode-form',
-  templateUrl: './cartoon-episode-form.component.html',
-  styleUrls: ['./cartoon-episode-form.component.css']
+  selector: 'app-cartoonepisode-form',
+  templateUrl: './cartoonepisode-form.component.html',
+  styleUrls: ['./cartoonepisode-form.component.css']
 })
 export class CartoonEpisodeFormComponent {
   newEpisode: CartoonEpisode = {

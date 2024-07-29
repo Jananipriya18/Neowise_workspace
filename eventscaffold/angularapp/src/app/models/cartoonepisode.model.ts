@@ -1,4 +1,4 @@
-export interface cartoonepisode {
+export interface CartoonEpisode {
   episodeId: number;
   cartoonSeriesName: string;
   episodeTitle: string;
