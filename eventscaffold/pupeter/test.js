@@ -125,6 +125,7 @@ try {
   await page5.waitForSelector('#releaseDate');
   await page5.waitForSelector('#directorName');
   await page5.waitForSelector('#duration');
+  await.page5.waitForSelector(#description)
   await page5.waitForSelector('button[type="submit"]');
 
   // Click the Add CartoonEpisodes button without entering any data
@@ -165,47 +166,53 @@ try {
 
 const page6 = await browser.newPage();
 try {
-  // Navigate to add new event page
+  // Navigate to the add new episode page
   await page6.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
   await page6.setViewport({
     width: 1200,
     height: 1200,
   });
-  console.log(page6.url());
-  // Fill out the event creation form
+  console.log('Navigated to:', page6.url());
+
+  // Fill out the episode creation form
   await page6.type('#cartoonSeriesName', 'Test CartoonEpisodes name');
   await page6.type('#episodeTitle', 'Test CartoonEpisodes title');
   await page6.type('#releaseDate', '2024-07-10');
   await page6.type('#directorName', 'Test Director name');
   await page6.type('#duration', '45');
-  console.log("Submitted");
+  console.log('Form filled out');
+
   // Submit the form
   await page6.click('button[type="submit"]');
+  console.log('Form submitted');
 
-  // Wait for a short period for the event to be added (optional)
-  await page6.waitForTimeout(1000);
-
+  // Wait for navigation or URL change
+  await page6.waitForNavigation({ waitUntil: 'networkidle0' });
   const urlAfterClick = page6.url();
-  console.log(urlAfterClick);
+  console.log('URL after form submission:', urlAfterClick);
+
+  // Check if navigated to the view episodes page
   if (urlAfterClick.toLowerCase().includes('viewepisodes')) {
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:success');
   } else {  
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
   }
 } catch (e) {
-  console.log('TESTCASE:Add_navigates_to_Search:failure', e);
-}  
+  console.error('Error:', e);
+  console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
+}
+ 
 
 const page7 = await browser.newPage();
 try {
-  // Navigate to add new event page
+  // Navigate to the view episodes page
   await page7.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewEpisodes');
   await page7.setViewport({
     width: 1200,
     height: 1200,
   });
   
-  // Perform search for the newly added event
+  // Perform search for the newly added episode
   await page7.waitForSelector('#searchBox', { timeout: 5000 });
   await page7.type('#searchBox', 'Test CartoonEpisodes 1');
   await page7.click('#searchButton');
@@ -214,13 +221,13 @@ try {
   await page7.waitForSelector('.cartoonEpisodes-table', { timeout: 5000 });
 
   // Evaluate the search results
-  const playlistNames = await page7.evaluate(() => {
-    const eventRows = Array.from(document.querySelectorAll('.cartoon-episode-item'));
-    return eventRows.map(row => row.querySelector('td:first-child').textContent.trim());
+  const episodeNames = await page7.evaluate(() => {
+    const episodeRows = Array.from(document.querySelectorAll('.cartoon-episode-item'));
+    return episodeRows.map(row => row.querySelector('td:first-child').textContent.trim());
   });
 
-  // Check if the searched event is found and matches exactly
-  if (playlistNames.includes('Test CartoonEpisodes 1')) {
+  // Check if the searched episode is found and matches exactly
+  if (episodeNames.includes('Test CartoonEpisodes 1')) {
     console.log('TESTCASE:Search_events_by_name:success');
   } else {
     console.log('TESTCASE:Search_events_by_name:failure');
@@ -229,6 +236,7 @@ try {
 } catch (e) {
   console.log('TESTCASE:Search_events_by_name:failure');
 }
+
 
   finally{
     await page1.close();
