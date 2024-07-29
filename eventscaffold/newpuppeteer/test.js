@@ -119,12 +119,12 @@ try {
   });
   
   // Wait for the form elements to load
-  await page5.waitForSelector('#playlistName');
-  await page5.waitForSelector('#songName');
-  await page5.waitForSelector('#yearOfRelease');
-  await page5.waitForSelector('#artistName');
-  await page5.waitForSelector('#genre');
-  await page5.waitForSelector('#MovieName');
+  await page5.waitForSelector('#cartoonSeriesName');
+  await page5.waitForSelector('#episodeTitle');
+  await page5.waitForSelector('#releaseDate');
+  await page5.waitForSelector('#directorName');
+  await page5.waitForSelector('#duration');
+  await page5.waitForSelector('#description');
   await page5.waitForSelector('button[type="submit"]');
 
   // Click the Add CartoonEpisodes button without entering any data
@@ -135,12 +135,11 @@ try {
     
   // Define an array of field brands and their corresponding error messages
   const fieldsToCheck = [
-    { id: '#playlistName', message: 'CartoonEpisodes Name is required' },
-    { id: '#songName', message: 'CartoonEpisodes Description is required' },
-    { id: '#yearOfRelease', message: 'CartoonEpisodes Date is required' },
-    { id: '#artistName', message: 'CartoonEpisodes Time is required' },
-    { id: '#genre', message: 'CartoonEpisodes Location is required' },
-    { id: '#MovieName', message: 'CartoonEpisodes Organizer is required' }
+    { id: '#cartoonSeriesName', message: 'Cartoon series name  is required' },
+    { id: '#episodeTitle', message: 'Episode title is required' },
+    { id: '#releaseDate', message: 'Release date  is required' },
+    { id: '#directorName', message: 'Director name is required' },
+    { id: '#duration', message: 'Duration is required' },
   ];
 
   let isValidationFailed = false;
@@ -175,12 +174,11 @@ try {
   });
   console.log(page6.url());
   // Fill out the event creation form
-  await page6.type('#playlistName', 'Test CartoonEpisodes 1');
-  await page6.type('#songName', 'Test CartoonEpisodes Description 1');
-  await page6.type('#yearOfRelease', '2024-07-10');
-  await page6.type('#artistName', '10:00');
-  await page6.type('#genre', 'Test Location 1');
-  await page6.type('#MovieName', 'Test Organizer 1');
+  await page6.type('#cartoonSeriesName', 'Test CartoonEpisodes name');
+  await page6.type('#episodeTitle', 'Test CartoonEpisodes title');
+  await page6.type('#releaseDate', '2024-07-10');
+  await page6.type('#directorName', 'Test Director name');
+  await page6.type('#duration', 'Test Duration');
   console.log("Submitted");
   // Submit the form
   await page6.click('button[type="submit"]');
@@ -218,7 +216,7 @@ try {
 
   // Evaluate the search results
   const playlistNames = await page7.evaluate(() => {
-    const eventRows = Array.from(document.querySelectorAll('.event-item'));
+    const eventRows = Array.from(document.querySelectorAll('.cartoon-episode-item'));
     return eventRows.map(row => row.querySelector('td:first-child').textContent.trim());
   });
 
