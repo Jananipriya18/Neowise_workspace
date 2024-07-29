@@ -261,14 +261,14 @@ try {
   const searchResults = episodeNames.some(name => name.toLowerCase().includes(expectedSearchTerm.toLowerCase()));
 
   if (searchResults) {
-    console.log('TESTCASE:Search_events_by_name:success');
+    console.log('TESTCASE:Search_playlists_by_name:success');
   } else {
-    console.log('TESTCASE:Search_events_by_name:failure');
+    console.log('TESTCASE:Search_playlists_by_name:failure');
   }
 
 } catch (e) {
   console.error('Error:', e);
-  console.log('TESTCASE:Search_events_by_name:failure');
+  console.log('TESTCASE:Search_playlists_by_name:failure');
 }
 
 
