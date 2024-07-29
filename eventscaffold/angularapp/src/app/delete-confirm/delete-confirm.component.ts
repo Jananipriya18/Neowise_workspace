@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartoonEpisodeService } from '../services/cartoon-episode.service'; // Adjusted service name
-import { CartoonEpisode } from '../models/cartoon-episode.model'; // Adjusted model name
+import { CartoonEpisodeService } from '../services/cartoonepisode.service'; // Adjusted service name
+import { cartoonepisode } from '../models/cartoonepisode.model'; // Adjusted model name
 
 @Component({
   selector: 'app-delete-confirm',

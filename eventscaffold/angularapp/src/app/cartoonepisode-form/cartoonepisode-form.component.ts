@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CartoonEpisode } from '../models/cartoon-episode.model';
+import { artoonEpisode } from '../models/cartoon-episode.model';
 import { CartoonEpisodeService } from '../services/cartoon-episode.service';
 import { Router } from '@angular/router';
 
