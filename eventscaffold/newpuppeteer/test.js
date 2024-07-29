@@ -41,19 +41,19 @@ try {
   // Test Case: Check if form exists and specific input fields are present
   const formExists = await page2.evaluate(() => {
     const form = document.querySelector('form');
-    const inputFields = ['playlistName', 'songName', 'yearOfRelease', 'artistName', 'genre', 'MovieName'];
+    const inputFields = ['cartoonSeriesName', 'episodeTitle', 'releaseDate', 'directorName', 'duration', 'description'];
     const formHasInputFields = inputFields.every(field => !!form.querySelector(`[name="${field}"]`));
     return !!form && formHasInputFields;
   });
 
   if (formExists) {
-    console.log('TESTCASE:CreatePlaylist_form_exists_and_input_fields_present_in_Create_Playlist:success');
+    console.log('TESTCASE:CreateCartoonEpisode_form_exists_and_input_fields_present_in_Create_CartoonEpisode:success');
   } else {
-    console.log('TESTCASE:CreatePlaylist_form_exists_and_input_fields_present_in_Create_Playlist:failure');
+    console.log('TESTCASE:CreateCartoonEpisode_form_exists_and_input_fields_present_in_Create_CartoonEpisode:failure');
   }
 
 } catch (e) {
-  console.log('TESTCASE:CreatePlaylist_form_exists_and_input_fields_present_in_Create_Playlist:failure');
+  console.log('TESTCASE:CreateCartoonEpisode_form_exists_and_input_fields_present_in_Create_CartoonEpisode:failure');
 }
 
 const page3 = await browser.newPage();
@@ -71,17 +71,17 @@ try {
     return thElements.map(th => th.textContent.trim());
   });
 
-  const expectedHeaders = ['Playlist Name', 'Description', 'Date', 'Time', 'Location', 'Organizer'];
+  const expectedHeaders = ['Cartoon Series Name', 'Episode Title', 'Release Date', 'Director Name', 'Duration', 'Description'];
 
   const headerMatch = expectedHeaders.every(header => tableHeaderContent.includes(header));
 
   if (headerMatch) {
-    console.log('TESTCASE:Playlist_table_header_content:success');
+    console.log('TESTCASE:CartoonEpisodes_table_header_content:success');
   } else {
-    console.log('TESTCASE:Playlist_table_header_content:failure');
+    console.log('TESTCASE:CartoonEpisodes_table_header_content:failure');
   }
 } catch (e) {
-  console.log('TESTCASE:Playlist_table_header_content:failure');
+  console.log('TESTCASE:CartoonEpisodes_table_header_content:failure');
 }
 
 const page4 = await browser.newPage();
@@ -127,7 +127,7 @@ try {
   await page5.waitForSelector('#MovieName');
   await page5.waitForSelector('button[type="submit"]');
 
-  // Click the Add Playlist button without entering any data
+  // Click the Add CartoonEpisodes button without entering any data
   await page5.click('button[type="submit"]');
 
   // Wait for a short period for validation to take effect
@@ -135,12 +135,12 @@ try {
     
   // Define an array of field brands and their corresponding error messages
   const fieldsToCheck = [
-    { id: '#playlistName', message: 'Playlist Name is required' },
-    { id: '#songName', message: 'Playlist Description is required' },
-    { id: '#yearOfRelease', message: 'Playlist Date is required' },
-    { id: '#artistName', message: 'Playlist Time is required' },
-    { id: '#genre', message: 'Playlist Location is required' },
-    { id: '#MovieName', message: 'Playlist Organizer is required' }
+    { id: '#playlistName', message: 'CartoonEpisodes Name is required' },
+    { id: '#songName', message: 'CartoonEpisodes Description is required' },
+    { id: '#yearOfRelease', message: 'CartoonEpisodes Date is required' },
+    { id: '#artistName', message: 'CartoonEpisodes Time is required' },
+    { id: '#genre', message: 'CartoonEpisodes Location is required' },
+    { id: '#MovieName', message: 'CartoonEpisodes Organizer is required' }
   ];
 
   let isValidationFailed = false;
@@ -156,12 +156,12 @@ try {
 
   // Log a single failure message if any validation fails
   if (isValidationFailed) {
-    console.log('TESTCASE:Verify_required_validation_on_Add_Playlist_button:failure');
+    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
   } else {
-    console.log('TESTCASE:Verify_required_validation_on_Add_Playlist_button:success');
+    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:success');
   }
 } catch (error) {
-  console.log('TESTCASE:Verify_required_validation_on_Add_Playlist_button:failure');
+  console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
 }
 
 
@@ -175,8 +175,8 @@ try {
   });
   console.log(page6.url());
   // Fill out the event creation form
-  await page6.type('#playlistName', 'Test Playlist 1');
-  await page6.type('#songName', 'Test Playlist Description 1');
+  await page6.type('#playlistName', 'Test CartoonEpisodes 1');
+  await page6.type('#songName', 'Test CartoonEpisodes Description 1');
   await page6.type('#yearOfRelease', '2024-07-10');
   await page6.type('#artistName', '10:00');
   await page6.type('#genre', 'Test Location 1');
@@ -210,7 +210,7 @@ try {
   
   // Perform search for the newly added event
   await page7.waitForSelector('#search', { timeout: 5000 });
-  await page7.type('#search', 'Test Playlist 1');
+  await page7.type('#search', 'Test CartoonEpisodes 1');
   await page7.click('.search-button');
 
   // Wait for the search results to load
@@ -223,7 +223,7 @@ try {
   });
 
   // Check if the searched event is found and matches exactly
-  if (playlistNames.includes('Test Playlist 1')) {
+  if (playlistNames.includes('Test CartoonEpisodes 1')) {
     // && playlistNames.length === 1
     console.log('TESTCASE:Search_events_by_name:success');
   } else {
