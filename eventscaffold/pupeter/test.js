@@ -188,7 +188,7 @@ try {
 
   const urlAfterClick = page6.url();
   console.log(urlAfterClick);
-  if (urlAfterClick.toLowerCase().includes('viewevents')) {
+  if (urlAfterClick.toLowerCase().includes('viewEpisodes')) {
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:success');
   } else {  
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
