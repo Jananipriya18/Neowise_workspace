@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer');
   const page1 = await browser.newPage();
 // Test Case: Check if table body is present
 try {
-  await page1.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewPlaylists');
+  await page1.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewEpisodes');
 
   await page1.waitForSelector('table tbody tr', { timeout: 5000 });
   
@@ -20,23 +20,23 @@ try {
       // console.log(rowCount);
       if (rowCount > 0) 
       {
-        console.log('TESTCASE:Playlists_table_rows_exist:success');
+        console.log('TESTCASE:CartoonEpisodes_table_rows_exist:success');
       } 
       else 
       {
-        console.log('TESTCASE:Playlists_table_rows_exist:failure');
+        console.log('TESTCASE:CartoonEpisodes_table_rows_exist:failure');
       }
     } 
     catch (e) 
     {
-        console.log('TESTCASE:Playlists_table_rows_exist:failure');
+        console.log('TESTCASE:CartoonEpisodes_table_rows_exist:failure');
     }
 
   
 
   const page2 = await browser.newPage();
 try {
-  await page2.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewPlaylist');
+  await page2.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
 
   // Test Case: Check if form exists and specific input fields are present
   const formExists = await page2.evaluate(() => {
@@ -60,7 +60,7 @@ const page3 = await browser.newPage();
   // Test Case: Check if table headers are present
 
 try {
-  await page3.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewPlaylists');
+  await page3.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewEpisodes');
 
   // Wait for the table to be rendered
   // await page3.waitForSelector('table');
@@ -86,7 +86,7 @@ try {
 
 const page4 = await browser.newPage();
 try {
-  await page4.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewPlaylists');
+  await page4.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewEpisodes');
   await page4.setViewport({
     width: 1200,
     height: 1200,
@@ -112,7 +112,7 @@ try {
 
 const page5 = await browser.newPage();
 try {
-  await page5.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewPlaylist');
+  await page5.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
   await page5.setViewport({
     width: 1200,
     height: 1200,
@@ -168,7 +168,7 @@ try {
 const page6 = await browser.newPage();
 try {
   // Navigate to add new event page
-  await page6.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewPlaylist');
+  await page6.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewEpisode');
   await page6.setViewport({
     width: 1200,
     height: 1200,
@@ -202,7 +202,7 @@ try {
 const page7 = await browser.newPage();
 try {
   // Navigate to add new event page
-  await page7.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewPlaylists');
+  await page7.goto('https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewEpisodes');
   await page7.setViewport({
     width: 1200,
     height: 1200,
