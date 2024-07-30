@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { Menu } from '../models/menu.model';
-import { MenuService } from '../services/menu.service'; // Corrected import statement
+import { MenuService } from '../services/menu.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-menu-form',
   templateUrl: './menu-form.component.html',
   styleUrls: ['./menu-form.component.css']
 })
-
 export class MenuFormComponent {
   newMenu: Menu = {
     menuId: 0,
@@ -45,4 +43,3 @@ export class MenuFormComponent {
       !this.isFieldInvalid('availability');
   }
 }
-

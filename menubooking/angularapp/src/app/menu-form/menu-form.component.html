@@ -1,7 +1,7 @@
 <form (submit)="addMenu()">
     <div>
         <label for="chefname">Chef Name:</label>
-        <input type="text" id="chefname" [(ngModel)]="newMenu.chefname" name="chefname" required>
+        <input type="text" id="chefname" [(ngModel)]="newMenu.chefName" name="chefname" required>
         <div *ngIf="isFieldInvalid('chefname')" class="error-message">Chef Name is required</div>
     </div>
     <div>

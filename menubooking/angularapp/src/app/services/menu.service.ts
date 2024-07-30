@@ -9,7 +9,7 @@ import { Menu } from '../models/menu.model';
   providedIn: 'root'
 })
 export class MenuService {
-  private apiUrl = 'https://8080-aabdbffdadabafcfdbcfacbdcbaeadbebabcdebdca.premiumproject.examly.io/'; 
+  private apiUrl = 'https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'; 
 
   constructor(private http: HttpClient) { }
 

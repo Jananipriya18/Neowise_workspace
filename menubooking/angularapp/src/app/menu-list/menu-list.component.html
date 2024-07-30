@@ -1,11 +1,11 @@
 <div class="container">
     <h2>Menu List</h2>
   
-    <div *ngIf="menu.length === 0" class="no-menu-message">
+    <div *ngIf="menus.length === 0" class="no-menu-message">
         No menu available.
     </div>
   
-    <table *ngIf="menu.length > 0" class="tutor-table">
+    <table *ngIf="menus.length > 0" class="menu-table">
         <thead>
             <tr>
                 <th>Chef Name</th>
@@ -17,15 +17,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let tutor of menu" class="tutor-item">
-                <td>{{ tutor.chefName }}</td>
-                <td>{{ tutor.menuName }}</td>
-                <td>{{ tutor.description }}</td>
-                <td>{{ tutor.price }}</td>
-                <td>{{ tutor.availability }}</td>
+            <tr *ngFor="let menu of menus" class="menu-item">
+                <td>{{ menu.chefName }}</td>
+                <td>{{ menu.menuName }}</td>
+                <td>{{ menu.description }}</td>
+                <td>{{ menu.price }}</td>
+                <td>{{ menu.availability }}</td>
 
                 <td>
-                     <button id = "delete" class="delete-button" (click)="Delete(tutor.tutorId)">Delete</button>
+                     <button id = "delete" class="delete-button" (click)="Delete(menu.menuId)">Delete</button>
                 </td>
 
             </tr>
