@@ -1,7 +1,7 @@
 // tutor-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Tutor } from '../models/menu.model';
-import { TutorService } from '../services/tutor.service';
+import { TutorService } from '../services/menu.service';
 import { Router } from '@angular/router';
 
 

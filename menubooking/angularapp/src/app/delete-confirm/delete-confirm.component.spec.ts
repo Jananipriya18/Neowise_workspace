@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TutorService } from '../services/tutor.service';
+import { TutorService } from '../services/menu.service';
 import { Tutor } from '../models/menu.model'
 
 describe('DeleteConfirmComponent', () => {

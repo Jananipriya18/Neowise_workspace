@@ -1,19 +1,19 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { Tutor } from '../models/menu.model';
-import { TutorService } from './tutor.service';
+import { Menu } from '../models/menu.model';
+import { MenuService } from './menu.service';
 
-describe('TutorService', () => {
-  let service: TutorService;
+describe('MenuService', () => {
+  let service: MenuService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [TutorService],
+      providers: [MenuService],
     });
-    service = TestBed.inject(TutorService);
+    service = TestBed.inject(MenuService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
@@ -21,34 +21,34 @@ describe('TutorService', () => {
     httpTestingController.verify();
   });
 
-  fit('TutorService_should_be_created', () => {
+  fit('MenuService_should_be_created', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('TutorService_should_add_a_tutor_and_return_it', () => {
-    const mockTutor: Tutor = {
-      tutorId: 100,
-      name: 'Test Tutor',
+  fit('MenuService_should_add_a_tutor_and_return_it', () => {
+    const mockMenu: Menu = {
+      menuId: 100,
+      name: 'Test Menu',
       email: 'Test Email',
       subjectsOffered: 'Test SubjectsOffered',
       contactNumber: 'Test ContactNumber',
       availability: 'Test Availability'
     };
 
-    service.addTutor(mockTutor).subscribe((tutor) => {
-      expect(tutor).toEqual(mockTutor);
+    service.addMenu(mockMenu).subscribe((tutor) => {
+      expect(tutor).toEqual(mockMenu);
     });
 
     const req = httpTestingController.expectOne(`${service['apiUrl']}api/Tutoring`);
     expect(req.request.method).toBe('POST');
-    req.flush(mockTutor);
+    req.flush(mockMenu);
   });
 
-  fit('TutorService_should_get_tutors', () => {
-    const mockTutors: Tutor[] = [
+  fit('MenuService_should_get_tutors', () => {
+    const mockMenus: Menu[] = [
       {
-        tutorId: 100,
-        name: 'Test Tutor 1',
+        menuId: 100,
+        name: 'Test Menu 1',
         email: 'Test Email',
         subjectsOffered: 'Test SubjectsOffered',
         contactNumber: 'Test ContactNumber',
@@ -56,44 +56,44 @@ describe('TutorService', () => {
       }
     ];
 
-    service.getTutors().subscribe((Tutors) => {
-      expect(Tutors).toEqual(mockTutors);
+    service.getMenus().subscribe((Menus) => {
+      expect(Menus).toEqual(mockMenus);
     });
 
     const req = httpTestingController.expectOne(`${service['apiUrl']}api/Tutoring`);
     expect(req.request.method).toBe('GET');
-    req.flush(mockTutors);
+    req.flush(mockMenus);
   });
 
-  fit('TutorService_should_delete_Tutor', () => {
-    const tutorId = 100;
+  fit('MenuService_should_delete_Menu', () => {
+    const menuId = 100;
 
-    service.deleteTutor(tutorId).subscribe(() => {
+    service.deleteMenu(menuId).subscribe(() => {
       expect().nothing();
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}api/Tutoring/${tutorId}`);
+    const req = httpTestingController.expectOne(`${service['apiUrl']}api/Menuing/${menuId}`);
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
 
-  fit('TutorService_should_get_Tutor_by_id', () => {
-    const tutorId = 100;
-    const mockTutor: Tutor = {
-      tutorId: tutorId,
-      name: 'Test Tutor',
+  fit('MenuService_should_get_Menu_by_id', () => {
+    const menuId = 100;
+    const mockMenu: Menu = {
+      menuId: menuId,
+      name: 'Test Menu',
       email: 'Test Email',
       subjectsOffered: 'Test SubjectsOffered',
       contactNumber: 'Test ContactNumber',
       availability: 'Test Availability'
     };
 
-    service.getTutor(tutorId).subscribe((tutor) => {
-      expect(tutor).toEqual(mockTutor);
+    service.getMenu(menuId).subscribe((tutor) => {
+      expect(tutor).toEqual(mockMenu);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}api/Tutoring/${tutorId}`);
+    const req = httpTestingController.expectOne(`${service['apiUrl']}api/Tutoring/${menuId}`);
     expect(req.request.method).toBe('GET');
-    req.flush(mockTutor);
+    req.flush(mockMenu);
   });
 });

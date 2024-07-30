@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { TutorService } from '../services/tutor.service';
+import { TutorService } from '../services/menu.service';
 import { TutorListComponent } from './tutor-list.component';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';

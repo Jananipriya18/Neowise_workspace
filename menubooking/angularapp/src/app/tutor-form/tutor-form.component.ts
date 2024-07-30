@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Tutor } from '../models/menu.model';
-import { TutorService } from '../services/tutor.service'; // Corrected import statement
+import { TutorService } from '../services/menu.service'; // Corrected import statement
 import { Router } from '@angular/router';
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TutorService } from '../services/tutor.service';
+import { TutorService } from '../services/menu.service';
 import { Tutor } from '../models/menu.model'; // Import Tutor interface
 
 @Component({
