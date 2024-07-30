@@ -42,11 +42,6 @@ describe('DeleteConfirmComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    // fit('DeleteConfirmComponent_should_navigate_to_viewMenus_after_cancelDelete', () => {
-    //     spyOn(router, 'navigate').and.stub(); // Spy on router.navigate method
-    //     component.cancelDelete();
-    //     expect(router.navigate).toHaveBeenCalledWith(['/viewMenus']); // Verify router.navigate is called with correct argument
-    // });
 
     fit('DeleteConfirmComponent_should_call_deleteMenu_method_when_confirmDelete_is_called', () => {
         const menuId = 1;
