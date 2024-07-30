@@ -16,7 +16,7 @@ describe('Menu', () => {
 
     // Check individual properties of the menu
     expect(menu.menuId).toBe(1);
-    expect(menu.chefName).toBe('Test Chef Nameu');
+    expect(menu.chefName).toBe('Test Chef Name');
     expect(menu.menuName).toBe('Test Menu Name');
     expect(menu.description).toBe('Test Description');
     expect(menu.price).toBe('Test Price');

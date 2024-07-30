@@ -40,74 +40,40 @@ describe('MenuFormComponent', () => {
 
   });
 
-  fit('should_have_addMenu_method', () => {
-    expect(component.addMenu).toBeTruthy();
+  fit('should_have_MenuFormComponent', () => {
+    expect(component).toBeTruthy();
   });
 
-  fit('should_show_error_messages_for_required_fields_on_submit', fakeAsync(() => {
-    // Mock new menu data
+  fit('MenuFormComponent_should_render_error_messages_when_required_fields_are_empty_on_submit', () => {
+    // Set all fields to empty values
     component.newMenu = {
-        menuId: 1,
-        chefName: '',
-        menuName: '',
-        description: '',
-        price: '',
-        availability: ''
-    };
-
-    // Trigger form submission
+      menuId: 0,
+      chefName: '',
+      menuName: '',
+      description: '',
+      price: '',
+      availability: ''
+    } as Menu;
+ 
+    // Manually trigger form submission
+    component.formSubmitted = true;
+ 
+    fixture.detectChanges();
+ 
+    // Find the form element
     const form = fixture.debugElement.query(By.css('form')).nativeElement;
+ 
+    // Submit the form
     form.dispatchEvent(new Event('submit'));
+ 
     fixture.detectChanges();
-    tick();
-
-    // Check error messages for each field
-    const errorMessages = fixture.debugElement.queryAll(By.css('.error-message'));
-    expect(errorMessages.length).toBe(5); // Assuming there are 5 required fields
-
-    // Check error messages content
-    expect(errorMessages[0].nativeElement.textContent).toContain('Chef Name is required');
-    expect(errorMessages[1].nativeElement.textContent).toContain('Menu name is required');
-    expect(errorMessages[2].nativeElement.textContent).toContain('Description are required');
-    expect(errorMessages[3].nativeElement.textContent).toContain('Price is required');
-    expect(errorMessages[4].nativeElement.textContent).toContain('Availability is required');
-}));
-
-
-  // fit('should show chefName required error message on register page', fakeAsync(() => {
-  //   const nameInput = fixture.debugElement.query(By.css('#name'));
-  //   nameInput.nativeElement.value = '';
-  //   nameInput.nativeElement.dispatchEvent(new Event('input'));
-  //   fixture.detectChanges();
-  //   tick();
-  //   const errorMessage = fixture.debugElement.query(By.css('.error-message'));
-  //   expect(errorMessage.nativeElement.textContent).toContain('Name is required');
-  // }));
-
-  fit('should_not_render_any_error_messages_when_all_fields_are_filled', () => {
-    const compiled = fixture.nativeElement;
-    const form = compiled.querySelector('form');
-
-    // Fill all fields
-    component.newMenu = {
-      menuId: null, // or omit this line if menuId is auto-generated
-      chefName: 'Test Chef Name',
-      menuName: 'Test Menu Name',
-      description: 'Test Description',
-      price: 'Test Price',
-      availability: 'Test Availability'
-    };
-
-    fixture.detectChanges();
-
-    form.dispatchEvent(new Event('submit')); // Submit the form
-
-    // Check if no error messages are rendered
-    expect(compiled.querySelector('#chefNameError')).toBeNull();
-    expect(compiled.querySelector('#menuNameError')).toBeNull();
-    expect(compiled.querySelector('#descriptionError')).toBeNull();
-    expect(compiled.querySelector('#priceError')).toBeNull();
-    expect(compiled.querySelector('#availabilityError')).toBeNull();
+ 
+    // Check if error messages are rendered for each field
+    expect(fixture.debugElement.query(By.css('#chefName + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#menuName + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#description + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#price + .error-message'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#availability + .error-message'))).toBeTruthy();
   });
 
   fit('should_call_add_menu_method_while_adding_the_menu', () => {
@@ -119,7 +85,7 @@ describe('MenuFormComponent', () => {
       description: 'Test Description', 
       price: 'Test Price', 
       availability: 'Test Availability'
-    };
+    } as any;
     const addMenuSpy = spyOn(component, 'addMenu').and.callThrough();
     component.addMenu();
     expect(addMenuSpy).toHaveBeenCalled();

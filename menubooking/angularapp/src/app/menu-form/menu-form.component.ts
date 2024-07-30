@@ -34,7 +34,7 @@ export class MenuFormComponent {
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.newMenu[fieldName];
-    return !field && (this.formSubmitted || this.newMenu[fieldName].touched);
+    return !field && this.formSubmitted;
   }
 
   isFormValid(): boolean {

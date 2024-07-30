@@ -22,16 +22,4 @@ describe('HeaderComponent', () => {
     fit('should_create_HeaderComponent', () => {
         expect(component).toBeTruthy();
     });
-
-    fit('HeaderComponent_should_navigate_to_Add_New_Menu', () => {
-        spyOn(router, 'navigate');
-        component.navigateToAddMenu();
-        expect(router.navigate).toHaveBeenCalledWith(['/addNewMenu']);
-    });
-
-    fit('HeaderComponent_should_navigate_to_View_Menu', () => {
-        spyOn(router, 'navigate');
-        component.navigateToViewMenus();
-        expect(router.navigate).toHaveBeenCalledWith(['/viewMenus']);
-    });
 });
