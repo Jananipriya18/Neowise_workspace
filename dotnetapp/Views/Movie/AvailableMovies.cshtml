@@ -110,12 +110,14 @@ else
 else
 {
     <p>No available movies.</p>
-}
-
-<div class="form-group">
+    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             @Html.ActionLink("Back to available movies", "AvailableMovies", "Movie", null, new { id = "backtomovies", @class = "btn btn-secondary" })
         </div>
     </div>
+}
+
+
+
 
 <a id="reviewedMovies" asp-controller="Movie" asp-action="ReviewedMovies" class="btn btn-primary">Reviewed Movies</a>
