@@ -1,10 +1,10 @@
 // src/app/models/tutor.model.ts
 export interface Menu {
-    tutorId: number;
-    name: string;
-    email: string;
-    subjectsOffered: string;
-    contactNumber: string;
+    menuId: number;
+    chefName: string;
+    menuName: string;
+    description: string;
+    price: string;
     availability: string;
   }
   
