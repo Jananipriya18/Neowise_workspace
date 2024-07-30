@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TutorFormComponent } from './tutor-form/tutor-form.component';
+import { TutorFormComponent } from './menu-form/menu-form.component';
 import { TutorListComponent } from './tutor-list/tutor-list.component';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 

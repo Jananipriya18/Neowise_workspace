@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TutorService } from '../services/menu.service';
-import { Tutor } from '../models/menu.model'; // Import Tutor interface
+import { MenuService } from '../services/menu.service';
+import { Menu } from '../models/menu.model'; // Import Menu interface
 
 @Component({
   selector: 'app-delete-confirm',
@@ -9,42 +9,42 @@ import { Tutor } from '../models/menu.model'; // Import Tutor interface
   styleUrls: ['./delete-confirm.component.css']
 })
 export class DeleteConfirmComponent implements OnInit {
-  tutorId: number;
-  tutor: Tutor; // Initialize tutor property with an empty object
+  menuId: number;
+  menu: Menu; // Initialize menu property with an empty object
 
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private tutorService: TutorService
+    private menuService: MenuService
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.tutorId = +params['id'];
-      this.tutorService.getTutor(this.tutorId).subscribe(
-        (tutor: Tutor) => {
-          this.tutor = tutor;
+      this.menuId = +params['id'];
+      this.menuService.getMenu(this.menuId).subscribe(
+        (menu: Menu) => {
+          this.menu = menu;
         },
         error => {
-          console.error('Error fetching tutor:', error);
+          console.error('Error fetching menu:', error);
         }
       );
     });
   }
 
-  confirmDelete(tutorId: number): void {
-    this.tutorService.deleteTutor(tutorId).subscribe(
+  confirmDelete(menuId: number): void {
+    this.menuService.deleteMenu(menuId).subscribe(
       () => {
-        console.log('Tutor deleted successfully.');
-        this.router.navigate(['/viewTutors']);
+        console.log('Menu deleted successfully.');
+        this.router.navigate(['/viewMenus']);
       },
       (error) => {
-        console.error('Error deleting tutor:', error);
+        console.error('Error deleting menu:', error);
       }
     );
   }
 
   cancelDelete(): void {
-    this.router.navigate(['/viewTutors']);
+    this.router.navigate(['/viewMenus']);
   }
 }

@@ -23,15 +23,15 @@ describe('HeaderComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    fit('HeaderComponent_should_navigate_to_Add_New_Tutor', () => {
+    fit('HeaderComponent_should_navigate_to_Add_New_Menu', () => {
         spyOn(router, 'navigate');
-        component.navigateToAddTutor();
-        expect(router.navigate).toHaveBeenCalledWith(['/addNewTutor']);
+        component.navigateToAddMenu();
+        expect(router.navigate).toHaveBeenCalledWith(['/addNewMenu']);
     });
 
-    fit('HeaderComponent_should_navigate_to_View_Tutor', () => {
+    fit('HeaderComponent_should_navigate_to_View_Menu', () => {
         spyOn(router, 'navigate');
-        component.navigateToViewTutors();
-        expect(router.navigate).toHaveBeenCalledWith(['/viewTutors']);
+        component.navigateToViewMenus();
+        expect(router.navigate).toHaveBeenCalledWith(['/viewMenus']);
     });
 });

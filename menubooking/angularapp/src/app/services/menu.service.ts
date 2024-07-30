@@ -1,33 +1,33 @@
-// src/app/services/tutor.service.ts
+// src/app/services/menu.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Tutor } from '../models/menu.model';
+import { Menu } from '../models/menu.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class TutorService {
-  private apiUrl = 'https://8080-aabdbffdadabafcfdbcfacbdcbaeadbebabcdebdca.premiumproject.examly.io/'; // Replace this with your API endpoint
+export class MenuService {
+  private apiUrl = 'https://8080-aabdbffdadabafcfdbcfacbdcbaeadbebabcdebdca.premiumproject.examly.io/'; 
 
   constructor(private http: HttpClient) { }
 
-  addTutor(tutor: Tutor): Observable<Tutor> {
-    return this.http.post<Tutor>(`${this.apiUrl}api/Tutoring`, tutor);
+  addMenu(menu: Menu): Observable<Menu> {
+    return this.http.post<Menu>(`${this.apiUrl}api/MenuBooking`, menu);
   }
 
-  getTutors(): Observable<Tutor[]> {
-    return this.http.get<Tutor[]>(`${this.apiUrl}api/Tutoring`);
+  getMenus(): Observable<Menu[]> {
+    return this.http.get<Menu[]>(`${this.apiUrl}api/MenuBooking`);
   }
 
-  deleteTutor(tutorId: number): Observable<void> {
-    const url = `${this.apiUrl}api/Tutoring/${tutorId}`; // Adjust the URL to match your API endpoint
+  deleteMenu(menuId: number): Observable<void> {
+    const url = `${this.apiUrl}api/MenuBooking/${menuId}`; 
     return this.http.delete<void>(url);
   }
 
-  getTutor(tutorId: number): Observable<Tutor> {
-    const url = `${this.apiUrl}api/Tutoring/${tutorId}`;
-    return this.http.get<Tutor>(url);
+  getMenu(menuId: number): Observable<Menu> {
+    const url = `${this.apiUrl}api/MenuBooking/${menuId}`;
+    return this.http.get<Menu>(url);
   }
 }

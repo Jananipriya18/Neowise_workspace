@@ -1,0 +1,28 @@
+<form (submit)="addTutor()">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" [(ngModel)]="newTutor.name" name="name" required>
+        <div *ngIf="isFieldInvalid('name')" class="error-message">Name is required</div>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="newTutor.email" name="email" required>
+        <div *ngIf="isFieldInvalid('email')" class="error-message">Email is required</div>
+    </div>
+    <div>
+        <label for="subjectsOffered">Subjects Offered:</label>
+        <input type="text" id="subjectsOffered" [(ngModel)]="newTutor.subjectsOffered" name="subjectsOffered" required>
+        <div *ngIf="isFieldInvalid('subjectsOffered')" class="error-message">Subjects Offered are required</div>
+    </div>
+    <div>
+        <label for="contactNumber">Contact Number:</label>
+        <input type="tel" id="contactNumber" [(ngModel)]="newTutor.contactNumber" name="contactNumber" required>
+        <div *ngIf="isFieldInvalid('contactNumber')" class="error-message">Contact Number is required</div>
+    </div>
+    <div>
+        <label for="availability">Availability:</label>
+        <input type="text" id="availability" [(ngModel)]="newTutor.availability" name="availability" required>
+        <div *ngIf="isFieldInvalid('availability')" class="error-message">Availability is required</div>
+    </div>
+    <button type="submit">Add Tutor</button>
+</form>

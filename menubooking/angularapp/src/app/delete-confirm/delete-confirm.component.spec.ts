@@ -6,26 +6,26 @@ import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TutorService } from '../services/menu.service';
-import { Tutor } from '../models/menu.model'
+import { MenuService } from '../services/menu.service';
+import { Menu } from '../models/menu.model'
 
 describe('DeleteConfirmComponent', () => {
     let component: DeleteConfirmComponent;
     let fixture: ComponentFixture<DeleteConfirmComponent>;
     let router: Router;
     let activatedRoute: ActivatedRoute;
-    let mockTutorService: jasmine.SpyObj<TutorService>; // Declare mockTutorService
+    let mockMenuService: jasmine.SpyObj<MenuService>; // Declare mockMenuService
 
     beforeEach(waitForAsync(() => {
         // Create a spy object with the methods you want to mock
-        mockTutorService = jasmine.createSpyObj<TutorService>('TutorService', ['getTutor', 'deleteTutor'] as any);
+        mockMenuService = jasmine.createSpyObj<MenuService>('MenuService', ['getMenu', 'deleteMenu'] as any);
 
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, HttpClientModule, FormsModule, HttpClientTestingModule], // Add HttpClientModule and HttpClientTestingModule to imports
             declarations: [DeleteConfirmComponent],
             providers: [
                 // Provide the mock service instead of the actual service
-                { provide: TutorService, useValue: mockTutorService }
+                { provide: MenuService, useValue: mockMenuService }
             ]
         }).compileComponents();
         router = TestBed.inject(Router);
@@ -42,23 +42,23 @@ describe('DeleteConfirmComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    // fit('DeleteConfirmComponent_should_navigate_to_viewTutors_after_cancelDelete', () => {
+    // fit('DeleteConfirmComponent_should_navigate_to_viewMenus_after_cancelDelete', () => {
     //     spyOn(router, 'navigate').and.stub(); // Spy on router.navigate method
     //     component.cancelDelete();
-    //     expect(router.navigate).toHaveBeenCalledWith(['/viewTutors']); // Verify router.navigate is called with correct argument
+    //     expect(router.navigate).toHaveBeenCalledWith(['/viewMenus']); // Verify router.navigate is called with correct argument
     // });
 
-    fit('DeleteConfirmComponent_should_call_deleteTutor_method_when_confirmDelete_is_called', () => {
-        const tutorId = 1;
+    fit('DeleteConfirmComponent_should_call_deleteMenu_method_when_confirmDelete_is_called', () => {
+        const menuId = 1;
         
-        // Spy on the deleteTutor method of the TutorService
-        mockTutorService.deleteTutor.and.returnValue(of(null));
+        // Spy on the deleteMenu method of the MenuService
+        mockMenuService.deleteMenu.and.returnValue(of(null));
 
         // Call the confirmDelete method
-        component.confirmDelete(tutorId);
+        component.confirmDelete(menuId);
 
-        // Expect the deleteTutor method to have been called with the tutorId
-        expect(mockTutorService.deleteTutor).toHaveBeenCalledWith(tutorId);
+        // Expect the deleteMenu method to have been called with the menuId
+        expect(mockMenuService.deleteMenu).toHaveBeenCalledWith(menuId);
     });
 });
 
