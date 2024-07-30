@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TutorService } from '../services/tutor.service';
-import { Tutor } from '../models/tutor.model'
+import { Tutor } from '../models/menu.model'
 
 describe('DeleteConfirmComponent', () => {
     let component: DeleteConfirmComponent;

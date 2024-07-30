@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { Tutor } from '../models/tutor.model';
+import { Tutor } from '../models/menu.model';
 import { TutorService } from './tutor.service';
 
 describe('TutorService', () => {

@@ -6,7 +6,7 @@ import { TutorService } from '../services/tutor.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { Tutor } from '../models/tutor.model';
+import { Tutor } from '../models/menu.model';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';

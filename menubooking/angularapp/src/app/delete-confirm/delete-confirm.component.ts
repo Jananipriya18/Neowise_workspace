@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TutorService } from '../services/tutor.service';
-import { Tutor } from '../models/tutor.model'; // Import Tutor interface
+import { Tutor } from '../models/menu.model'; // Import Tutor interface
 
 @Component({
   selector: 'app-delete-confirm',

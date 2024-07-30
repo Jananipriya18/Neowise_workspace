@@ -1,5 +1,5 @@
 // src/app/models/tutor.model.ts
-export interface Tutor {
+export interface Menu {
     tutorId: number;
     name: string;
     email: string;

@@ -1,4 +1,4 @@
-import { Tutor } from './tutor.model';
+import { Tutor } from './menu.model';
 
 describe('Tutor', () => {
   fit('should_create_tutor_instance', () => {
