@@ -90,7 +90,7 @@ namespace dotnetapp.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                movies = movies.Where(m => m.Title.Contains(searchString));
+                movies = movies.Where(m => m.Title.EndsWith(searchString));
             }
 
             return View(await movies.ToListAsync());
