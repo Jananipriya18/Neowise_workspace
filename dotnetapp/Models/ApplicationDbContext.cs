@@ -59,11 +59,11 @@ namespace dotnetapp.Models
 
             // Seed data for Movies
             modelBuilder.Entity<Movie>().HasData(
-                new Movie { MovieID = 1, Title = "Inception", Director = "Christopher Nolan", ReleaseDate = new DateTime(2010, 7, 16) },
-                new Movie { MovieID = 2, Title = "The Matrix", Director = "The Wachowskis", ReleaseDate = new DateTime(1999, 3, 31) },
-                new Movie { MovieID = 3, Title = "The Shawshank Redemption", Director = "Frank Darabont", ReleaseDate = new DateTime(1994, 9, 23) },
-                new Movie { MovieID = 4, Title = "The Godfather", Director = "Francis Ford Coppola", ReleaseDate = new DateTime(1972, 3, 24) },
-                new Movie { MovieID = 5, Title = "The Dark Knight", Director = "Christopher Nolan", ReleaseDate = new DateTime(2008, 7, 18) }
+                new Movie { MovieID = 1, Title = "Inception", Director = "Christopher Nolan", ReleaseYear = new DateTime(2010, 7, 16) },
+                new Movie { MovieID = 2, Title = "The Matrix", Director = "The Wachowskis", ReleaseYear = new DateTime(1999, 3, 31) },
+                new Movie { MovieID = 3, Title = "The Shawshank Redemption", Director = "Frank Darabont", ReleaseYear = new DateTime(1994, 9, 23) },
+                new Movie { MovieID = 4, Title = "The Godfather", Director = "Francis Ford Coppola", ReleaseYear = new DateTime(1972, 3, 24) },
+                new Movie { MovieID = 5, Title = "The Dark Knight", Director = "Christopher Nolan", ReleaseYear = new DateTime(2008, 7, 18) }
             );
 
             base.OnModelCreating(modelBuilder);

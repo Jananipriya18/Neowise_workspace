@@ -1,4 +1,4 @@
-@model List<dotnetapp.Models.HistoricalTour>
+@* @model List<dotnetapp.Models.HistoricalTour>
 
 <h2>Booked Tours</h2>
 
@@ -30,4 +30,39 @@ else
 {
     <p>No tours have been booked.</p>
 }
-<a id="backButton" asp-controller="HistoricalTour" asp-action="AvailableTours" class="btn btn-primary">Back to available tours</a>
+<a id="backButton" asp-controller="HistoricalTour" asp-action="AvailableTours" class="btn btn-primary">Back to available tours</a> *@
+
+
+@model List<dotnetapp.Models.Movie>
+
+<h2>Reviewed Movies</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Director</th>
+                <th>Release Year</th>
+                <th>Reviews Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>@movie.Title</td>
+                    <td>@movie.Director</td>
+                    <td>@movie.ReleaseYear</td>
+                    <td>@(movie.Reviews?.Count ?? 0)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No movies have been reviewed.</p>
+}
+<a id="backButton" asp-controller="Movie" asp-action="AvailableMovies" class="btn btn-primary">Back to available movies</a>
