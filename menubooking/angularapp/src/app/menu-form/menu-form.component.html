@@ -1,28 +1,28 @@
-<form (submit)="addTutor()">
+<form (submit)="addMenu()">
     <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" [(ngModel)]="newTutor.name" name="name" required>
-        <div *ngIf="isFieldInvalid('name')" class="error-message">Name is required</div>
+        <label for="chefname">Chef Name:</label>
+        <input type="text" id="chefname" [(ngModel)]="newMenu.chefname" name="chefname" required>
+        <div *ngIf="isFieldInvalid('chefname')" class="error-message">Chef Name is required</div>
     </div>
     <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" [(ngModel)]="newTutor.email" name="email" required>
-        <div *ngIf="isFieldInvalid('email')" class="error-message">Email is required</div>
+        <label for="menuName">Menu Name:</label>
+        <input type="menuName" id="menuName" [(ngModel)]="newMenu.menuName" name="menuName" required>
+        <div *ngIf="isFieldInvalid('menuName')" class="error-message">Menu Name is required</div>
     </div>
     <div>
-        <label for="subjectsOffered">Subjects Offered:</label>
-        <input type="text" id="subjectsOffered" [(ngModel)]="newTutor.subjectsOffered" name="subjectsOffered" required>
-        <div *ngIf="isFieldInvalid('subjectsOffered')" class="error-message">Subjects Offered are required</div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" [(ngModel)]="newMenu.description" name="description" required>
+        <div *ngIf="isFieldInvalid('description')" class="error-message">Description are required</div>
     </div>
     <div>
-        <label for="contactNumber">Contact Number:</label>
-        <input type="tel" id="contactNumber" [(ngModel)]="newTutor.contactNumber" name="contactNumber" required>
-        <div *ngIf="isFieldInvalid('contactNumber')" class="error-message">Contact Number is required</div>
+        <label for="price">Price:</label>
+        <input type="tel" id="price" [(ngModel)]="newMenu.price" name="price" required>
+        <div *ngIf="isFieldInvalid('price')" class="error-message">Price is required</div>
     </div>
     <div>
         <label for="availability">Availability:</label>
-        <input type="text" id="availability" [(ngModel)]="newTutor.availability" name="availability" required>
+        <input type="text" id="availability" [(ngModel)]="newMenu.availability" name="availability" required>
         <div *ngIf="isFieldInvalid('availability')" class="error-message">Availability is required</div>
     </div>
-    <button type="submit">Add Tutor</button>
+    <button type="submit">Add Menu</button>
 </form>

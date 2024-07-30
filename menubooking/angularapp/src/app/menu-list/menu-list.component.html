@@ -1,0 +1,34 @@
+<div class="container">
+    <h2>Menu List</h2>
+  
+    <div *ngIf="menu.length === 0" class="no-menu-message">
+        No menu available.
+    </div>
+  
+    <table *ngIf="menu.length > 0" class="tutor-table">
+        <thead>
+            <tr>
+                <th>Chef Name</th>
+                <th>Menu Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Availability</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tutor of menu" class="tutor-item">
+                <td>{{ tutor.chefName }}</td>
+                <td>{{ tutor.menuName }}</td>
+                <td>{{ tutor.description }}</td>
+                <td>{{ tutor.price }}</td>
+                <td>{{ tutor.availability }}</td>
+
+                <td>
+                     <button id = "delete" class="delete-button" (click)="Delete(tutor.tutorId)">Delete</button>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+  </div>

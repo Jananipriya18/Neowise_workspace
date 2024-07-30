@@ -1,57 +1,57 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { RouterTestingModule } from '@angular/router/testing';
-import { TutorFormComponent } from './menu-form.component';
-import { TutorService } from '../services/menu.service';
+import { MenuFormComponent } from './menu-form.component';
+import { MenuService } from '../services/menu.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { Tutor } from '../models/menu.model';
+import { Menu } from '../models/menu.model';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { TutorListComponent } from '../tutor-list/tutor-list.component';
+import { MenuListComponent } from '../menu-list/menu-list.component';
 
-describe('TutorFormComponent', () => {
-  let component: TutorFormComponent;
-  let fixture: ComponentFixture<TutorFormComponent>;
-  let tutorService: TutorService;
+describe('MenuFormComponent', () => {
+  let component: MenuFormComponent;
+  let fixture: ComponentFixture<MenuFormComponent>;
+  let menuService: MenuService;
   let router: Router;
-  let tutorListComponent: TutorListComponent;
+  let menuListComponent: MenuListComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TutorFormComponent],
+      declarations: [MenuFormComponent],
       imports: [FormsModule, RouterTestingModule, HttpClientTestingModule],
       providers: [
-        TutorService,
+        MenuService,
       ]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TutorFormComponent);
+    fixture = TestBed.createComponent(MenuFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    tutorService = TestBed.inject(TutorService);
+    menuService = TestBed.inject(MenuService);
     router = TestBed.inject(Router);
 
   });
 
-  fit('should_have_addTutor_method', () => {
-    expect(component.addTutor).toBeTruthy();
+  fit('should_have_addMenu_method', () => {
+    expect(component.addMenu).toBeTruthy();
   });
 
   fit('should_show_error_messages_for_required_fields_on_submit', fakeAsync(() => {
-    // Mock new tutor data
-    component.newTutor = {
+    // Mock new menu data
+    component.newMenu = {
         menuId: 1,
         chefName: '',
         menuName: '',
         description: '',
-        contactNumber: '',
+        price: '',
         availability: ''
     };
 
@@ -66,10 +66,10 @@ describe('TutorFormComponent', () => {
     expect(errorMessages.length).toBe(5); // Assuming there are 5 required fields
 
     // Check error messages content
-    expect(errorMessages[0].nativeElement.textContent).toContain('Name is required');
-    expect(errorMessages[1].nativeElement.textContent).toContain('Email is required');
-    expect(errorMessages[2].nativeElement.textContent).toContain('Subjects Offered are required');
-    expect(errorMessages[3].nativeElement.textContent).toContain('Contact Number is required');
+    expect(errorMessages[0].nativeElement.textContent).toContain('Chef Name is required');
+    expect(errorMessages[1].nativeElement.textContent).toContain('Menu name is required');
+    expect(errorMessages[2].nativeElement.textContent).toContain('Description are required');
+    expect(errorMessages[3].nativeElement.textContent).toContain('Price is required');
     expect(errorMessages[4].nativeElement.textContent).toContain('Availability is required');
 }));
 
@@ -89,12 +89,12 @@ describe('TutorFormComponent', () => {
     const form = compiled.querySelector('form');
 
     // Fill all fields
-    component.newTutor = {
+    component.newMenu = {
       menuId: null, // or omit this line if menuId is auto-generated
-      chefName: 'Test Name',
-      menuName: 'Test Email',
-      description: 'Test SubjectsOffered',
-      contactNumber: 'Test ContactNumber',
+      chefName: 'Test Chef Name',
+      menuName: 'Test Menu Name',
+      description: 'Test Description',
+      price: 'Test Price',
       availability: 'Test Availability'
     };
 
@@ -106,23 +106,23 @@ describe('TutorFormComponent', () => {
     expect(compiled.querySelector('#chefNameError')).toBeNull();
     expect(compiled.querySelector('#menuNameError')).toBeNull();
     expect(compiled.querySelector('#descriptionError')).toBeNull();
-    expect(compiled.querySelector('#contactNumberError')).toBeNull();
+    expect(compiled.querySelector('#priceError')).toBeNull();
     expect(compiled.querySelector('#availabilityError')).toBeNull();
   });
 
-  fit('should_call_add_tutor_method_while_adding_the_tutor', () => {
-    // Create a mock Tutor object with all required properties
-    const tutor: Tutor = { 
+  fit('should_call_add_menu_method_while_adding_the_menu', () => {
+    // Create a mock Menu object with all required properties
+    const menu: Menu = { 
       menuId: 1, 
-      chefName: 'Test Tutor', 
-      menuName: 'Test Tutor Email', 
-      description: 'Ingredient 2', 
-      contactNumber: 'Test Tutor ContactNumber', 
+      chefName: 'Test Chef Name', 
+      menuName: 'Test Menu Name', 
+      description: 'Test Description', 
+      price: 'Test Price', 
       availability: 'Test Availability'
     };
-    const addTutorSpy = spyOn(component, 'addTutor').and.callThrough();
-    component.addTutor();
-    expect(addTutorSpy).toHaveBeenCalled();
+    const addMenuSpy = spyOn(component, 'addMenu').and.callThrough();
+    component.addMenu();
+    expect(addMenuSpy).toHaveBeenCalled();
   });
 });
 
