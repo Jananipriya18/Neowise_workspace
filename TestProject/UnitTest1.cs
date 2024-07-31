@@ -36,47 +36,56 @@ namespace dotnetapp.Tests
             _context.Dispose();
         }
 
-//         // Test if VRExperienceEnrollmentForm action with valid VRExperienceID redirects to EnrollmentConfirmation action with correct route values
-//         [Test]
-//         public async Task VRExperienceEnrollmentForm_Post_Method_ValidVRExperienceId_RedirectsToEnrollmentConfirmation()
-//         {
-//             // Arrange
-//             var vrExperience = new VRExperience
-//             {
-//                 VRExperienceID = 100,
-//                 ExperienceName = "Virtual Space Exploration",
-//                 StartTime = "10:00 AM",
-//                 EndTime = "12:00 PM",
-//                 MaxCapacity = 10,
-//                 Location = "Virtual",
-//                 Description = "Explore the wonders of space in a fully immersive virtual reality experience."
-//             };
-//             _context.VRExperiences.Add(vrExperience);
-//             await _context.SaveChangesAsync();
+        // Test if ReviewForm action with valid MovieID and valid MovieReview redirects to ReviewConfirmation action with correct route values
+        
+        [Test]
+        public async Task ReviewForm_Post_Method_ValidMovieID_ValidMovieReview_RedirectsToReviewConfirmation()
+        {
+            // Arrange
+            var movie = new Movie
+            {
+                MovieID = 100,
+                Title = "Inception",
+                Director = "Christopher Nolan",
+                ReleaseYear = DateTime.Parse("2010-07-16"),
+                Reviews = new List<MovieReview>()
+            };
+            _context.Movies.Add(movie);
+            await _context.SaveChangesAsync();
 
-//             var attendee = new Attendee { AttendeeID = 1, Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" };
+            var movieReview = new MovieReview
+            {
+                 MovieID = movie.MovieID,
+                ReviewerName = "John Doe",
+                Email = "john@example.com",
+                Rating = 9,
+                ReviewText = "Amazing movie with a complex plot.",
+                ReviewDate = DateTime.UtcNow
+            };
 
-//             // Act
-//             var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, attendee) as RedirectToActionResult;
+            // Act
+            var result = _controller.ReviewForm(movie.MovieID, movieReview) as RedirectToActionResult;
 
-//             // Assert
-//             Assert.NotNull(result);
-//             Assert.AreEqual("EnrollmentConfirmation", result.ActionName); // Ensure the correct action is redirected to
-//         }
+            // Assert
+            Assert.NotNull(result);
+            Assert.AreEqual("ReviewConfirmation", result.ActionName); // Ensure the correct action is redirected to
+        }
+
     
-//         // This test checks if the ExperienceEnrollmentForm action with an invalid VRExperienceID returns NotFoundResult
-//         [Test]
-//         public void ExperienceEnrollmentForm_Get_Method_InvalidVRExperienceId_ReturnsNotFound()
-//         {
-//             // Arrange
-//             var VRExperienceID = 999; // An ID that does not exist
+        // This test checks if the ReviewConfirmation action with an invalid reviewId returns NotFoundResult
+        [Test]
+        public void ReviewConfirmation_Get_Method_InvalidReviewId_ReturnsNotFound()
+        {
+            // Arrange
+            var reviewId = 999; // An ID that does not exist
 
-//             // Act
-//             var result = _controller.ExperienceEnrollmentForm(VRExperienceID) as NotFoundResult;
+            // Act
+            var result = _controller.ReviewConfirmation(reviewId) as NotFoundResult;
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
 
 //         // Test if ExperienceEnrollmentForm action with valid data creates an attendee and redirects to EnrollmentConfirmation
 //         [Test]
@@ -235,15 +244,15 @@ namespace dotnetapp.Tests
         }
 
        // This test checks the StartTime of VRExperience property is string
-        [Test]
-        public void VRExperience_Properties_StartTime_ReturnExpectedDataTypes()
-        {
-            // Arrange
-            MovieReview classEntity = new MovieReview { StartTime = "10:00 AM" };
+        // [Test]
+        // public void VRExperience_Properties_StartTime_ReturnExpectedDataTypes()
+        // {
+        //     // Arrange
+        //     MovieReview classEntity = new MovieReview { StartTime = "10:00 AM" };
 
-            // Assert
-            Assert.That(classEntity.ReviewerName, Is.TypeOf<string>());
-        }
+        //     // Assert
+        //     Assert.That(classEntity.ReviewerName, Is.TypeOf<string>());
+        // }
 
 //         // This test checks the EndTime of VRExperience property is string
 //         [Test]
