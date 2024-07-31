@@ -424,29 +424,29 @@ namespace dotnetapp.Tests
 //             Assert.IsNull(deletedExperience);
 //         }
 
-//         [Test]
-//         public async Task AvailableExperiences_SortByNameAscending_ReturnsSortedExperiences()
-//         {
-//             // Arrange
-//             //  TearDown();
-//             var vrExperienceController = new VRExperienceController(_context);
-//             _context.VRExperiences.AddRange(
-//                 new VRExperience { VRExperienceID = 121, ExperienceName = "Aaaa Space Exploration", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5, Location = "Virtual", Description = "Explore the wonders of space in a fully immersive virtual reality experience." },
-//                 new VRExperience { VRExperienceID = 221, ExperienceName = "Zzzebra Ocean Adventure", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5, Location = "Virtual", Description = "Dive into the depths of the ocean in a virtual reality experience." },
-//                 new VRExperience { VRExperienceID = 321, ExperienceName = "Rabbit Mountain Hiking", StartTime = "10:00 AM", EndTime = "12:00 PM", MaxCapacity = 5, Location = "Virtual", Description = "Experience the thrill of mountain hiking in virtual reality." }
-//             );
-//             _context.SaveChanges();
 
-//             // Act
-//             var result = await vrExperienceController.AvailableExperiences("asc") as ViewResult;
-//             var experiences = result.Model as List<VRExperience>;
+        [Test]
+        public async Task AvailableMovies_SearchByTitle_ReturnsFilteredMovies()
+        {
+            // Arrange
+            var movieController = new MovieReviewController(_context);
+            _context.Movies.AddRange(
+                new Movie { MovieID = 121, Title = "Inception", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2010-07-16") },
+                new Movie { MovieID = 122, Title = "Interstellar", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2014-11-07") },
+                new Movie { MovieID = 123, Title = "The Dark Knight", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2008-07-18") }
+            );
+            await _context.SaveChangesAsync();
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.IsInstanceOf<ViewResult>(result);
-//             // Assert.AreEqual(3, experiences.Count);
-//             Assert.AreEqual("Aaaa Space Exploration", experiences.First().ExperienceName);
-//             Assert.AreEqual("Zzzebra Ocean Adventure", experiences.Last().ExperienceName);
-//         }
+            // Act
+            var result = await movieController.AvailableMovies("Inception") as ViewResult;
+            var movies = result.Model as List<Movie>;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual(121, movies.Count);
+            Assert.AreEqual("Inception", movies.First().Title);
+        }
+
      }
  }
