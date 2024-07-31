@@ -1,40 +1,40 @@
-// using dotnetapp.Controllers;
-// using dotnetapp.Exceptions;
-// using dotnetapp.Models;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using NUnit.Framework;
-// using System.Linq;
-// using System.Threading.Tasks;
+using dotnetapp.Controllers;
+using dotnetapp.Exceptions;
+using dotnetapp.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System.Linq;
+using System.Threading.Tasks;
 
-// namespace dotnetapp.Tests
-// {
-//     [TestFixture]
-//     public class BookingControllerTests
-//     {
-//         private ApplicationDbContext _context;
-//         private MovieController _controller;
+namespace dotnetapp.Tests
+{
+    [TestFixture]
+    public class MovieControllerTests
+    {
+        private ApplicationDbContext _context;
+        private MovieReviewController _controller;
 
-//         [SetUp]
-//         public void Setup()
-//         {
-//             // Set up the test database context
-//             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-//                 .UseInMemoryDatabase(databaseName: "TestDatabase")
-//                 .Options;
-//             _context = new ApplicationDbContext(options);
-//             _context.Database.EnsureCreated();
+        [SetUp]
+        public void Setup()
+        {
+            // Set up the test database context
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+            _context = new ApplicationDbContext(options);
+            _context.Database.EnsureCreated();
 
-//             _controller = new BookingController(_context);
-//         }
+            _controller = new MovieReviewController(_context);
+        }
 
-//         [TearDown]
-//         public void TearDown()
-//         {
-//             // Clean up the test database context
-//             _context.Database.EnsureDeleted();
-//             _context.Dispose();
-//         }
+        [TearDown]
+        public void TearDown()
+        {
+            // Clean up the test database context
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
+        }
 
 //         // Test if VRExperienceEnrollmentForm action with valid VRExperienceID redirects to EnrollmentConfirmation action with correct route values
 //         [Test]
@@ -181,57 +181,69 @@
 //         }
 
 
-//         // This test checks the existence of the Attendee class
-//         [Test]
-//         public void AttendeeClassExists()
-//         {
-//             // Arrange
-//             var attendee = new Attendee();
+        // This test checks the existence of the Movie class
+        [Test]
+        public void MovieClassExists()
+        {
+            // Arrange
+            var movie = new Movie();
 
-//             // Assert
-//             Assert.IsNotNull(attendee);
-//         }
+            // Assert
+            Assert.IsNotNull(movie);
+        }
 
-//         // This test checks the existence of the Class class
-//         [Test]
-//         public void VRExperienceExists()
-//         {
-//             // Arrange
-//             var classEntity = new VRExperience();
+        // This test checks the existence of the Class class
+        [Test]
+        public void MovieReviewExists()
+        {
+            // Arrange
+            var classEntity = new MovieReview();
 
-//             // Assert
-//             Assert.IsNotNull(classEntity);
-//         }
+            // Assert
+            Assert.IsNotNull(classEntity);
+        }
  
-//  //This test check the exists of ApplicationDbContext class has DbSet of VRExperiences
-//  [Test]
-//         public void ApplicationDbContextContainsDbSetVRExperienceProperty()
-//         {
+ //This test check the exists of ApplicationDbContext class has DbSet of MovieReviews
+ [Test]
+        public void ApplicationDbContextContainsDbSetMovieReviewProperty()
+        {
 
-//             var propertyInfo = _context.GetType().GetProperty("VRExperiences");
+            var propertyInfo = _context.GetType().GetProperty("MovieReviews");
         
-//             Assert.IsNotNull(propertyInfo);
-//             Assert.AreEqual(typeof(DbSet<VRExperience>), propertyInfo.PropertyType);
+            Assert.IsNotNull(propertyInfo);
+            Assert.AreEqual(typeof(DbSet<MovieReview>), propertyInfo.PropertyType);
                    
-//         }
-//         // This test checks the StartTime of VRExperiences property is string
-//        [Test]
-//         public void VRExperience_Properties_VRExperienceID_ReturnExpectedDataTypes()
-//         {
-//             VRExperience classEntity = new VRExperience();
-//             Assert.That(classEntity.VRExperienceID, Is.TypeOf<int>());
-//         }
+        }
 
-//        // This test checks the StartTime of VRExperience property is string
-//         [Test]
-//         public void VRExperience_Properties_StartTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             VRExperience classEntity = new VRExperience { StartTime = "10:00 AM" };
+        //This test check the exists of ApplicationDbContext class has DbSet of MovieReviews
+ [Test]
+        public void ApplicationDbContextContainsDbSetMovieProperty()
+        {
 
-//             // Assert
-//             Assert.That(classEntity.StartTime, Is.TypeOf<string>());
-//         }
+            var propertyInfo = _context.GetType().GetProperty("Movies");
+        
+            Assert.IsNotNull(propertyInfo);
+            Assert.AreEqual(typeof(DbSet<Movie>), propertyInfo.PropertyType);
+                   
+        }
+        // This test checks the MovieReviewID of MovieReviews property is int
+       [Test]
+        public void MovieReview_Properties_MovieReviewID_ReturnExpectedDataTypes()
+        {
+            MovieReview classEntity = new MovieReview();
+            Assert.That(classEntity.MovieReviewID, Is.TypeOf<int>());
+        }
+
+       // This test checks the StartTime of VRExperience property is string
+        [Test]
+        public void VRExperience_Properties_StartTime_ReturnExpectedDataTypes()
+        {
+            // Arrange
+            MovieReview classEntity = new MovieReview { StartTime = "10:00 AM" };
+
+            // Assert
+            Assert.That(classEntity.ReviewerName, Is.TypeOf<string>());
+        }
 
 //         // This test checks the EndTime of VRExperience property is string
 //         [Test]
@@ -321,14 +333,14 @@
 //             Assert.That(attendee.Name, Is.TypeOf<string>());
 //         }
 
-//         // This test checks the expected value of Email in Attendee class is string
-//         [Test]
-//         public void Attendee_Properties_Email_ReturnExpectedDataTypes()
-//         {
-//             Attendee attendee = new Attendee();
-//             attendee.Email = "demo@gmail.com";
-//             Assert.That(attendee.Email, Is.TypeOf<string>());
-//         }
+        // This test checks the expected value of Email in Attendee class is string
+        [Test]
+        public void Attendee_Properties_Email_ReturnExpectedDataTypes()
+        {
+            MovieReview moviereview = new MovieReview();
+            moviereview.Email = "demo@gmail.com";
+            Assert.That(moviereview.Email, Is.TypeOf<string>());
+        }
 
 //         // This test checks the expected value of Email in Attendee class is string
 //         [Test]
@@ -427,5 +439,5 @@
 //             Assert.AreEqual("Aaaa Space Exploration", experiences.First().ExperienceName);
 //             Assert.AreEqual("Zzzebra Ocean Adventure", experiences.Last().ExperienceName);
 //         }
-//     }
-// }
+     }
+ }
