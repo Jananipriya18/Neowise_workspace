@@ -87,117 +87,134 @@ namespace dotnetapp.Tests
         }
 
 
-        // // Test if ExperienceEnrollmentForm action with valid data creates an attendee and redirects to EnrollmentConfirmation
-        // [Test]
-        // public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendeeAndRedirects()
-        // {
-        //     // Arrange
-        //     var vrExperience = new VRExperience
-        //     {
-        //         VRExperienceID = 100,
-        //         ExperienceName = "Virtual Space Exploration",
-        //         StartTime = "10:00 AM",
-        //         EndTime = "12:00 PM",
-        //         MaxCapacity = 1,
-        //         Location = "Virtual",
-        //         Description = "Explore the wonders of space in a fully immersive virtual reality experience."
-        //     };
-        //     _context.VRExperiences.Add(vrExperience);
-        //     await _context.SaveChangesAsync();
+        [Test]
+        public async Task ReviewForm_Post_Method_ValidData_CreatesReviewAndRedirects()
+        {
+            // Arrange
+            var movie = new Movie
+            {
+                MovieID = 200,
+                Title = "Inception",
+                Director = "Christopher Nolan",
+                ReleaseYear = DateTime.Parse("2010-07-16")
+            };
+            _context.Movies.Add(movie);
+            await _context.SaveChangesAsync();
 
-        //     // Act
-        //     var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }) as RedirectToActionResult;
+            var movieReview = new MovieReview
+            {
+                MovieID = movie.MovieID,
+                ReviewerName = "John Doe",
+                Email = "john@example.com",
+                Rating = 5,
+                ReviewText = "Amazing movie!",
+                ReviewDate = DateTime.Now
+            };
 
-        //     // Assert
-        //     Assert.IsNotNull(result);
-        //     Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
-        // }
+            var movieReviewController = new MovieReviewController(_context);
+
+            // Act
+            var result = movieReviewController.ReviewForm(movie.MovieID, movieReview) as RedirectToActionResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("ReviewConfirmation", result.ActionName);
+
+            // Verify the review is added to the database
+            var addedReview = await _context.MovieReviews.FirstOrDefaultAsync(r => r.MovieID == movie.MovieID && r.ReviewerName == "John Doe");
+            Assert.IsNotNull(addedReview);
+            Assert.AreEqual(5, addedReview.Rating);
+            Assert.AreEqual("Amazing movie!", addedReview.ReviewText);
+        }
 
 
+        [Test]
+        public void ReviewForm_Post_Method_InvalidRating_ThrowsException()
+        {
+            // Arrange
+            var movie = new Movie
+            {
+                MovieID = 100,
+                Title = "Inception",
+                Director = "Christopher Nolan",
+                ReleaseYear = new DateTime(2010, 7, 16)
+            };
+            _context.Movies.Add(movie);
+            _context.SaveChanges();
 
-[Test]
-public async Task ReviewForm_Post_Method_InvalidRating_ThrowsException()
-{
-    // Arrange
-    var movie = new Movie
+            var controller = new MovieReviewController(_context);
+            var invalidReview = new MovieReview
+            {
+                MovieID = movie.MovieID,
+                ReviewerName = "John Doe",
+                Email = "john@example.com",
+                Rating = 6, // Invalid rating (should be between 1 and 5)
+                ReviewText = "Amazing movie!",
+                ReviewDate = DateTime.Now
+            };
+
+            // Act & Assert
+            var exception = Assert.Throws<MovieReviewException>(() =>
+            {
+                // Call the ReviewForm action and check for exception
+                var result = controller.ReviewForm(movie.MovieID, invalidReview);
+                // The exception should be thrown by the controller method
+            });
+
+            // Assert
+            Assert.AreEqual("The rating must be between 1 and 5", exception.Message);
+        }
+
+// This test checks if MovieReviewException throws the message "The rating must be between 1 and 5." or not
+// Test if ReviewForm action throws MovieReviewException with correct message when rating is out of valid range
+    [Test]
+    public void ReviewForm_Post_Method_ThrowsException_With_Message()
     {
-        MovieID = 100,
-        Title = "Inception",
-        Director = "Christopher Nolan",
-        ReleaseYear = new DateTime(2010, 7, 16)
-    };
-    _context.Movies.Add(movie);
-    await _context.SaveChangesAsync();
-
-    var controller = new MovieReviewController(_context);
-    var invalidReview = new MovieReview
-    {
-        MovieID = movie.MovieID,
-        ReviewerName = "John Doe",
-        Email = "john@example.com",
-        Rating = 6, // Invalid rating (should be between 1 and 5)
-        ReviewText = "Amazing movie!",
-        ReviewDate = DateTime.Now
-    };
-
-    // Act & Assert
-    var exception = await Assert.ThrowsAsync<MovieReviewException>(async () =>
-    {
-        // Call the ReviewForm action and check for exception
-        var result = controller.ReviewForm(movie.MovieID, invalidReview);
-        // The exception should be thrown by the controller method
-    });
-
-    // Assert
-    Assert.AreEqual("The rating must be between 1 and 5.", exception.Message);
-}
-
-
-
-// // This test checks if VRExperienceBookingException throws the message "Maximum Attendees Registered" or not
-// // Test if ExperienceEnrollmentForm action throws VRExperienceBookingException with correct message after reaching capacity 0
-// [Test]
-// public void ExperienceEnrollmentForm_Post_Method_ThrowsException_With_Message()
-// {
-//     // Arrange
-//     var vrExperience = new VRExperience
-//     {
-//         VRExperienceID = 100,
-//         ExperienceName = "Virtual Space Exploration",
-//         StartTime = "10:00 AM",
-//         EndTime = "12:00 PM",
-//         MaxCapacity = 0,
-//         Location = "Virtual",
-//         Description = "Explore the wonders of space in a fully immersive virtual reality experience."
-//     };
-//     _context.VRExperiences.Add(vrExperience);
-//     _context.SaveChanges();
-
-//     // Act and Assert
-//      var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
-//     {
-//         await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
-//     });
-
-//     // Assert
-//     // Assert.AreEqual("Maximum Attendees Registered", exception.Message);
-// }
-
+        // Arrange
+        var movie = new Movie
+        {
+            MovieID = 200,
+            Title = "Inception",
+            Director = "Christopher Nolan",
+            ReleaseYear = DateTime.Parse("2010-07-16")
+        };
+        _context.Movies.Add(movie);
+        _context.SaveChanges();
     
-// // This test checks if EnrollmentConfirmation action returns NotFound for a non-existent attendee ID
-//         [Test]
-//         public async Task EnrollmentConfirmation_Get_Method_NonexistentAttendeeID_ReturnsNotFound()
-//         {
-//             // Arrange
-//             var nonExistentAttendeeId = 999; // An ID that does not exist in the database
+        var invalidReview = new MovieReview
+        {
+            Rating = 6, // Invalid rating
+            ReviewText = "Amazing movie!",
+            ReviewerName = "John Doe",
+            Email = "johndoe@gmail.com"
+        };
+    
+        var movieReviewController = new MovieReviewController(_context);
+    
+        // Act and Assert
+        var exception = Assert.Throws<MovieReviewException>(() =>
+        {
+            movieReviewController.ReviewForm(movie.MovieID, invalidReview);
+        });
+    
+        // Assert
+        Assert.AreEqual("The rating must be between 1 and 5", exception.Message);
+    }
+    
+        [Test]
+        public async Task ReviewConfirmation_Get_Method_NonexistentReviewID_ReturnsNotFound()
+        {
+            // Arrange
+            var nonExistentReviewId = 999; // An ID that does not exist in the database
 
-//             // Act
-//             var result = await _controller.EnrollmentConfirmation(nonExistentAttendeeId) as NotFoundResult;
+            // Act
+            var result = await Task.Run(() => _controller.ReviewConfirmation(nonExistentReviewId)) as NotFoundResult;
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.AreEqual(404, result.StatusCode);
-//         }
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
 
 
         // This test checks the existence of the Movie class
@@ -223,7 +240,7 @@ public async Task ReviewForm_Post_Method_InvalidRating_ThrowsException()
         }
  
  //This test check the exists of ApplicationDbContext class has DbSet of MovieReviews
- [Test]
+        [Test]
         public void ApplicationDbContextContainsDbSetMovieReviewProperty()
         {
 
@@ -235,7 +252,7 @@ public async Task ReviewForm_Post_Method_InvalidRating_ThrowsException()
         }
 
         //This test check the exists of ApplicationDbContext class has DbSet of MovieReviews
- [Test]
+        [Test]
         public void ApplicationDbContextContainsDbSetMovieProperty()
         {
 
@@ -459,43 +476,42 @@ public async Task ReviewForm_Post_Method_InvalidRating_ThrowsException()
         }
 
 
-[Test]
-public async Task AvailableMovies_SearchByTitle_ReturnsFilteredMovies()
-{
-    // Arrange
-    _context.Movies.AddRange(
-        new Movie { MovieID = 121, Title = "Inception", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2010-07-16") },
-        new Movie { MovieID = 122, Title = "Interstellar", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2014-11-07") },
-        new Movie { MovieID = 123, Title = "The Dark Knight", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2008-07-18") },
-        new Movie { MovieID = 124, Title = "Batman", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2005-06-15") },
-        new Movie { MovieID = 125, Title = "Superman", Director = "Zack Snyder", ReleaseYear = DateTime.Parse("2013-06-14") }
-    );
-    await _context.SaveChangesAsync();
-
-    var movieController = new MovieController(_context);
-
-    // Act
-    var result = await movieController.AvailableMovies("n") as ViewResult;
-    var movies = result?.Model as List<Movie>;
-
-    // Log the titles for debugging purposes
-    Console.WriteLine("Movies Returned:");
-    if (movies != null)
-    {
-        foreach (var movie in movies)
+        [Test]
+        public async Task AvailableMovies_SearchByTitle_ReturnsFilteredMovies()
         {
-            Console.WriteLine(movie.Title);
+            // Arrange
+            _context.Movies.AddRange(
+                new Movie { MovieID = 121, Title = "Inception", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2010-07-16") },
+                new Movie { MovieID = 122, Title = "Interstellar", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2014-11-07") },
+                new Movie { MovieID = 123, Title = "The Dark Knight", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2008-07-18") },
+                new Movie { MovieID = 124, Title = "Batman", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2005-06-15") },
+                new Movie { MovieID = 125, Title = "Superman", Director = "Zack Snyder", ReleaseYear = DateTime.Parse("2013-06-14") }
+            );
+            await _context.SaveChangesAsync();
+
+            var movieController = new MovieController(_context);
+
+            // Act
+            var result = await movieController.AvailableMovies("n") as ViewResult;
+            var movies = result?.Model as List<Movie>;
+
+            // Log the titles for debugging purposes
+            Console.WriteLine("Movies Returned:");
+            if (movies != null)
+            {
+                foreach (var movie in movies)
+                {
+                    Console.WriteLine(movie.Title);
+                }
+            }
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<ViewResult>(result);
+            Assert.IsNotNull(movies);
+            Assert.IsTrue(movies.Count >= 1);  // There should be at least one movie ending with "n"
+            Assert.IsTrue(movies.All(m => m.Title.EndsWith("n")));  // All movies should end with "n"
         }
-    }
-
-    // Assert
-    Assert.IsNotNull(result);
-    Assert.IsInstanceOf<ViewResult>(result);
-    Assert.IsNotNull(movies);
-    Assert.IsTrue(movies.Count >= 1);  // There should be at least one movie ending with "n"
-    Assert.IsTrue(movies.All(m => m.Title.EndsWith("n")));  // All movies should end with "n"
-}
-
 
      }
  }

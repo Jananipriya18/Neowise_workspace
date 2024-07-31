@@ -49,7 +49,7 @@ namespace dotnetapp.Controllers
             // Example condition for throwing a custom exception
             if (movieReview.Rating < 1 || movieReview.Rating > 5)
             {
-                throw new MovieReviewException("The rating must be between 1 and 5.");
+                throw new MovieReviewException("The rating must be between 1 and 5");
             }
 
             _context.MovieReviews.Add(movieReview);
