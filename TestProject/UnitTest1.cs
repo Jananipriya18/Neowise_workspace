@@ -58,7 +58,7 @@ namespace dotnetapp.Tests
                  MovieID = movie.MovieID,
                 ReviewerName = "John Doe",
                 Email = "john@example.com",
-                Rating = 9,
+                Rating = 3,
                 ReviewText = "Amazing movie with a complex plot.",
                 ReviewDate = DateTime.UtcNow
             };
@@ -87,60 +87,70 @@ namespace dotnetapp.Tests
         }
 
 
-//         // Test if ExperienceEnrollmentForm action with valid data creates an attendee and redirects to EnrollmentConfirmation
-//         [Test]
-//         public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendeeAndRedirects()
-//         {
-//             // Arrange
-//             var vrExperience = new VRExperience
-//             {
-//                 VRExperienceID = 100,
-//                 ExperienceName = "Virtual Space Exploration",
-//                 StartTime = "10:00 AM",
-//                 EndTime = "12:00 PM",
-//                 MaxCapacity = 1,
-//                 Location = "Virtual",
-//                 Description = "Explore the wonders of space in a fully immersive virtual reality experience."
-//             };
-//             _context.VRExperiences.Add(vrExperience);
-//             await _context.SaveChangesAsync();
+        // // Test if ExperienceEnrollmentForm action with valid data creates an attendee and redirects to EnrollmentConfirmation
+        // [Test]
+        // public async Task ExperienceEnrollmentForm_Post_Method_ValidData_CreatesAttendeeAndRedirects()
+        // {
+        //     // Arrange
+        //     var vrExperience = new VRExperience
+        //     {
+        //         VRExperienceID = 100,
+        //         ExperienceName = "Virtual Space Exploration",
+        //         StartTime = "10:00 AM",
+        //         EndTime = "12:00 PM",
+        //         MaxCapacity = 1,
+        //         Location = "Virtual",
+        //         Description = "Explore the wonders of space in a fully immersive virtual reality experience."
+        //     };
+        //     _context.VRExperiences.Add(vrExperience);
+        //     await _context.SaveChangesAsync();
 
-//             // Act
-//             var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }) as RedirectToActionResult;
+        //     // Act
+        //     var result = await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" }) as RedirectToActionResult;
 
-//             // Assert
-//             Assert.IsNotNull(result);
-//             Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
-//         }
+        //     // Assert
+        //     Assert.IsNotNull(result);
+        //     Assert.AreEqual("EnrollmentConfirmation", result.ActionName);
+        // }
 
 
 
-//         [Test]
-//         public async Task ExperienceEnrollmentForm_Post_Method_ExperienceFull_ThrowsException()
-//         {
-//             // Arrange
-//             var vrExperience = new VRExperience
-//             {
-//                 VRExperienceID = 100,
-//                 ExperienceName = "Virtual Space Exploration",
-//                 StartTime = "10:00 AM",
-//                 EndTime = "12:00 PM",
-//                 MaxCapacity = 0, // Full capacity
-//                 Location = "Virtual",
-//                 Description = "Explore the wonders of space in a fully immersive virtual reality experience."
-//             };
-//             _context.VRExperiences.Add(vrExperience);
-//             await _context.SaveChangesAsync();
+[Test]
+public async Task ReviewForm_Post_Method_InvalidRating_ThrowsException()
+{
+    // Arrange
+    var movie = new Movie
+    {
+        MovieID = 100,
+        Title = "Inception",
+        Director = "Christopher Nolan",
+        ReleaseYear = new DateTime(2010, 7, 16)
+    };
+    _context.Movies.Add(movie);
+    await _context.SaveChangesAsync();
 
-//             // Act & Assert
-//             var exception = Assert.ThrowsAsync<VRExperienceBookingException>(async () =>
-//             {
-//                 await _controller.ExperienceEnrollmentForm(vrExperience.VRExperienceID, new Attendee { Name = "John Doe", Email = "john@example.com", PhoneNumber = "9876543210" });
-//             });
+    var controller = new MovieReviewController(_context);
+    var invalidReview = new MovieReview
+    {
+        MovieID = movie.MovieID,
+        ReviewerName = "John Doe",
+        Email = "john@example.com",
+        Rating = 6, // Invalid rating (should be between 1 and 5)
+        ReviewText = "Amazing movie!",
+        ReviewDate = DateTime.Now
+    };
 
-//             // Assert
-//             Assert.AreEqual("Maximum Attendees Registered", exception.Message);
-//         }
+    // Act & Assert
+    var exception = await Assert.ThrowsAsync<MovieReviewException>(async () =>
+    {
+        // Call the ReviewForm action and check for exception
+        var result = controller.ReviewForm(movie.MovieID, invalidReview);
+        // The exception should be thrown by the controller method
+    });
+
+    // Assert
+    Assert.AreEqual("The rating must be between 1 and 5.", exception.Message);
+}
 
 
 
@@ -235,42 +245,42 @@ namespace dotnetapp.Tests
             Assert.AreEqual(typeof(DbSet<Movie>), propertyInfo.PropertyType);
                    
         }
-    //     // This test checks the MovieReviewID of MovieReviews property is int
-    //    [Test]
-    //     public void MovieReview_Properties_MovieReviewID_ReturnExpectedDataTypes()
-    //     {
-    //         MovieReview classEntity = new MovieReview();
-    //         Assert.That(classEntity.MovieReviewID, Is.TypeOf<int>());
-    //     }
-
-       // This test checks the StartTime of VRExperience property is string
-        // [Test]
-        // public void VRExperience_Properties_StartTime_ReturnExpectedDataTypes()
-        // {
-        //     // Arrange
-        //     MovieReview classEntity = new MovieReview { StartTime = "10:00 AM" };
-
-        //     // Assert
-        //     Assert.That(classEntity.ReviewerName, Is.TypeOf<string>());
-        // }
-
-//         // This test checks the EndTime of VRExperience property is string
-//         [Test]
-//         public void VRExperience_Properties_EndTime_ReturnExpectedDataTypes()
-//         {
-//             // Arrange
-//             VRExperience classEntity = new VRExperience { EndTime = "12:00 PM" };
-
-//             // Assert
-//             Assert.That(classEntity.EndTime, Is.TypeOf<string>());
-//         }
-
-        // This test checks the Capacity of VRExperience property is int
-        [Test]
-        public void VRExperience_Properties_MaxCapacity_ReturnExpectedDataTypes()
+    //     // This test checks the MovieID of Movie property is int
+       [Test]
+        public void Movie_Properties_MovieID_ReturnExpectedDataTypes()
         {
-            VRExperience classEntity = new VRExperience();
-            Assert.That(classEntity.MaxCapacity, Is.TypeOf<int>());
+            Movie classEntity = new Movie();
+            Assert.That(classEntity.MovieID, Is.TypeOf<int>());
+        }
+
+      // This test checks the Title of Movie property is string
+        [Test]
+        public void Movie_Properties_Title_ReturnExpectedDataTypes()
+        {
+            // Arrange
+            Movie classEntity = new Movie { Title = "Demo Title" };
+
+            // Assert
+            Assert.That(classEntity.Title, Is.TypeOf<string>());
+        }
+
+      // This test checks the Director of Movie property is string
+        [Test]
+        public void Movie_Properties_Director_ReturnExpectedDataTypes()
+        {
+            // Arrange
+            Movie classEntity = new Movie { Director = "Demo Director" };
+
+            // Assert
+            Assert.That(classEntity.Director, Is.TypeOf<string>());
+        }
+
+        // This test checks the ReleaseYear of Movie property is DateTime
+        [Test]
+        public void Movie_Properties_ReleaseYear_ReturnExpectedDataTypes()
+        {
+            Movie classEntity = new Movie();
+            Assert.That(classEntity.ReleaseYear, Is.TypeOf<DateTime>());
         }
 
        // This test checks the expected value of MovieID
@@ -449,35 +459,42 @@ namespace dotnetapp.Tests
         }
 
 
-        // [Test]
-        // public async Task AvailableMovies_SearchByTitle_ReturnsFilteredMovies()
-        // {
-        //     // Arrange
-        //     var movieController = new MovieController(_context);
-        //     _context.Movies.AddRange(
-        //         new Movie { MovieID = 121, Title = "Inception", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2010-07-16") },
-        //         new Movie { MovieID = 122, Title = "Interstellar", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2014-11-07") },
-        //         new Movie { MovieID = 123, Title = "The Dark Knight", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2008-07-18") }
-        //     );
-        //     await _context.SaveChangesAsync();
+[Test]
+public async Task AvailableMovies_SearchByTitle_ReturnsFilteredMovies()
+{
+    // Arrange
+    _context.Movies.AddRange(
+        new Movie { MovieID = 121, Title = "Inception", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2010-07-16") },
+        new Movie { MovieID = 122, Title = "Interstellar", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2014-11-07") },
+        new Movie { MovieID = 123, Title = "The Dark Knight", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2008-07-18") },
+        new Movie { MovieID = 124, Title = "Batman", Director = "Christopher Nolan", ReleaseYear = DateTime.Parse("2005-06-15") },
+        new Movie { MovieID = 125, Title = "Superman", Director = "Zack Snyder", ReleaseYear = DateTime.Parse("2013-06-14") }
+    );
+    await _context.SaveChangesAsync();
 
-        //     // Act
-        //     var result = await movieController.AvailableMovies("Inception") as ViewResult;
-        //     var movies = result.Model as List<Movie>;
+    var movieController = new MovieController(_context);
 
-        //     // Log the titles for debugging purposes
-        //     Console.WriteLine("Movies Returned:");
-        //     foreach (var movie in movies)
-        //     {
-        //         Console.WriteLine(movie.Title);
-        //     }
+    // Act
+    var result = await movieController.AvailableMovies("n") as ViewResult;
+    var movies = result?.Model as List<Movie>;
 
-        //     // Assert
-        //     Assert.IsNotNull(result);
-        //     Assert.IsInstanceOf<ViewResult>(result);
-        //     Assert.AreEqual(1, movies.Count);  // Expecting only one movie that ends with "Inception"
-        //     Assert.IsTrue(movies.Any(m => m.Title == "Inception"));
-        // }
+    // Log the titles for debugging purposes
+    Console.WriteLine("Movies Returned:");
+    if (movies != null)
+    {
+        foreach (var movie in movies)
+        {
+            Console.WriteLine(movie.Title);
+        }
+    }
+
+    // Assert
+    Assert.IsNotNull(result);
+    Assert.IsInstanceOf<ViewResult>(result);
+    Assert.IsNotNull(movies);
+    Assert.IsTrue(movies.Count >= 1);  // There should be at least one movie ending with "n"
+    Assert.IsTrue(movies.All(m => m.Title.EndsWith("n")));  // All movies should end with "n"
+}
 
 
      }
