@@ -4,11 +4,12 @@ const puppeteer = require('puppeteer');
       headless: false,
       args: ['--headless', '--disable-gpu', '--remote-debugging-port=9222', '--no-sandbox', '--disable-setuid-sandbox']
     });
-    console.log("testing");
+    
     // Test case to verify the existence of correct heading, table, and back button in the booked batches page
     const page = await browser.newPage();
+    console.log(page.url());
     try {
-      await page.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/Movie/ReviewedMovies');
+      await page.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/Movie/ReviewedMovies');
       await page.setViewport({
         width: 1200,
         height: 1200,
@@ -33,7 +34,7 @@ const puppeteer = require('puppeteer');
     // Test case to verify the existence of book and delete buttons in the available batches page
     const page1 = await browser.newPage();
     try {
-      await page1.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
+      await page1.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page1.setViewport({
         width: 1200,
         height: 1200,
@@ -56,7 +57,7 @@ const puppeteer = require('puppeteer');
     // Test case to verify the existence of back button and heading in the batch enrollment form page
     const page2 = await browser.newPage();
     try {
-      await page2.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
+      await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page2.setViewport({
         width: 1200,
         height: 1200,
@@ -81,7 +82,7 @@ const puppeteer = require('puppeteer');
 
     const page3 = await browser.newPage();
     try {
-      await page3.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
+      await page3.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page3.setViewport({
         width: 1200,
         height: 1200,

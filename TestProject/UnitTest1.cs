@@ -235,13 +235,13 @@ namespace dotnetapp.Tests
             Assert.AreEqual(typeof(DbSet<Movie>), propertyInfo.PropertyType);
                    
         }
-        // This test checks the MovieReviewID of MovieReviews property is int
-       [Test]
-        public void MovieReview_Properties_MovieReviewID_ReturnExpectedDataTypes()
-        {
-            MovieReview classEntity = new MovieReview();
-            Assert.That(classEntity.MovieReviewID, Is.TypeOf<int>());
-        }
+    //     // This test checks the MovieReviewID of MovieReviews property is int
+    //    [Test]
+    //     public void MovieReview_Properties_MovieReviewID_ReturnExpectedDataTypes()
+    //     {
+    //         MovieReview classEntity = new MovieReview();
+    //         Assert.That(classEntity.MovieReviewID, Is.TypeOf<int>());
+    //     }
 
        // This test checks the StartTime of VRExperience property is string
         // [Test]
@@ -265,120 +265,132 @@ namespace dotnetapp.Tests
 //             Assert.That(classEntity.EndTime, Is.TypeOf<string>());
 //         }
 
-//         // This test checks the Capacity of VRExperience property is int
-//         [Test]
-//         public void VRExperience_Properties_MaxCapacity_ReturnExpectedDataTypes()
-//         {
-//             VRExperience classEntity = new VRExperience();
-//             Assert.That(classEntity.MaxCapacity, Is.TypeOf<int>());
-//         }
-
-//         // This test checks the expected value of VRExperienceID
-//         [Test]
-//         public void VRExperience_Properties_VRExperienceID_ReturnExpectedValues()
-//         {
-//             // Arrange
-//             int expectedVRExperienceID = 100;
-
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 VRExperienceID = expectedVRExperienceID
-//             };
-//             Assert.AreEqual(expectedVRExperienceID, classEntity.VRExperienceID);
-//         }
-
-//         // This test checks the expected value of StartTime
-//         [Test]
-//         public void VRExperience_Properties_StartTime_ReturnExpectedValues()
-//         {
-//             string expectedStartTime = "10:00 AM";
-
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 StartTime = expectedStartTime
-//             };
-//             Assert.AreEqual(expectedStartTime, classEntity.StartTime);
-//         }
-
-//         // This test checks the expected value of EndTime
-//         [Test]
-//         public void VRExperience_Properties_EndTime_ReturnExpectedValues()
-//         {
-//             string expectedEndTime = "12:00 PM";
-
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 EndTime = expectedEndTime
-//             };
-//             Assert.AreEqual(expectedEndTime, classEntity.EndTime);
-//         }
-
-//         // This test checks the expected value of Capacity
-//         [Test]
-//         public void VRExperience_Properties_MaxCapacity_ReturnExpectedValues()
-//         {
-//             int expectedCapacity = 5;
-//             VRExperience classEntity = new VRExperience
-//             {
-//                 MaxCapacity = expectedCapacity
-//             };
-//             Assert.AreEqual(expectedCapacity, classEntity.MaxCapacity);
-//         }
-
-//         // This test checks the expected value of AttendeeID in Attendee class is int
-//         [Test]
-//         public void Attendee_Properties_AttendeeID_ReturnExpectedDataTypes()
-//         {
-//             Attendee attendee = new Attendee();
-//             Assert.That(attendee.AttendeeID, Is.TypeOf<int>());
-//         }
-
-//         // This test checks the expected value of Name in Attendee class is string
-//         [Test]
-//         public void Attendee_Properties_Name_ReturnExpectedDataTypes()
-//         {
-//             Attendee attendee = new Attendee();
-//             attendee.Name = "Demo Name";
-//             Assert.That(attendee.Name, Is.TypeOf<string>());
-//         }
-
-        // This test checks the expected value of Email in Attendee class is string
+        // This test checks the Capacity of VRExperience property is int
         [Test]
-        public void Attendee_Properties_Email_ReturnExpectedDataTypes()
+        public void VRExperience_Properties_MaxCapacity_ReturnExpectedDataTypes()
         {
-            MovieReview moviereview = new MovieReview();
-            moviereview.Email = "demo@gmail.com";
-            Assert.That(moviereview.Email, Is.TypeOf<string>());
+            VRExperience classEntity = new VRExperience();
+            Assert.That(classEntity.MaxCapacity, Is.TypeOf<int>());
         }
 
-        // This test checks the expected value of Email in Attendee class is string
+       // This test checks the expected value of MovieID
+        [Test]
+        public void Movie_Properties_MovieID_ReturnExpectedValues()
+        {
+            // Arrange
+            int expectedMovieID = 100;
+
+            Movie classEntity = new Movie
+            {
+                MovieID = expectedMovieID
+            };
+            Assert.AreEqual(expectedMovieID, classEntity.MovieID);
+        }
+
+        // This test checks the expected value of Title
+        [Test]
+        public void Movie_Properties_Title_ReturnExpectedValues()
+        {
+            string expectedTitle= "Demo Title";
+
+            Movie classEntity = new Movie
+            {
+                Title = expectedTitle
+            };
+            Assert.AreEqual(expectedTitle, classEntity.Title);
+        }
+
+         // This test checks the expected value of Director
+        [Test]
+        public void Movie_Properties_Director_ReturnExpectedValues()
+        {
+            string expectedDirector = "Demo Director";
+
+            Movie classEntity = new Movie
+            {
+                Director = expectedDirector
+            };
+            Assert.AreEqual(expectedDirector, classEntity.Director);
+        }
+
+        // This test checks the expected value of ReleaseYear
+        [Test]
+        public void Movie_Properties_ReleaseYear_ReturnExpectedValues()
+        {
+            DateTime expectedReleaseYear = new DateTime(2015, 1, 1);
+            Movie classEntity = new Movie
+            {
+                ReleaseYear = expectedReleaseYear
+            };
+            Assert.AreEqual(expectedReleaseYear, classEntity.ReleaseYear);
+        }
+
+        // This test checks the expected value of MovieReviewID in MovieReview class is int
+        [Test]
+        public void MovieReview_Properties_MovieReviewID_ReturnExpectedDataTypes()
+        {
+            MovieReview moviereview = new MovieReview();
+            Assert.That(moviereview.MovieReviewID, Is.TypeOf<int>());
+        }
+
+        // This test checks the expected value of Name in MovieReview class is string
+        [Test]
+        public void MovieReview_Properties_ReviewText_ReturnExpectedDataTypes()
+        {
+            MovieReview moviereview = new MovieReview();
+            moviereview.ReviewText = "Demo ReviewText";
+            Assert.That(moviereview.ReviewText, Is.TypeOf<string>());
+        }
+
+        // This test checks the expected value of Rating in MovieReview class is string
+        [Test]
+        public void MovieReview_Properties_Email_ReturnExpectedDataTypes()
+        {
+            MovieReview moviereview = new MovieReview();
+            moviereview.Rating = 3;
+            Assert.That(moviereview.Rating, Is.TypeOf<int>());
+        }
+
+        // This test checks the expected value of ReviewerName in MovieReview class is string
         [Test]
         public void MovieReview_Properties_ReviewerName_ReturnExpectedDataTypes()
         {
-            MovieReview movieReview = new MovieReview();
-            MovieReview.ReviewerName = "John";
-            Assert.That(attendee.ReviewerName, Is.TypeOf<string>());
+            MovieReview moviereview = new MovieReview();
+            moviereview.ReviewerName = "John";
+            Assert.That(moviereview.ReviewerName, Is.TypeOf<string>());
         }
 
         // This test checks the expected value of VRExperienceID in Attendee class is int
         [Test]
-        public void MovieReview_Properties_MovieReviewID_ReturnExpectedDataTypes()
+        public void MovieReview_Properties_MovieID_ReturnExpectedDataTypes()
         {
-            MovieReview attendee = new MovieReview();
-            Assert.That(attendee.MovieReviewID, Is.TypeOf<int>());
+            MovieReview moviereview = new MovieReview();
+            Assert.That(moviereview.MovieID, Is.TypeOf<int>());
         }
 
-        // This test checks the expected value of Email in Attendee class is string
+        // This test checks the expected value of Email in moviereview class is string
         [Test]
         public void MovieReview_Properties_Email_ReturnExpectedValues()
         {
             string expectedEmail = "john@example.com";
 
-            MovieReview attendee = new MovieReview
+            MovieReview moviereview = new MovieReview
             {
                 Email = expectedEmail
             };
-            Assert.AreEqual(expectedEmail, attendee.Email);
+            Assert.AreEqual(expectedEmail, moviereview.Email);
+        }
+
+        [Test]
+        public void MovieReview_Properties_ReviewDate_ReturnExpectedValues()
+        {
+             DateTime expectedReviewDate = new DateTime(2024, 7, 31); 
+
+            MovieReview moviereview = new MovieReview
+            {
+                ReviewDate = expectedReviewDate
+            };
+            Assert.AreEqual(expectedReviewDate, moviereview.ReviewDate);
         }
 
         [Test]
