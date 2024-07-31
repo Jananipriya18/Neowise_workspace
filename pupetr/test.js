@@ -4,15 +4,16 @@ const puppeteer = require('puppeteer');
       headless: false,
       args: ['--headless', '--disable-gpu', '--remote-debugging-port=9222', '--no-sandbox', '--disable-setuid-sandbox']
     });
+    console.log("testing");
     // Test case to verify the existence of correct heading, table, and back button in the booked batches page
     const page = await browser.newPage();
     try {
-      await page.goto('https://api.example.com/VRExperience/BookedExperiences');
+      await page.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/Movie/ReviewedMovies');
       await page.setViewport({
         width: 1200,
         height: 1200,
       });
-  
+      
       await page.waitForSelector('h2', { timeout: 2000 });
       await page.waitForSelector('#backButton', { timeout: 2000 });
       await page.waitForSelector('table', { timeout: 2000 });
@@ -32,13 +33,13 @@ const puppeteer = require('puppeteer');
     // Test case to verify the existence of book and delete buttons in the available batches page
     const page1 = await browser.newPage();
     try {
-      await page1.goto('https://api.example.com/');
+      await page1.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page1.setViewport({
         width: 1200,
         height: 1200,
       });
       await page1.waitForSelector('#deleteButton', { timeout: 2000 });
-      await page1.waitForSelector('#bookButton', { timeout: 2000 });
+      await page1.waitForSelector('#reviewButton', { timeout: 2000 });
       const rowCount = await page1.$$eval('tr', rows => rows.length, { timeout: 2000 });
     
       if (rowCount >2) 
@@ -55,18 +56,18 @@ const puppeteer = require('puppeteer');
     // Test case to verify the existence of back button and heading in the batch enrollment form page
     const page2 = await browser.newPage();
     try {
-      await page2.goto('https://api.example.com/');
+      await page2.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page2.setViewport({
         width: 1200,
         height: 1200,
       });
-      await page2.waitForSelector('#bookButton', { timeout: 2000 });
-      await page2.click('#bookButton');
+      await page2.waitForSelector('#reviewButton', { timeout: 2000 });
+      await page2.click('#reviewButton');
       const urlAfterClick = page2.url();
-      await page2.waitForSelector('#backtoexperiences', { timeout: 2000 });
-      const Message = await page2.$eval('h1', element => element.textContent.toLowerCase());
+      await page2.waitForSelector('#backtomovies', { timeout: 2000 });
+      const Message = await page2.$eval('h2', element => element.textContent.toLowerCase());
       // console.log(Message);
-    if(Message.includes("vr experience enrollment")&&urlAfterClick.toLowerCase().includes('booking/experienceenrollmentform'))
+    if(Message.includes("movie review form")&&urlAfterClick.toLowerCase().includes('moviereview/reviewform'))
     {
     console.log('TESTCASE:Existence_of_id_backtoexperiences_and_heading_in_experience_enrollment_form_page:success');
     }    
@@ -80,7 +81,7 @@ const puppeteer = require('puppeteer');
 
     const page3 = await browser.newPage();
     try {
-      await page3.goto('https://api.example.com/');
+      await page3.goto('https://aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/');
       await page3.setViewport({
         width: 1200,
         height: 1200,
@@ -89,8 +90,8 @@ const puppeteer = require('puppeteer');
       await page3.click('#deleteButton');
       await page3.waitForSelector('h2', { timeout: 2000 });
       const urlAfterClick = page3.url();
-         const Message = await page3.$eval('h2', element => element.textContent.toLowerCase());
-    if(Message.includes("delete vr experience")&&urlAfterClick.toLowerCase().includes('vrexperience/deleteconfirmation'))
+      const Message = await page3.$eval('h2', element => element.textContent.toLowerCase());
+    if(Message.includes("delete movie")&&urlAfterClick.toLowerCase().includes('movie/deleteconfirmation'))
     {
     console.log('TESTCASE:Existence_of_delete_button_and_heading_in_delete_confirmation_page:success');
     }    
