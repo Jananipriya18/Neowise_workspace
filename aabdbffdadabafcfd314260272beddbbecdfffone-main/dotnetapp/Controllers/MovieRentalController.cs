@@ -101,16 +101,16 @@ namespace dotnetapp.Controllers
         [HttpGet("Customer/{customerId}/Movies")]
         public async Task<IActionResult> DisplayMoviesForCustomer(int customerId)
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
+            var customer = _context.Customers.FirstOrDefault(c => c.Id == customerId);
 
             if (customer == null)
             {
-                return NotFound(); // Handle the case where the customer with the given ID doesn't exist
+                return NotFound(); 
             }
 
-            var movies = await _context.Movies
+            var movies = _context.Movies
                 .Where(m => m.CustomerId == customerId)
-                .ToListAsync();
+                .ToList();
 
             return Ok(movies);
         }
