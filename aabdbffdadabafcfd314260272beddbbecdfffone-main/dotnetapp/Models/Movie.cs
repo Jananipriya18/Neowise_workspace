@@ -15,7 +15,7 @@ namespace dotnetapp.Models
         public string Director { get; set; }
 
         [Required]
-        [Range(1000, 2024)]
+        [Range(1900, 2024)]
         public int ReleaseYear { get; set; }
 
         public int? CustomerId { get; set; }

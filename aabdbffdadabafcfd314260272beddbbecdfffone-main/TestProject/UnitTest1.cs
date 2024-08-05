@@ -22,7 +22,7 @@ namespace dotnetapp.Tests
         private string fileName; 
         private Mock<AppDbContext> _mockContext;
         private AppDbContext _context;
-        private MovieRentalController _libraryController;
+        private MovieRentalController _movieController;
         private DbContextOptions<AppDbContext> _dbContextOptions;
 
 
@@ -40,7 +40,7 @@ namespace dotnetapp.Tests
             var dbContext = new AppDbContext(_dbContextOptions);
             _context = new AppDbContext(_dbContextOptions);
 
-            _libraryController = new MovieRentalController(dbContext);
+            _movieController = new MovieRentalController(dbContext);
            
         }
 
@@ -287,7 +287,7 @@ namespace dotnetapp.Tests
         public void Test_AddMovie_Action()
         {
             // Arrange
-            var book = new dotnetapp.Models.Movie()
+            var movie = new dotnetapp.Models.Movie()
             {
                 Title = "Sample Movie",
                 Director = "Sample Director",
@@ -295,7 +295,7 @@ namespace dotnetapp.Tests
             };
 
             // Act
-            var result = _libraryController.AddMovie(book);
+            var result = _movieController.AddMovie(movie);
 
             // Assert
             Assert.NotNull(result); // Assuming your AddMovie method returns something meaningful, adjust this assertion accordingly

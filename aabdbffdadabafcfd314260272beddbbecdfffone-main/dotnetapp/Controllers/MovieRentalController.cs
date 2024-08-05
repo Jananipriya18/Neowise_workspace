@@ -1,8 +1,88 @@
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using Microsoft.AspNetCore.Mvc;
+// using dotnetapp.Models;
+
+// namespace dotnetapp.Controllers
+// {
+//     [Route("api/[controller]")]
+//     [ApiController]
+//     public class MovieRentalController : ControllerBase
+//     {
+//         private readonly AppDbContext _context;
+
+//         public MovieRentalController(AppDbContext context)
+//         {
+//             _context = context;
+//         }
+
+//         // Implement a method to display movies associated with a library card.
+//         [HttpGet("Customer/{customerId}/Movies")]
+//         public IActionResult DisplayMoviesForCustomer(int customerId)
+//         {
+//             Console.WriteLine(customerId);
+//             var movies = _context.Customers.FirstOrDefault(lc => lc.Id == customerId);
+
+//             if (movies == null)
+//             {
+//                 return NotFound(); // Handle the case where the library card with the given ID doesn't exist
+//             }
+
+//             var movies = _context.Movies
+//                 .Where(b => b.CustomerId == customerId)
+//                 .ToList();
+
+//             return Ok(movies);
+//         }
+
+//         // Implement a method to add a movie.
+//         [HttpPost("AddMovie")]
+//         public IActionResult AddMovie([FromBody] Movie movie)
+//         {
+//             if (ModelState.IsValid)
+//             {
+//                 _context.Movies.Add(movie);
+//                 _context.SaveChanges();
+//                 return CreatedAtAction(nameof(DisplayMoviesForCustomer), new { customerId = movie.CustomerId }, movie);
+//             }
+//             return BadRequest(ModelState); // Return the model validation errors
+//         }
+
+//         // Implement a method to display all movies in the library.
+//         [HttpGet("Movies")]
+//         public IActionResult DisplayAllMovies()
+//         {
+//             var movies = _context.Movies.ToList();
+//             return Ok(movies);
+//         }
+
+//         // Method to search for movies by title
+//         [HttpGet("SearchMoviesByTitle")]
+//         public IActionResult SearchMoviesByTitle([FromQuery] string query)
+//         {
+//             if (string.IsNullOrEmpty(query))
+//             {
+//                 var allMovies = _context.Movies.ToList();
+//                 return Ok(allMovies);
+//             }
+
+//             var filteredMovies = _context.Movies
+//                 .Where(b => b.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+//                 .ToList();
+
+//             return Ok(filteredMovies);
+//         }
+//     }
+// }
+
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using dotnetapp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnetapp.Controllers
 {
@@ -17,59 +97,58 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
-        // Implement a method to display movies associated with a library card.
+        // Display movies rented by a customer
         [HttpGet("Customer/{customerId}/Movies")]
-        public IActionResult DisplayMoviesForCustomer(int customerId)
+        public async Task<IActionResult> DisplayMoviesForCustomer(int customerId)
         {
-            Console.WriteLine(customerId);
-            var movies = _context.Customers.FirstOrDefault(lc => lc.Id == customerId);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
 
-            if (movies == null)
+            if (customer == null)
             {
-                return NotFound(); // Handle the case where the library card with the given ID doesn't exist
+                return NotFound(); // Handle the case where the customer with the given ID doesn't exist
             }
 
-            var movies = _context.Movies
-                .Where(b => b.CustomerId == customerId)
-                .ToList();
+            var movies = await _context.Movies
+                .Where(m => m.CustomerId == customerId)
+                .ToListAsync();
 
             return Ok(movies);
         }
 
-        // Implement a method to add a movie.
+        // Add a movie
         [HttpPost("AddMovie")]
-        public IActionResult AddMovie([FromBody] Movie movie)
+        public async Task<IActionResult> AddMovie([FromBody] Movie movie)
         {
             if (ModelState.IsValid)
             {
                 _context.Movies.Add(movie);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return CreatedAtAction(nameof(DisplayMoviesForCustomer), new { customerId = movie.CustomerId }, movie);
             }
             return BadRequest(ModelState); // Return the model validation errors
         }
 
-        // Implement a method to display all movies in the library.
+        // Display all movies in the rental store
         [HttpGet("Movies")]
-        public IActionResult DisplayAllMovies()
+        public async Task<IActionResult> DisplayAllMovies()
         {
-            var movies = _context.Movies.ToList();
+            var movies = await _context.Movies.ToListAsync();
             return Ok(movies);
         }
 
-        // Method to search for movies by title
+        // Search for movies by title
         [HttpGet("SearchMoviesByTitle")]
-        public IActionResult SearchMoviesByTitle([FromQuery] string query)
+        public async Task<IActionResult> SearchMoviesByTitle([FromQuery] string query)
         {
             if (string.IsNullOrEmpty(query))
             {
-                var allMovies = _context.Movies.ToList();
+                var allMovies = await _context.Movies.ToListAsync();
                 return Ok(allMovies);
             }
 
-            var filteredMovies = _context.Movies
-                .Where(b => b.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            var filteredMovies = await _context.Movies
+                .Where(m => EF.Functions.Like(m.Title, $"%{query}%"))
+                .ToListAsync();
 
             return Ok(filteredMovies);
         }
