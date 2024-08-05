@@ -192,11 +192,11 @@ namespace dotnetapp.Tests
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             _productType = assembly.GetType("dotnetapp.Models.Customer");            
-            PropertyInfo cardNumberProperty = _productType.GetProperty("Name");
-            var regexAttribute = cardNumberProperty.GetCustomAttribute<RegularExpressionAttribute>();
+            PropertyInfo NameProperty = _productType.GetProperty("Name");
+            var maxLengthAttribute = NameProperty.GetCustomAttribute<MaxLengthAttribute>();
 
-            Assert.NotNull(regexAttribute, "RegularExpression attribute not found on Name property.");
-            Assert.AreEqual(@"LC-\d{5}", regexAttribute.Pattern, "Name property should have the correct regular expression pattern.");
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Name property.");
+            Assert.AreEqual(100, maxLengthAttribute.Length, "Name property should have a max length of 100.");
         }
 
         [Test]
@@ -212,15 +212,19 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public void TestPhoneNumberPropertyMaxLength10()
+        public void TestPhoneNumberPropertyMaxLength100()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             _productType = assembly.GetType("dotnetapp.Models.Customer");
-            PropertyInfo titleProperty = _productType.GetProperty("PhoneNumber");
-            var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
-            
-            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on PhoneNumber property.");
-            Assert.AreEqual(10, maxLengthAttribute.Length, "PhoneNumber property should have a max length of 10.");
+            PropertyInfo phoneNumberProperty = _productType.GetProperty("PhoneNumber");
+            var requiredAttribute = phoneNumberProperty.GetCustomAttribute<RequiredAttribute>();
+        var regularExpressionAttribute = phoneNumberProperty.GetCustomAttribute<RegularExpressionAttribute>();
+
+        // Assertions
+        Assert.NotNull(requiredAttribute, "Required attribute not found on PhoneNumber property.");
+        Assert.NotNull(regularExpressionAttribute, "RegularExpression attribute not found on PhoneNumber property.");
+        Assert.AreEqual(@"^\d{3}-\d{3}-\d{4}$", regularExpressionAttribute.Pattern, "PhoneNumber property should have the correct regular expression pattern.");
+
         }
 
         [Test]
@@ -266,7 +270,7 @@ namespace dotnetapp.Tests
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             controllerType = assembly.GetType("dotnetapp.Controllers.MovieRentalController");
-            var detailsMethod = GetMethod1(controllerType, "GetAvailableMovies", new Type[] {  });
+            var detailsMethod = GetMethod1(controllerType, "DisplayAllMovies", new Type[] {  });
 
             Assert.NotNull(detailsMethod);
         }
