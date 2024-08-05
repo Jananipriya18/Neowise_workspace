@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace dotnetapp.Models
 {
 public class Movie{
-
+    [Key]
     public int Id { get; set; }
 
     [Required]
