@@ -22,7 +22,7 @@ namespace dotnetapp.Tests
         private string fileName; 
         private Mock<AppDbContext> _mockContext;
         private AppDbContext _context;
-        private LibraryController _libraryController;
+        private MovieRentalController _libraryController;
         private DbContextOptions<AppDbContext> _dbContextOptions;
 
 
@@ -40,7 +40,7 @@ namespace dotnetapp.Tests
             var dbContext = new AppDbContext(_dbContextOptions);
             _context = new AppDbContext(_dbContextOptions);
 
-            _libraryController = new LibraryController(dbContext);
+            _libraryController = new MovieRentalController(dbContext);
            
         }
 
@@ -188,27 +188,39 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public void TestCardNumberPropertyRegularExpressionAttribute()
+        public void TestNamePropertyRegularExpressionAttribute()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             _productType = assembly.GetType("dotnetapp.Models.Customer");            
-            PropertyInfo cardNumberProperty = _productType.GetProperty("CardNumber");
+            PropertyInfo cardNumberProperty = _productType.GetProperty("Name");
             var regexAttribute = cardNumberProperty.GetCustomAttribute<RegularExpressionAttribute>();
 
-            Assert.NotNull(regexAttribute, "RegularExpression attribute not found on CardNumber property.");
-            Assert.AreEqual(@"LC-\d{5}", regexAttribute.Pattern, "CardNumber property should have the correct regular expression pattern.");
+            Assert.NotNull(regexAttribute, "RegularExpression attribute not found on Name property.");
+            Assert.AreEqual(@"LC-\d{5}", regexAttribute.Pattern, "Name property should have the correct regular expression pattern.");
         }
 
         [Test]
-        public void TestMemberNamePropertyMaxLength100()
+        public void TestEmailPropertyMaxLength100()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             _productType = assembly.GetType("dotnetapp.Models.Customer");
-            PropertyInfo titleProperty = _productType.GetProperty("MemberName");
+            PropertyInfo titleProperty = _productType.GetProperty("Email");
             var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
             
-            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on MemberName property.");
-            Assert.AreEqual(100, maxLengthAttribute.Length, "MemberName property should have a max length of 100.");
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Email property.");
+            Assert.AreEqual(100, maxLengthAttribute.Length, "Email property should have a max length of 100.");
+        }
+
+        [Test]
+        public void TestPhoneNumberPropertyMaxLength100()
+        {
+            Assembly assembly = Assembly.Load("dotnetapp");
+            _productType = assembly.GetType("dotnetapp.Models.Customer");
+            PropertyInfo titleProperty = _productType.GetProperty("PhoneNumber");
+            var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
+            
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on PhoneNumber property.");
+            Assert.AreEqual(10, maxLengthAttribute.Length, "PhoneNumber property should have a max length of 10.");
         }
 
         [Test]
@@ -223,7 +235,7 @@ namespace dotnetapp.Tests
         public void Test_DisplayAllMovies_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            controllerType = assembly.GetType("dotnetapp.Controllers.MovieRentalController");
             var detailsMethod = GetMethod1(controllerType, "DisplayAllMovies", new Type[] {  });
 
             Assert.NotNull(detailsMethod);
@@ -233,7 +245,7 @@ namespace dotnetapp.Tests
         public void Test_SearchMoviesByTitle_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            Type controllerType = assembly.GetType("dotnetapp.Controllers.MovieRentalController");
             var searchMoviesByTitleMethod = GetMethod1(controllerType, "SearchMoviesByTitle", new Type[] { typeof(string) });
 
             Assert.NotNull(searchMoviesByTitleMethod);
@@ -243,7 +255,7 @@ namespace dotnetapp.Tests
         public void Test_DisplayMoviesForCustomer_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            Type controllerType = assembly.GetType("dotnetapp.Controllers.MovieRentalController");
             var searchMoviesByTitleMethod = GetMethod1(controllerType, "DisplayMoviesForCustomer", new Type[] { typeof(int) });
 
             Assert.NotNull(searchMoviesByTitleMethod);
@@ -253,7 +265,7 @@ namespace dotnetapp.Tests
         public void Test_GetAvailableMovies_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            controllerType = assembly.GetType("dotnetapp.Controllers.MovieRentalController");
             var detailsMethod = GetMethod1(controllerType, "GetAvailableMovies", new Type[] {  });
 
             Assert.NotNull(detailsMethod);
@@ -264,7 +276,7 @@ namespace dotnetapp.Tests
         {
             // Arrange
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            Type controllerType = assembly.GetType("dotnetapp.Controllers.MovieRentalController");
             var controller = Activator.CreateInstance(controllerType, _context);
             MethodInfo method = controllerType.GetMethod("SearchMoviesByTitle", new Type[] { typeof(string) });
             var result = method.Invoke(controller, new object[] { "demo" });
