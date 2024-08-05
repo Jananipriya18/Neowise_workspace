@@ -19,6 +19,6 @@ public class Customer
     [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Phone number must be in the format ###-###-####")]
     public string PhoneNumber { get; set; }
 
-    public ICollection<Movie> Movies { get; set; }
+    public ICollection<Movie>? Movies { get; set; }
 }
 }
