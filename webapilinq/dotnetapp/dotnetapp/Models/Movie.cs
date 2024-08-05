@@ -18,6 +18,6 @@ public class Movie{
     public int ReleaseYear { get; set; }
 
     public int? CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public Customer? Customer { get; set; }
 }
 }
