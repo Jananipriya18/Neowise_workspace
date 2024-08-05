@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dotnetapp.Models
 {
-    public class LibraryCard
+    public class Customer
     {
         public int Id { get; set; }
 

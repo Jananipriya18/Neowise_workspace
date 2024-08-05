@@ -18,11 +18,11 @@ namespace dotnetapp.Controllers
         }
 
         // Implement a method to display books associated with a library card.
-        [HttpGet("LibraryCard/{libraryCardId}/Books")]
-        public IActionResult DisplayBooksForLibraryCard(int libraryCardId)
+        [HttpGet("Customer/{libraryCardId}/Books")]
+        public IActionResult DisplayBooksForCustomer(int libraryCardId)
         {
             Console.WriteLine(libraryCardId);
-            var libraryCard = _context.LibraryCards.FirstOrDefault(lc => lc.Id == libraryCardId);
+            var libraryCard = _context.Customers.FirstOrDefault(lc => lc.Id == libraryCardId);
 
             if (libraryCard == null)
             {
@@ -30,7 +30,7 @@ namespace dotnetapp.Controllers
             }
 
             var books = _context.Books
-                .Where(b => b.LibraryCardId == libraryCardId)
+                .Where(b => b.CustomerId == libraryCardId)
                 .ToList();
 
             return Ok(books);
@@ -44,7 +44,7 @@ namespace dotnetapp.Controllers
             {
                 _context.Books.Add(book);
                 _context.SaveChanges();
-                return CreatedAtAction(nameof(DisplayBooksForLibraryCard), new { libraryCardId = book.LibraryCardId }, book);
+                return CreatedAtAction(nameof(DisplayBooksForCustomer), new { libraryCardId = book.CustomerId }, book);
             }
             return BadRequest(ModelState); // Return the model validation errors
         }
@@ -79,7 +79,7 @@ namespace dotnetapp.Controllers
         public IActionResult GetAvailableBooks()
         {
             var availableBooks = _context.Books
-                .Where(b => b.LibraryCardId == null) // Books that are not borrowed
+                .Where(b => b.CustomerId == null) // Books that are not borrowed
                 .ToList();
 
             return Ok(availableBooks);
@@ -90,7 +90,7 @@ namespace dotnetapp.Controllers
         public IActionResult GetBorrowedBooks()
         {
             var borrowedBooks = _context.Books
-                .Where(b => b.LibraryCardId != null) // Books that are borrowed
+                .Where(b => b.CustomerId != null) // Books that are borrowed
                 .ToList();
 
             return Ok(borrowedBooks);

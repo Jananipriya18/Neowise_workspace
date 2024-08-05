@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dotnetapp.Models
 {
-    public class Book
+    public class Movie
     {
         public int Id { get; set; }
 
@@ -12,14 +12,14 @@ namespace dotnetapp.Models
 
         [Required]
         [MaxLength(50)]
-        public string Author { get; set; }
+        public string Director { get; set; }
 
         [Required]
         [Range(1000, 2024)]
-        public int PublishedYear { get; set; }
+        public int ReleaseYear { get; set; }
 
-        public int? LibraryCardId { get; set; }
+        public int? CustomerId { get; set; }
 
-        public LibraryCard? LibraryCard { get; set; } // Navigation property
+        public Customer? Customer { get; set; }
     }
 }

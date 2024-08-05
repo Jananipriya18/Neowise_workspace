@@ -58,20 +58,20 @@ namespace dotnetapp.Tests
 
 
         [Test]
-        public void TestBook_ClassExists()
+        public void TestMovie_ClassExists()
         {
             // Load the assembly at runtime
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type postType = assembly.GetType("dotnetapp.Models.Book");
-            Assert.NotNull(postType, "Book class does not exist.");
+            Type postType = assembly.GetType("dotnetapp.Models.Movie");
+            Assert.NotNull(postType, "Movie class does not exist.");
         }
         [Test]
-        public void TestLibraryCard_ClassExists()
+        public void TestCustomer_ClassExists()
         {
             // Load the assembly at runtime
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type postType = assembly.GetType("dotnetapp.Models.LibraryCard");
-            Assert.NotNull(postType, "LibraryCard class does not exist.");
+            Type postType = assembly.GetType("dotnetapp.Models.Customer");
+            Assert.NotNull(postType, "Customer class does not exist.");
         }
         [Test]
         public void TestAppDbContext_ClassExists_in_Models()
@@ -82,9 +82,9 @@ namespace dotnetapp.Tests
             Assert.NotNull(postType, "AppDbContext class does not exist.");
         }
 
-        // Test to check that AppDbContext Contains DbSet for model Book
+        // Test to check that AppDbContext Contains DbSet for model Movie
         [Test]
-        public void AppDbContext_ContainsDbSet_Book()
+        public void AppDbContext_ContainsDbSet_Movie()
         {
             Assembly assembly = Assembly.GetAssembly(typeof(AppDbContext));
             Type contextType = assembly.GetTypes().FirstOrDefault(t => typeof(DbContext).IsAssignableFrom(t));
@@ -93,27 +93,27 @@ namespace dotnetapp.Tests
                 Assert.Fail("No DbContext found in the assembly");
                 return;
             }
-            Type BookType = assembly.GetTypes().FirstOrDefault(t => t.Name == "Book");
-            if (BookType == null)
+            Type MovieType = assembly.GetTypes().FirstOrDefault(t => t.Name == "Movie");
+            if (MovieType == null)
             {
                 Assert.Fail("No DbSet found in the DbContext");
                 return;
             }
-            var propertyInfo = contextType.GetProperty("Books");
+            var propertyInfo = contextType.GetProperty("Movies");
             if (propertyInfo == null)
             {
-                Assert.Fail("Books property not found in the DbContext");
+                Assert.Fail("Movies property not found in the DbContext");
                 return;
             }
             else
             {
-                Assert.AreEqual(typeof(DbSet<>).MakeGenericType(BookType), propertyInfo.PropertyType);
+                Assert.AreEqual(typeof(DbSet<>).MakeGenericType(MovieType), propertyInfo.PropertyType);
             }
         }
 
-        // Test to check that AppDbContext Contains DbSet for model LibraryCard
+        // Test to check that AppDbContext Contains DbSet for model Customer
         [Test]
-        public void AppDbContext_ContainsDbSet_LibraryCard()
+        public void AppDbContext_ContainsDbSet_Customer()
         {
             Assembly assembly = Assembly.GetAssembly(typeof(AppDbContext));
             Type contextType = assembly.GetTypes().FirstOrDefault(t => typeof(DbContext).IsAssignableFrom(t));
@@ -122,21 +122,21 @@ namespace dotnetapp.Tests
                 Assert.Fail("No DbContext found in the assembly");
                 return;
             }
-            Type LibraryCardType = assembly.GetTypes().FirstOrDefault(t => t.Name == "LibraryCard");
-            if (LibraryCardType == null)
+            Type CustomerType = assembly.GetTypes().FirstOrDefault(t => t.Name == "Customer");
+            if (CustomerType == null)
             {
                 Assert.Fail("No DbSet found in the DbContext");
                 return;
             }
-            var propertyInfo = contextType.GetProperty("LibraryCards");
+            var propertyInfo = contextType.GetProperty("Customers");
             if (propertyInfo == null)
             {
-                Assert.Fail("LibraryCards property not found in the DbContext");
+                Assert.Fail("Customers property not found in the DbContext");
                 return;
             }
             else
             {
-                Assert.AreEqual(typeof(DbSet<>).MakeGenericType(LibraryCardType), propertyInfo.PropertyType);
+                Assert.AreEqual(typeof(DbSet<>).MakeGenericType(CustomerType), propertyInfo.PropertyType);
             }
         }
 
@@ -144,7 +144,7 @@ namespace dotnetapp.Tests
         public void TestTitlePropertyType()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            _productType = assembly.GetType("dotnetapp.Models.Book");
+            _productType = assembly.GetType("dotnetapp.Models.Movie");
             PropertyInfo UnitPriceProperty = _productType.GetProperty("Title");
             Assert.NotNull(UnitPriceProperty, "Title property does not exist.");
             Assert.AreEqual(typeof(string), UnitPriceProperty.PropertyType, "Title property should be of type String.");
@@ -154,7 +154,7 @@ namespace dotnetapp.Tests
         public void TestTitlePropertyMaxLength100()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            _productType = assembly.GetType("dotnetapp.Models.Book");
+            _productType = assembly.GetType("dotnetapp.Models.Movie");
             PropertyInfo titleProperty = _productType.GetProperty("Title");
             var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
             
@@ -163,35 +163,35 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public void TestAuthorPropertyMaxLength50()
+        public void TestDirectorPropertyMaxLength50()
         {            
             Assembly assembly = Assembly.Load("dotnetapp");
-            _productType = assembly.GetType("dotnetapp.Models.Book");
-            PropertyInfo titleProperty = _productType.GetProperty("Author");
+            _productType = assembly.GetType("dotnetapp.Models.Movie");
+            PropertyInfo titleProperty = _productType.GetProperty("Director");
             var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
             
-            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Author property.");
-            Assert.AreEqual(50, maxLengthAttribute.Length, "Author property should have a max length of 50.");
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Director property.");
+            Assert.AreEqual(50, maxLengthAttribute.Length, "Director property should have a max length of 50.");
         }
 
         [Test]
-        public void TestPublishedYearPropertyRange()
+        public void TestReleaseYearPropertyRange()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            _productType = assembly.GetType("dotnetapp.Models.Book");
-            PropertyInfo publishedYearProperty = _productType.GetProperty("PublishedYear");
+            _productType = assembly.GetType("dotnetapp.Models.Movie");
+            PropertyInfo publishedYearProperty = _productType.GetProperty("ReleaseYear");
             var rangeAttribute = publishedYearProperty.GetCustomAttribute<System.ComponentModel.DataAnnotations.RangeAttribute>();
             
-            Assert.NotNull(rangeAttribute, "Range attribute not found on PublishedYear property.");
-            Assert.AreEqual(1000, rangeAttribute.Minimum, "PublishedYear property should have a minimum value of 1000.");
-            Assert.AreEqual(2024, rangeAttribute.Maximum, "PublishedYear property should have a maximum value of 2024");
+            Assert.NotNull(rangeAttribute, "Range attribute not found on ReleaseYear property.");
+            Assert.AreEqual(1000, rangeAttribute.Minimum, "ReleaseYear property should have a minimum value of 1000.");
+            Assert.AreEqual(2024, rangeAttribute.Maximum, "ReleaseYear property should have a maximum value of 2024");
         }
 
         [Test]
         public void TestCardNumberPropertyRegularExpressionAttribute()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            _productType = assembly.GetType("dotnetapp.Models.LibraryCard");            
+            _productType = assembly.GetType("dotnetapp.Models.Customer");            
             PropertyInfo cardNumberProperty = _productType.GetProperty("CardNumber");
             var regexAttribute = cardNumberProperty.GetCustomAttribute<RegularExpressionAttribute>();
 
@@ -203,7 +203,7 @@ namespace dotnetapp.Tests
         public void TestMemberNamePropertyMaxLength100()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            _productType = assembly.GetType("dotnetapp.Models.LibraryCard");
+            _productType = assembly.GetType("dotnetapp.Models.Customer");
             PropertyInfo titleProperty = _productType.GetProperty("MemberName");
             var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
             
@@ -220,73 +220,73 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public void Test_DisplayAllBooks_Action()
+        public void Test_DisplayAllMovies_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
-            var detailsMethod = GetMethod1(controllerType, "DisplayAllBooks", new Type[] {  });
+            var detailsMethod = GetMethod1(controllerType, "DisplayAllMovies", new Type[] {  });
 
             Assert.NotNull(detailsMethod);
         }
 
         [Test]
-        public void Test_SearchBooksByTitle_Action()
+        public void Test_SearchMoviesByTitle_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
-            var searchBooksByTitleMethod = GetMethod1(controllerType, "SearchBooksByTitle", new Type[] { typeof(string) });
+            var searchMoviesByTitleMethod = GetMethod1(controllerType, "SearchMoviesByTitle", new Type[] { typeof(string) });
 
-            Assert.NotNull(searchBooksByTitleMethod);
+            Assert.NotNull(searchMoviesByTitleMethod);
         }
 
         [Test]
-        public void Test_DisplayBooksForLibraryCard_Action()
+        public void Test_DisplayMoviesForCustomer_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
-            var searchBooksByTitleMethod = GetMethod1(controllerType, "DisplayBooksForLibraryCard", new Type[] { typeof(int) });
+            var searchMoviesByTitleMethod = GetMethod1(controllerType, "DisplayMoviesForCustomer", new Type[] { typeof(int) });
 
-            Assert.NotNull(searchBooksByTitleMethod);
+            Assert.NotNull(searchMoviesByTitleMethod);
         }
 
         [Test]
-        public void Test_GetAvailableBooks_Action()
+        public void Test_GetAvailableMovies_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
-            var detailsMethod = GetMethod1(controllerType, "GetAvailableBooks", new Type[] {  });
+            var detailsMethod = GetMethod1(controllerType, "GetAvailableMovies", new Type[] {  });
 
             Assert.NotNull(detailsMethod);
         }
 
         [Test]
-        public void SearchBooksByTitle_ShouldReturnWithCorrectModel()
+        public void SearchMoviesByTitle_ShouldReturnWithCorrectModel()
         {
             // Arrange
             Assembly assembly = Assembly.Load("dotnetapp");
             Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
             var controller = Activator.CreateInstance(controllerType, _context);
-            MethodInfo method = controllerType.GetMethod("SearchBooksByTitle", new Type[] { typeof(string) });
+            MethodInfo method = controllerType.GetMethod("SearchMoviesByTitle", new Type[] { typeof(string) });
             var result = method.Invoke(controller, new object[] { "demo" });
             Assert.NotNull(result);
         }
 
 [Test]
-        public void Test_AddBook_Action()
+        public void Test_AddMovie_Action()
         {
             // Arrange
-            var book = new dotnetapp.Models.Book()
+            var book = new dotnetapp.Models.Movie()
             {
-                Title = "Sample Book",
-                Author = "Sample Author",
-                PublishedYear = 2020
+                Title = "Sample Movie",
+                Director = "Sample Director",
+                ReleaseYear = 2020
             };
 
             // Act
-            var result = _libraryController.AddBook(book);
+            var result = _libraryController.AddMovie(book);
 
             // Assert
-            Assert.NotNull(result); // Assuming your AddBook method returns something meaningful, adjust this assertion accordingly
+            Assert.NotNull(result); // Assuming your AddMovie method returns something meaningful, adjust this assertion accordingly
         }
 
 
