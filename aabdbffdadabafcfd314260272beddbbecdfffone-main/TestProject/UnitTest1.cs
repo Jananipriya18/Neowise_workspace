@@ -183,7 +183,7 @@ namespace dotnetapp.Tests
             var rangeAttribute = publishedYearProperty.GetCustomAttribute<System.ComponentModel.DataAnnotations.RangeAttribute>();
             
             Assert.NotNull(rangeAttribute, "Range attribute not found on ReleaseYear property.");
-            Assert.AreEqual(1000, rangeAttribute.Minimum, "ReleaseYear property should have a minimum value of 1000.");
+            Assert.AreEqual(1900, rangeAttribute.Minimum, "ReleaseYear property should have a minimum value of 1900.");
             Assert.AreEqual(2024, rangeAttribute.Maximum, "ReleaseYear property should have a maximum value of 2024");
         }
 
@@ -205,14 +205,14 @@ namespace dotnetapp.Tests
             Assembly assembly = Assembly.Load("dotnetapp");
             _productType = assembly.GetType("dotnetapp.Models.Customer");
             PropertyInfo titleProperty = _productType.GetProperty("Email");
-            var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
+            var requiredAttribute = titleProperty.GetCustomAttribute<RequiredAttribute>();
             
-            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Email property.");
-            Assert.AreEqual(100, maxLengthAttribute.Length, "Email property should have a max length of 100.");
+            Assert.NotNull(requiredAttribute, "<RequiredAttribute>() attribute not found on Email property.");
+            
         }
 
         [Test]
-        public void TestPhoneNumberPropertyMaxLength100()
+        public void TestPhoneNumberPropertyMaxLength10()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             _productType = assembly.GetType("dotnetapp.Models.Customer");
