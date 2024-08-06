@@ -98,22 +98,56 @@ namespace dotnetapp.Controllers
         }
 
         // Display movies rented by a customer
+        // [HttpGet("Customer/{customerId}/Movies")]
+        // public async Task<IActionResult> DisplayMoviesForCustomer(int customerId)
+        // {
+        //     var customer = _context.Customers.FirstOrDefault(c => c.Id == customerId);
+
+        //     if (customer == null)
+        //     {
+        //         return NotFound(); 
+        //     }
+
+        //     var movies = _context.Movies
+        //         .Where(m => m.CustomerId == customerId)
+        //         .ToList();
+
+        //     return Ok(movies);
+        // }
+
+
         [HttpGet("Customer/{customerId}/Movies")]
-        public async Task<IActionResult> DisplayMoviesForCustomer(int customerId)
+public async Task<IActionResult> DisplayMoviesForCustomer(int customerId)
+{
+    var customer = await _context.Customers
+        .Include(c => c.Movies)
+        .FirstOrDefaultAsync(c => c.Id == customerId);
+
+    if (customer == null)
+    {
+        return NotFound(); 
+    }
+
+    var movies = customer.Movies.Select(m => new
+    {
+        m.Id,
+        m.Title,
+        m.Director,
+        m.ReleaseYear,
+        m.CustomerId,
+        // Customer details can be included here if needed
+        Customer = new
         {
-            var customer = _context.Customers.FirstOrDefault(c => c.Id == customerId);
-
-            if (customer == null)
-            {
-                return NotFound(); 
-            }
-
-            var movies = _context.Movies
-                .Where(m => m.CustomerId == customerId)
-                .ToList();
-
-            return Ok(movies);
+            Id = customer.Id,
+            Name = customer.Name,
+            Email = customer.Email,
+            PhoneNumber = customer.PhoneNumber
         }
+    }).ToList();
+
+    return Ok(movies);
+}
+
 
         // Add a movie
         // [HttpPost("AddMovie")]
@@ -179,29 +213,48 @@ namespace dotnetapp.Controllers
         //     return Ok(movies);
         // }
 
-        
-        [HttpGet("Movies")]
-        public IActionResult DisplayAllMovies()
-        {
-            var movies = _context.Movies.Include(m=>m.Customer).ToList();
-            return Ok(movies);
-        }
+    [HttpGet("Movies")]
+    public async Task<IActionResult> DisplayAllMovies()
+    {
+        var movies = await _context.Movies
+            .Include(m => m.Customer)
+            .Select(m => new
+            {
+                m.Id,
+                m.Title,
+                m.Director,
+                m.ReleaseYear,
+                m.CustomerId,
+                Customer = new
+                {
+                    Id = m.Customer.Id,
+                    Name = m.Customer.Name,
+                    Email = m.Customer.Email,
+                    PhoneNumber = m.Customer.PhoneNumber
+                }
+            })
+            .ToListAsync();
 
-        // Search for movies by title
+        return Ok(movies);
+    }
+
+    // Method to search for movies by title
         [HttpGet("SearchMoviesByTitle")]
-        public async Task<IActionResult> SearchMoviesByTitle([FromQuery] string query)
+        public IActionResult SearchMoviesByTitle([FromQuery] string query)
         {
             if (string.IsNullOrEmpty(query))
             {
-                var allMovies = await _context.Movies.ToListAsync();
+                var allMovies = _context.Movies.ToList();
                 return Ok(allMovies);
             }
 
-            var filteredMovies = await _context.Movies
-                .Where(m => EF.Functions.Like(m.Title, $"%{query}%"))
-                .ToListAsync();
+            var filteredMovies = _context.Movies
+                .Where(b => b.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
             return Ok(filteredMovies);
         }
+
     }
+
 }
