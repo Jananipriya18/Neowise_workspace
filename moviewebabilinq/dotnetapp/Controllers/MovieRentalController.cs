@@ -201,9 +201,7 @@ public async Task<IActionResult> DisplayMoviesForCustomer(int customerId)
 
             return BadRequest(ModelState); // Return 400 for invalid model state
         }
-
-
-        
+    
 
         // Display all movies in the rental store
         // [HttpGet("Movies")]
