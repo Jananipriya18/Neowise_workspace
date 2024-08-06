@@ -10,9 +10,9 @@ namespace dotnetapp.Controllers
     [Route("api/[controller]")]
     public class FoodController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public FoodController(ApplicationDbContext context)
+        public FoodController(AppDbContext context)
         {
             _context = context;
         }
