@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using dotnetapp.Models;
 
 namespace dotnetapp.Models
 {
@@ -16,22 +15,22 @@ namespace dotnetapp.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Song>()
-                .HasOne(b => b.Playlist)
-                .WithMany(lc => lc.Songs)
-                .HasForeignKey(b => b.playlistId);
+                .HasMany(s => s.Playlists)
+                .WithMany(p => p.Songs)
+                .UsingEntity(j => j.ToTable("PlaylistSongs"));
 
             modelBuilder.Entity<Playlist>().HasData(
                 new Playlist
                 {
                     Id = 1,
-                    Name = "John Doe",
-                    Description = "description 1"
+                    Name = "Top Hits",
+                    Description = "The best songs of the year"
                 },
                 new Playlist
                 {
                     Id = 2,
-                    Name = "Jane Smith",
-                    Description = "description 2"
+                    Name = "Chill Vibes",
+                    Description = "Relaxing and soothing tracks"
                 }
             );
 

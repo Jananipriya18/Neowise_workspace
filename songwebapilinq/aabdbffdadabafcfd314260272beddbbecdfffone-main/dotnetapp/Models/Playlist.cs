@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-// using dotnetapp.Attributes; // Replace with the actual namespace
 
 namespace dotnetapp.Models
 {
@@ -13,8 +11,7 @@ namespace dotnetapp.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(200)]        
+        [MaxLength(200)]
         public string Description { get; set; }
 
         public ICollection<Song> Songs { get; set; } // Navigation property

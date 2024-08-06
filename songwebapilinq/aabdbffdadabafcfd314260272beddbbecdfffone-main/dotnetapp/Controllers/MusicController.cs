@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using dotnetapp.Models;
 
 namespace dotnetapp.Controllers
@@ -17,22 +18,20 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
-        // Implement a method to display songs associated with a library card.
+        // Implement a method to display songs associated with a playlist.
         [HttpGet("Playlist/{playlistId}/Songs")]
         public IActionResult DisplaySongsForPlaylist(int playlistId)
         {
-            Console.WriteLine(playlistId);
-            var playlist = _context.Playlists.FirstOrDefault(lc => lc.Id == playlistId);
+            var playlist = _context.Playlists
+                .Include(p => p.Songs) // Ensure Songs navigation property is included
+                .FirstOrDefault(p => p.Id == playlistId);
 
             if (playlist == null)
             {
-                return NotFound(); // Handle the case where the library card with the given ID doesn't exist
+                return NotFound(); // Handle the case where the playlist with the given ID doesn't exist
             }
 
-            var songs = _context.Songs
-                .Where(b => b.PlaylistId == playlistId)
-                .ToList();
-
+            var songs = playlist.Songs.ToList();
             return Ok(songs);
         }
 
@@ -44,12 +43,12 @@ namespace dotnetapp.Controllers
             {
                 _context.Songs.Add(song);
                 _context.SaveChanges();
-                return CreatedAtAction(nameof(DisplaySongsForPlaylist), new { id = song.Id }, song);
+                return CreatedAtAction(nameof(DisplayAllSongs), new { id = song.Id }, song);
             }
             return BadRequest(ModelState); // Return the model validation errors
         }
 
-        // Implement a method to display all songs in the library.
+        // Implement a method to display all songs.
         [HttpGet("Songs")]
         public IActionResult DisplayAllSongs()
         {
@@ -57,7 +56,7 @@ namespace dotnetapp.Controllers
             return Ok(songs);
         }
 
-        // Method to search for songs by title
+        // Implement a method to search for songs by title.
         [HttpGet("SearchSongsByTitle")]
         public IActionResult SearchSongsByTitle([FromQuery] string query)
         {
@@ -68,7 +67,7 @@ namespace dotnetapp.Controllers
             }
 
             var songs = _context.Songs
-                .Where(b => b.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .Where(s => s.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             return Ok(songs);

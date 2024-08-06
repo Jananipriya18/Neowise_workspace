@@ -183,7 +183,7 @@ namespace dotnetapp.Tests
             var rangeAttribute = publishedYearProperty.GetCustomAttribute<System.ComponentModel.DataAnnotations.RangeAttribute>();
             
             Assert.NotNull(rangeAttribute, "Range attribute not found on ReleaseYear property.");
-            Assert.AreEqual(1000, rangeAttribute.Minimum, "ReleaseYear property should have a minimum value of 1000.");
+            Assert.AreEqual(1900, rangeAttribute.Minimum, "ReleaseYear property should have a minimum value of 1900.");
             Assert.AreEqual(2024, rangeAttribute.Maximum, "ReleaseYear property should have a maximum value of 2024");
         }
 

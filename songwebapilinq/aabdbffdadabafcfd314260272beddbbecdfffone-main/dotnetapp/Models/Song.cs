@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace dotnetapp.Models
@@ -15,11 +16,9 @@ namespace dotnetapp.Models
         public string Artist { get; set; }
 
         [Required]
-        [Range(1000, 2024)]
+        [Range(1900, 2024)]
         public int ReleaseYear { get; set; }
 
-        public int? PlaylistId { get; set; }
-
-        public Playlist? Playlist { get; set; } // Navigation property
+        public ICollection<Playlist> Playlists { get; set; } // Navigation property
     }
 }
