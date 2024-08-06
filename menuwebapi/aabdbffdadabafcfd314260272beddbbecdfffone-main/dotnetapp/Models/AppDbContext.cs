@@ -14,16 +14,18 @@ namespace dotnetapp.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MenuItem>()
-                .HasOne(r => r.Restaurant)
-                .WithMany(m => MenuItems)
-                .HasForeignKey(r => r.RestaurantId);
+                .HasOne(mi => mi.Restaurant)  // MenuItem's navigation property to Restaurant
+                .WithMany(r => r.MenuItems)   // Restaurant's navigation property to MenuItems
+                .HasForeignKey(mi => mi.RestaurantId);
 
             // Seed data
             modelBuilder.Entity<Restaurant>().HasData(
                 new Restaurant { Id = 1, Name = "The Gourmet Kitchen", Location = "123 Food Street, Flavor Town", PhoneNumber = "(123) 456-7890" },
                 new Restaurant { Id = 2, Name = "Delicious Bites", Location = "456 Yummy Avenue, Taste City", PhoneNumber = "(987) 654-3210" }
             );
+            
             base.OnModelCreating(modelBuilder);
         }
+
     }
 }
