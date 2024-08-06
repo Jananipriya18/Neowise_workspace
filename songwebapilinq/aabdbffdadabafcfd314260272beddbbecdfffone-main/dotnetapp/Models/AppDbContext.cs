@@ -18,22 +18,20 @@ namespace dotnetapp.Models
             modelBuilder.Entity<Song>()
                 .HasOne(b => b.Playlist)
                 .WithMany(lc => lc.Songs)
-                .HasForeignKey(b => b.Id);
+                .HasForeignKey(b => b.playlistId);
 
             modelBuilder.Entity<Playlist>().HasData(
                 new Playlist
                 {
                     Id = 1,
-                    Name = "LC-12345",
-                    MemberName = "John Doe",
-                    ExpiryDate = new DateTime(2025, 12, 31)
+                    Name = "John Doe",
+                    Description = "description 1"
                 },
                 new Playlist
                 {
                     Id = 2,
-                    Name = "LC-54321",
-                    MemberName = "Jane Smith",
-                    ExpiryDate = new DateTime(2024, 10, 15)
+                    Name = "Jane Smith",
+                    Description = "description 2"
                 }
             );
 

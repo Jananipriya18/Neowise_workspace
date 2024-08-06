@@ -10,15 +10,12 @@ namespace dotnetapp.Models
         public int Id { get; set; }
 
         [Required]
-        [RegularExpression(@"LC-\d{5}")]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        public string MemberName { get; set; }
-
-        [Required]        
-        public DateTime ExpiryDate { get; set; }
+        [MaxLength(200)]        
+        public string Description { get; set; }
 
         public ICollection<Song> Songs { get; set; } // Navigation property
     }

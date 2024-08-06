@@ -22,7 +22,7 @@ namespace dotnetapp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("dotnetapp.Models.Book", b =>
+            modelBuilder.Entity("dotnetapp.Models.Playlist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,15 +30,49 @@ namespace dotnetapp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Author")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Playlists");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "description 1",
+                            Name = "John Doe"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "description 2",
+                            Name = "Jane Smith"
+                        });
+                });
+
+            modelBuilder.Entity("dotnetapp.Models.Song", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Artist")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("LibraryCardId")
+                    b.Property<int?>("PlaylistId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PublishedYear")
+                    b.Property<int>("ReleaseYear")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -48,64 +82,23 @@ namespace dotnetapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LibraryCardId");
-
-                    b.ToTable("Books");
+                    b.ToTable("Songs");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.LibraryCard", b =>
+            modelBuilder.Entity("dotnetapp.Models.Song", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("dotnetapp.Models.Playlist", "Playlist")
+                        .WithMany("Songs")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MemberName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LibraryCards");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CardNumber = "LC-12345",
-                            ExpiryDate = new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MemberName = "John Doe"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CardNumber = "LC-54321",
-                            ExpiryDate = new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MemberName = "Jane Smith"
-                        });
+                    b.Navigation("Playlist");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Book", b =>
+            modelBuilder.Entity("dotnetapp.Models.Playlist", b =>
                 {
-                    b.HasOne("dotnetapp.Models.LibraryCard", "LibraryCard")
-                        .WithMany("Books")
-                        .HasForeignKey("LibraryCardId");
-
-                    b.Navigation("LibraryCard");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.LibraryCard", b =>
-                {
-                    b.Navigation("Books");
+                    b.Navigation("Songs");
                 });
 #pragma warning restore 612, 618
         }

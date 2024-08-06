@@ -22,7 +22,7 @@ namespace dotnetapp.Tests
         private string fileName; 
         private Mock<AppDbContext> _mockContext;
         private AppDbContext _context;
-        private LibraryController _libraryController;
+        private MusicController _musicController;
         private DbContextOptions<AppDbContext> _dbContextOptions;
 
 
@@ -40,7 +40,7 @@ namespace dotnetapp.Tests
             var dbContext = new AppDbContext(_dbContextOptions);
             _context = new AppDbContext(_dbContextOptions);
 
-            _libraryController = new LibraryController(dbContext);
+            _musicController = new MusicController(dbContext);
            
         }
 
@@ -187,28 +187,40 @@ namespace dotnetapp.Tests
             Assert.AreEqual(2024, rangeAttribute.Maximum, "ReleaseYear property should have a maximum value of 2024");
         }
 
-        [Test]
-        public void TestCardNumberPropertyRegularExpressionAttribute()
-        {
-            Assembly assembly = Assembly.Load("dotnetapp");
-            _productType = assembly.GetType("dotnetapp.Models.Playlist");            
-            PropertyInfo cardNumberProperty = _productType.GetProperty("CardNumber");
-            var regexAttribute = cardNumberProperty.GetCustomAttribute<RegularExpressionAttribute>();
+        // [Test]
+        // public void TestNamePropertyRegularExpressionAttribute()
+        // {
+        //     Assembly assembly = Assembly.Load("dotnetapp");
+        //     _productType = assembly.GetType("dotnetapp.Models.Playlist");            
+        //     PropertyInfo cardNumberProperty = _productType.GetProperty("Name");
+        //     var regexAttribute = cardNumberProperty.GetCustomAttribute<RegularExpressionAttribute>();
 
-            Assert.NotNull(regexAttribute, "RegularExpression attribute not found on CardNumber property.");
-            Assert.AreEqual(@"LC-\d{5}", regexAttribute.Pattern, "CardNumber property should have the correct regular expression pattern.");
-        }
+        //     Assert.NotNull(regexAttribute, "RegularExpression attribute not found on Name property.");
+        //     Assert.AreEqual(@"LC-\d{5}", regexAttribute.Pattern, "Name property should have the correct regular expression pattern.");
+        // }
 
         [Test]
-        public void TestMemberNamePropertyMaxLength100()
+        public void TestNamePropertyMaxLength100()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
             _productType = assembly.GetType("dotnetapp.Models.Playlist");
-            PropertyInfo titleProperty = _productType.GetProperty("MemberName");
+            PropertyInfo titleProperty = _productType.GetProperty("Name");
             var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
             
-            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on MemberName property.");
-            Assert.AreEqual(100, maxLengthAttribute.Length, "MemberName property should have a max length of 100.");
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Name property.");
+            Assert.AreEqual(100, maxLengthAttribute.Length, "Name property should have a max length of 100.");
+        }
+
+        [Test]
+        public void TestDescriptionPropertyMaxLength100()
+        {
+            Assembly assembly = Assembly.Load("dotnetapp");
+            _productType = assembly.GetType("dotnetapp.Models.Playlist");
+            PropertyInfo titleProperty = _productType.GetProperty("Description");
+            var maxLengthAttribute = titleProperty.GetCustomAttribute<MaxLengthAttribute>();
+            
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Description property.");
+            Assert.AreEqual(200, maxLengthAttribute.Length, "Name Description should have a max length of 200.");
         }
 
         [Test]
@@ -223,7 +235,7 @@ namespace dotnetapp.Tests
         public void Test_DisplayAllSongs_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            controllerType = assembly.GetType("dotnetapp.Controllers.MusicController");
             var detailsMethod = GetMethod1(controllerType, "DisplayAllSongs", new Type[] {  });
 
             Assert.NotNull(detailsMethod);
@@ -233,7 +245,7 @@ namespace dotnetapp.Tests
         public void Test_SearchSongsByTitle_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            Type controllerType = assembly.GetType("dotnetapp.Controllers.MusicController");
             var searchSongsByTitleMethod = GetMethod1(controllerType, "SearchSongsByTitle", new Type[] { typeof(string) });
 
             Assert.NotNull(searchSongsByTitleMethod);
@@ -243,7 +255,7 @@ namespace dotnetapp.Tests
         public void Test_DisplaySongsForPlaylist_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            Type controllerType = assembly.GetType("dotnetapp.Controllers.MusicController");
             var searchSongsByTitleMethod = GetMethod1(controllerType, "DisplaySongsForPlaylist", new Type[] { typeof(int) });
 
             Assert.NotNull(searchSongsByTitleMethod);
@@ -253,7 +265,7 @@ namespace dotnetapp.Tests
         public void Test_GetAvailableSongs_Action()
         {
             Assembly assembly = Assembly.Load("dotnetapp");
-            controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            controllerType = assembly.GetType("dotnetapp.Controllers.MusicController");
             var detailsMethod = GetMethod1(controllerType, "GetAvailableSongs", new Type[] {  });
 
             Assert.NotNull(detailsMethod);
@@ -264,7 +276,7 @@ namespace dotnetapp.Tests
         {
             // Arrange
             Assembly assembly = Assembly.Load("dotnetapp");
-            Type controllerType = assembly.GetType("dotnetapp.Controllers.LibraryController");
+            Type controllerType = assembly.GetType("dotnetapp.Controllers.MusicController");
             var controller = Activator.CreateInstance(controllerType, _context);
             MethodInfo method = controllerType.GetMethod("SearchSongsByTitle", new Type[] { typeof(string) });
             var result = method.Invoke(controller, new object[] { "demo" });
@@ -275,7 +287,7 @@ namespace dotnetapp.Tests
         public void Test_AddSong_Action()
         {
             // Arrange
-            var book = new dotnetapp.Models.Song()
+            var song = new dotnetapp.Models.Song()
             {
                 Title = "Sample Song",
                 Artist = "Sample Artist",
@@ -283,7 +295,7 @@ namespace dotnetapp.Tests
             };
 
             // Act
-            var result = _libraryController.AddSong(book);
+            var result = _musicController.AddSong(song);
 
             // Assert
             Assert.NotNull(result); // Assuming your AddSong method returns something meaningful, adjust this assertion accordingly
