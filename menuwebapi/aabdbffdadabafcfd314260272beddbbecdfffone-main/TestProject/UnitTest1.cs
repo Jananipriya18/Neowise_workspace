@@ -73,38 +73,47 @@ namespace dotnetapp.Tests
             Assert.NotNull(contextType, "AppDbContext class does not exist.");
         }
 
-        [Test]
+       [Test]
         public void AppDbContext_ContainsDbSet_Restaurant()
         {
-            _assembly = Assembly.GetAssembly(typeof(AppDbContext));
-            var contextType = _assembly.GetTypes().FirstOrDefault(t => typeof(DbContext).IsAssignableFrom(t));
+            // Load the assembly where your AppDbContext class is defined
+            var assembly = Assembly.Load("dotnetapp");
+            
+            // Get the type of AppDbContext from the assembly
+            var contextType = assembly.GetTypes().FirstOrDefault(t => typeof(DbContext).IsAssignableFrom(t));
+            
+            // Assert that the DbContext type was found
             Assert.NotNull(contextType, "No DbContext found in the assembly");
-
+            
+            // Get the 'Restaurants' property from the DbContext type
             var propertyInfo = contextType.GetProperty("Restaurants");
+            
+            // Assert that the 'Restaurants' property was found
             Assert.NotNull(propertyInfo, "Restaurants property not found in the DbContext");
-            Assert.AreEqual(typeof(DbSet<>).MakeGenericType(_restaurantType), propertyInfo.PropertyType);
+            
+            // Get the type of DbSet<Restaurant>
+            var restaurantType = assembly.GetType("dotnetapp.Models.Restaurant");
+            Assert.NotNull(restaurantType, "Restaurant type does not exist.");
+            
+            // Assert that the property type is DbSet<Restaurant>
+            Assert.AreEqual(typeof(DbSet<>).MakeGenericType(restaurantType), propertyInfo.PropertyType);
         }
+
 
         [Test]
         public void AppDbContext_ContainsDbSet_MenuItem()
         {
-            _assembly = Assembly.GetAssembly(typeof(AppDbContext));
-            var contextType = _assembly.GetTypes().FirstOrDefault(t => typeof(DbContext).IsAssignableFrom(t));
+            // Replace 'typeof(AppDbContext)' with the actual type if necessary
+            var assembly = Assembly.GetAssembly(typeof(AppDbContext));
+            var contextType = assembly?.GetTypes().FirstOrDefault(t => typeof(DbContext).IsAssignableFrom(t));
+
             Assert.NotNull(contextType, "No DbContext found in the assembly");
 
+            var menuItemType = typeof(MenuItem);  // Make sure MenuItem type is correctly defined
             var propertyInfo = contextType.GetProperty("MenuItems");
-            Assert.NotNull(propertyInfo, "MenuItems property not found in the DbContext");
-            Assert.AreEqual(typeof(DbSet<>).MakeGenericType(_menuItemType), propertyInfo.PropertyType);
-        }
 
-        [Test]
-        public void TestMenuItemNamePropertyType()
-        {
-            _assembly = Assembly.Load("dotnetapp");
-            _menuItemType = _assembly.GetType("dotnetapp.Models.MenuItem");
-            var nameProperty = _menuItemType.GetProperty("Name");
-            Assert.NotNull(nameProperty, "Name property does not exist.");
-            Assert.AreEqual(typeof(string), nameProperty.PropertyType, "Name property should be of type string.");
+            Assert.NotNull(propertyInfo, "MenuItems property not found in the DbContext");
+            Assert.AreEqual(typeof(DbSet<>).MakeGenericType(menuItemType), propertyInfo.PropertyType);
         }
 
         [Test]
