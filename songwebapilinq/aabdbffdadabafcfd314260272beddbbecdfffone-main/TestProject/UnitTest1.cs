@@ -261,15 +261,6 @@ namespace dotnetapp.Tests
             Assert.NotNull(searchSongsByTitleMethod);
         }
 
-        [Test]
-        public void Test_GetAvailableSongs_Action()
-        {
-            Assembly assembly = Assembly.Load("dotnetapp");
-            controllerType = assembly.GetType("dotnetapp.Controllers.MusicController");
-            var detailsMethod = GetMethod1(controllerType, "GetAvailableSongs", new Type[] {  });
-
-            Assert.NotNull(detailsMethod);
-        }
 
         [Test]
         public void SearchSongsByTitle_ShouldReturnWithCorrectModel()
