@@ -18,12 +18,11 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
-        // Implement a method to display songs associated with a playlist.
         [HttpGet("Playlist/{playlistId}/Songs")]
         public IActionResult DisplaySongsForPlaylist(int playlistId)
         {
             var playlist = _context.Playlists
-                .Include(p => p.Songs) // Ensure Songs navigation property is included
+                .Include(p => p.Songs) // Include songs
                 .FirstOrDefault(p => p.Id == playlistId);
 
             if (playlist == null)
@@ -31,9 +30,26 @@ namespace dotnetapp.Controllers
                 return NotFound(); // Handle the case where the playlist with the given ID doesn't exist
             }
 
-            var songs = playlist.Songs.ToList();
-            return Ok(songs);
+            var result = new
+            {
+                Playlist = new
+                {
+                    playlist.Id,
+                    playlist.Name,
+                    playlist.Description
+                },
+                Songs = playlist.Songs.Select(s => new
+                {
+                    s.Id,
+                    s.Title,
+                    s.Artist,
+                    s.ReleaseYear
+                }).ToList()
+            };
+
+            return Ok(result);
         }
+
 
         // Implement a method to add a song.
         [HttpPost("AddSong")]
@@ -43,18 +59,55 @@ namespace dotnetapp.Controllers
             {
                 _context.Songs.Add(song);
                 _context.SaveChanges();
-                return CreatedAtAction(nameof(DisplayAllSongs), new { id = song.Id }, song);
+
+                var songWithPlaylist = _context.Songs
+                    .Include(s => s.Playlist) // Include the playlist details
+                    .Where(s => s.Id == song.Id)
+                    .Select(s => new
+                    {
+                        s.Id,
+                        s.Title,
+                        s.Artist,
+                        s.ReleaseYear,
+                        Playlist = s.Playlist != null ? new
+                        {
+                            s.Playlist.Id,
+                            s.Playlist.Name,
+                            s.Playlist.Description
+                        } : null
+                    })
+                    .FirstOrDefault();
+
+                return CreatedAtAction(nameof(DisplayAllSongs), new { id = song.Id }, songWithPlaylist);
             }
             return BadRequest(ModelState); // Return the model validation errors
         }
 
+
         // Implement a method to display all songs.
-        [HttpGet("Songs")]
+       [HttpGet("Songs")]
         public IActionResult DisplayAllSongs()
         {
-            var songs = _context.Songs.ToList();
+            var songs = _context.Songs
+                .Include(s => s.Playlist) // Include the playlist details
+                .Select(s => new
+                {
+                    s.Id,
+                    s.Title,
+                    s.Artist,
+                    s.ReleaseYear,
+                    Playlist = s.Playlist != null ? new
+                    {
+                        s.Playlist.Id,
+                        s.Playlist.Name,
+                        s.Playlist.Description
+                    } : null
+                })
+                .ToList();
+
             return Ok(songs);
         }
+
 
         // Implement a method to search for songs by title.
         [HttpGet("SearchSongsByTitle")]
@@ -62,15 +115,46 @@ namespace dotnetapp.Controllers
         {
             if (string.IsNullOrEmpty(query))
             {
-                var allSongs = _context.Songs.ToList();
+                var allSongs = _context.Songs
+                    .Include(s => s.Playlist) // Include playlist details
+                    .Select(s => new
+                    {
+                        s.Id,
+                        s.Title,
+                        s.Artist,
+                        s.ReleaseYear,
+                        Playlist = s.Playlist != null ? new
+                        {
+                            s.Playlist.Id,
+                            s.Playlist.Name,
+                            s.Playlist.Description
+                        } : null
+                    })
+                    .ToList();
+
                 return Ok(allSongs);
             }
 
             var songs = _context.Songs
+                .Include(s => s.Playlist) // Include playlist details
                 .Where(s => s.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .Select(s => new
+                {
+                    s.Id,
+                    s.Title,
+                    s.Artist,
+                    s.ReleaseYear,
+                    Playlist = s.Playlist != null ? new
+                    {
+                        s.Playlist.Id,
+                        s.Playlist.Name,
+                        s.Playlist.Description
+                    } : null
+                })
                 .ToList();
 
             return Ok(songs);
         }
+
     }
 }
