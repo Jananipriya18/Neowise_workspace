@@ -24,7 +24,6 @@ namespace dotnetapp.Models
                 new Restaurant { Id = 2, Name = "Delicious Bites", Location = "456 Yummy Avenue, Taste City", PhoneNumber = "(987) 654-3210" }
             );
             base.OnModelCreating(modelBuilder);
-
         }
     }
 }

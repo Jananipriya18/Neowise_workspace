@@ -15,9 +15,9 @@ namespace dotnetapp.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Song>()
-                .HasMany(s => s.Playlists)
+                .HasOne(s => s.Playlist)
                 .WithMany(p => p.Songs)
-                .UsingEntity(j => j.ToTable("PlaylistSongs"));
+                .HasForeignKey(s => s.PlaylistId);
 
             modelBuilder.Entity<Playlist>().HasData(
                 new Playlist

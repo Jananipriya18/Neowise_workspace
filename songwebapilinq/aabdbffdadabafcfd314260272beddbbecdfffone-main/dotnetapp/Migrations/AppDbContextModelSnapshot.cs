@@ -48,21 +48,24 @@ namespace dotnetapp.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "description 1",
-                            Name = "John Doe"
+                            Description = "The best songs of the year",
+                            Name = "Top Hits"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "description 2",
-                            Name = "Jane Smith"
+                            Description = "Relaxing and soothing tracks",
+                            Name = "Chill Vibes"
                         });
                 });
 
             modelBuilder.Entity("dotnetapp.Models.Song", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Artist")
                         .IsRequired()
@@ -82,6 +85,8 @@ namespace dotnetapp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PlaylistId");
+
                     b.ToTable("Songs");
                 });
 
@@ -89,9 +94,7 @@ namespace dotnetapp.Migrations
                 {
                     b.HasOne("dotnetapp.Models.Playlist", "Playlist")
                         .WithMany("Songs")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlaylistId");
 
                     b.Navigation("Playlist");
                 });

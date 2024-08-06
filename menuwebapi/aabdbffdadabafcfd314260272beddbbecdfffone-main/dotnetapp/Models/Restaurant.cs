@@ -17,6 +17,6 @@ namespace dotnetapp.Models{
         [RegularExpression(@"\(\d{3}\) \d{3}-\d{4}")]
         public string PhoneNumber { get; set; }
 
-        public ICollection<MenuItem> MenuItems { get; set; }
+       public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();  
     }
 }

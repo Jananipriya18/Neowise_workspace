@@ -19,6 +19,7 @@ namespace dotnetapp.Models
         [Range(1900, 2024)]
         public int ReleaseYear { get; set; }
 
-        public ICollection<Playlist> Playlists { get; set; } // Navigation property
+        public int? PlaylistId {get;set;}
+        public Playlist? Playlist {get;set;}
     }
 }

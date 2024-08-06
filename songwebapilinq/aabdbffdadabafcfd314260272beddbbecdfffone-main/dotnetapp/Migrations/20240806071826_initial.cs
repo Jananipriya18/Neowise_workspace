@@ -4,7 +4,7 @@
 
 namespace dotnetapp.Migrations
 {
-    public partial class asdfghjk : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,8 @@ namespace dotnetapp.Migrations
                 name: "Songs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Artist = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
@@ -36,22 +37,26 @@ namespace dotnetapp.Migrations
                 {
                     table.PrimaryKey("PK_Songs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Songs_Playlists_Id",
-                        column: x => x.Id,
+                        name: "FK_Songs_Playlists_PlaylistId",
+                        column: x => x.PlaylistId,
                         principalTable: "Playlists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
                 table: "Playlists",
                 columns: new[] { "Id", "Description", "Name" },
-                values: new object[] { 1, "description 1", "John Doe" });
+                values: new object[] { 1, "The best songs of the year", "Top Hits" });
 
             migrationBuilder.InsertData(
                 table: "Playlists",
                 columns: new[] { "Id", "Description", "Name" },
-                values: new object[] { 2, "description 2", "Jane Smith" });
+                values: new object[] { 2, "Relaxing and soothing tracks", "Chill Vibes" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Songs_PlaylistId",
+                table: "Songs",
+                column: "PlaylistId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

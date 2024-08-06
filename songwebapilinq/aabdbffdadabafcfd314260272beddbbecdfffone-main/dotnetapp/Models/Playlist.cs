@@ -14,6 +14,6 @@ namespace dotnetapp.Models
         [MaxLength(200)]
         public string Description { get; set; }
 
-        public ICollection<Song> Songs { get; set; } // Navigation property
+        public ICollection<Song> Songs { get; set; } = new List<Song>();// Navigation property
     }
 }
