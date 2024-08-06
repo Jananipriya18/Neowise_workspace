@@ -116,18 +116,59 @@ namespace dotnetapp.Controllers
         }
 
         // Add a movie
-        [HttpPost("AddMovie")]
+        // [HttpPost("AddMovie")]
+        // public async Task<IActionResult> AddMovie([FromBody] Movie movie)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         _context.Movies.Add(movie);
+        //         await _context.SaveChangesAsync();
+        //         return CreatedAtAction(nameof(DisplayMoviesForCustomer), new { customerId = movie.CustomerId }, movie);
+        //     }
+        //     return BadRequest(ModelState); // Return the model validation errors
+        // }
+    
+
+     [HttpPost("AddMovie")]
         public async Task<IActionResult> AddMovie([FromBody] Movie movie)
         {
             if (ModelState.IsValid)
             {
                 _context.Movies.Add(movie);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(DisplayMoviesForCustomer), new { customerId = movie.CustomerId }, movie);
+
+                var movieWithCustomer = await _context.Movies
+                    .Include(m => m.Customer) // Eagerly load the customer details
+                    .Where(m => m.Id == movie.Id)
+                    .Select(m => new
+                    {
+                        m.Id,
+                        m.Title,
+                        m.Director,
+                        m.ReleaseYear,
+                        m.CustomerId,
+                        Customer = new
+                        {
+                            Id = m.Customer.Id,
+                            Name = m.Customer.Name,
+                            Email = m.Customer.Email,
+                            PhoneNumber = m.Customer.PhoneNumber
+                        }
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (movieWithCustomer == null)
+                {
+                    return NotFound(); // Return 404 if movie not found
+                }
+
+                return CreatedAtAction(nameof(DisplayMoviesForCustomer), new { customerId = movieWithCustomer.CustomerId }, movieWithCustomer);
             }
-            return BadRequest(ModelState); // Return the model validation errors
+
+            return BadRequest(ModelState); // Return 400 for invalid model state
         }
-    
+
+
         
 
         // Display all movies in the rental store

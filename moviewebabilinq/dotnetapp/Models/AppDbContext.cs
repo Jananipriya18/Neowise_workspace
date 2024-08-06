@@ -15,10 +15,16 @@ namespace dotnetapp.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure the one-to-many relationship
-            modelBuilder.Entity<Customer>()
-                .HasMany(c => c.Movies)
-                .WithOne(m => m.Customer)
-                .HasForeignKey(m => m.CustomerId);
+            // modelBuilder.Entity<Customer>()
+            //     .HasMany(c => c.Movies)
+            //     .WithOne(m => m.Customer)
+            //     .HasForeignKey(m => m.CustomerId);
+
+
+            modelBuilder.Entity<Movie>()
+            .HasOne(m=> m.Customer)
+            .WithMany(c => c.Movies)
+            .HasForeignKey(m => m.CustomerId);
 
             // Seed data
             modelBuilder.Entity<Customer>().HasData(
@@ -37,6 +43,8 @@ namespace dotnetapp.Models
                     PhoneNumber = "987-654-3210"
                 }
             );
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }
