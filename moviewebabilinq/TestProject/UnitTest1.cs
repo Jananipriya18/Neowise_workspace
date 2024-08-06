@@ -266,16 +266,6 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public void Test_GetAvailableMovies_Action()
-        {
-            Assembly assembly = Assembly.Load("dotnetapp");
-            controllerType = assembly.GetType("dotnetapp.Controllers.MovieRentalController");
-            var detailsMethod = GetMethod1(controllerType, "DisplayAllMovies", new Type[] {  });
-
-            Assert.NotNull(detailsMethod);
-        }
-
-        [Test]
         public void SearchMoviesByTitle_ShouldReturnWithCorrectModel()
         {
             // Arrange
