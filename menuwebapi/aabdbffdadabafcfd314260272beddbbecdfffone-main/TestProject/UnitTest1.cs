@@ -129,6 +129,43 @@ namespace dotnetapp.Tests
         }
 
         [Test]
+        public void TestMenuItemDescriptionPropertyMaxLength200()
+        {
+            _assembly = Assembly.Load("dotnetapp");
+            _menuItemType = _assembly.GetType("dotnetapp.Models.MenuItem");
+            var nameProperty = _menuItemType.GetProperty("Description");
+            var maxLengthAttribute = nameProperty.GetCustomAttribute<MaxLengthAttribute>();
+            
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Description property.");
+            Assert.AreEqual(200, maxLengthAttribute.Length, "Description property should have a max length of 200.");
+        }
+
+        [Test]
+        public void TestRestaurantLocationPropertyMaxLength200()
+        {
+            _assembly = Assembly.Load("dotnetapp");
+            _menuItemType = _assembly.GetType("dotnetapp.Models.Restaurant");
+            var nameProperty = _menuItemType.GetProperty("Location");
+            var maxLengthAttribute = nameProperty.GetCustomAttribute<MaxLengthAttribute>();
+            
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Location property.");
+            Assert.AreEqual(200, maxLengthAttribute.Length, "Location property should have a max length of 200.");
+        }
+
+        [Test]
+        public void TestRestaurantNamePropertyMaxLength100()
+        {
+            _assembly = Assembly.Load("dotnetapp");
+            _menuItemType = _assembly.GetType("dotnetapp.Models.Restaurant");
+            var nameProperty = _menuItemType.GetProperty("Name");
+            var maxLengthAttribute = nameProperty.GetCustomAttribute<MaxLengthAttribute>();
+            
+            Assert.NotNull(maxLengthAttribute, "MaxLength attribute not found on Name property.");
+            Assert.AreEqual(100, maxLengthAttribute.Length, "Name property should have a max length of 100.");
+        }
+
+
+        [Test]
         public void TestRestaurantPhoneNumberRegularExpressionAttribute()
         {
             _assembly = Assembly.Load("dotnetapp");
@@ -165,6 +202,14 @@ namespace dotnetapp.Tests
             Assert.NotNull(result);
             Assert.AreEqual(nameof(FoodController.DisplayMenuItemsForRestaurant), result.ActionName);
             Assert.AreEqual(menuItem.RestaurantId, result.RouteValues["restaurantId"]);
+        }
+
+        [Test]
+        public void TestMigrationExists()
+        {
+            bool viewsFolderExists = Directory.Exists(@"/home/coder/project/workspace/dotnetapp/Migrations");
+
+            Assert.IsTrue(viewsFolderExists, "Migrations does not exist.");
         }
 
         [Test]
