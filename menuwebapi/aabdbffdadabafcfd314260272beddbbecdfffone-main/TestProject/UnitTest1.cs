@@ -49,6 +49,11 @@ namespace dotnetapp.Tests
             _context.Database.EnsureDeleted();
         }
 
+        private static MethodInfo GetMethod1(Type type, string methodName, Type[] parameterTypes)
+        {
+            return type.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance, null, parameterTypes, null);
+        }
+
         [Test]
         public void TestRestaurant_ClassExists()
         {
@@ -229,5 +234,8 @@ namespace dotnetapp.Tests
             var method = _controllerType.GetMethod("SearchRestaurantsByName", new Type[] { typeof(string) });
             Assert.NotNull(method, "SearchRestaurantsByName action does not exist.");
         }
+
+        
+
     }
 }
