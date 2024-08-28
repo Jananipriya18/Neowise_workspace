@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { HotelListComponent } from './components/hotel-list/hotel-list.component';
 import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { CartoonEpisodeComponent } from './cartoon-episode/cartoon-episode.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HotelListComponent,
     HotelDetailComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    CartoonEpisodeComponent
   ],
   imports: [
     BrowserModule,
