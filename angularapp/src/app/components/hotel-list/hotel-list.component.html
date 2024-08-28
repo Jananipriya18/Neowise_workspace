@@ -1,0 +1,22 @@
+<h2>Hotel Management</h2>
+<input type="text" [(ngModel)]="searchText" placeholder="Search by hotel name" />
+<button (click)="searchHotels()">Search</button>
+
+<div class="hotel-list">
+  <div class="hotel-item" *ngFor="let hotel of filteredHotels">
+    <a [routerLink]="['/hotel', hotel.id]">{{ hotel.name }}</a>
+  </div>
+</div>
+
+<div class="hotel-list">
+  <div class="hotel-item" *ngFor="let hotel of hotels">
+    <img [src]="hotel.imageSrc" alt="{{ hotel.name }}" />
+    <h3>{{ hotel.name }}</h3>
+    <p>{{ hotel.description }}</p>
+    <p>Price: ${{ hotel.price }}</p>
+    <p>Available Rooms: {{ hotel.availableRooms }}</p>
+    <p>Check-In Date: {{ hotel.checkInDate }}</p>
+    <p>Check-Out Date: {{ hotel.checkOutDate }}</p>
+    <button [routerLink]="['/hotel', hotel.id]">View Details</button>
+  </div>
+</div>

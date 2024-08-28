@@ -1,0 +1,11 @@
+<div class="hotel-detail">
+<h1>{{ hotel?.name }}</h1>
+<p>{{ hotel?.description }}</p>
+<p>Price: ${{ hotel?.price }}</p>
+<label for="checkInDate">Check-In Date:</label>
+<input type="date" id="checkInDate" [(ngModel)]="checkInDate" />
+<label for="checkOutDate">Check-Out Date:</label>
+<input type="date" id="checkOutDate" [(ngModel)]="checkOutDate" />
+<button (click)="makeReservation()">Reserve Now</button>
+<a routerLink="/feedback">Leave Feedback</a>
+</div>
