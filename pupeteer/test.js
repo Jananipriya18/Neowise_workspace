@@ -16,7 +16,7 @@ const puppeteer = require('puppeteer');
 
   const page8 = await browser.newPage();
   try {
-    await page8.goto('https://8081-ddadcdbccbabeef314787991aefaeccceedbone.premiumproject.examly.io/'); // Replace with your actual test page8 URL.
+    await page8.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'); // Replace with your actual test page8 URL.
     await page8.setViewport({
       width: 1200,
       height: 800,
@@ -38,7 +38,7 @@ const puppeteer = require('puppeteer');
   // TestCase: Check if the link element has the correct color and font size
   const page9 = await browser.newPage();
   try {
-    await page9.goto('https://8081-ddadcdbccbabeef314787991aefaeccceedbone.premiumproject.examly.io/'); // Replace with your actual test page9 URL.
+    await page9.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'); // Replace with your actual test page9 URL.
     await page9.setViewport({
       width: 1200,
       height: 800,
@@ -64,7 +64,7 @@ const puppeteer = require('puppeteer');
   // TestCase: Check if the h2 element has the correct font size, text color, and text alignment
   const page12 = await browser.newPage();
   try {
-    await page12.goto('https://8081-ddadcdbccbabeef314787991aefaeccceedbone.premiumproject.examly.io/'); // Replace with your actual test page12 URL.
+    await page12.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'); // Replace with your actual test page12 URL.
     await page12.setViewport({
       width: 1200,
       height: 800,
@@ -94,7 +94,7 @@ const puppeteer = require('puppeteer');
   // TestCase: Check if the input[type="text"] element has the correct width, padding, and font size
   const page13 = await browser.newPage();
   try {
-    await page13.goto('https://8081-ddadcdbccbabeef314787991aefaeccceedbone.premiumproject.examly.io/'); // Replace with your actual test page13 URL.
+    await page13.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'); // Replace with your actual test page13 URL.
     await page13.setViewport({
       width: 1200,
       height: 800,
@@ -123,7 +123,7 @@ const puppeteer = require('puppeteer');
   // TestCase: Check if the button element has the correct background color and font size
   const page14 = await browser.newPage();
   try {
-    await page14.goto('https://8081-ddadcdbccbabeef314787991aefaeccceedbone.premiumproject.examly.io/'); // Replace with your actual test page14 URL.
+    await page14.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'); // Replace with your actual test page14 URL.
     await page14.setViewport({
       width: 1200,
       height: 800,
@@ -149,7 +149,7 @@ const puppeteer = require('puppeteer');
   // TestCase: Check if the a elements have the correct color and text decoration
   const page17 = await browser.newPage();
   try {
-    await page17.goto('https://8081-ddadcdbccbabeef314787991aefaeccceedbone.premiumproject.examly.io/'); // Replace with your actual test page17 URL.
+    await page17.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/'); // Replace with your actual test page17 URL.
     await page17.setViewport({
       width: 1200,
       height: 800,

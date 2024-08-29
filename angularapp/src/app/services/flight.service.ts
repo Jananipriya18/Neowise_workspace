@@ -47,7 +47,7 @@ export class FlightService {
       availableSeats: 40,
       departureDate: '2023-09-19',
       arrivalDate: '2023-09-19',
-      imageSrc: 'assets/flight4.jpg'
+      imageSrc: 'assets/indigo_airlines.png'
     },
     {
       id: 5,
@@ -58,7 +58,7 @@ export class FlightService {
       availableSeats: 15,
       departureDate: '2023-09-25',
       arrivalDate: '2023-09-25',
-      imageSrc: 'assets/flight5.jpg'
+      imageSrc: 'assets/Airbus A380 Emirates.jpg'
     },
     {
       id: 6,
@@ -69,9 +69,30 @@ export class FlightService {
       availableSeats: 100,
       departureDate: '2023-09-18',
       arrivalDate: '2023-09-18',
-      imageSrc: 'assets/flight6.jpg'
+      imageSrc: 'assets/Qantas Airbus A380.jpg'
+    },
+    {
+      id: 7,
+      name: 'Flight 606',
+      airline: 'Airline F',
+      description: 'Flight 606 is a budget-friendly option from City K to City L, providing basic amenities with no-frills service.',
+      price: 150,
+      availableSeats: 100,
+      departureDate: '2023-09-18',
+      arrivalDate: '2023-09-18',
+      imageSrc: 'assets/flydubai.jpg'
+    },
+    {
+      id: 8,
+      name: 'Flight 606',
+      airline: 'Airline F',
+      description: 'Flight 606 is a budget-friendly option from City K to City L, providing basic amenities with no-frills service.',
+      price: 150,
+      availableSeats: 100,
+      departureDate: '2023-09-18',
+      arrivalDate: '2023-09-18',
+      imageSrc: 'assets/Qantas Airbus A380.jpg'
     }
-    // Add more flights as needed...
   ];
 
   private reservations: any[] = [
