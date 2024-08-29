@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-flight-feedback',
-  templateUrl: './flight-feedback.component.html',
-  styleUrls: ['./flight-feedback.component.css']
+  selector: 'app-feedback',
+  templateUrl: './feedback.component.html',
+  styleUrls: ['./feedback.component.css']
 })
-export class FlightFeedbackComponent {
+export class FeedbackComponent {
   passengerName: string = '';
   rating: number = 5;
   comment: string = '';

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FeedbackComponent } from './components/feedback/feedback.component';
-// Import your components here
-import { HotelListComponent } from './components/hotel-list/hotel-list.component';
-import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+// Import your flight components here
+import { FlightListComponent } from './flight-list/flight-list.component';
+import { FlightBookingComponent } from './flight-booking/flight-booking.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/hotels', pathMatch: 'full' },
-  { path: 'hotels', component: HotelListComponent },
-  { path: 'hotel/:id', component: HotelDetailComponent },
+  { path: '', redirectTo: '/flights', pathMatch: 'full' },
+  { path: 'flights', component: FlightListComponent },
+  { path: 'flight/:id', component: FlightBookingComponent },
   { path: 'feedback', component: FeedbackComponent },
 ];
 

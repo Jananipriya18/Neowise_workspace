@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FlightService } from '../../services/flight.service'; // Import your service
+import { FlightService } from '../services/flight.service'; // Import your service
 
 @Component({
-  selector: 'app-flight-detail',
-  templateUrl: './flight-detail.component.html',
-  styleUrls: ['./flight-detail.component.css']
+  selector: 'app-flight-booking',
+  templateUrl: './flight-booking.component.html',
+  styleUrls: ['./flight-booking.component.css']
 })
 export class FlightBookingComponent implements OnInit {
   flight: any;
