@@ -1,4 +1,4 @@
-/* feedback.component.css */
+/* flight-feedback.component.css */
 
 .feedback-form {
     max-width: 400px;
@@ -71,10 +71,6 @@
   }
   
   /* Display submitted feedback */
-  .feedback-list {
-    margin-top: 20px;
-  }
-  
   .feedback-item {
     background-color: #fff;
     border: 1px solid #ccc;

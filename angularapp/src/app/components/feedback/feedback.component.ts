@@ -1,4 +1,3 @@
-// feedback.component.ts
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./feedback.component.css']
 })
 export class FeedbackComponent {
-  guestName: string = '';
+  passengerName: string = '';
   rating: number = 5;
   comment: string = '';
 
@@ -16,7 +15,7 @@ export class FeedbackComponent {
   submitFeedback() {
     // Create a feedback object with the submitted data
     const feedback = {
-      guestName: this.guestName,
+      passengerName: this.passengerName,
       rating: this.rating,
       comment: this.comment
     };
@@ -25,7 +24,7 @@ export class FeedbackComponent {
     this.feedbackList.push(feedback);
 
     // Clear the form after submission
-    this.guestName = '';
+    this.passengerName = '';
     this.rating = 1;
     this.comment = '';
   }

@@ -1,48 +1,47 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { FeedbackComponent } from './feedback.component';
+import { FlightFeedbackComponent } from './flight-feedback.component';
 
-describe('FeedbackComponent', () => {
-  let component: FeedbackComponent;
-  let fixture: ComponentFixture<FeedbackComponent>;
+describe('FlightFeedbackComponent', () => {
+  let component: FlightFeedbackComponent;
+  let fixture: ComponentFixture<FlightFeedbackComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FeedbackComponent],
+      declarations: [FlightFeedbackComponent],
       imports: [FormsModule],
     });
-    fixture = TestBed.createComponent(FeedbackComponent);
+    fixture = TestBed.createComponent(FlightFeedbackComponent);
     component = fixture.componentInstance;
   });
 
   it('should create the feedback component', () => {
-    expect((component as any)).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should initialize guestName rating and comment with default values', () => {
-    expect((component as any).guestName).toEqual('');
-    expect((component as any).rating).toEqual(5);
-    expect((component as any).comment).toEqual('');
+  it('should initialize passengerName, rating, and comment with default values', () => {
+    expect(component.passengerName).toEqual('');
+    expect(component.rating).toEqual(5);
+    expect(component.comment).toEqual('');
   });
 
   it('should add feedback to the feedbackList and clear the form after submission', () => {
     const feedbackData = {
-      guestName: 'John Doe',
+      passengerName: 'Jane Doe',
       rating: 4,
-      comment: 'Great experience!',
+      comment: 'Excellent flight!',
     };
 
-    (component as any).guestName = feedbackData.guestName;
-    (component as any).rating = feedbackData.rating;
-    (component as any).comment = feedbackData.comment;
+    component.passengerName = feedbackData.passengerName;
+    component.rating = feedbackData.rating;
+    component.comment = feedbackData.comment;
 
-    (component as any).submitFeedback();
+    component.submitFeedback();
 
-    expect((component as any).feedbackList.length).toEqual(1);
-    expect((component as any).feedbackList[0]).toEqual(feedbackData);
-    expect((component as any).guestName).toEqual('');
-    expect((component as any).rating).toEqual(1); // After submission, the rating should reset to 1
-    expect((component as any).comment).toEqual('');
+    expect(component.feedbackList.length).toEqual(1);
+    expect(component.feedbackList[0]).toEqual(feedbackData);
+    expect(component.passengerName).toEqual('');
+    expect(component.rating).toEqual(1); // After submission, the rating should reset to 1
+    expect(component.comment).toEqual('');
   });
-  
 });

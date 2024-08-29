@@ -1,10 +1,9 @@
-<!-- feedback.component.html -->
 <div class="feedback-form">
-    <h2>Guest Feedback</h2>
+    <h2>Passenger Feedback</h2>
     <form (submit)="submitFeedback()">
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" [(ngModel)]="guestName" required>
+        <input type="text" id="name" [(ngModel)]="passengerName" required>
       </div>
       <div class="form-group">
         <label for="rating">Rating:</label>
@@ -17,9 +16,10 @@
       <button type="submit" class="leave-feedback-button">Leave Feedback</button>
     </form>
   </div>
-  <div *ngFor="let feedback of feedbackList">
-    <h3>Guest: {{ feedback.guestName }}</h3>
+  <div *ngFor="let feedback of feedbackList" class="feedback-item">
+    <h3>Passenger: {{ feedback.passengerName }}</h3>
     <p>Rating: {{ feedback.rating }}</p>
     <p>Comment: {{ feedback.comment }}</p>
     <hr>
   </div>
+  

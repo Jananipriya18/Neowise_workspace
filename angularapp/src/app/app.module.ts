@@ -3,18 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HotelListComponent } from './components/hotel-list/hotel-list.component';
-import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
-import { FlightListComponent } from './flight-list/flight-list.component';
-import { FlightBookingComponent } from './flight-booking/flight-booking.component';
+import { FlightListComponent } from './components/flight-list/flight-list.component';
+import { FlightBookingComponent } from './components/flight-booking/flight-booking.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HotelListComponent,
-    HotelDetailComponent,
     FeedbackComponent,
     FlightListComponent,
     FlightBookingComponent,

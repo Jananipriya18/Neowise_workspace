@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FlightService } from '../services/flight.service'; // Import your service
+import { FlightService } from '../../services/flight.service'; // Import your service
 
 @Component({
   selector: 'app-flight-booking',
