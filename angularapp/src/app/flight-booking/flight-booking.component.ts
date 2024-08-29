@@ -20,6 +20,11 @@ export class FlightBookingComponent implements OnInit {
   ngOnInit() {
     const flightId = +this.route.snapshot.paramMap.get('id')!; // Assuming 'id' is the route parameter
     this.flight = this.flightService.getFlightById(flightId); // Fetch the flight data from your service
+    // Optionally initialize departureDate and arrivalDate if needed
+    if (this.flight) {
+      this.departureDate = this.flight.departureDate;
+      this.arrivalDate = this.flight.arrivalDate;
+    }
   }
 
   bookFlight() {
@@ -29,11 +34,15 @@ export class FlightBookingComponent implements OnInit {
   }
 
   makeReservation() {
-    // Check availability for the specified dates
+    if (!this.flight) {
+      alert('No flight selected.');
+      return;
+    }
+
+    // Check availability for the specified departure date
     const available = this.flightService.checkAvailability(
       this.flight.id,
-      this.departureDate,
-      this.arrivalDate
+      this.departureDate
     );
 
     if (available) {
@@ -41,7 +50,7 @@ export class FlightBookingComponent implements OnInit {
       this.flightService.reserveSeats(this.flight.id, 1); // Assuming reserving one seat
       alert('Reservation successful!');
     } else {
-      alert('Seats are not available for the selected dates.');
+      alert('Seats are not available for the selected date.');
     }
   }
 }
