@@ -29,14 +29,14 @@ export class FlightService {
     },    
     {
       id: 3,
-      name: 'Flight 303',
-      airline: 'Airline C',
-      description: 'Flight 303 provides economy and business class options for a comfortable journey from City E to City F. Departure at 02:00 PM, arrival at 06:00 PM.',
+      name: 'Airbus A220-300',
+      airline: 'Swiss International Air Lines',
+      description: 'The Airbus A220-300 offers a modern and comfortable flying experience with spacious seating, quiet cabins, and advanced technology. Enjoy both economy and business class options for a pleasant journey from City E to City F.',
       price: 250,
       availableSeats: 60,
       departureDate: '2023-09-24',
       arrivalDate: '2023-09-24',
-      imageSrc: 'assets/flight3.jpg'
+      imageSrc: 'assets/a220-300.png'
     },
     {
       id: 4,
