@@ -1,0 +1,22 @@
+<h2>Flight Management</h2>
+<input type="text" [(ngModel)]="searchText" placeholder="Search by flight name or airline" />
+<button (click)="searchFlights()">Search</button>
+
+<div class="flight-list">
+  <div class="flight-item" *ngFor="let flight of filteredFlights">
+    <a [routerLink]="['/flight', flight.id]">{{ flight.name }} - {{ flight.airline }}</a>
+  </div>
+</div>
+
+<div class="flight-list">
+  <div class="flight-item" *ngFor="let flight of flights">
+    <img [src]="flight.imageSrc" alt="{{ flight.name }}" />
+    <h3>{{ flight.name }} - {{ flight.airline }}</h3>
+    <p>{{ flight.description }}</p>
+    <p>Price: ${{ flight.price }}</p>
+    <p>Available Seats: {{ flight.availableSeats }}</p>
+    <p>Departure Date: {{ flight.departureDate }}</p>
+    <p>Arrival Date: {{ flight.arrivalDate }}</p>
+    <button [routerLink]="['/flight', flight.id]">View Details</button>
+  </div>
+</div>

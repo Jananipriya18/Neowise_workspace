@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { HotelListComponent } from './components/hotel-list/hotel-list.component';
 import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
-import { CartoonEpisodeComponent } from './cartoon-episode/cartoon-episode.component';
+import { FlightListComponent } from './flight-list/flight-list.component';
+import { GlightDetailComponent } from './glight-detail/glight-detail.component';
+import { FlightDetailComponent } from './flight-detail/flight-detail.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { CartoonEpisodeComponent } from './cartoon-episode/cartoon-episode.compo
     HotelListComponent,
     HotelDetailComponent,
     FeedbackComponent,
-    CartoonEpisodeComponent
+    FlightListComponent,
+    GlightDetailComponent,
+    FlightDetailComponent,
   ],
   imports: [
     BrowserModule,
