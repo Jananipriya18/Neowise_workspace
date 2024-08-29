@@ -7,31 +7,31 @@ export class FlightService {
   private flights = [
     {
       id: 1,
-      name: 'Beluga XL',
-      airline: 'Airbus',
-      description: 'The Airbus Beluga XL is a unique cargo aircraft designed to transport large aircraft components. It features an enormous cargo hold and is known for its distinctive whale-like appearance. The Beluga XL offers a state-of-the-art cargo capacity and is a key player in Airbus’s logistics and transportation operations.',
-      price: 100000, // Example price for leasing or using the aircraft
-      availableSeats: 0, // Not applicable as it's a cargo aircraft
-      departureDate: '2024-09-15', // Adjusted date
-      arrivalDate: '2024-09-15', // Adjusted date
-      imageSrc: '../assets/AirIndia.jpg' // Ensure the image path is correct
-    },    
+      name: 'Airbus A320',
+      airline: 'Air India',
+      description: 'The Airbus A320 operated by Air India offers a comfortable and reliable experience for short to medium-haul flights. Enjoy complimentary meals, Wi-Fi, and in-flight entertainment in a spacious cabin with a focus on passenger comfort. Fly from Mumbai (BOM) to Delhi (DEL) and experience Air India’s renowned service.',
+      price: 300, // Price per ticket
+      availableSeats: 150, // Number of available seats
+      departureDate: '2023-09-15', // Departure date
+      arrivalDate: '2023-09-15', // Arrival date
+      imageSrc: '../assets/AirIndia.jpg' // Image for Air India Airbus A320
+    },
     {
       id: 2,
-      name: 'A330',
+      name: 'Airbus A330',
       airline: 'Emirates',
-      description: 'Flight 202 offers a premium flying experience from City C to City D. Enjoy business class seats with gourmet meals and complimentary beverages. The Airbus A330 provides a comfortable and luxurious journey with state-of-the-art amenities.',
+      description: 'The Airbus A330 operated by Emirates provides a luxurious flying experience from Dubai (DXB) to London (LHR). Enjoy spacious business class seats, gourmet meals, and a wide range of entertainment options on this long-haul flight. Emirates ensures a comfortable and premium journey across continents.',
       price: 450, // Price per ticket
       availableSeats: 20, // Number of available seats
       departureDate: '2023-09-18', // Date of departure
       arrivalDate: '2023-09-18', // Date of arrival
       imageSrc: 'assets/A330.jpg' // Path to the Airbus A330 image
-    },    
+    },
     {
       id: 3,
       name: 'Airbus A220-300',
       airline: 'Swiss International Air Lines',
-      description: 'The Airbus A220-300 offers a modern and comfortable flying experience with spacious seating, quiet cabins, and advanced technology. Enjoy both economy and business class options for a pleasant journey from City E to City F.',
+      description: 'The Airbus A220-300 by Swiss International Air Lines offers a modern and comfortable flying experience from Zurich (ZRH) to Vienna (VIE). Enjoy spacious seating, quiet cabins, and advanced technology, with options for both economy and business class. Ideal for a pleasant and efficient journey in Europe.',
       price: 250,
       availableSeats: 60,
       departureDate: '2023-09-24',
@@ -40,58 +40,58 @@ export class FlightService {
     },
     {
       id: 4,
-      name: 'Flight 404',
-      airline: 'Airline D',
-      description: 'Flight 404 is a direct flight from City G to City H with various in-flight amenities. Departure at 10:00 AM, arrival at 02:00 PM.',
+      name: 'IndiGo A320',
+      airline: 'IndiGo',
+      description: 'IndiGo’s A320 offers a direct and convenient flight from Mumbai (BOM) to Delhi (DEL). This budget-friendly service focuses on providing essential amenities and reliable service. Ideal for travelers looking for efficiency and value on their domestic journey in India.',
       price: 320,
       availableSeats: 40,
       departureDate: '2023-09-19',
       arrivalDate: '2023-09-19',
-      imageSrc: 'assets/indigo_airlines.png'
+      imageSrc: 'assets/indigo_airlines.png' // Image for IndiGo Airlines
     },
     {
       id: 5,
-      name: 'Flight 505',
-      airline: 'Airline E',
-      description: 'Flight 505 offers a luxurious flying experience from City I to City J, with fully reclining seats and personal entertainment systems.',
+      name: 'Airbus A380',
+      airline: 'Emirates',
+      description: 'Experience unparalleled luxury on Emirates’ Airbus A380 from New York (JFK) to Dubai (DXB). This flight offers fully reclining seats, personal entertainment systems, and world-class amenities, making it perfect for long-haul travelers seeking comfort and elegance.',
       price: 600,
       availableSeats: 15,
       departureDate: '2023-09-25',
       arrivalDate: '2023-09-25',
-      imageSrc: 'assets/Airbus A380 Emirates.jpg'
+      imageSrc: 'assets/Airbus A380 Emirates.jpg' // Image for Emirates Airbus A380
     },
     {
       id: 6,
-      name: 'Flight 606',
-      airline: 'Airline F',
-      description: 'Flight 606 is a budget-friendly option from City K to City L, providing basic amenities with no-frills service.',
+      name: 'Qantas A380',
+      airline: 'Qantas',
+      description: 'Qantas’s A380 flight from Sydney (SYD) to Los Angeles (LAX) offers a premium travel experience with spacious seating and high-quality in-flight services. Enjoy a comfortable journey across the Pacific with Qantas, known for its exceptional service and attention to detail.',
       price: 150,
       availableSeats: 100,
       departureDate: '2023-09-18',
       arrivalDate: '2023-09-18',
-      imageSrc: 'assets/Qantas Airbus A380.jpg'
+      imageSrc: 'assets/Qantas Airbus A380.jpg' // Image for Qantas Airbus A380
     },
     {
       id: 7,
-      name: 'Flight 606',
-      airline: 'Airline F',
-      description: 'Flight 606 is a budget-friendly option from City K to City L, providing basic amenities with no-frills service.',
+      name: 'Flydubai Boeing 737',
+      airline: 'Flydubai',
+      description: 'Flydubai offers an economical option from Dubai (DXB) to Istanbul (IST) on its Boeing 737. This budget-friendly flight provides essential amenities for a comfortable journey while keeping costs low. Perfect for travelers seeking affordability on their trip between these two vibrant cities.',
       price: 150,
       availableSeats: 100,
       departureDate: '2023-09-18',
       arrivalDate: '2023-09-18',
-      imageSrc: 'assets/flydubai.jpg'
+      imageSrc: 'assets/flydubai.jpg' // Image for Flydubai Boeing 737
     },
     {
       id: 8,
-      name: 'Flight 606',
-      airline: 'Airline F',
-      description: 'Flight 606 is a budget-friendly option from City K to City L, providing basic amenities with no-frills service.',
+      name: 'Red Wings Boeing 777',
+      airline: 'Red Wings',
+      description: 'Red Wings’ Boeing 777 offers a cost-effective flight from Moscow (DME) to Sochi (AER). This no-frills service provides the basics for a comfortable travel experience, focusing on efficiency and value for travelers between Russia’s major cities.',
       price: 150,
       availableSeats: 100,
       departureDate: '2023-09-18',
       arrivalDate: '2023-09-18',
-      imageSrc: 'assets/red_wings.jpg'
+      imageSrc: 'assets/red_wings.jpg' // Image for Red Wings Boeing 777
     }
   ];
 
