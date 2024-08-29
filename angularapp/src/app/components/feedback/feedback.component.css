@@ -71,7 +71,7 @@
   max-width: 600px; /* Maximum width for larger screens */
   margin-top: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction:row;
   gap: 20px;
 }
 
