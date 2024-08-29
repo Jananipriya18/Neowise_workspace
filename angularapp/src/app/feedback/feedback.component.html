@@ -1,0 +1,25 @@
+<div class="feedback-form">
+    <h2>Passenger Feedback</h2>
+    <form (submit)="submitFeedback()">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" [(ngModel)]="passengerName" required>
+      </div>
+      <div class="form-group">
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" [(ngModel)]="rating" min="1" max="5" required>
+      </div>
+      <div class="form-group">
+        <label for="comment">Comment:</label>
+        <textarea id="comment" [(ngModel)]="comment" required></textarea>
+      </div>
+      <button type="submit" class="leave-feedback-button">Leave Feedback</button>
+    </form>
+  </div>
+  <div *ngFor="let feedback of feedbackList" class="feedback-item">
+    <h3>Passenger: {{ feedback.passengerName }}</h3>
+    <p>Rating: {{ feedback.rating }}</p>
+    <p>Comment: {{ feedback.comment }}</p>
+    <hr>
+  </div>
+  

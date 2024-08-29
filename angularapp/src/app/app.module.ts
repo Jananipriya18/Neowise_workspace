@@ -8,7 +8,8 @@ import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.com
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { FlightListComponent } from './flight-list/flight-list.component';
 import { GlightDetailComponent } from './glight-detail/glight-detail.component';
-import { FlightDetailComponent } from './flight-detail/flight-detail.component';
+import { FlightBookingComponent } from './flight-detail/flight-detail.component';
+import { FlightBookingComponent } from './flight-booking/flight-booking.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FlightDetailComponent } from './flight-detail/flight-detail.component';
     FeedbackComponent,
     FlightListComponent,
     GlightDetailComponent,
-    FlightDetailComponent,
+    FlightBookingComponent,
+    FlightBookingComponent,
   ],
   imports: [
     BrowserModule,
