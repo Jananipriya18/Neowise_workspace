@@ -1,4 +1,4 @@
-<div class="feedback-form">
+<!-- <!-- <div class="feedback-form">
     <h2>Passenger Feedback</h2>
     <form (submit)="submitFeedback()">
       <div class="form-group">
@@ -16,6 +16,33 @@
       <button type="submit" class="leave-feedback-button">Leave Feedback</button>
     </form>
   </div>
+  <div *ngFor="let feedback of feedbackList" class="feedback-item">
+    <h3>Passenger: {{ feedback.passengerName }}</h3>
+    <p>Rating: {{ feedback.rating }}</p>
+    <p>Comment: {{ feedback.comment }}</p>
+    <hr>
+  </div>
+   -->
+
+   <div class="feedback-form">
+    <h2>Passenger Feedback</h2>
+    <form (ngSubmit)="submitFeedback(feedbackForm)" #feedbackForm="ngForm">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" [(ngModel)]="passengerName" name="passengerName" required>
+      </div>
+      <div class="form-group">
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" [(ngModel)]="rating" name="rating" min="1" max="5" required>
+      </div>
+      <div class="form-group">
+        <label for="comment">Comment:</label>
+        <textarea id="comment" [(ngModel)]="comment" name="comment" required></textarea>
+      </div>
+      <button type="submit" class="leave-feedback-button" [disabled]="!feedbackForm.form.valid">Leave Feedback</button>
+    </form>
+  </div>
+  
   <div *ngFor="let feedback of feedbackList" class="feedback-item">
     <h3>Passenger: {{ feedback.passengerName }}</h3>
     <p>Rating: {{ feedback.rating }}</p>

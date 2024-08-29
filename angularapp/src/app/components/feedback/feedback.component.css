@@ -27,8 +27,7 @@
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  margin-left: 30%;
-  margin-top: 10%;
+  margin: 0 auto; /* Center form horizontally */
 }
 
 .feedback-form h2 {
