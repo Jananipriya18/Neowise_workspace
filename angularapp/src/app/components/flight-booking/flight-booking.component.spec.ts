@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { FlightService } from '../../services/flight.service';
-import { FlightBookingComponent } from './flight-detail.component';
+import { FlightBookingComponent } from './flight-booking.component';
 
 describe('FlightBookingComponent', () => {
   let component: FlightBookingComponent;

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { FlightFeedbackComponent } from './flight-feedback.component';
+import { FeedbackComponent } from './feedback.component';
 
-describe('FlightFeedbackComponent', () => {
-  let component: FlightFeedbackComponent;
-  let fixture: ComponentFixture<FlightFeedbackComponent>;
+describe('FeedbackComponent', () => {
+  let component: FeedbackComponent;
+  let fixture: ComponentFixture<FeedbackComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FlightFeedbackComponent],
+      declarations: [FeedbackComponent],
       imports: [FormsModule],
     });
-    fixture = TestBed.createComponent(FlightFeedbackComponent);
+    fixture = TestBed.createComponent(FeedbackComponent);
     component = fixture.componentInstance;
   });
 
