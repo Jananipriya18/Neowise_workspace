@@ -9,6 +9,7 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better depth */
     text-align: center;
     margin-top: 50px;
+    border-color: #0f0101;
 }
 
 h1 {
