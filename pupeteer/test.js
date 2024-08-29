@@ -27,7 +27,7 @@ const puppeteer = require('puppeteer');
         fontSize: getComputedStyle(button).fontSize,
       };
     });
-    if (buttonStyles.backgroundColor === 'rgb(0, 123, 255)' && buttonStyles.fontSize === '16px') {
+    if (buttonStyles.backgroundColor === '#007bff' && buttonStyles.fontSize === '16px') {
       console.log('TESTCASE:button_background_color_and_font_size_is_correct:success');
     } else {
       console.log('TESTCASE:button_background_color_and_font_size_is_correct:failure');

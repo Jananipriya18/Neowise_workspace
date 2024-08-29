@@ -6,28 +6,17 @@
   padding: 20px;
 }
 
-/* Style for the image container */
-.feedback-image {
-  width: 100%;
-  text-align: center; /* Center the image */
-  margin-bottom: 20px; /* Space below the image */
-}
-
-.feedback-image img {
-  max-width: 100%;
-  height: auto; /* Maintain aspect ratio */
-}
-
 /* Style for the feedback form */
 .feedback-form {
-  width: 100%;
-  max-width: 600px; /* Maximum width for the form */
+  width: 50%; /* Set width to 50% */
+  max-width: 600px; /* Maximum width for larger screens */
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   margin: 0 auto; /* Center form horizontally */
+  margin-bottom: 20px;
 }
 
 .feedback-form h2 {
@@ -78,22 +67,39 @@
 
 /* Style for displaying feedback items */
 .feedback-list {
-  width: 100%;
-  max-width: 600px; /* Maximum width for the feedback list */
+  width: 50%; /* Set width to 50% */
+  max-width: 600px; /* Maximum width for larger screens */
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .feedback-item {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.feedback-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .feedback-item h3 {
-  margin: 0 0 5px;
-  font-size: 18px;
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #333;
 }
 
 .feedback-item p {
-  margin: 0;
+  margin: 0 0 10px;
   font-size: 16px;
+  color: #555;
+}
+
+.feedback-item p.rating {
+  font-weight: bold;
 }
