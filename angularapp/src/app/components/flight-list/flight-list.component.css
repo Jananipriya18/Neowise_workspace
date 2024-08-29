@@ -57,8 +57,8 @@ h2 {
   }
   
   .flight-item {
-    width: calc(20% - 10px); /* Adjust the width as needed for 5 items in a row */
-    margin: 5px; /* Add spacing between items */
+    width: calc(20% - 20px); /* Adjust the width as needed for 5 items in a row */
+    margin: 10px; /* Add spacing between items */
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
