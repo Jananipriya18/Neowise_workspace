@@ -1,6 +1,6 @@
 <div class="feedback-form">
   <h2>Passenger Feedback</h2>
-  <form (ngSubmit)="submitFeedback(feedbackForm)" #feedbackForm="ngForm">
+  <form (ngSubmit)="submitFeedback()" #feedbackForm="ngForm">
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" id="name" [(ngModel)]="passengerName" name="passengerName" required>
