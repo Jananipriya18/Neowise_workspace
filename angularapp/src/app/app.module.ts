@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { FlightListComponent } from './components/flight-list/flight-list.component';
 import { FlightBookingComponent } from './components/flight-booking/flight-booking.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { FlightBookingComponent } from './components/flight-booking/flight-booki
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
