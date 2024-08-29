@@ -7,26 +7,26 @@ export class FlightService {
   private flights = [
     {
       id: 1,
-      name: 'Flight 101',
-      airline: 'Airline A',
-      description: 'Flight 101 is a direct flight from City A to City B. Enjoy a comfortable journey with in-flight entertainment and meals included. Departure at 09:00 AM, arrival at 12:00 PM.',
-      price: 300,
-      availableSeats: 50,
-      departureDate: '2023-09-15',
-      arrivalDate: '2023-09-15',
-      imageSrc: 'assets/flight1.jpg'
-    },
+      name: 'Beluga XL',
+      airline: 'Airbus',
+      description: 'The Airbus Beluga XL is a unique cargo aircraft designed to transport large aircraft components. It features an enormous cargo hold and is known for its distinctive whale-like appearance. The Beluga XL offers a state-of-the-art cargo capacity and is a key player in Airbus’s logistics and transportation operations.',
+      price: 100000, // Example price for leasing or using the aircraft
+      availableSeats: 0, // Not applicable as it's a cargo aircraft
+      departureDate: '2024-09-15', // Adjusted date
+      arrivalDate: '2024-09-15', // Adjusted date
+      imageSrc: '../assets/Beluga_XL.jpg' // Ensure the image path is correct
+    },    
     {
       id: 2,
-      name: 'Flight 202',
-      airline: 'Airline B',
-      description: 'Flight 202 offers a premium flying experience from City C to City D. Business class seats are available, with gourmet meals and complimentary beverages.',
-      price: 450,
-      availableSeats: 20,
-      departureDate: '2023-09-18',
-      arrivalDate: '2023-09-18',
-      imageSrc: 'assets/flight2.jpg'
-    },
+      name: 'A330',
+      airline: 'Emirates',
+      description: 'Flight 202 offers a premium flying experience from City C to City D. Enjoy business class seats with gourmet meals and complimentary beverages. The Airbus A330 provides a comfortable and luxurious journey with state-of-the-art amenities.',
+      price: 450, // Price per ticket
+      availableSeats: 20, // Number of available seats
+      departureDate: '2023-09-18', // Date of departure
+      arrivalDate: '2023-09-18', // Date of arrival
+      imageSrc: 'assets/A330.jpg' // Path to the Airbus A330 image
+    },    
     {
       id: 3,
       name: 'Flight 303',
