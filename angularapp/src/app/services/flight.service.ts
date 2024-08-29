@@ -14,7 +14,7 @@ export class FlightService {
       availableSeats: 0, // Not applicable as it's a cargo aircraft
       departureDate: '2024-09-15', // Adjusted date
       arrivalDate: '2024-09-15', // Adjusted date
-      imageSrc: '../assets/Beluga_XL.jpg' // Ensure the image path is correct
+      imageSrc: '../assets/AirIndia.jpg' // Ensure the image path is correct
     },    
     {
       id: 2,
@@ -91,7 +91,7 @@ export class FlightService {
       availableSeats: 100,
       departureDate: '2023-09-18',
       arrivalDate: '2023-09-18',
-      imageSrc: 'assets/Qantas Airbus A380.jpg'
+      imageSrc: 'assets/red_wings.jpg'
     }
   ];
 
