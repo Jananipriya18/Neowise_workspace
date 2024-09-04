@@ -18,17 +18,22 @@ namespace dotnetapp.Controllers
 
         // POST: api/Book
         [HttpPost]
-        public async Task<ActionResult<Book>> CreateBook([FromBody] Book book)
+        public async Task<IActionResult> PostBook([FromBody] Book book)
         {
-            if (book.AuthorId.HasValue && !_context.Authors.Any(a => a.AuthorId == book.AuthorId.Value))
+            if (book == null)
             {
-                return BadRequest("Invalid AuthorId");
+                return BadRequest("Book cannot be null.");
             }
 
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBook), new { id = book.BookId }, book);
+            // Retrieve the book with author details
+            var createdBook = await _context.Books
+                .Include(b => b.Author)  // Eager load the Author
+                .FirstOrDefaultAsync(b => b.BookId == book.BookId);
+
+            return CreatedAtAction(nameof(GetBook), new { id = createdBook.BookId }, createdBook);
         }
 
         // DELETE: api/Book/5
