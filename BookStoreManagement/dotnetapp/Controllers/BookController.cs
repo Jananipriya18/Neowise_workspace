@@ -20,7 +20,7 @@ namespace dotnetapp.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> CreateBook([FromBody] Book book)
         {
-            if (!_context.Authors.Any(a => a.AuthorId == book.AuthorId))
+            if (book.AuthorId.HasValue && !_context.Authors.Any(a => a.AuthorId == book.AuthorId.Value))
             {
                 return BadRequest("Invalid AuthorId");
             }
