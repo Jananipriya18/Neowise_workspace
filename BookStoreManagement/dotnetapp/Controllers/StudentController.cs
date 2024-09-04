@@ -2,70 +2,75 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dotnetapp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class BookController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public StudentController(ApplicationDbContext context)
+        public BookController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Student
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+        // POST: api/Book
+        [HttpPost]
+        public async Task<IActionResult> PostBook([FromBody] Book book)
         {
-            return await _context.Students.Include(s => s.Courses).ToListAsync();
-        }
-
-        // GET: api/Student/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
-        {
-            var student = await _context.Students
-                .Include(s => s.Courses)
-                .FirstOrDefaultAsync(s => s.StudentId == id);
-
-            if (student == null)
+            if (book == null)
             {
-                return NotFound();
+                return BadRequest("Book cannot be null.");
             }
 
-            return student;
-        }
-
-        // POST: api/Student
-        [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(Student student)
-        {
-            _context.Students.Add(student);
+            _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetStudent), new { id = student.StudentId }, student);
+            // Retrieve the book with author details
+            var createdBook = await _context.Books
+                .Include(b => b.Author)  // Eager load the Author
+                .FirstOrDefaultAsync(b => b.BookId == book.BookId);
+
+            return CreatedAtAction(nameof(GetBook), new { id = createdBook.BookId }, createdBook);
         }
 
-        // DELETE: api/Student/5
+        // DELETE: api/Book/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStudent(int id)
+        public async Task<IActionResult> DeleteBook(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var book = await _context.Books.FindAsync(id);
+            if (book == null)
             {
                 return NotFound();
             }
 
-            _context.Students.Remove(student);
+            _context.Books.Remove(book);
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // GET: api/Book
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        {
+            return await _context.Books.Include(b => b.Author).ToListAsync();
+        }
+
+        // GET: api/Book/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Book>> GetBook(int id)
+        {
+            var book = await _context.Books.Include(b => b.Author).FirstOrDefaultAsync(b => b.BookId == id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return book;
         }
     }
 }

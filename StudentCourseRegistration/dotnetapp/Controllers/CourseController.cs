@@ -32,19 +32,19 @@ namespace dotnetapp.Controllers
 
         // GET: api/Course/search/{prefix}
         [HttpGet("search/{prefix}")]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCoursesByTitlePrefix(string prefix)
+        public async Task<ActionResult<Course>> GetCoursesByTitlePrefix(string prefix)
         {
-            var courses = await _context.Courses
-                .Where(c => c.Title.StartsWith(prefix))
-                .Include(c => c.Student)
-                .ToListAsync();
+            var course = await _context.Courses
+                .Include(c => c.Student) // Ensure that Student data is included
+                .FirstOrDefaultAsync(c => c.Title == prefix); // Use 'prefix' here
 
-            if (courses == null || !courses.Any())
+            if (course == null)
             {
-                return NotFound();
+                return NotFound(new { message = "No course found with the exact title." });
             }
 
-            return courses;
+            return Ok(course);
         }
     }
 }
+
