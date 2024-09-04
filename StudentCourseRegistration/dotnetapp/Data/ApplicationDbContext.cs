@@ -10,21 +10,19 @@ namespace dotnetapp.Data
         {
         }
 
-        // DbSets for MusicRecord and Order entities
-        public DbSet<MusicRecord> MusicRecords { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             modelBuilder.Entity<MusicRecord>()
-                .HasOne(mr => mr.Order)
-                .WithMany(o => o.MusicRecords)
-                .HasForeignKey(mr => mr.OrderId)
+            // Configuring one-to-many relationship between Student and Course
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Student)
+                .WithMany(s => s.Courses)
+                .HasForeignKey(c => c.StudentId)
                 .OnDelete(DeleteBehavior.Cascade);
-
 
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }
