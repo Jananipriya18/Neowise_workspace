@@ -19,20 +19,22 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
-        // GET: api/Student
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            return await _context.Students.Include(s => s.Courses).ToListAsync();
+            return await _context.Students
+                                .Include(s => s.Courses)  // Eagerly load the Courses
+                                .ToListAsync();
         }
+
 
         // GET: api/Student/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
             var student = await _context.Students
-                .Include(s => s.Courses)
-                .FirstOrDefaultAsync(s => s.StudentId == id);
+                                        .Include(s => s.Courses)  // Eagerly load the Courses
+                                        .FirstOrDefaultAsync(s => s.StudentId == id);
 
             if (student == null)
             {
@@ -41,6 +43,7 @@ namespace dotnetapp.Controllers
 
             return student;
         }
+
 
         // POST: api/Student
         [HttpPost]
