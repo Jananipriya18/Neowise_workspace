@@ -12,8 +12,8 @@ using dotnetapp.Data;
 namespace dotnetapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240904083043_asdfghj")]
-    partial class asdfghj
+    [Migration("20240904084450_dfghj")]
+    partial class dfghj
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
