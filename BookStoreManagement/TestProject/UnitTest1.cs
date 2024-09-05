@@ -11,12 +11,12 @@ using System.Reflection;
 namespace dotnetapp.Tests
 {
     [TestFixture]
-    public class BookLoansControllerTests
+    public class BooksControllerTests
     {
         private HttpClient _httpClient;
         private Assembly _assembly;
 
-        private BookLoan _testBookLoan;
+        private Book _testBook;
         private Author _testAuthor;
 
         [SetUp]
@@ -26,22 +26,22 @@ namespace dotnetapp.Tests
             _httpClient.BaseAddress = new Uri("http://localhost:8080"); // Base URL of your API
         }
 
-        private async Task<BookLoan> CreateTestBookLoan()
+        private async Task<Book> CreateTestBook()
         {
-            var newBookLoan = new BookLoan
+            var newBook = new Book
             {
-                BookTitle = "Test BookTitle",
+                Title = "Test Title",
                 LoanDate = "2024-11-9",
                 ReturnDate = "Test ReturnDate"
             };
 
-            var json = JsonConvert.SerializeObject(newBookLoan);
+            var json = JsonConvert.SerializeObject(newBook);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
+            var response = await _httpClient.PostAsync("api/Book", content);
             response.EnsureSuccessStatusCode();
 
-            return JsonConvert.DeserializeObject<BookLoan>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<Book>(await response.Content.ReadAsStringAsync());
         }
 
         [Test]
@@ -72,50 +72,50 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task CreateTestBookLoan_ReturnsCreatedBookLoan()
+        public async Task CreateTestBook_ReturnsCreatedBook()
         {
             // Arrange
             int validAuthorId = await CreateTestAuthorAndGetId(); // Dynamically get a valid AuthorId
 
-            var newBookLoan = new BookLoan
+            var newBook = new Book
             {
-                 BookTitle = "Test BookTitle",
+                 Title = "Test Title",
                 LoanDate = "2024-11-9",
                 ReturnDate = "Test ReturnDate",
                 AuthorId = validAuthorId // Use the valid AuthorId obtained from the helper method
             };
 
-            var json = JsonConvert.SerializeObject(newBookLoan);
+            var json = JsonConvert.SerializeObject(newBook);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
+            var response = await _httpClient.PostAsync("api/Book", content);
             response.EnsureSuccessStatusCode();
 
             // Assert
-            var createdBookLoanJson = await response.Content.ReadAsStringAsync();
-            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(createdBookLoanJson);
+            var createdBookJson = await response.Content.ReadAsStringAsync();
+            var createdBook = JsonConvert.DeserializeObject<Book>(createdBookJson);
 
-            Assert.IsNotNull(createdBookLoan);
-            Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
-            Assert.AreEqual(newBookLoan.LoanDate, createdBookLoan.LoanDate);
-            Assert.AreEqual(newBookLoan.ReturnDate, createdBookLoan.ReturnDate);
-            Assert.AreEqual(newBookLoan.AuthorId, createdBookLoan.AuthorId); // Ensure AuthorId matches
+            Assert.IsNotNull(createdBook);
+            Assert.AreEqual(newBook.Title, createdBook.Title);
+            Assert.AreEqual(newBook.LoanDate, createdBook.LoanDate);
+            Assert.AreEqual(newBook.ReturnDate, createdBook.ReturnDate);
+            Assert.AreEqual(newBook.AuthorId, createdBook.AuthorId); // Ensure AuthorId matches
         }
 
 
 
         [Test]
-        public async Task Test_GetAllBookLoans_ReturnsListOfBookLoans()
+        public async Task Test_GetAllBooks_ReturnsListOfBooks()
         {
-            var response = await _httpClient.GetAsync("api/BookLoan");
+            var response = await _httpClient.GetAsync("api/Book");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var bookLoans = JsonConvert.DeserializeObject<BookLoan[]>(content);
+            var books = JsonConvert.DeserializeObject<Book[]>(content);
 
-            Assert.IsNotNull(bookLoans);
-            Assert.IsTrue(bookLoans.Length > 0);
+            Assert.IsNotNull(books);
+            Assert.IsTrue(books.Length > 0);
         }
 
         [Test]
@@ -125,17 +125,17 @@ namespace dotnetapp.Tests
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var orders = JsonConvert.DeserializeObject<Author[]>(content);
+            var authors = JsonConvert.DeserializeObject<Author[]>(content);
 
-            Assert.IsNotNull(orders);
-            Assert.IsTrue(orders.Length > 0);
+            Assert.IsNotNull(authors);
+            Assert.IsTrue(authors.Length > 0);
         }
 
 
         [Test]
-        public async Task Test_GetBookLoanById_InvalidId_ReturnsNotFound()
+        public async Task Test_GetBookById_InvalidId_ReturnsNotFound()
         {
-            var response = await _httpClient.GetAsync($"api/BookLoan/999");
+            var response = await _httpClient.GetAsync($"api/Book/999");
 
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -152,8 +152,8 @@ namespace dotnetapp.Tests
         {
             var newAuthor = new Author
             {
-                CustomerName = "Test Customer",
-                AuthorDate = "2024-10-24" // Use a valid format
+                Name = "Test Name",
+                Biography = "Biography" // Use a valid format
             };
 
             var json = JsonConvert.SerializeObject(newAuthor);
@@ -169,33 +169,33 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task Test_AddBookLoan_ReturnsCreatedResponse()
+        public async Task Test_AddBook_ReturnsCreatedResponse()
         {
             // Arrange
             int validAuthorId = await CreateTestAuthorAndGetId(); // Use the helper method to get a valid AuthorId
 
-            var newBookLoan = new BookLoan
+            var newBook = new Book
             {
-                 BookTitle = "Test BookTitle",
-                LoanDate = "2024-11-9",
-                ReturnDate = "Test ReturnDate",
+                  Title = "Test Title",
+                  Genre = "Test Genre",
+                  Price = 10.0,
                 AuthorId = validAuthorId// Use the valid AuthorId obtained from the helper method
             };
 
-            var json = JsonConvert.SerializeObject(newBookLoan);
+            var json = JsonConvert.SerializeObject(newBook);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
+            var response = await _httpClient.PostAsync("api/Book", content);
             response.EnsureSuccessStatusCode();
 
             // Assert
-            var createdBookLoanJson = await response.Content.ReadAsStringAsync();
-            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(createdBookLoanJson);
+            var createdBookJson = await response.Content.ReadAsStringAsync();
+            var createdBook = JsonConvert.DeserializeObject<Book>(createdBookJson);
 
-            Assert.IsNotNull(createdBookLoan);
-            Assert.AreEqual(newBookLoan.Artist, createdBookLoan.Artist);
-            Assert.AreEqual(newBookLoan.AuthorId, createdBookLoan.AuthorId); // Ensure AuthorId matches
+            Assert.IsNotNull(createdBook);
+            Assert.AreEqual(newBook.Title, createdBook.Genre);
+            Assert.AreEqual(newBook.AuthorId, createdBook.AuthorId); // Ensure AuthorId matches
         }
 
 
@@ -205,8 +205,8 @@ namespace dotnetapp.Tests
             // Arrange
             var newAuthor = new Author
             {
-                CustomerName = "Test Customer",
-                AuthorDate = "2024-20-24" // Ensure the date format matches your model's expectations
+                Name = "Test Name",
+                Biography = "Test Biography" // Ensure the date format matches your model's expectations
                 // Initialize other properties if needed
             };
 
@@ -221,9 +221,9 @@ namespace dotnetapp.Tests
 
             var createdAuthor = JsonConvert.DeserializeObject<Author>(await response.Content.ReadAsStringAsync());
 
-            Assert.IsNotNull(createdAuthor, "The created order is null.");
-            Assert.AreEqual(newAuthor.CustomerName, createdAuthor.CustomerName, "Customer names do not match.");
-            Assert.AreEqual(newAuthor.AuthorDate, createdAuthor.AuthorDate, "Author dates do not match.");
+            Assert.IsNotNull(createdAuthor, "The created author is null.");
+            Assert.AreEqual(newAuthor.Name, createdAuthor.CustomerName, "Author names do not match.");
+            Assert.AreEqual(newAuthor.Biography, createdAuthor.Biography, "Author Biography do not match.");
             // Add additional assertions as needed
         }
 
@@ -231,9 +231,9 @@ namespace dotnetapp.Tests
         [TearDown]
         public async Task Cleanup()
         {
-            if (_testBookLoan != null)
+            if (_testBook != null)
             {
-                var response = await _httpClient.DeleteAsync($"api/BookLoan/{_testBookLoan.BookLoanId}");
+                var response = await _httpClient.DeleteAsync($"api/Book/{_testBook.BookId}");
                 if (response.StatusCode != HttpStatusCode.NotFound)
                 {
                     response.EnsureSuccessStatusCode();
