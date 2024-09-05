@@ -23,27 +23,56 @@ namespace dotnetapp.Controllers
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
+            if (course == null)
+            {
+                return BadRequest("Course cannot be null.");
+            }
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Course created successfully" });
+            var createdCourse = await _context.Courses
+                .Include(b => b.Student)  // Eager load the Student
+                .FirstOrDefaultAsync(b => b.CourseId == book.CourseId);
+
+            return CreatedAtAction(nameof(GetCourse), new { id = createdCourse.CourseId }, createdCourse);
         }
 
 
-        // GET: api/Course/search/{prefix}
-        [HttpGet("search/{prefix}")]
-        public async Task<ActionResult<Course>> GetCoursesByTitlePrefix(string prefix)
+        // DELETE: api/Course/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCourse(int id)
         {
-            var course = await _context.Courses
-                .Include(c => c.Student) // Ensure that Student data is included
-                .FirstOrDefaultAsync(c => c.Title == prefix); // Use 'prefix' here
-
-            if (course == null)
+            var book = await _context.Courses.FindAsync(id);
+            if (book == null)
             {
-                return NotFound(new { message = "No course found with the exact title." });
+                return NotFound();
             }
 
-            return Ok(course);
+            _context.Courses.Remove(book);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // GET: api/Course
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        {
+            return await _context.Courses.Include(b => b.Student).ToListAsync();
+        }
+
+        // GET: api/Course/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Course>> GetCourse(int id)
+        {
+            var book = await _context.Courses.Include(b => b.Student).FirstOrDefaultAsync(b => b.CourseId == id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return book;
         }
     }
 }
