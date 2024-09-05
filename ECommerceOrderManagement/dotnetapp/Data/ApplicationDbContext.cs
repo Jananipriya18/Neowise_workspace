@@ -10,17 +10,17 @@ namespace dotnetapp.Data
         {
         }
 
-        public DbSet<Book> Books { get; set; }  // Represents the Books table
-        public DbSet<Author> Authors { get; set; }  // Represents the Authors table
+        public DbSet<Customer> Customers { get; set; }  // Represents the Customers table
+        public DbSet<Order> Orders { get; set; }  // Represents the Orders table
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuring the one-to-many relationship between Author and Book
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Author)
-                .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AuthorId)
-                .OnDelete(DeleteBehavior.Cascade);  // Cascade delete: Deleting an author deletes all associated books
+            // Configuring the one-to-many relationship between Customer and Order
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Customer)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(o => o.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);  // Cascade delete: Deleting a customer deletes all associated orders
 
             base.OnModelCreating(modelBuilder);
         }
