@@ -7,7 +7,7 @@ namespace dotnetapp.Models
         public int AuthorId { get; set; }  
         public string Name { get; set; }  
         public string Biography { get; set; }  
-        [JsonIgnore]
+        [JsonIgnore] 
         public ICollection<Book>? Books { get; set; }
     }
 }
