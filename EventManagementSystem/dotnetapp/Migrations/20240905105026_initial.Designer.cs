@@ -12,8 +12,8 @@ using dotnetapp.Data;
 namespace dotnetapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240904084450_dfghj")]
-    partial class dfghj
+    [Migration("20240905105026_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,15 +24,44 @@ namespace dotnetapp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("dotnetapp.Models.Author", b =>
+            modelBuilder.Entity("dotnetapp.Models.Attendee", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("AttendeeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendeeId"), 1L, 1);
 
-                    b.Property<string>("Biography")
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AttendeeId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Attendees");
+                });
+
+            modelBuilder.Entity("dotnetapp.Models.Event", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"), 1L, 1);
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -40,53 +69,24 @@ namespace dotnetapp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("EventId");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Book", b =>
+            modelBuilder.Entity("dotnetapp.Models.Attendee", b =>
                 {
-                    b.Property<int>("BookId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"), 1L, 1);
-
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BookId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Book", b =>
-                {
-                    b.HasOne("dotnetapp.Models.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("dotnetapp.Models.Event", "Event")
+                        .WithMany("Attendees")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Author");
+                    b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Author", b =>
+            modelBuilder.Entity("dotnetapp.Models.Event", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("Attendees");
                 });
 #pragma warning restore 612, 618
         }
