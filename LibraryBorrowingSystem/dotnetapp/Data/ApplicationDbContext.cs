@@ -10,17 +10,16 @@ namespace dotnetapp.Data
         {
         }
 
-        public DbSet<Book> Books { get; set; }  // Represents the Books table
-        public DbSet<Author> Authors { get; set; }  // Represents the Authors table
+        public DbSet<BookLoan> BookLoans { get; set; }  
+        public DbSet<LibraryManager> LibraryManagers { get; set; }  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuring the one-to-many relationship between Author and Book
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Author)
-                .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AuthorId)
-                .OnDelete(DeleteBehavior.Cascade);  // Cascade delete: Deleting an author deletes all associated books
+            modelBuilder.Entity<BookLoan>()
+                .HasOne(bl => bl.LibraryManager)
+                .WithMany(lm => lm.BookLoans)
+                .HasForeignKey(bl => bl.LibraryManagerId)
+                .OnDelete(DeleteBehavior.Cascade);  
 
             base.OnModelCreating(modelBuilder);
         }
