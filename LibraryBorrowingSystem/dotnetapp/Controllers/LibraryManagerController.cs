@@ -43,26 +43,26 @@ namespace dotnetapp.Controllers
         }
 
         // GET: api/LibraryManager
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<LibraryManager>>> GetLibraryManagers()
-        {
-            return await _context.LibraryManagers.Include(lm => lm.BookLoans).ToListAsync();
-        }
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<LibraryManager>>> GetLibraryManagers()
+        // {
+        //     return await _context.LibraryManagers.Include(lm => lm.BookLoans).ToListAsync();
+        // }
 
-        // GET: api/LibraryManager/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<LibraryManager>> GetLibraryManager(int id)
-        {
-            var libraryManager = await _context.LibraryManagers
-                .Include(lm => lm.BookLoans)
-                .FirstOrDefaultAsync(lm => lm.LibraryManagerId == id);
+        // // GET: api/LibraryManager/5
+        // [HttpGet("{id}")]
+        // public async Task<ActionResult<LibraryManager>> GetLibraryManager(int id)
+        // {
+        //     var libraryManager = await _context.LibraryManagers
+        //         .Include(lm => lm.BookLoans)
+        //         .FirstOrDefaultAsync(lm => lm.LibraryManagerId == id);
 
-            if (libraryManager == null)
-            {
-                return NotFound();
-            }
+        //     if (libraryManager == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            return libraryManager;
-        }
+        //     return libraryManager;
+        // }
     }
 }

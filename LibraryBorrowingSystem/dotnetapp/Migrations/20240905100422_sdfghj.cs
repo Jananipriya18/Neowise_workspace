@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -30,8 +29,8 @@ namespace dotnetapp.Migrations
                     BookLoanId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LoanDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LoanDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReturnDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LibraryManagerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

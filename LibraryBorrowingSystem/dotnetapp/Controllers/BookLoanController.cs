@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LibraryBorrowingApp.Data;
-using LibraryBorrowingApp.Models;
+using dotnetapp.Data;
+using dotnetapp.Models;
 
-namespace LibraryBorrowingApp.Controllers
+namespace dotnetapp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,11 +20,6 @@ namespace LibraryBorrowingApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBookLoan([FromBody] BookLoan bookLoan)
         {
-            if (bookLoan == null)
-            {
-                return BadRequest("BookLoan cannot be null.");
-            }
-
             _context.BookLoans.Add(bookLoan);
             await _context.SaveChangesAsync();
 
