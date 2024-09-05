@@ -1,10 +1,7 @@
 using NUnit.Framework;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using dotnetapp.Models;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
