@@ -32,7 +32,7 @@ namespace dotnetapp.Controllers
 
             var createdCourse = await _context.Courses
                 .Include(b => b.Student)  // Eager load the Student
-                .FirstOrDefaultAsync(b => b.CourseId == book.CourseId);
+                .FirstOrDefaultAsync(b => b.CourseId == course.CourseId);
 
             return CreatedAtAction(nameof(GetCourse), new { id = createdCourse.CourseId }, createdCourse);
         }
@@ -42,13 +42,13 @@ namespace dotnetapp.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
-            var book = await _context.Courses.FindAsync(id);
-            if (book == null)
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
             {
                 return NotFound();
             }
 
-            _context.Courses.Remove(book);
+            _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -65,14 +65,14 @@ namespace dotnetapp.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-            var book = await _context.Courses.Include(b => b.Student).FirstOrDefaultAsync(b => b.CourseId == id);
+            var course = await _context.Courses.Include(b => b.Student).FirstOrDefaultAsync(b => b.CourseId == id);
 
-            if (book == null)
+            if (course == null)
             {
                 return NotFound();
             }
 
-            return book;
+            return course;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace dotnetapp.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<Student>> SearchStudentByName(string name)
         {
-            var student = await _context.Students.Include(a => a.Books).FirstOrDefaultAsync(a => a.Name == name);
+            var student = await _context.Students.Include(a => a.Courses).FirstOrDefaultAsync(a => a.Name == name);
 
             if (student == null)
             {
