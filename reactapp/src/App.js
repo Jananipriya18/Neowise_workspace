@@ -1,25 +1,32 @@
-// src/App.js
 import React from 'react';
-import UserProfile from './components/UserProfile';
+import BookReader from './components/BookReader';
 
 function App() {
-  const user = {
-    name: 'John Doe',
-    age: 30,
-    email: 'john.doe@example.com',
-    address: {
-      city: 'New York',
-      country: 'USA',
+  const reader = {
+    name: 'Jane Doe',
+    age: 28,
+    email: 'jane.doe@example.com',
+    library: {
+      name: 'Central Library',
+      location: 'Downtown',
     },
+    favoriteGenres: ['Science Fiction', 'Fantasy', 'Mystery'],
+    membershipSince: '2015',
+    booksRead: 120,
+    preferredFormat: 'E-books',
   };
 
   return (
     <div>
-      <UserProfile
-        name={user.name}
-        age={user.age}
-        email={user.email}
-        address={user.address}
+      <BookReader
+        name={reader.name}
+        age={reader.age}
+        email={reader.email}
+        library={reader.library}
+        favoriteGenres={reader.favoriteGenres}
+        membershipSince={reader.membershipSince}
+        booksRead={reader.booksRead}
+        preferredFormat={reader.preferredFormat}
       />
     </div>
   );
