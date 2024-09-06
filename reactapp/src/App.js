@@ -1,32 +1,3 @@
-// import React from 'react';
-// import BookReader from './components/BookReader';
-
-// function App() {
-//   const reader = {
-//     name: 'Jane Doe',
-//     age: 28,
-//     email: 'jane.doe@example.com',
-//     library: {
-//       name: 'Central Library',
-//       location: 'Downtown',
-//     },
-//   };
-
-//   return (
-//     <div>
-//       <BookReader
-//         name={reader.name}
-//         age={reader.age}
-//         email={reader.email}
-//         library={reader.library}
-//       />
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
 import React from 'react';
 import BookReader from './components/BookReader';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Library from './Library';
 
-function BookReader({ name, age, email, library, favoriteGenres, membershipSince, booksRead, preferredFormat }) {
+const BookReader({ name, age, email, library, membershipSince, booksRead, preferredFormat }) {
   return (
     <div>
       <h2>Book Reader Profile</h2>

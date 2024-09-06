@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Library({ name, location }) {
+const Library({ name, location }) {
   return (
     <div>
       <p>Name: {name}</p> {/* Display library name */}
