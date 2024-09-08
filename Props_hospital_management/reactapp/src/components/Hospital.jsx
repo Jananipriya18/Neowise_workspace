@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Hospital = ({ doctors, styles }) => {
+const Hospital = ({ doctors }) => {
   return (
     <div>
       {doctors.map((doctor, index) => (
-        <div key={index} style={styles.doctorContainer}>
-          <p style={styles.doctorName}>{doctor.name}</p> {/* Display doctor's name */}
-          <p style={styles.doctorSpecialty}>{doctor.specialty}</p> {/* Display doctor's specialty */}
+        <div key={index}>
+          <p>{doctor.name}</p> {/* Display doctor's name */}
+          <p>{doctor.specialty}</p> {/* Display doctor's specialty */}
         </div>
       ))}
     </div>
