@@ -1,7 +1,6 @@
 import React from 'react';
-import PerfumeList from './components/PerfumeList';
-import './index.css'; // Import the CSS file for styling
-
+import PerfumeList from './components/PerfumeDisplay';
+import './index'
 function App() {
   // Perfume data
   const perfumes = [

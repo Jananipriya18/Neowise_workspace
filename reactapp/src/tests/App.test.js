@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PerfumeDisplay from '../components/PerfumeDisplay';
 
+
 const perfumes = [
   { name: 'Chanel No. 5', brand: 'Chanel', fragrance: 'Floral' },
   { name: 'Dior Sauvage', brand: 'Dior', fragrance: 'Woody' },
