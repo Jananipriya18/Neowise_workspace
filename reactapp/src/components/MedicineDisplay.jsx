@@ -8,7 +8,7 @@ const MedicineDisplay = ({ professionals }) => {
           <h4 className="medicine-name">{professional.name}</h4>
           <p className="medicine-hospital">Hospital: {professional.hospital}</p>
           <p className="medicine-specialty">Specialty: {professional.specialty}</p>
-          <p className="medicine-review">Review: {professional.review} stars</p>
+          <p className="medicine-review">Review: {professional.review}</p>
         </div>
       ))}
     </div>
