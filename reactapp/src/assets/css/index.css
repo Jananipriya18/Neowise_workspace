@@ -1,63 +1,32 @@
-/* App container styles */
-.app-container {
-  background-color: #f5f5f5;
-  padding: 30px;
-  max-width: 900px;
-  margin: 0 auto;
-  font-family: 'Arial', sans-serif;
-}
-
-/* Heading styles */
-.heading {
-  font-size: 32px;
-  color: #333;
-  text-align: center;
-  margin-bottom: 30px;
-  font-weight: bold;
-}
-
-/* Chef list container */
-.chef-list-container {
+/* Medicine list container */
+.medicine-list-container {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-/* Chef item styles */
-.chef-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
+/* Medicine item */
+.medicine-item {
   background-color: #fff;
+  padding: 15px;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 8px;
+  margin: 10px;
+  width: 250px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  text-align: left;
 }
 
-/* Hover effect */
-.chef-item:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Chef name styles */
-.chef-name {
-  font-size: 20px;
+/* Medicine name styles */
+.medicine-name {
+  font-size: 18px;
   font-weight: bold;
-  color: #333;
-  margin-right: 15px;
+  color: #222;
+  margin-bottom: 8px;
 }
 
-/* Restaurant, Specialty, and Rating styles */
-.chef-restaurant, .chef-specialty, .chef-rating {
-  font-size: 16px;
-  color: #666;
-}
-
-/* Responsive design for mobile view */
-@media (max-width: 768px) {
-  .chef-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+/* Medicine hospital, specialty, and review styles */
+.medicine-hospital, .medicine-specialty, .medicine-review {
+  font-size: 14px;
+  color: #555;
 }
