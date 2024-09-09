@@ -8,7 +8,7 @@ const PerfumeDisplay = ({ perfumes }) => {
           <h4 className="perfume-name">{perfume.name}</h4>
           <p className="perfume-brand">Brand: {perfume.brand}</p>
           <p className="perfume-fragrance">Fragrance: {perfume.fragrance}</p>
-          <p className="perfume-price">Price: ${perfume.price}</p> ``
+          <p className="perfume-price">Price: ${perfume.price}</p>
         </div>
       ))}
     </div>
