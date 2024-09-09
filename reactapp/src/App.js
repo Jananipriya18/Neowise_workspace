@@ -1,62 +1,20 @@
 import React from 'react';
-import BookReader from './components/BookReader';
+import PerfumeList from './components/PerfumeList';
+import './index.css'; // Import the CSS file for styling
 
 function App() {
-  const reader = {
-    name: 'Jane Doe',
-    age: 28,
-    email: 'jane.doe@example.com',
-    library: {
-      name: 'Central Library',
-      location: 'Downtown',
-    },
-  };
-
-  // Inline styles for BookReader and Library components
-  const styles = {
-    bookReaderContainer: {
-      backgroundColor: '#f9f9f9',
-      padding: '20px',
-      borderRadius: '10px',
-      maxWidth: '600px',
-      margin: '0 auto',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    },
-    heading: {
-      fontSize: '24px',
-      color: '#333',
-      marginBottom: '15px',
-    },
-    subHeading: {
-      fontSize: '20px',
-      color: '#555',
-      marginBottom: '10px',
-    },
-    paragraph: {
-      fontSize: '16px',
-      color: '#666',
-      marginBottom: '8px',
-    },
-    libraryContainer: {
-      backgroundColor: '#fff',
-      padding: '15px',
-      borderRadius: '8px',
-      border: '1px solid #ddd',
-      marginTop: '20px',
-    },
-  };
+  // Perfume data
+  const perfumes = [
+    { name: 'Chanel No. 5', brand: 'Chanel', price: 120 },
+    { name: 'Acqua di Gio', brand: 'Giorgio Armani', price: 95 },
+    { name: 'Dior Sauvage', brand: 'Christian Dior', price: 110 },
+    { name: 'Black Orchid', brand: 'Tom Ford', price: 150 }
+  ];
 
   return (
-    <div style={styles.bookReaderContainer}>
-      <h2 style={styles.heading}>Book Reader Profile</h2>
-      <h3 style={styles.subHeading}>{reader.name}</h3>
-      <p style={styles.paragraph}>Age: {reader.age}</p>
-      <p style={styles.paragraph}>Email: {reader.email}</p>
-      <h3 style={styles.subHeading}>Library:</h3>
-      <div style={styles.libraryContainer}>
-        <p style={styles.paragraph}>Name: {reader.library.name}</p>
-        <p style={styles.paragraph}>Location: {reader.library.location}</p>
-      </div>
+    <div className="app-container">
+      <h1 className="heading">Perfume Collection</h1>
+      <PerfumeList perfumes={perfumes} />
     </div>
   );
 }

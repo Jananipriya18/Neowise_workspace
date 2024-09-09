@@ -1,67 +1,26 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import BookReader from '../components/BookReader';
-import Library from '../components/Library';
+import PerfumeDisplay from '../components/PerfumeDisplay';
 
-// Sample data for BookReader and Library components
-const reader = {
-  name: 'Jane Doe',
-  age: 28,
-  email: 'jane.doe@example.com',
-  library: {
-    name: 'Central Library',
-    location: 'Downtown',
-  },
-  favoriteGenres: ['Science Fiction', 'Fantasy', 'Mystery'],
-  membershipSince: '2015',
-  booksRead: 120,
-  preferredFormat: 'E-books',
-};
+const perfumes = [
+  { name: 'Chanel No. 5', brand: 'Chanel', fragrance: 'Floral' },
+  { name: 'Dior Sauvage', brand: 'Dior', fragrance: 'Woody' },
+  { name: 'Acqua di Gio', brand: 'Giorgio Armani', fragrance: 'Citrus' },
+];
 
-const library = {
-  name: 'Local Library',
-  location: 'Suburb',
-};
 
-// Tests for the BookReader component
-test('renders_bookreader_component_correctly', () => {
-  render(<BookReader {...reader} />);
-  expect(screen.getByText('Book Reader Profile')).toBeInTheDocument();
-});
-
-test('displays_correct_reader_name', () => {
-  render(<BookReader {...reader} />);
-  expect(screen.getByText('Jane Doe')).toBeInTheDocument();
-});
-
-test('displays_correct_reader_age', () => {
-  render(<BookReader {...reader} />);
-  expect(screen.getByText('Age: 28')).toBeInTheDocument();
-});
-
-test('displays_correct_reader_email', () => {
-  render(<BookReader {...reader} />);
-  expect(screen.getByText('Email: jane.doe@example.com')).toBeInTheDocument();
-});
-
-test('displays_correct_membership_since', () => {
-  render(<BookReader {...reader} />);
-  expect(screen.getByText('Membership Since: 2015')).toBeInTheDocument();
-});
-
-test('displays_correct_books_read', () => {
-  render(<BookReader {...reader} />);
-  expect(screen.getByText('Books Read: 120')).toBeInTheDocument();
-});
-
-test('displays_correct_preferred_format', () => {
-  render(<BookReader {...reader} />);
-  expect(screen.getByText('Preferred Format: E-books')).toBeInTheDocument();
-});
-
-// Tests for the Library component
-test('renders_library_component_correctly', () => {
-  render(<Library {...library} />);
-  expect(screen.getByText('Name: Local Library')).toBeInTheDocument();
-  expect(screen.getByText('Location: Suburb')).toBeInTheDocument();
+test('renders perfume items correctly', () => {
+  render(<PerfumeDisplay perfumes={perfumes} />);
+  
+  expect(screen.getByText('Chanel No. 5')).toBeInTheDocument();
+  expect(screen.getByText('Brand: Chanel')).toBeInTheDocument();
+  expect(screen.getByText('Fragrance: Floral')).toBeInTheDocument();
+  
+  expect(screen.getByText('Dior Sauvage')).toBeInTheDocument();
+  expect(screen.getByText('Brand: Dior')).toBeInTheDocument();
+  expect(screen.getByText('Fragrance: Woody')).toBeInTheDocument();
+  
+  expect(screen.getByText('Acqua di Gio')).toBeInTheDocument();
+  expect(screen.getByText('Brand: Giorgio Armani')).toBeInTheDocument();
+  expect(screen.getByText('Fragrance: Citrus')).toBeInTheDocument();
 });
