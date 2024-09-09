@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import PerfumeDisplay from '../components/PerfumeDisplay';
+import PerfumeDisplay from '../components/ChefDisplay';
 import App from '../App';
 
 

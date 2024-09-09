@@ -1,20 +1,20 @@
 import React from 'react';
-import PerfumeDisplay from './components/PerfumeDisplay'; // Make sure to import from the correct path
-import './assets/css/index.css';
+import ChefDisplay from './components/ChefDisplay'; // Import the ChefDisplay component
+import './assets/css/index.css'; // Import CSS
 
 function App() {
-  // Perfume data with fragrance
-  const perfumes = [
-    { name: 'Chanel No. 5', brand: 'Chanel', fragrance: 'Floral', price: 120 },
-    { name: 'Acqua di Gio', brand: 'Giorgio Armani', fragrance: 'Citrus', price: 95 },
-    { name: 'Dior Sauvage', brand: 'Christian Dior', fragrance: 'Woody', price: 110 },
-    { name: 'Black Orchid', brand: 'Tom Ford', fragrance: 'Oriental', price: 150 }
+  // Chef data
+  const chefs = [
+    { name: 'Gordon Ramsay', restaurant: 'Restaurant Gordon Ramsay', specialty: 'British', rating: 5.0 },
+    { name: 'Massimo Bottura', restaurant: 'Osteria Francescana', specialty: 'Italian', rating: 4.8 },
+    { name: 'Hélène Darroze', restaurant: 'Hélène Darroze at The Connaught', specialty: 'French', rating: 4.9 },
+    { name: 'Rene Redzepi', restaurant: 'Noma', specialty: 'Nordic', rating: 4.7 }
   ];
 
   return (
     <div className="app-container">
-      <h1 className="heading">Perfume Collection</h1>
-      <PerfumeDisplay perfumes={perfumes} />
+      <h1 className="heading">Chef Profile Collection</h1>
+      <ChefDisplay chefs={chefs} />
     </div>
   );
 }
