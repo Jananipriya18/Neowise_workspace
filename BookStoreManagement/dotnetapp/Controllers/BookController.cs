@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
+using dotnetapp.Exceptions;
 
 namespace dotnetapp.Controllers
 {
@@ -25,6 +26,15 @@ namespace dotnetapp.Controllers
                 return BadRequest("Book cannot be null.");
             }
 
+            // Check if a book with the same title already exists
+            var existingBook = await _context.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+            if (existingBook != null)
+            {
+                // Throw the custom exception when a duplicate title is found
+                throw new BookNameException("A book with the same title already exists.");
+            }
+
+            // Add the new book if no duplicate is found
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
