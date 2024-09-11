@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using dotnetapp.Exceptions;
 
 namespace dotnetapp.Controllers
 {
@@ -33,20 +36,24 @@ namespace dotnetapp.Controllers
                 .Include(o => o.Customer)  // Eager load the Customer
                 .FirstOrDefaultAsync(o => o.OrderId == order.OrderId);
 
-            return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, createdOrder);
+            return CreatedAtAction(nameof(GetOrders), new { id = createdOrder.OrderId }, createdOrder);
         }
 
-        // DELETE: api/Order/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        // PUT: api/Order/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order)
         {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
+            if (id != order.OrderId)
             {
-                return NotFound();
+                return BadRequest("Order ID mismatch.");
             }
 
-            _context.Orders.Remove(order);
+            if (!_context.Orders.Any(o => o.OrderId == id))
+            {
+                return NotFound("Order not found.");
+            }
+
+            _context.Entry(order).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -57,22 +64,6 @@ namespace dotnetapp.Controllers
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             return await _context.Orders.Include(o => o.Customer).ToListAsync();
-        }
-
-        // GET: api/Order/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
-        {
-            var order = await _context.Orders
-                .Include(o => o.Customer)
-                .FirstOrDefaultAsync(o => o.OrderId == id);
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return order;
         }
     }
 }
