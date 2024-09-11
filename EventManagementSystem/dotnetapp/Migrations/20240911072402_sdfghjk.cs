@@ -4,7 +4,7 @@
 
 namespace dotnetapp.Migrations
 {
-    public partial class dfgj : Migration
+    public partial class sdfghjk : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
