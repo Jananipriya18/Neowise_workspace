@@ -26,36 +26,13 @@ namespace dotnetapp.Controllers
             return CreatedAtAction(nameof(SearchLibraryManagerByName), new { name = libraryManager.Name }, libraryManager);
         }
 
-        // GET: api/LibraryManager/Search?name=ExactName
-        [HttpGet("Search")]
-        public async Task<ActionResult<LibraryManager>> SearchLibraryManagerByName(string name)
-        {
-            var libraryManager = await _context.LibraryManagers
-                .Include(lm => lm.BookLoans) // Eager load the BookLoans
-                .FirstOrDefaultAsync(lm => lm.Name == name);
-
-            if (libraryManager == null)
-            {
-                return NotFound();
-            }
-
-            return libraryManager;
-        }
-
-        // GET: api/LibraryManager
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<LibraryManager>>> GetLibraryManagers()
-        // {
-        //     return await _context.LibraryManagers.Include(lm => lm.BookLoans).ToListAsync();
-        // }
-
-        // // GET: api/LibraryManager/5
-        // [HttpGet("{id}")]
-        // public async Task<ActionResult<LibraryManager>> GetLibraryManager(int id)
+        // // GET: api/LibraryManager/Search?name=ExactName
+        // [HttpGet("Search")]
+        // public async Task<ActionResult<LibraryManager>> SearchLibraryManagerByName(string name)
         // {
         //     var libraryManager = await _context.LibraryManagers
-        //         .Include(lm => lm.BookLoans)
-        //         .FirstOrDefaultAsync(lm => lm.LibraryManagerId == id);
+        //         .Include(lm => lm.BookLoans) // Eager load the BookLoans
+        //         .FirstOrDefaultAsync(lm => lm.Name == name);
 
         //     if (libraryManager == null)
         //     {
@@ -64,5 +41,33 @@ namespace dotnetapp.Controllers
 
         //     return libraryManager;
         // }
+
+        // GET: api/LibraryManager/Search?name=PartialName
+        [HttpGet("Search")]
+        public async Task<ActionResult<IEnumerable<LibraryManager>>> SearchLibraryManagerByName(string name)
+        {
+            // Ensure the provided name is valid and has at least 1 character
+            if (string.IsNullOrEmpty(name) || name.Length < 1)
+            {
+                return BadRequest("Name must contain at least 1 character.");
+            }
+
+            // Get the last character from the name to perform the search
+            var lastChar = name[^1].ToString();
+
+            // Perform a search where the library manager's name ends with the given last character
+            var libraryManagers = await _context.LibraryManagers
+                .Include(lm => lm.BookLoans) // Eager load the BookLoans
+                .Where(lm => lm.Name.EndsWith(lastChar))
+                .ToListAsync();
+
+            // Return 404 if no library managers are found
+            if (libraryManagers == null || libraryManagers.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(libraryManagers);
+        }
     }
 }

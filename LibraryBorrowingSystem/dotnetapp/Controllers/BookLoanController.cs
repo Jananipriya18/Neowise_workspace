@@ -58,9 +58,7 @@ namespace dotnetapp.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BookLoan>> GetBookLoan(int id)
         {
-            var bookLoan = await _context.BookLoans
-                .Include(bl => bl.LibraryManager)
-                .FirstOrDefaultAsync(bl => bl.BookLoanId == id);
+            var bookLoan = await _context.BookLoans.Include(bl => bl.LibraryManager).FirstOrDefaultAsync(bl => bl.BookLoanId == id);
 
             if (bookLoan == null)
             {
