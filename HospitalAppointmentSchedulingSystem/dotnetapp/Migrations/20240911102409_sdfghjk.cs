@@ -4,7 +4,7 @@
 
 namespace dotnetapp.Migrations
 {
-    public partial class sdfgh : Migration
+    public partial class sdfghjk : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace dotnetapp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Specialty = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactInfo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ContactInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorFee = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
