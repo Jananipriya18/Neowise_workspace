@@ -14,6 +14,7 @@ namespace dotnetapp.Controllers
     public class EventController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private static readonly List<string> AllowedLocations = new List<string> { "Dallas", "Los Angeles" };
 
         public EventController(ApplicationDbContext context)
         {
@@ -29,17 +30,10 @@ namespace dotnetapp.Controllers
                 return BadRequest("Event cannot be null.");
             }
 
-            // Validate EventDate
-            if (DateTime.TryParse(eventModel.EventDate, out var eventDate))
+            // Validate the Location
+            if (!AllowedLocations.Contains(eventModel.Location))
             {
-                if (eventDate < DateTime.Today)
-                {
-                    throw new EventDateException("Event Date is a past date.");
-                }
-            }
-            else
-            {
-                return BadRequest("Invalid date format.");
+                throw new EventLocationException($"Location '{eventModel.Location}' is not allowed. Only allowed locations are: {string.Join(", ", AllowedLocations)}.");
             }
 
             _context.Events.Add(eventModel);
