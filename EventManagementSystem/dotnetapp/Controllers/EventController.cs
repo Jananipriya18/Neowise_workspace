@@ -50,19 +50,32 @@ namespace dotnetapp.Controllers
         }
 
         // GET: api/Event/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
+        // [HttpGet("{id}")]
+        // public async Task<ActionResult<Event>> GetEvent(int id)
+        // {
+        //     var eventModel = await _context.Events
+        //         .Include(e => e.Attendees)
+        //         .FirstOrDefaultAsync(e => e.EventId == id);
+
+        //     if (eventModel == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     return eventModel;
+        // }
+
+
+        //GET: api/Event/SortedByNameDesc
+        [HttpGet("SortedByNameDesc")]
+        public async Task<ActionResult<IEnumerable<Event>>> GetEventsSortedByNameDesc()
         {
-            var eventModel = await _context.Events
-                .Include(e => e.Attendees)
-                .FirstOrDefaultAsync(e => e.EventId == id);
-
-            if (eventModel == null)
-            {
-                return NotFound();
-            }
-
-            return eventModel;
+            // Retrieve all events and sort them by Name in descending order
+            var sortedEvents = await _context.Events
+                                             .OrderByDescending(e => e.Name)
+                                             .Include(e => e.Attendees)
+                                             .ToListAsync();
+            return Ok(sortedEvents);
         }
     }
 }
