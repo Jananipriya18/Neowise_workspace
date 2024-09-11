@@ -64,9 +64,8 @@ namespace dotnetapp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DoctorFee")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DoctorFee")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -4,7 +4,7 @@
 
 namespace dotnetapp.Migrations
 {
-    public partial class sdfghjk : Migration
+    public partial class sdfghj : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,7 @@ namespace dotnetapp.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Specialty = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorFee = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DoctorFee = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

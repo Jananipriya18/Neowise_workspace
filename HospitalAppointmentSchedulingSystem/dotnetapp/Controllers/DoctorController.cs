@@ -5,6 +5,7 @@ using dotnetapp.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnetapp.Exceptions;
 
 namespace dotnetapp.Controllers
 {
@@ -23,6 +24,12 @@ namespace dotnetapp.Controllers
         [HttpPost]
         public async Task<ActionResult<Doctor>> CreateDoctor([FromBody] Doctor doctor)
         {
+            // Validate DoctorFee
+            if (doctor.DoctorFee <= 0)
+            {
+                throw new PriceException("DoctorFee must be greater than 0");
+            }
+
             _context.Doctors.Add(doctor);
             await _context.SaveChangesAsync();
 
@@ -30,11 +37,11 @@ namespace dotnetapp.Controllers
         }
 
         // GET: api/Doctor
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
-        {
-            return await _context.Doctors.Include(d => d.Appointments).ToListAsync();
-        }
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
+        // {
+        //     return await _context.Doctors.Include(d => d.Appointments).ToListAsync();
+        // }
 
         // GET: api/Doctor/5
         [HttpGet("{id}")]
@@ -52,13 +59,12 @@ namespace dotnetapp.Controllers
             return doctor;
         }
 
-        // GET: api/Doctor/sortedByFee
         [HttpGet("sortedByFee")]
         public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctorsSortedByFee()
         {
             var doctors = await _context.Doctors
                 .OrderByDescending(d => d.DoctorFee) 
-                .Include(d => d.Appointments)
+                .Include(d => d.Appointments) 
                 .ToListAsync();
 
             return Ok(doctors);
