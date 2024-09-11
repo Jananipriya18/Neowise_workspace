@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
+using dotnetapp.Exceptions; // Make sure to include this for EventDateException
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace dotnetapp.Controllers
 {
@@ -18,8 +22,26 @@ namespace dotnetapp.Controllers
 
         // POST: api/Event
         [HttpPost]
-        public async Task<ActionResult<Event>> CreateEvent([FromBody] Event eventModel)
+        public async Task<IActionResult> CreateEvent([FromBody] Event eventModel)
         {
+            if (eventModel == null)
+            {
+                return BadRequest("Event cannot be null.");
+            }
+
+            // Validate EventDate
+            if (DateTime.TryParse(eventModel.EventDate, out var eventDate))
+            {
+                if (eventDate < DateTime.Today)
+                {
+                    throw new EventDateException("Event Date is a past date.");
+                }
+            }
+            else
+            {
+                return BadRequest("Invalid date format.");
+            }
+
             _context.Events.Add(eventModel);
             await _context.SaveChangesAsync();
 
