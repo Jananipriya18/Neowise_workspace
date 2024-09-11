@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace dotnetapp.Controllers
 {
@@ -26,12 +28,12 @@ namespace dotnetapp.Controllers
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerId }, customer);
         }
 
-        // GET: api/Customer
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
-        {
-            return await _context.Customers.Include(c => c.Orders).ToListAsync();
-        }
+        // // GET: api/Customer
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        // {
+        //     return await _context.Customers.Include(c => c.Orders).ToListAsync();
+        // }
 
         // GET: api/Customer/5
         [HttpGet("{id}")]
@@ -47,6 +49,18 @@ namespace dotnetapp.Controllers
             }
 
             return customer;
+        }
+
+        // GET: api/Customer/SortedByName
+        [HttpGet("SortedByName")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersSortedByName()
+        {
+            var sortedCustomers = await _context.Customers
+                .OrderBy(c => c.Name) // Sort customers by Name in ascending order
+                .Include(c => c.Orders) // Eager load Orders
+                .ToListAsync();
+
+            return Ok(sortedCustomers);
         }
     }
 }
