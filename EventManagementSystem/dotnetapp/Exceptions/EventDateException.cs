@@ -3,9 +3,9 @@ using System;
 namespace dotnetapp.Exceptions
 {
 
-public class EventDateException : Exception
+public class EventLocationException : Exception
 {
-    public EventDateException(string message) : base(message)
+    public EventLocationException(string message) : base(message)
     {
     }   
 }
