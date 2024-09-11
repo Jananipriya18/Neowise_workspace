@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
-
+using dotnetapp.Exceptions;
 namespace dotnetapp.Controllers
 {
     [Route("api/[controller]")]
@@ -16,10 +16,28 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
+        // // POST: api/Student
+        // [HttpPost]
+        // public async Task<ActionResult<Student>> CreateStudent([FromBody] Student student)
+        // {
+        //     _context.Students.Add(student);
+        //     await _context.SaveChangesAsync();
+
+        //     return CreatedAtAction(nameof(SearchStudentByName), new { name = student.Name }, student);
+        // }
+
         // POST: api/Student
         [HttpPost]
         public async Task<ActionResult<Student>> CreateStudent([FromBody] Student student)
         {
+            // Validate if the student's name is at least 3 characters long
+            if (string.IsNullOrEmpty(student.Name) || student.Name.Length < 3)
+            {
+                // Throw a custom exception if the name is too short
+                throw new dotnetapp.Exceptions.StudentException("Student name should be at least 3 characters long.");
+            }
+
+            // If the validation passes, proceed to add the student
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
