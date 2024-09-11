@@ -28,6 +28,12 @@ namespace dotnetapp.Controllers
                 return BadRequest("Order cannot be null.");
             }
 
+            // Validate that the totalAmount is greater than 0
+            if (order.TotalAmount <= 0)
+            {
+                throw new AmountException("Order amount must be greater than 0.");
+            }
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
