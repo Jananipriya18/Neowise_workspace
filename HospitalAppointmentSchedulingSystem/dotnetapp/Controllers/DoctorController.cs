@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace dotnetapp.Controllers
 {
@@ -53,29 +52,16 @@ namespace dotnetapp.Controllers
             return doctor;
         }
 
-        // GET: api/Doctor/sortedbyfee
-        [HttpGet("sortedbyfee")]
-        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctorsSortedByFeeDescending()
+        // GET: api/Doctor/sortedByFee
+        [HttpGet("sortedByFee")]
+        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctorsSortedByFee()
         {
             var doctors = await _context.Doctors
-                .OrderByDescending(d => ConvertToDecimal(d.DoctorFee)) // Assumes DoctorFee is a string representing a decimal
+                .OrderByDescending(d => d.DoctorFee) 
                 .Include(d => d.Appointments)
                 .ToListAsync();
 
             return Ok(doctors);
-        }
-
-        // Utility method to convert DoctorFee to decimal
-        private decimal ConvertToDecimal(string fee)
-        {
-            // Handle conversion; assume fee is in a valid decimal format
-            if (decimal.TryParse(fee, out var result))
-            {
-                return result;
-            }
-
-            // Return a default value or handle invalid conversion
-            return 0m;
         }
     }
 }
