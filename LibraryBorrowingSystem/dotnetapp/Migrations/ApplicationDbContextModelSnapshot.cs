@@ -37,6 +37,9 @@ namespace dotnetapp.Migrations
                     b.Property<int?>("LibraryManagerId")
                         .HasColumnType("int");
 
+                    b.Property<int>("LoanAmount")
+                        .HasColumnType("int");
+
                     b.Property<string>("LoanDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

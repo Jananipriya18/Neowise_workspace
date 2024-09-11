@@ -31,6 +31,7 @@ namespace dotnetapp.Migrations
                     BookTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LoanDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReturnDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LoanAmount = table.Column<int>(type: "int", nullable: false),
                     LibraryManagerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

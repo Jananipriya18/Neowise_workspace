@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
+using dotnetapp.Exceptions;
 
 namespace dotnetapp.Controllers
 {
@@ -17,9 +18,31 @@ namespace dotnetapp.Controllers
         }
 
         // POST: api/BookLoan
+        // [HttpPost]
+        // public async Task<IActionResult> CreateBookLoan([FromBody] BookLoan bookLoan)
+        // {
+        //     _context.BookLoans.Add(bookLoan);
+        //     await _context.SaveChangesAsync();
+
+        //     // Retrieve the loan with library manager details
+        //     var createdLoan = await _context.BookLoans
+        //         .Include(bl => bl.LibraryManager)  // Eager load the LibraryManager
+        //         .FirstOrDefaultAsync(bl => bl.BookLoanId == bookLoan.BookLoanId);
+
+        //     return CreatedAtAction(nameof(GetBookLoan), new { id = createdLoan.BookLoanId }, createdLoan);
+        // }
+
         [HttpPost]
         public async Task<IActionResult> CreateBookLoan([FromBody] BookLoan bookLoan)
         {
+            // Validate if the LoanAmount is at least 1
+            if (bookLoan.LoanAmount < 1)
+            {
+                // Throw a custom exception if the LoanAmount is invalid
+                throw new dotnetapp.Exceptions.BookLoanException("Loan Amount must be at least 1.");
+            }
+
+            // Add the book loan to the database
             _context.BookLoans.Add(bookLoan);
             await _context.SaveChangesAsync();
 
@@ -28,6 +51,7 @@ namespace dotnetapp.Controllers
                 .Include(bl => bl.LibraryManager)  // Eager load the LibraryManager
                 .FirstOrDefaultAsync(bl => bl.BookLoanId == bookLoan.BookLoanId);
 
+            // Return a response with the created loan
             return CreatedAtAction(nameof(GetBookLoan), new { id = createdLoan.BookLoanId }, createdLoan);
         }
 

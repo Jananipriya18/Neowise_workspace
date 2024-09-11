@@ -12,7 +12,7 @@ using dotnetapp.Data;
 namespace dotnetapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240905100422_sdfghj")]
+    [Migration("20240911060436_sdfghj")]
     partial class sdfghj
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,9 @@ namespace dotnetapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("LibraryManagerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoanAmount")
                         .HasColumnType("int");
 
                     b.Property<string>("LoanDate")
