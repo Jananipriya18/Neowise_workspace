@@ -17,20 +17,6 @@ namespace dotnetapp.Controllers
             _context = context;
         }
 
-        // POST: api/BookLoan
-        // [HttpPost]
-        // public async Task<IActionResult> CreateBookLoan([FromBody] BookLoan bookLoan)
-        // {
-        //     _context.BookLoans.Add(bookLoan);
-        //     await _context.SaveChangesAsync();
-
-        //     // Retrieve the loan with library manager details
-        //     var createdLoan = await _context.BookLoans
-        //         .Include(bl => bl.LibraryManager)  // Eager load the LibraryManager
-        //         .FirstOrDefaultAsync(bl => bl.BookLoanId == bookLoan.BookLoanId);
-
-        //     return CreatedAtAction(nameof(GetBookLoan), new { id = createdLoan.BookLoanId }, createdLoan);
-        // }
 
         [HttpPost]
         public async Task<IActionResult> CreateBookLoan([FromBody] BookLoan bookLoan)

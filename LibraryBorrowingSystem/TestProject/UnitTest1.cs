@@ -34,10 +34,10 @@ namespace dotnetapp.Tests
 
         private async Task<int> CreateTestLibraryAndGetId()
         {
-            var newLibrary = new Library
+            var newLibrary = new LibraryManager
             {
                 Name = "Test Library",
-                Address = "123 Test St"
+                ContactInfo = "9876543210"
             };
 
             var json = JsonConvert.SerializeObject(newLibrary);
@@ -47,9 +47,9 @@ namespace dotnetapp.Tests
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var createdLibrary = JsonConvert.DeserializeObject<Library>(responseContent);
+            var createdLibrary = JsonConvert.DeserializeObject<LibraryManager>(responseContent);
 
-            return createdLibrary.LibraryId;
+            return createdLibrary.LibraryManagerId;
         }
 
 
@@ -57,15 +57,16 @@ namespace dotnetapp.Tests
         public async Task CreateBookLoan_ReturnsCreatedBookLoan()
         {
             // Arrange
-            var newLibraryManagerId = await CreateTestLibraryManagerAndGetId(); // Dynamically create a valid LibraryManager
+            // Make sure CreateTestLibraryAndGetId is working and returning a valid ID
+            int libraryManagerId = await CreateTestLibraryAndGetId(); // Dynamically create a valid LibraryManager
 
             var newBookLoan = new BookLoan
             {
                 BookTitle = "Test Book Loan",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"), // Ensure LoanDate is a string
                 ReturnDate = null,
                 LoanAmount = 5, // Valid loan amount
-                LibraryManagerId = newLibraryManagerId
+                LibraryManagerId = libraryManagerId
             };
 
             var json = JsonConvert.SerializeObject(newBookLoan);
@@ -79,11 +80,14 @@ namespace dotnetapp.Tests
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
+
             Assert.IsNotNull(createdBookLoan);
             Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
             Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
-            Assert.IsNotNull(createdBookLoan.LibraryManager);
+            Assert.IsNotNull(createdBookLoan.LibraryManager); // Ensure LibraryManager is populated
+            Assert.AreEqual(libraryManagerId, createdBookLoan.LibraryManager.LibraryManagerId); // Check correct library manager is associated
         }
+
 
         [Test]
         public async Task SearchLibraryManagerByName_InvalidName_ReturnsBadRequest()
@@ -95,68 +99,78 @@ namespace dotnetapp.Tests
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-      [Test]
-public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
+     [Test]
+    public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
+    {
+        // Arrange
+        int libraryId = await CreateTestLibraryAndGetId(); // Dynamically create a valid Library
+
+        var newBookLoan = new BookLoan
+        {
+            BookTitle = "Test Book Loan",
+            LoanDate = DateTime.Now.ToString("yyyy-MM-dd"), // Convert DateTime to string
+            ReturnDate = null,
+            LoanAmount = 5,
+            LibraryManagerId = libraryId
+        };
+
+        var json = JsonConvert.SerializeObject(newBookLoan);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("api/BookLoan", content);
+
+        // Assert
+        Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
+
+        Assert.IsNotNull(createdBookLoan);
+        Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
+        Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
+        Assert.IsNotNull(createdBookLoan.LibraryManager); // Ensure LibraryManager is populated
+        Assert.AreEqual(libraryId, createdBookLoan.LibraryManagerId); // Check correct library is associated
+    }
+
+
+
+       [Test]
+public async Task DeleteBookLoan_ReturnsNoContent()
 {
     // Arrange
-    int libraryId = await CreateTestLibraryAndGetId(); // Dynamically create a valid Library
+    int libraryManagerId = await CreateTestLibraryAndGetId(); // Create a valid LibraryManager
 
     var newBookLoan = new BookLoan
     {
-        BookTitle = "Test Book Loan",
-        LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),  // Convert DateTime to string
+        BookTitle = "Book Loan to be deleted",
+        LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
         ReturnDate = null,
-        LoanAmount = 5,
-        LibraryManagerId = libraryId // Use LibraryManagerId
+        LoanAmount = 1, // Valid loan amount
+        LibraryManagerId = libraryManagerId
     };
 
+    // Create a new BookLoan
     var json = JsonConvert.SerializeObject(newBookLoan);
     var content = new StringContent(json, Encoding.UTF8, "application/json");
+    var postResponse = await _httpClient.PostAsync("api/BookLoan", content);
+    postResponse.EnsureSuccessStatusCode();
 
-    // Act
-    var response = await _httpClient.PostAsync("api/BookLoan", content);
-
-    // Assert
-    Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
-
-    var responseContent = await response.Content.ReadAsStringAsync();
-    var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
-
+    var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(await postResponse.Content.ReadAsStringAsync());
     Assert.IsNotNull(createdBookLoan);
     Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
-    Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
-    Assert.AreEqual(newBookLoan.LibraryManagerId, createdBookLoan.LibraryManagerId); // Check correct library is associated
+
+    // Act - Delete the created BookLoan
+    var deleteResponse = await _httpClient.DeleteAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
+
+    // Assert
+    Assert.AreEqual(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+
+    // Optionally verify that the BookLoan was indeed deleted
+    var getResponse = await _httpClient.GetAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
+    Assert.AreEqual(HttpStatusCode.NotFound, getResponse.StatusCode);
 }
 
-
-
-        [Test]
-        public async Task DeleteBookLoan_ReturnsNoContent()
-        {
-            // Arrange
-            var newLibraryManagerId = await CreateTestLibraryManagerAndGetId(); // Create a valid LibraryManager
-
-            var newBookLoan = new BookLoan
-            {
-                BookTitle = "Book Loan to be deleted",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = null,
-                LoanAmount = 1, // Valid loan amount
-                LibraryManagerId = newLibraryManagerId
-            };
-
-            var json = JsonConvert.SerializeObject(newBookLoan);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
-            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(await response.Content.ReadAsStringAsync());
-
-            // Act
-            var deleteResponse = await _httpClient.DeleteAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.NoContent, deleteResponse.StatusCode);
-        }
 
         [Test]
         public async Task DeleteBookLoan_InvalidId_ReturnsNotFound()
@@ -191,7 +205,7 @@ public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
         public async Task GetBookLoanById_ReturnsBookLoanWithLibraryManagerDetails()
         {
             // Arrange
-            var newLibraryManagerId = await CreateTestLibraryManagerAndGetId();
+            var newLibraryManagerId = await CreateTestLibraryAndGetId();
             var newBookLoan = new BookLoan
             {
                 BookTitle = "Book Loan for ID Test",
@@ -227,6 +241,7 @@ public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
+
 
         [Test]
         public void LibraryModel_HasAllProperties()
