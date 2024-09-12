@@ -202,19 +202,28 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task GetDoctors_ReturnsListOfDoctorsWithAppointments()
+        public async Task GetAppointments_ReturnsListOfAppointmentsWithDoctors()
         {
             // Act
-            var response = await _httpClient.GetAsync("api/Doctor");
+            var response = await _httpClient.GetAsync("api/Appointment");
 
             // Assert
             response.EnsureSuccessStatusCode();
-            var doctors = JsonConvert.DeserializeObject<Doctor[]>(await response.Content.ReadAsStringAsync());
+            var appointments = JsonConvert.DeserializeObject<Appointment[]>(await response.Content.ReadAsStringAsync());
 
-            Assert.IsNotNull(doctors);
-            Assert.IsTrue(doctors.Length > 0);
-            Assert.IsNotNull(doctors[0].Appointments); // Ensure each doctor has appointments loaded
+            // Ensure the deserialized appointments array is not null
+            Assert.IsNotNull(appointments);
+            
+            // Ensure that the array contains one or more appointments
+            Assert.IsTrue(appointments.Length > 0);
+            
+            // Ensure each appointment has an associated doctor
+            foreach (var appointment in appointments)
+            {
+                Assert.IsNotNull(appointment.Doctor, "Doctor should not be null for each appointment.");
+            }
         }
+
 
         [Test]
         public async Task GetDoctorById_InvalidId_ReturnsNotFound()

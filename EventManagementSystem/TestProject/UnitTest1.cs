@@ -196,17 +196,20 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task GetEvents_ReturnsListOfEventsWithAttendees()
-        {
-            // Act
-            var response = await _httpClient.GetAsync("api/Event");
+    public async Task GetAppointments_ReturnsListOfAppointmentsWithDoctors()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("api/Appointment");
 
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var events = JsonConvert.DeserializeObject<Event[]>(await response.Content.ReadAsStringAsync());
+        // Assert
+        response.EnsureSuccessStatusCode();
+        var appointments = JsonConvert.DeserializeObject<Appointment[]>(await response.Content.ReadAsStringAsync());
 
-            Assert.IsNotNull(events);
-            Assert.IsTrue(events.Length > 0);
+        // Ensure the deserialized appointments array is not null
+        Assert.IsNotNull(appointments);
+        
+        // Ensure that the array contains one or more appointments
+        Assert.IsTrue(appointments.Length > 0);
             Assert.IsNotNull(events[0].Attendees); // Ensure each event has attendees loaded
         }
 
