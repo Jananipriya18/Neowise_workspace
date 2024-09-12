@@ -10,6 +10,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using dotnetapp.Exceptions;
+
 
 namespace dotnetapp.Tests
 {
@@ -306,6 +308,57 @@ namespace dotnetapp.Tests
             // Check if the cascade delete behavior is set
             Assert.AreEqual(DeleteBehavior.Cascade, foreignKey.DeleteBehavior, "Cascade delete behavior is not set correctly.");
         }
+
+        [Test]
+public async Task PostBook_ThrowsPriceException_ForNegativePrice()
+{
+    // Arrange
+    var newBook = new Book
+    {
+        Title = "Test Book",
+        Genre = "Test Genre",
+        Price = -5.99M,  // Invalid negative price
+        AuthorId = 1
+    };
+
+    var json = JsonConvert.SerializeObject(newBook);
+    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+    // Act
+    var response = await _httpClient.PostAsync("api/Book", content);
+
+    // Assert
+    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+
+    var responseContent = await response.Content.ReadAsStringAsync();
+    Assert.IsTrue(responseContent.Contains("Price cannot be 0 or negative."), "Expected error message not found in the response.");
+}
+
+[Test]
+public async Task PostBook_ThrowsPriceException_ForZeroPrice()
+{
+    // Arrange
+    var newBook = new Book
+    {
+        Title = "Test Book",
+        Genre = "Test Genre",
+        Price = 0M,  // Invalid price (zero)
+        AuthorId = 1
+    };
+
+    var json = JsonConvert.SerializeObject(newBook);
+    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+    // Act
+    var response = await _httpClient.PostAsync("api/Book", content);
+
+    // Assert
+    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+
+    var responseContent = await response.Content.ReadAsStringAsync();
+    Assert.IsTrue(responseContent.Contains("Price cannot be 0 or negative."), "Expected error message not found in the response.");
+}
+
 
         [TearDown]
         public void Cleanup()

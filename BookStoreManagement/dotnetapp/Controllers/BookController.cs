@@ -18,32 +18,59 @@ namespace dotnetapp.Controllers
         }
 
         // POST: api/Book
+        // [HttpPost]
+        // public async Task<IActionResult> PostBook([FromBody] Book book)
+        // {
+        //     if (book == null)
+        //     {
+        //         return BadRequest("Book cannot be null.");
+        //     }
+
+        //     // Validate the price of the book
+        //     if (book.Price <= 0)
+        //     {
+        //         // Throw the custom PriceException if the price is 0 or negative
+        //         throw new PriceException("Price cannot be 0 or negative.");
+        //     }
+
+        //     // Add the new book if no issues are found
+        //     _context.Books.Add(book);
+        //     await _context.SaveChangesAsync();
+
+        //     // Retrieve the book with author details
+        //     var createdBook = await _context.Books
+        //         .Include(b => b.Author)  // Eager load the Author
+        //         .FirstOrDefaultAsync(b => b.BookId == book.BookId);
+
+        //     return CreatedAtAction(nameof(GetBook), new { id = createdBook.BookId }, createdBook);
+        // }
+
         [HttpPost]
-        public async Task<IActionResult> PostBook([FromBody] Book book)
-        {
-            if (book == null)
-            {
-                return BadRequest("Book cannot be null.");
-            }
+public async Task<IActionResult> PostBook([FromBody] Book book)
+{
+    if (book == null)
+    {
+        return BadRequest("Book cannot be null.");
+    }
 
-            // Validate the price of the book
-            if (book.Price <= 0)
-            {
-                // Throw the custom PriceException if the price is 0 or negative
-                throw new PriceException("Price cannot be 0 or negative.");
-            }
+    // Validate the price of the book
+    if (book.Price <= 0)
+    {
+        // Throw the custom PriceException if the price is 0 or negative
+        throw new PriceException("Price cannot be 0 or negative.");
+    }
 
-            // Add the new book if no issues are found
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
+    // Add the new book if no issues are found
+    _context.Books.Add(book);
+    await _context.SaveChangesAsync();
 
-            // Retrieve the book with author details
-            var createdBook = await _context.Books
-                .Include(b => b.Author)  // Eager load the Author
-                .FirstOrDefaultAsync(b => b.BookId == book.BookId);
+    // Retrieve the book with author details
+    var createdBook = await _context.Books
+        .Include(b => b.Author)  // Eager load the Author
+        .FirstOrDefaultAsync(b => b.BookId == book.BookId);
 
-            return CreatedAtAction(nameof(GetBook), new { id = createdBook.BookId }, createdBook);
-        }
+    return CreatedAtAction(nameof(GetBook), new { id = createdBook.BookId }, createdBook);
+}
 
 
         // DELETE: api/Book/5
@@ -82,5 +109,7 @@ namespace dotnetapp.Controllers
 
             return book;
         }
+
+
     }
 }
