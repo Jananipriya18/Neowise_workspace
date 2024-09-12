@@ -310,54 +310,54 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-public async Task PostBook_ThrowsPriceException_ForNegativePrice()
-{
-    // Arrange
-    var newBook = new Book
-    {
-        Title = "Test Book",
-        Genre = "Test Genre",
-        Price = -5.99M,  // Invalid negative price
-        AuthorId = 1
-    };
+        public async Task PostBook_ThrowsPriceException_ForNegativePrice()
+        {
+            // Arrange
+            var newBook = new Book
+            {
+                Title = "Test Book",
+                Genre = "Test Genre",
+                Price = -5.99M,  // Invalid negative price
+                AuthorId = 1
+            };
 
-    var json = JsonConvert.SerializeObject(newBook);
-    var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(newBook);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-    // Act
-    var response = await _httpClient.PostAsync("api/Book", content);
+            // Act
+            var response = await _httpClient.PostAsync("api/Book", content);
 
-    // Assert
-    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+            // Assert
+            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
 
-    var responseContent = await response.Content.ReadAsStringAsync();
-    Assert.IsTrue(responseContent.Contains("Price cannot be 0 or negative."), "Expected error message not found in the response.");
-}
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.IsTrue(responseContent.Contains("Price cannot be 0 or negative."), "Expected error message not found in the response.");
+        }
 
-[Test]
-public async Task PostBook_ThrowsPriceException_ForZeroPrice()
-{
-    // Arrange
-    var newBook = new Book
-    {
-        Title = "Test Book",
-        Genre = "Test Genre",
-        Price = 0M,  // Invalid price (zero)
-        AuthorId = 1
-    };
+        [Test]
+        public async Task PostBook_ThrowsPriceException_ForZeroPrice()
+        {
+            // Arrange
+            var newBook = new Book
+            {
+                Title = "Test Book",
+                Genre = "Test Genre",
+                Price = 0M,  // Invalid price (zero)
+                AuthorId = 1
+            };
 
-    var json = JsonConvert.SerializeObject(newBook);
-    var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(newBook);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-    // Act
-    var response = await _httpClient.PostAsync("api/Book", content);
+            // Act
+            var response = await _httpClient.PostAsync("api/Book", content);
 
-    // Assert
-    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+            // Assert
+            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
 
-    var responseContent = await response.Content.ReadAsStringAsync();
-    Assert.IsTrue(responseContent.Contains("Price cannot be 0 or negative."), "Expected error message not found in the response.");
-}
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.IsTrue(responseContent.Contains("Price cannot be 0 or negative."), "Expected error message not found in the response.");
+        }
 
 
         [TearDown]
