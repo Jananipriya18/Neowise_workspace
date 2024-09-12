@@ -109,7 +109,7 @@ namespace dotnetapp.Tests
 
             var newBook = new Book
             {
-                Title = "Test Book",
+                Title = "Test Bookie",
                 Genre = "Test Genre",
                 Price = 25.99M,
                 AuthorId = authorId

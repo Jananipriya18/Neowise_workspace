@@ -26,15 +26,14 @@ namespace dotnetapp.Controllers
                 return BadRequest("Book cannot be null.");
             }
 
-            // Check if a book with the same title already exists
-            var existingBook = await _context.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
-            if (existingBook != null)
+            // Validate the price of the book
+            if (book.Price <= 0)
             {
-                // Throw the custom exception when a duplicate title is found
-                throw new BookNameException("A book with the same title already exists.");
+                // Throw the custom PriceException if the price is 0 or negative
+                throw new PriceException("Price cannot be 0 or negative.");
             }
 
-            // Add the new book if no duplicate is found
+            // Add the new book if no issues are found
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
@@ -45,6 +44,7 @@ namespace dotnetapp.Controllers
 
             return CreatedAtAction(nameof(GetBook), new { id = createdBook.BookId }, createdBook);
         }
+
 
         // DELETE: api/Book/5
         [HttpDelete("{id}")]
