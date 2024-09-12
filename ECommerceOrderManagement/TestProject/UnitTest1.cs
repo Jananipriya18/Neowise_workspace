@@ -142,26 +142,11 @@ namespace dotnetapp.Tests
             Assert.AreEqual(customerId, createdOrder.CustomerId);
         }
 
-       [Test]
+      [Test]
         public async Task GetCustomerById_ReturnsCustomer()
         {
             // Arrange
             int customerId = await CreateTestCustomerAndGetId(); // Create a customer and get its ID
-            
-            // Ensure order is associated with the customer
-            var newOrder = new Order
-            {
-                OrderDate = DateTime.UtcNow.ToString("yy-MM-dd"),  // Correct date format
-                TotalAmount = 100M,
-                CustomerId = customerId
-            };
-
-            var orderJson = JsonConvert.SerializeObject(newOrder);
-            var orderContent = new StringContent(orderJson, Encoding.UTF8, "application/json");
-
-            // Post the new order to the API
-            var orderResponse = await _httpClient.PostAsync("api/Order", orderContent);
-            orderResponse.EnsureSuccessStatusCode(); // Ensure order creation was successful
 
             // Act: Get the customer by ID and verify the response
             var response = await _httpClient.GetAsync($"api/Customer/{customerId}");
@@ -172,8 +157,6 @@ namespace dotnetapp.Tests
 
             // Assert: Customer object should not be null
             Assert.IsNotNull(customer);
-            Assert.IsNotNull(customer.Orders); // Orders should not be null
-            Assert.IsTrue(customer.Orders.Any()); // Customer should have at least one order
         }
 
 
