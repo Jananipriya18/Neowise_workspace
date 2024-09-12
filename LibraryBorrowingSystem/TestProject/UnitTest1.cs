@@ -1,253 +1,261 @@
-// using NUnit.Framework;
-// using System;
-// using System.Net;
-// using System.Net.Http;
-// using System.Text;
-// using System.Threading.Tasks;
-// using Newtonsoft.Json;
-// using dotnetapp.Models;
-// using System.Reflection;
+using NUnit.Framework;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using dotnetapp.Data;
+using dotnetapp.Models;
+using System;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
-// namespace dotnetapp.Tests
-// {
-//     [TestFixture]
-//     public class MusicRecordsControllerTests
-//     {
-//         private HttpClient _httpClient;
-//         private Assembly _assembly;
+namespace dotnetapp.Tests
+{
+    [TestFixture]
+    public class BookLoanControllerTests
+    {
+        private DbContextOptions<ApplicationDbContext> _dbContextOptions;
+        private ApplicationDbContext _context;
+        private HttpClient _httpClient;
 
-//         private MusicRecord _testMusicRecord;
-//         private Order _testOrder;
+        [SetUp]
+        public void Setup()
+        {
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:8080"); // Base URL of your API
+            _dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
 
-//         [SetUp]
-//         public async Task Setup()
-//         {
-//             _httpClient = new HttpClient();
-//             _httpClient.BaseAddress = new Uri("http://localhost:8080"); // Base URL of your API
-//         }
+            _context = new ApplicationDbContext(_dbContextOptions);
+        }
 
-//         private async Task<MusicRecord> CreateTestMusicRecord()
-//         {
-//             var newMusicRecord = new MusicRecord
-//             {
-//                 Artist = "Test Artist",
-//                 Album = "Test Album",
-//                 Genre = "Test Genre",
-//                 Price = 19.99m,
-//                 StockQuantity = 10
-//             };
+        private async Task<int> CreateTestLibraryManagerAndGetId()
+        {
+            var newLibraryManager = new LibraryManager
+            {
+                Name = "Test Library Manager",
+                ContactInfo = "testmanager@example.com"
+            };
 
-//             var json = JsonConvert.SerializeObject(newMusicRecord);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(newLibraryManager);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             var response = await _httpClient.PostAsync("api/MusicRecord", content);
-//             response.EnsureSuccessStatusCode();
+            var response = await _httpClient.PostAsync("api/LibraryManager", content);
+            response.EnsureSuccessStatusCode();
 
-//             return JsonConvert.DeserializeObject<MusicRecord>(await response.Content.ReadAsStringAsync());
-//         }
+            var createdLibraryManager = JsonConvert.DeserializeObject<LibraryManager>(await response.Content.ReadAsStringAsync());
+            return createdLibraryManager.LibraryManagerId;
+        }
 
-//         [Test]
-//         public async Task CreateTestOrder_ReturnsCreatedOrder()
-//         {
-//             // Arrange
-//             var newOrder = new Order
-//             {
-//                 CustomerName = "Test Customer",
-//                 OrderDate = "2024-10-24" // Format to match the string format in the model
-//                 // Initialize other properties if needed
-//             };
+        [Test]
+        public async Task CreateBookLoan_ReturnsCreatedBookLoan()
+        {
+            // Arrange
+            var newLibraryManagerId = await CreateTestLibraryManagerAndGetId(); // Dynamically create a valid LibraryManager
 
-//             var json = JsonConvert.SerializeObject(newOrder);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var newBookLoan = new BookLoan
+            {
+                BookTitle = "Test Book Loan",
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ReturnDate = null,
+                LoanAmount = 5, // Valid loan amount
+                LibraryManagerId = newLibraryManagerId
+            };
 
-//             // Act
-//             var response = await _httpClient.PostAsync("api/Order", content);
-//             response.EnsureSuccessStatusCode();
+            var json = JsonConvert.SerializeObject(newBookLoan);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             // Assert
-//             var createdOrderJson = await response.Content.ReadAsStringAsync();
-//             var createdOrder = JsonConvert.DeserializeObject<Order>(createdOrderJson);
+            // Act
+            var response = await _httpClient.PostAsync("api/BookLoan", content);
 
-//             Assert.IsNotNull(createdOrder);
-//             Assert.AreEqual(newOrder.CustomerName, createdOrder.CustomerName);
-//             Assert.AreEqual(newOrder.OrderDate, createdOrder.OrderDate);
-//         }
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
-//         [Test]
-//         public async Task CreateTestMusicRecord_ReturnsCreatedMusicRecord()
-//         {
-//             // Arrange
-//             int validOrderId = await CreateTestOrderAndGetId(); // Dynamically get a valid OrderId
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
+            Assert.IsNotNull(createdBookLoan);
+            Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
+            Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
+            Assert.IsNotNull(createdBookLoan.LibraryManager);
+        }
 
-//             var newMusicRecord = new MusicRecord
-//             {
-//                 Artist = "Test Artist",
-//                 Album = "Test Album",
-//                 Genre = "Test Genre",
-//                 Price = 19.99m,
-//                 StockQuantity = 10,
-//                 OrderId = validOrderId // Use the valid OrderId obtained from the helper method
-//             };
+        [Test]
+        public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
+        {
+            // Arrange
+            int libraryId = await CreateTestLibraryAndGetId(); // Dynamically create a valid Library
 
-//             var json = JsonConvert.SerializeObject(newMusicRecord);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var newBookLoan = new BookLoan
+            {
+                BookTitle = "Test Book Loan",
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ReturnDate = null,
+                LoanAmount = 5,
+                LibraryId = libraryId
+            };
 
-//             // Act
-//             var response = await _httpClient.PostAsync("api/MusicRecord", content);
-//             response.EnsureSuccessStatusCode();
+            var json = JsonConvert.SerializeObject(newBookLoan);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             // Assert
-//             var createdMusicRecordJson = await response.Content.ReadAsStringAsync();
-//             var createdMusicRecord = JsonConvert.DeserializeObject<MusicRecord>(createdMusicRecordJson);
+            // Act
+            var response = await _httpClient.PostAsync("api/BookLoan", content);
 
-//             Assert.IsNotNull(createdMusicRecord);
-//             Assert.AreEqual(newMusicRecord.Artist, createdMusicRecord.Artist);
-//             Assert.AreEqual(newMusicRecord.Album, createdMusicRecord.Album);
-//             Assert.AreEqual(newMusicRecord.Genre, createdMusicRecord.Genre);
-//             Assert.AreEqual(newMusicRecord.Price, createdMusicRecord.Price);
-//             Assert.AreEqual(newMusicRecord.StockQuantity, createdMusicRecord.StockQuantity);
-//             Assert.AreEqual(newMusicRecord.OrderId, createdMusicRecord.OrderId); // Ensure OrderId matches
-//         }
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
 
-
-//         [Test]
-//         public async Task Test_GetAllMusicRecords_ReturnsListOfMusicRecords()
-//         {
-//             var response = await _httpClient.GetAsync("api/MusicRecord");
-//             response.EnsureSuccessStatusCode();
-
-//             var content = await response.Content.ReadAsStringAsync();
-//             var musicRecords = JsonConvert.DeserializeObject<MusicRecord[]>(content);
-
-//             Assert.IsNotNull(musicRecords);
-//             Assert.IsTrue(musicRecords.Length > 0);
-//         }
-
-//         [Test]
-//         public async Task Test_GetOrders_ReturnsListOfOrders()
-//         {
-//             var response = await _httpClient.GetAsync("api/Order");
-//             response.EnsureSuccessStatusCode();
-
-//             var content = await response.Content.ReadAsStringAsync();
-//             var orders = JsonConvert.DeserializeObject<Order[]>(content);
-
-//             Assert.IsNotNull(orders);
-//             Assert.IsTrue(orders.Length > 0);
-//         }
+            Assert.IsNotNull(createdBookLoan);
+            Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
+            Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
+            Assert.IsNotNull(createdBookLoan.Library); // Ensure Library is populated
+            Assert.AreEqual(libraryId, createdBookLoan.Library.LibraryId); // Check correct library is associated
+        }
 
 
-//         [Test]
-//         public async Task Test_GetMusicRecordById_InvalidId_ReturnsNotFound()
-//         {
-//             var response = await _httpClient.GetAsync($"api/MusicRecord/999");
+        [Test]
+        public async Task DeleteBookLoan_ReturnsNoContent()
+        {
+            // Arrange
+            var newLibraryManagerId = await CreateTestLibraryManagerAndGetId(); // Create a valid LibraryManager
 
-//             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-//         }
+            var newBookLoan = new BookLoan
+            {
+                BookTitle = "Book Loan to be deleted",
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ReturnDate = null,
+                LoanAmount = 1, // Valid loan amount
+                LibraryManagerId = newLibraryManagerId
+            };
 
-//         [Test]
-//         public async Task Test_GetOrderId_InvalidId_ReturnsNotFound()
-//         {
-//             var response = await _httpClient.GetAsync($"api/Order/999");
+            var json = JsonConvert.SerializeObject(newBookLoan);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-//         }
+            var response = await _httpClient.PostAsync("api/BookLoan", content);
+            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(await response.Content.ReadAsStringAsync());
 
-//         private async Task<int> CreateTestOrderAndGetId()
-//         {
-//             var newOrder = new Order
-//             {
-//                 CustomerName = "Test Customer",
-//                 OrderDate = "2024-10-24" // Use a valid format
-//             };
+            // Act
+            var deleteResponse = await _httpClient.DeleteAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
 
-//             var json = JsonConvert.SerializeObject(newOrder);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+        }
 
-//             var response = await _httpClient.PostAsync("api/Order", content);
-//             response.EnsureSuccessStatusCode();
+        [Test]
+        public async Task DeleteBookLoan_InvalidId_ReturnsNotFound()
+        {
+            // Arrange
+            int invalidBookLoanId = 9999; // Use an ID that doesn't exist in the database
 
-//             var createdOrderJson = await response.Content.ReadAsStringAsync();
-//             var createdOrder = JsonConvert.DeserializeObject<Order>(createdOrderJson);
+            // Act
+            var response = await _httpClient.DeleteAsync($"api/BookLoan/{invalidBookLoanId}");
 
-//             return createdOrder.OrderId; // Return the ID of the created Order
-//         }
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Expected 404 Not Found for an invalid BookLoan ID.");
+        }
 
-//         [Test]
-//         public async Task Test_AddMusicRecord_ReturnsCreatedResponse()
-//         {
-//             // Arrange
-//             int validOrderId = await CreateTestOrderAndGetId(); // Use the helper method to get a valid OrderId
+        [Test]
+        public async Task GetBookLoans_ReturnsListOfBookLoansWithLibraryManagers()
+        {
+            // Act
+            var response = await _httpClient.GetAsync("api/BookLoan");
 
-//             var newMusicRecord = new MusicRecord
-//             {
-//                 Artist = "Test Artist",
-//                 Album = "Test Album",
-//                 Genre = "Test Genre",
-//                 Price = 19.99m,
-//                 StockQuantity = 10,
-//                 OrderId = validOrderId // Use the valid OrderId obtained from the helper method
-//             };
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var bookLoans = JsonConvert.DeserializeObject<BookLoan[]>(responseContent);
 
-//             var json = JsonConvert.SerializeObject(newMusicRecord);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            Assert.IsNotNull(bookLoans);
+            Assert.IsTrue(bookLoans.Length > 0);
+            Assert.IsNotNull(bookLoans[0].LibraryManager); // Ensure each book loan has a library manager loaded
+        }
 
-//             // Act
-//             var response = await _httpClient.PostAsync("api/MusicRecord", content);
-//             response.EnsureSuccessStatusCode();
+        [Test]
+        public async Task GetBookLoanById_ReturnsBookLoanWithLibraryManagerDetails()
+        {
+            // Arrange
+            var newLibraryManagerId = await CreateTestLibraryManagerAndGetId();
+            var newBookLoan = new BookLoan
+            {
+                BookTitle = "Book Loan for ID Test",
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ReturnDate = null,
+                LoanAmount = 1,
+                LibraryManagerId = newLibraryManagerId
+            };
 
-//             // Assert
-//             var createdMusicRecordJson = await response.Content.ReadAsStringAsync();
-//             var createdMusicRecord = JsonConvert.DeserializeObject<MusicRecord>(createdMusicRecordJson);
+            var json = JsonConvert.SerializeObject(newBookLoan);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             Assert.IsNotNull(createdMusicRecord);
-//             Assert.AreEqual(newMusicRecord.Artist, createdMusicRecord.Artist);
-//             Assert.AreEqual(newMusicRecord.OrderId, createdMusicRecord.OrderId); // Ensure OrderId matches
-//         }
+            var response = await _httpClient.PostAsync("api/BookLoan", content);
+            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(await response.Content.ReadAsStringAsync());
 
+            // Act
+            var getResponse = await _httpClient.GetAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
 
-//         [Test]
-//         public async Task Test_AddOrder_ReturnsCreatedResponse()
-//         {
-//             // Arrange
-//             var newOrder = new Order
-//             {
-//                 CustomerName = "Test Customer",
-//                 OrderDate = "2024-20-24" // Ensure the date format matches your model's expectations
-//                 // Initialize other properties if needed
-//             };
+            // Assert
+            getResponse.EnsureSuccessStatusCode();
+            var bookLoan = JsonConvert.DeserializeObject<BookLoan>(await getResponse.Content.ReadAsStringAsync());
+            Assert.IsNotNull(bookLoan);
+            Assert.AreEqual(newBookLoan.BookTitle, bookLoan.BookTitle);
+            Assert.IsNotNull(bookLoan.LibraryManager);
+        }
 
-//             var json = JsonConvert.SerializeObject(newOrder);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+        [Test]
+        public async Task GetBookLoanById_InvalidId_ReturnsNotFound()
+        {
+            // Act
+            var response = await _httpClient.GetAsync("api/BookLoan/999");
 
-//             // Act
-//             var response = await _httpClient.PostAsync("api/Order", content);
-
-//             // Assert
-//             response.EnsureSuccessStatusCode(); // Ensure the response status is 200-299
-
-//             var createdOrder = JsonConvert.DeserializeObject<Order>(await response.Content.ReadAsStringAsync());
-
-//             Assert.IsNotNull(createdOrder, "The created order is null.");
-//             Assert.AreEqual(newOrder.CustomerName, createdOrder.CustomerName, "Customer names do not match.");
-//             Assert.AreEqual(newOrder.OrderDate, createdOrder.OrderDate, "Order dates do not match.");
-//             // Add additional assertions as needed
-//         }
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
 
 
-//         [TearDown]
-//         public async Task Cleanup()
-//         {
-//             if (_testMusicRecord != null)
-//             {
-//                 var response = await _httpClient.DeleteAsync($"api/MusicRecord/{_testMusicRecord.MusicRecordId}");
-//                 if (response.StatusCode != HttpStatusCode.NotFound)
-//                 {
-//                     response.EnsureSuccessStatusCode();
-//                 }
-//             }
-//             _httpClient.Dispose();
-//         }
-//     }
-// }
+        [Test]
+        public async Task SearchLibraryManagerByName_InvalidName_ReturnsBadRequest()
+        {
+            // Act
+            var response = await _httpClient.GetAsync("api/LibraryManager/Search?name=");
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+         [Test]
+        public async Task CreateBookLoan_ThrowsBookLoanException_ForInvalidLoanAmount()
+        {
+            // Arrange
+            var newBookLoan = new BookLoan
+            {
+                BookTitle = "Test Book Loan",
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ReturnDate = null,
+                LoanAmount = 0, // Invalid loan amount
+                LibraryManagerId = 1
+            };
+
+            var json = JsonConvert.SerializeObject(newBookLoan);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _httpClient.PostAsync("api/BookLoan", content);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.IsTrue(responseContent.Contains("Loan Amount must be at least 1."), "Expected error message not found in the response.");
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            _httpClient.Dispose();
+        }
+    }
+}

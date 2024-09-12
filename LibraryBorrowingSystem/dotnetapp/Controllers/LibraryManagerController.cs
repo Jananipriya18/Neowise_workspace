@@ -26,22 +26,6 @@ namespace dotnetapp.Controllers
             return CreatedAtAction(nameof(SearchLibraryManagerByName), new { name = libraryManager.Name }, libraryManager);
         }
 
-        // // GET: api/LibraryManager/Search?name=ExactName
-        // [HttpGet("Search")]
-        // public async Task<ActionResult<LibraryManager>> SearchLibraryManagerByName(string name)
-        // {
-        //     var libraryManager = await _context.LibraryManagers
-        //         .Include(lm => lm.BookLoans) // Eager load the BookLoans
-        //         .FirstOrDefaultAsync(lm => lm.Name == name);
-
-        //     if (libraryManager == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     return libraryManager;
-        // }
-
         // GET: api/LibraryManager/Search?name=PartialName
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<LibraryManager>>> SearchLibraryManagerByName(string name)
