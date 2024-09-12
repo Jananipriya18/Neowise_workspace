@@ -1,253 +1,241 @@
-// using NUnit.Framework;
-// using System;
-// using System.Net;
-// using System.Net.Http;
-// using System.Text;
-// using System.Threading.Tasks;
-// using Newtonsoft.Json;
-// using dotnetapp.Models;
-// using System.Reflection;
+using NUnit.Framework;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using dotnetapp.Data;
+using dotnetapp.Models;
+using System;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Collections.Generic;
 
-// namespace dotnetapp.Tests
-// {
-//     [TestFixture]
-//     public class MusicRecordsControllerTests
-//     {
-//         private HttpClient _httpClient;
-//         private Assembly _assembly;
+namespace dotnetapp.Tests
+{
+    [TestFixture]
+    public class EventAttendeeControllerTests
+    {
+        private DbContextOptions<ApplicationDbContext> _dbContextOptions;
+        private ApplicationDbContext _context;
+        private HttpClient _httpClient;
 
-//         private MusicRecord _testMusicRecord;
-//         private Order _testOrder;
+        [SetUp]
+        public void Setup()
+        {
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:8080"); // Base URL of your API
+            _dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
 
-//         [SetUp]
-//         public async Task Setup()
-//         {
-//             _httpClient = new HttpClient();
-//             _httpClient.BaseAddress = new Uri("http://localhost:8080"); // Base URL of your API
-//         }
+            _context = new ApplicationDbContext(_dbContextOptions);
+        }
 
-//         private async Task<MusicRecord> CreateTestMusicRecord()
-//         {
-//             var newMusicRecord = new MusicRecord
-//             {
-//                 Artist = "Test Artist",
-//                 Album = "Test Album",
-//                 Genre = "Test Genre",
-//                 Price = 19.99m,
-//                 StockQuantity = 10
-//             };
+        private async Task<int> CreateTestEventAndGetId()
+        {
+            var newEvent = new Event
+            {
+                Name = "Test Event",
+                EventDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
+                Location = "Dallas"
+            };
 
-//             var json = JsonConvert.SerializeObject(newMusicRecord);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(newEvent);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             var response = await _httpClient.PostAsync("api/MusicRecord", content);
-//             response.EnsureSuccessStatusCode();
+            var response = await _httpClient.PostAsync("api/Event", content);
+            response.EnsureSuccessStatusCode();
 
-//             return JsonConvert.DeserializeObject<MusicRecord>(await response.Content.ReadAsStringAsync());
-//         }
+            var createdEvent = JsonConvert.DeserializeObject<Event>(await response.Content.ReadAsStringAsync());
+            return createdEvent.EventId;
+        }
 
-//         [Test]
-//         public async Task CreateTestOrder_ReturnsCreatedOrder()
-//         {
-//             // Arrange
-//             var newOrder = new Order
-//             {
-//                 CustomerName = "Test Customer",
-//                 OrderDate = "2024-10-24" // Format to match the string format in the model
-//                 // Initialize other properties if needed
-//             };
+        private async Task<int> CreateTestAttendeeAndGetId(int eventId)
+        {
+            var newAttendee = new Attendee
+            {
+                Name = "Test Attendee",
+                Email = "attendee@example.com",
+                EventId = eventId
+            };
 
-//             var json = JsonConvert.SerializeObject(newOrder);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(newAttendee);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             // Act
-//             var response = await _httpClient.PostAsync("api/Order", content);
-//             response.EnsureSuccessStatusCode();
+            var response = await _httpClient.PostAsync("api/Attendee", content);
+            response.EnsureSuccessStatusCode();
 
-//             // Assert
-//             var createdOrderJson = await response.Content.ReadAsStringAsync();
-//             var createdOrder = JsonConvert.DeserializeObject<Order>(createdOrderJson);
+            var createdAttendee = JsonConvert.DeserializeObject<Attendee>(await response.Content.ReadAsStringAsync());
+            return createdAttendee.AttendeeId;
+        }
 
-//             Assert.IsNotNull(createdOrder);
-//             Assert.AreEqual(newOrder.CustomerName, createdOrder.CustomerName);
-//             Assert.AreEqual(newOrder.OrderDate, createdOrder.OrderDate);
-//         }
+        [Test]
+        public async Task CreateEvent_ReturnsCreatedEvent()
+        {
+            // Arrange
+            var newEvent = new Event
+            {
+                Name = "Test Event",
+                EventDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
+                Location = "Dallas"
+            };
 
-//         [Test]
-//         public async Task CreateTestMusicRecord_ReturnsCreatedMusicRecord()
-//         {
-//             // Arrange
-//             int validOrderId = await CreateTestOrderAndGetId(); // Dynamically get a valid OrderId
+            var json = JsonConvert.SerializeObject(newEvent);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             var newMusicRecord = new MusicRecord
-//             {
-//                 Artist = "Test Artist",
-//                 Album = "Test Album",
-//                 Genre = "Test Genre",
-//                 Price = 19.99m,
-//                 StockQuantity = 10,
-//                 OrderId = validOrderId // Use the valid OrderId obtained from the helper method
-//             };
+            // Act
+            var response = await _httpClient.PostAsync("api/Event", content);
 
-//             var json = JsonConvert.SerializeObject(newMusicRecord);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
-//             // Act
-//             var response = await _httpClient.PostAsync("api/MusicRecord", content);
-//             response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var createdEvent = JsonConvert.DeserializeObject<Event>(responseContent);
 
-//             // Assert
-//             var createdMusicRecordJson = await response.Content.ReadAsStringAsync();
-//             var createdMusicRecord = JsonConvert.DeserializeObject<MusicRecord>(createdMusicRecordJson);
+            Assert.IsNotNull(createdEvent);
+            Assert.AreEqual(newEvent.Name, createdEvent.Name);
+            Assert.AreEqual(newEvent.EventDate, createdEvent.EventDate);
+            Assert.AreEqual(newEvent.Location, createdEvent.Location);
+        }
 
-//             Assert.IsNotNull(createdMusicRecord);
-//             Assert.AreEqual(newMusicRecord.Artist, createdMusicRecord.Artist);
-//             Assert.AreEqual(newMusicRecord.Album, createdMusicRecord.Album);
-//             Assert.AreEqual(newMusicRecord.Genre, createdMusicRecord.Genre);
-//             Assert.AreEqual(newMusicRecord.Price, createdMusicRecord.Price);
-//             Assert.AreEqual(newMusicRecord.StockQuantity, createdMusicRecord.StockQuantity);
-//             Assert.AreEqual(newMusicRecord.OrderId, createdMusicRecord.OrderId); // Ensure OrderId matches
-//         }
+        [Test]
+        public async Task CreateAttendee_ReturnsCreatedAttendeeWithEventDetails()
+        {
+            // Arrange
+            int eventId = await CreateTestEventAndGetId(); // Dynamically create a valid Event
 
+            var newAttendee = new Attendee
+            {
+                Name = "Test Attendee",
+                Email = "attendee@example.com",
+                EventId = eventId
+            };
 
+            var json = JsonConvert.SerializeObject(newAttendee);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//         [Test]
-//         public async Task Test_GetAllMusicRecords_ReturnsListOfMusicRecords()
-//         {
-//             var response = await _httpClient.GetAsync("api/MusicRecord");
-//             response.EnsureSuccessStatusCode();
+            // Act
+            var response = await _httpClient.PostAsync("api/Attendee", content);
 
-//             var content = await response.Content.ReadAsStringAsync();
-//             var musicRecords = JsonConvert.DeserializeObject<MusicRecord[]>(content);
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
-//             Assert.IsNotNull(musicRecords);
-//             Assert.IsTrue(musicRecords.Length > 0);
-//         }
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var createdAttendee = JsonConvert.DeserializeObject<Attendee>(responseContent);
 
-//         [Test]
-//         public async Task Test_GetOrders_ReturnsListOfOrders()
-//         {
-//             var response = await _httpClient.GetAsync("api/Order");
-//             response.EnsureSuccessStatusCode();
+            Assert.IsNotNull(createdAttendee);
+            Assert.AreEqual(newAttendee.Name, createdAttendee.Name);
+            Assert.AreEqual(newAttendee.Email, createdAttendee.Email);
+            Assert.AreEqual(eventId, createdAttendee.EventId);
+            Assert.IsNotNull(createdAttendee.Event);
+            Assert.AreEqual(eventId, createdAttendee.Event.EventId);
+        }
 
-//             var content = await response.Content.ReadAsStringAsync();
-//             var orders = JsonConvert.DeserializeObject<Order[]>(content);
+        [Test]
+        public async Task GetEventsSortedByNameDesc_ReturnsSortedEvents()
+        {
+            // Arrange
+            await CreateTestEventAndGetId(); // Create events to be sorted
 
-//             Assert.IsNotNull(orders);
-//             Assert.IsTrue(orders.Length > 0);
-//         }
+            // Act
+            var response = await _httpClient.GetAsync("api/Event/SortedByNameDesc");
 
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var events = JsonConvert.DeserializeObject<Event[]>(await response.Content.ReadAsStringAsync());
+            Assert.IsNotNull(events);
+            Assert.AreEqual(events.OrderByDescending(e => e.Name).ToList(), events);
+        }
 
-//         [Test]
-//         public async Task Test_GetMusicRecordById_InvalidId_ReturnsNotFound()
-//         {
-//             var response = await _httpClient.GetAsync($"api/MusicRecord/999");
+        [Test]
+        public async Task GetAttendeeById_ReturnsAttendee()
+        {
+            // Arrange
+            int eventId = await CreateTestEventAndGetId(); // Create an event
+            int attendeeId = await CreateTestAttendeeAndGetId(eventId); // Create an attendee
 
-//             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-//         }
+            // Act
+            var response = await _httpClient.GetAsync($"api/Attendee/{attendeeId}");
 
-//         [Test]
-//         public async Task Test_GetOrderId_InvalidId_ReturnsNotFound()
-//         {
-//             var response = await _httpClient.GetAsync($"api/Order/999");
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-//             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-//         }
+            var attendee = JsonConvert.DeserializeObject<Attendee>(await response.Content.ReadAsStringAsync());
+            Assert.IsNotNull(attendee);
+            Assert.AreEqual(attendeeId, attendee.AttendeeId);
+            Assert.IsNotNull(attendee.Event);
+            Assert.AreEqual(eventId, attendee.Event.EventId);
+        }
 
-//         private async Task<int> CreateTestOrderAndGetId()
-//         {
-//             var newOrder = new Order
-//             {
-//                 CustomerName = "Test Customer",
-//                 OrderDate = "2024-10-24" // Use a valid format
-//             };
+        [Test]
+        public async Task UpdateAttendee_ReturnsNoContent()
+        {
+            // Arrange
+            int eventId = await CreateTestEventAndGetId();
+            int attendeeId = await CreateTestAttendeeAndGetId(eventId);
 
-//             var json = JsonConvert.SerializeObject(newOrder);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var updatedAttendee = new Attendee
+            {
+                AttendeeId = attendeeId,
+                Name = "Updated Attendee",
+                Email = "updated@example.com",
+                EventId = eventId
+            };
 
-//             var response = await _httpClient.PostAsync("api/Order", content);
-//             response.EnsureSuccessStatusCode();
+            var json = JsonConvert.SerializeObject(updatedAttendee);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             var createdOrderJson = await response.Content.ReadAsStringAsync();
-//             var createdOrder = JsonConvert.DeserializeObject<Order>(createdOrderJson);
+            // Act
+            var response = await _httpClient.PutAsync($"api/Attendee/{attendeeId}", content);
 
-//             return createdOrder.OrderId; // Return the ID of the created Order
-//         }
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
+        }
 
-//         [Test]
-//         public async Task Test_AddMusicRecord_ReturnsCreatedResponse()
-//         {
-//             // Arrange
-//             int validOrderId = await CreateTestOrderAndGetId(); // Use the helper method to get a valid OrderId
+        [Test]
+        public async Task GetEvents_ReturnsListOfEventsWithAttendees()
+        {
+            // Act
+            var response = await _httpClient.GetAsync("api/Event");
 
-//             var newMusicRecord = new MusicRecord
-//             {
-//                 Artist = "Test Artist",
-//                 Album = "Test Album",
-//                 Genre = "Test Genre",
-//                 Price = 19.99m,
-//                 StockQuantity = 10,
-//                 OrderId = validOrderId // Use the valid OrderId obtained from the helper method
-//             };
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var events = JsonConvert.DeserializeObject<Event[]>(await response.Content.ReadAsStringAsync());
 
-//             var json = JsonConvert.SerializeObject(newMusicRecord);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            Assert.IsNotNull(events);
+            Assert.IsTrue(events.Length > 0);
+            Assert.IsNotNull(events[0].Attendees); // Ensure each event has attendees loaded
+        }
 
-//             // Act
-//             var response = await _httpClient.PostAsync("api/MusicRecord", content);
-//             response.EnsureSuccessStatusCode();
+        [Test]
+        public async Task CreateEvent_ThrowsLocationException_ForInvalidLocation()
+        {
+            // Arrange
+            var newEvent = new Event
+            {
+                Name = "Test Event",
+                EventDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
+                Location = "InvalidLocation" // Invalid location
+            };
 
-//             // Assert
-//             var createdMusicRecordJson = await response.Content.ReadAsStringAsync();
-//             var createdMusicRecord = JsonConvert.DeserializeObject<MusicRecord>(createdMusicRecordJson);
+            var json = JsonConvert.SerializeObject(newEvent);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-//             Assert.IsNotNull(createdMusicRecord);
-//             Assert.AreEqual(newMusicRecord.Artist, createdMusicRecord.Artist);
-//             Assert.AreEqual(newMusicRecord.OrderId, createdMusicRecord.OrderId); // Ensure OrderId matches
-//         }
+            // Act
+            var response = await _httpClient.PostAsync("api/Event", content);
 
+            // Assert
+            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
 
-//         [Test]
-//         public async Task Test_AddOrder_ReturnsCreatedResponse()
-//         {
-//             // Arrange
-//             var newOrder = new Order
-//             {
-//                 CustomerName = "Test Customer",
-//                 OrderDate = "2024-20-24" // Ensure the date format matches your model's expectations
-//                 // Initialize other properties if needed
-//             };
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.IsTrue(responseContent.Contains("Location 'InvalidLocation' is not allowed."), "Expected error message not found in the response.");
+        }
 
-//             var json = JsonConvert.SerializeObject(newOrder);
-//             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-//             // Act
-//             var response = await _httpClient.PostAsync("api/Order", content);
-
-//             // Assert
-//             response.EnsureSuccessStatusCode(); // Ensure the response status is 200-299
-
-//             var createdOrder = JsonConvert.DeserializeObject<Order>(await response.Content.ReadAsStringAsync());
-
-//             Assert.IsNotNull(createdOrder, "The created order is null.");
-//             Assert.AreEqual(newOrder.CustomerName, createdOrder.CustomerName, "Customer names do not match.");
-//             Assert.AreEqual(newOrder.OrderDate, createdOrder.OrderDate, "Order dates do not match.");
-//             // Add additional assertions as needed
-//         }
-
-
-//         [TearDown]
-//         public async Task Cleanup()
-//         {
-//             if (_testMusicRecord != null)
-//             {
-//                 var response = await _httpClient.DeleteAsync($"api/MusicRecord/{_testMusicRecord.MusicRecordId}");
-//                 if (response.StatusCode != HttpStatusCode.NotFound)
-//                 {
-//                     response.EnsureSuccessStatusCode();
-//                 }
-//             }
-//             _httpClient.Dispose();
-//         }
-//     }
-// }
+        [TearDown]
+        public void Cleanup()
+        {
+            _httpClient.Dispose();
+        }
+    }
+}
