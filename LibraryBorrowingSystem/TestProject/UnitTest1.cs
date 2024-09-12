@@ -32,23 +32,26 @@ namespace dotnetapp.Tests
             _context = new ApplicationDbContext(_dbContextOptions);
         }
 
-        private async Task<int> CreateTestLibraryManagerAndGetId()
+        private async Task<int> CreateTestLibraryAndGetId()
         {
-            var newLibraryManager = new LibraryManager
+            var newLibrary = new Library
             {
-                Name = "Test Library Manager",
-                ContactInfo = "testmanager@example.com"
+                Name = "Test Library",
+                Address = "123 Test St"
             };
 
-            var json = JsonConvert.SerializeObject(newLibraryManager);
+            var json = JsonConvert.SerializeObject(newLibrary);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/LibraryManager", content);
+            var response = await _httpClient.PostAsync("api/Library", content);
             response.EnsureSuccessStatusCode();
 
-            var createdLibraryManager = JsonConvert.DeserializeObject<LibraryManager>(await response.Content.ReadAsStringAsync());
-            return createdLibraryManager.LibraryManagerId;
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var createdLibrary = JsonConvert.DeserializeObject<Library>(responseContent);
+
+            return createdLibrary.LibraryId;
         }
+
 
         [Test]
         public async Task CreateBookLoan_ReturnsCreatedBookLoan()
@@ -83,38 +86,48 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
+        public async Task SearchLibraryManagerByName_InvalidName_ReturnsBadRequest()
         {
-            // Arrange
-            int libraryId = await CreateTestLibraryAndGetId(); // Dynamically create a valid Library
-
-            var newBookLoan = new BookLoan
-            {
-                BookTitle = "Test Book Loan",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = null,
-                LoanAmount = 5,
-                LibraryId = libraryId
-            };
-
-            var json = JsonConvert.SerializeObject(newBookLoan);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
             // Act
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
+            var response = await _httpClient.GetAsync("api/LibraryManager/Search?name=");
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
-
-            Assert.IsNotNull(createdBookLoan);
-            Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
-            Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
-            Assert.IsNotNull(createdBookLoan.Library); // Ensure Library is populated
-            Assert.AreEqual(libraryId, createdBookLoan.Library.LibraryId); // Check correct library is associated
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
+
+      [Test]
+public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
+{
+    // Arrange
+    int libraryId = await CreateTestLibraryAndGetId(); // Dynamically create a valid Library
+
+    var newBookLoan = new BookLoan
+    {
+        BookTitle = "Test Book Loan",
+        LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),  // Convert DateTime to string
+        ReturnDate = null,
+        LoanAmount = 5,
+        LibraryManagerId = libraryId // Use LibraryManagerId
+    };
+
+    var json = JsonConvert.SerializeObject(newBookLoan);
+    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+    // Act
+    var response = await _httpClient.PostAsync("api/BookLoan", content);
+
+    // Assert
+    Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+
+    var responseContent = await response.Content.ReadAsStringAsync();
+    var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
+
+    Assert.IsNotNull(createdBookLoan);
+    Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
+    Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
+    Assert.AreEqual(newBookLoan.LibraryManagerId, createdBookLoan.LibraryManagerId); // Check correct library is associated
+}
+
 
 
         [Test]
@@ -215,19 +228,85 @@ namespace dotnetapp.Tests
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
-
         [Test]
-        public async Task SearchLibraryManagerByName_InvalidName_ReturnsBadRequest()
+        public void LibraryModel_HasAllProperties()
         {
-            // Act
-            var response = await _httpClient.GetAsync("api/LibraryManager/Search?name=");
+            // Arrange
+            var library = new LibraryManager
+            {
+                LibraryManagerId = 1,
+                Name = "Main Library",
+                ContactInfo = "9876543210",
+                BookLoans = new List<BookLoan>() // Ensure the BookLoans collection is properly initialized
+            };
 
-            // Assert
-            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            // Act & Assert
+            Assert.AreEqual(1, library.LibraryManagerId, "LibraryManagerId does not match.");
+            Assert.AreEqual("Main Library", library.Name, "Name does not match.");
+            Assert.AreEqual("9876543210", library.ContactInfo, "ContactInfo does not match.");
+            Assert.IsNotNull(library.BookLoans, "BookLoans collection should not be null.");
+            Assert.IsInstanceOf<ICollection<BookLoan>>(library.BookLoans, "BookLoans should be of type ICollection<BookLoan>.");
         }
 
-         [Test]
-        public async Task CreateBookLoan_ThrowsBookLoanException_ForInvalidLoanAmount()
+        [Test]
+        public void BookLoanModel_HasAllProperties()
+        {
+            // Arrange
+            var library = new LibraryManager
+            {
+                LibraryManagerId = 1,
+                Name = "Main Library",
+                ContactInfo = "9876543210"
+            };
+
+            var bookLoan = new BookLoan
+            {
+                BookLoanId = 100,
+                BookTitle = "Test Book Loan",
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ReturnDate = null,
+                LoanAmount = 3,
+                LibraryManagerId = 1,
+                LibraryManager = library
+            };
+
+            // Act & Assert
+            Assert.AreEqual(100, bookLoan.BookLoanId, "BookLoanId does not match.");
+            Assert.AreEqual("Test Book Loan", bookLoan.BookTitle, "BookTitle does not match.");
+            Assert.AreEqual(3, bookLoan.LoanAmount, "LoanAmount does not match.");
+            Assert.AreEqual(1, bookLoan.LibraryManagerId, "LibraryManagerId does not match.");
+            Assert.IsNotNull(bookLoan.LibraryManager, "LibraryManager should not be null.");
+            Assert.AreEqual(library.Name, bookLoan.LibraryManager.Name, "LibraryManager's Name does not match.");
+        }
+
+        [Test]
+        public void DbContext_HasDbSetProperties()
+        {
+            // Assert that the context has DbSet properties for Libraries and BookLoans
+            Assert.IsNotNull(_context.LibraryManagers, "Libraries DbSet is not initialized.");
+            Assert.IsNotNull(_context.BookLoans, "BookLoans DbSet is not initialized.");
+        }
+
+        [Test]
+        public void LibraryManagerBookLoan_Relationship_IsConfiguredCorrectly()
+        {
+            // Check if the LibraryManager to BookLoan relationship is configured as one-to-many
+            var model = _context.Model;
+            var libraryEntity = model.FindEntityType(typeof(LibraryManager));
+            var bookLoanEntity = model.FindEntityType(typeof(BookLoan));
+
+            // Assert that the foreign key relationship exists between BookLoan and LibraryManager
+            var foreignKey = bookLoanEntity.GetForeignKeys().FirstOrDefault(fk => fk.PrincipalEntityType == libraryEntity);
+
+            Assert.IsNotNull(foreignKey, "Foreign key relationship between BookLoan and LibraryManager is not configured.");
+            Assert.AreEqual("LibraryManagerId", foreignKey.Properties.First().Name, "Foreign key property name is incorrect.");
+
+            // Check if the cascade delete behavior is set
+            Assert.AreEqual(DeleteBehavior.Cascade, foreignKey.DeleteBehavior, "Cascade delete behavior is not set correctly.");
+        }
+
+        [Test]
+        public async Task PostBookLoan_ThrowsLoanAmountException_ForNegativeLoanAmount()
         {
             // Arrange
             var newBookLoan = new BookLoan
@@ -235,7 +314,7 @@ namespace dotnetapp.Tests
                 BookTitle = "Test Book Loan",
                 LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 ReturnDate = null,
-                LoanAmount = 0, // Invalid loan amount
+                LoanAmount = -1,  // Invalid negative loan amount
                 LibraryManagerId = 1
             };
 
@@ -249,13 +328,40 @@ namespace dotnetapp.Tests
             Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseContent.Contains("Loan Amount must be at least 1."), "Expected error message not found in the response.");
+            Assert.IsTrue(responseContent.Contains("LoanAmount cannot be negative."), "Expected error message not found in the response.");
+        }
+
+        [Test]
+        public async Task PostBookLoan_ThrowsLoanAmountException_ForZeroLoanAmount()
+        {
+            // Arrange
+            var newBookLoan = new BookLoan
+            {
+                BookTitle = "Test Book Loan",
+                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ReturnDate = null,
+                LoanAmount = 0,  // Invalid zero loan amount
+                LibraryManagerId = 1
+            };
+
+            var json = JsonConvert.SerializeObject(newBookLoan);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _httpClient.PostAsync("api/BookLoan", content);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.IsTrue(responseContent.Contains("LoanAmount cannot be zero."), "Expected error message not found in the response.");
         }
 
         [TearDown]
         public void Cleanup()
         {
-            _httpClient.Dispose();
+            _context.Dispose();
         }
     }
 }
+
