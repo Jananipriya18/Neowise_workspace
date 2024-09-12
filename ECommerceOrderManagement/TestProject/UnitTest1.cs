@@ -54,7 +54,7 @@ namespace dotnetapp.Tests
         }
 
 
-        [Test]
+       [Test]
         public async Task CreateCustomer_ReturnsCreatedCustomer()
         {
             // Arrange
@@ -76,11 +76,25 @@ namespace dotnetapp.Tests
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var createdCustomer = JsonConvert.DeserializeObject<Customer>(responseContent);
+
             Assert.IsNotNull(createdCustomer);
             Assert.AreEqual(newCustomer.Name, createdCustomer.Name);
             Assert.AreEqual(newCustomer.Email, createdCustomer.Email);
             Assert.AreEqual(newCustomer.Address, createdCustomer.Address);
+
+            var locationHeader = response.Headers.Location.ToString();
+            Assert.IsTrue(locationHeader.Contains(createdCustomer.CustomerId.ToString()));
+
+            // Optionally, verify the data by fetching it again
+            var fetchedResponse = await _httpClient.GetAsync(locationHeader);
+            Assert.AreEqual(HttpStatusCode.OK, fetchedResponse.StatusCode);
+            var fetchedContent = await fetchedResponse.Content.ReadAsStringAsync();
+            var fetchedCustomer = JsonConvert.DeserializeObject<Customer>(fetchedContent);
+
+            Assert.IsNotNull(fetchedCustomer);
+            Assert.AreEqual(createdCustomer.CustomerId, fetchedCustomer.CustomerId);
         }
+
 
     //    [Test]
     //     public async Task GetCustomersSortedByName_ReturnsSortedCustomers()
