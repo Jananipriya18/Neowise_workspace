@@ -43,7 +43,7 @@ namespace dotnetapp.Tests
             var json = JsonConvert.SerializeObject(newLibrary);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/Library", content);
+            var response = await _httpClient.PostAsync("api/LibraryManager", content);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -64,7 +64,7 @@ namespace dotnetapp.Tests
             {
                 BookTitle = "Test Book Loan",
                 LoanDate = DateTime.Now.ToString("yyyy-MM-dd"), // Ensure LoanDate is a string
-                ReturnDate = null,
+                ReturnDate = "2024-09-12",
                 LoanAmount = 5, // Valid loan amount
                 LibraryManagerId = libraryManagerId
             };
@@ -109,7 +109,7 @@ namespace dotnetapp.Tests
         {
             BookTitle = "Test Book Loan",
             LoanDate = DateTime.Now.ToString("yyyy-MM-dd"), // Convert DateTime to string
-            ReturnDate = null,
+            ReturnDate = "2024-09-12",
             LoanAmount = 5,
             LibraryManagerId = libraryId
         };
@@ -145,7 +145,7 @@ public async Task DeleteBookLoan_ReturnsNoContent()
     {
         BookTitle = "Book Loan to be deleted",
         LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-        ReturnDate = null,
+        ReturnDate = "2024-09-12",
         LoanAmount = 1, // Valid loan amount
         LibraryManagerId = libraryManagerId
     };
@@ -210,7 +210,7 @@ public async Task DeleteBookLoan_ReturnsNoContent()
             {
                 BookTitle = "Book Loan for ID Test",
                 LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = null,
+                ReturnDate = "2024-09-12",
                 LoanAmount = 1,
                 LibraryManagerId = newLibraryManagerId
             };
@@ -279,7 +279,7 @@ public async Task DeleteBookLoan_ReturnsNoContent()
                 BookLoanId = 100,
                 BookTitle = "Test Book Loan",
                 LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = null,
+                ReturnDate = "2024-09-12",
                 LoanAmount = 3,
                 LibraryManagerId = 1,
                 LibraryManager = library
@@ -328,7 +328,7 @@ public async Task DeleteBookLoan_ReturnsNoContent()
             {
                 BookTitle = "Test Book Loan",
                 LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = null,
+                ReturnDate = "2024-09-12",
                 LoanAmount = -1,  // Invalid negative loan amount
                 LibraryManagerId = 1
             };
@@ -343,7 +343,7 @@ public async Task DeleteBookLoan_ReturnsNoContent()
             Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseContent.Contains("LoanAmount cannot be negative."), "Expected error message not found in the response.");
+            Assert.IsTrue(responseContent.Contains("Loan Amount must be at least 1."), "Expected error message not found in the response.");
         }
 
         [Test]
@@ -354,7 +354,7 @@ public async Task DeleteBookLoan_ReturnsNoContent()
             {
                 BookTitle = "Test Book Loan",
                 LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = null,
+                ReturnDate = "20-09-2024",
                 LoanAmount = 0,  // Invalid zero loan amount
                 LibraryManagerId = 1
             };
@@ -369,7 +369,7 @@ public async Task DeleteBookLoan_ReturnsNoContent()
             Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseContent.Contains("LoanAmount cannot be zero."), "Expected error message not found in the response.");
+            Assert.IsTrue(responseContent.Contains("Loan Amount must be at least 1."), "Expected error message not found in the response.");
         }
 
         [TearDown]
