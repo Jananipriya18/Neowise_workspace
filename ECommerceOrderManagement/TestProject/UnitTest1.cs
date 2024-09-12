@@ -147,29 +147,34 @@ namespace dotnetapp.Tests
         {
             // Arrange
             int customerId = await CreateTestCustomerAndGetId(); // Create a customer and get its ID
+            
+            // Ensure order is associated with the customer
             var newOrder = new Order
             {
-                OrderDate = DateTime.UtcNow.ToString("yy-MM-dd"),  // Use DateTime for the actual order date
+                OrderDate = DateTime.UtcNow.ToString("yy-MM-dd"),  // Correct date format
                 TotalAmount = 100M,
                 CustomerId = customerId
             };
 
             var orderJson = JsonConvert.SerializeObject(newOrder);
             var orderContent = new StringContent(orderJson, Encoding.UTF8, "application/json");
+
+            // Post the new order to the API
             var orderResponse = await _httpClient.PostAsync("api/Order", orderContent);
             orderResponse.EnsureSuccessStatusCode(); // Ensure order creation was successful
 
-            // Act
+            // Act: Get the customer by ID and verify the response
             var response = await _httpClient.GetAsync($"api/Customer/{customerId}");
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode); // Check if the response is OK
 
-            // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            // Deserialize the customer object from the response
             var customer = JsonConvert.DeserializeObject<Customer>(await response.Content.ReadAsStringAsync());
-            Assert.IsNotNull(customer);
-            Assert.IsNotNull(customer.Orders);
-            Assert.IsTrue(customer.Orders.Any());
-        }
 
+            // Assert: Customer object should not be null
+            Assert.IsNotNull(customer);
+            Assert.IsNotNull(customer.Orders); // Orders should not be null
+            Assert.IsTrue(customer.Orders.Any()); // Customer should have at least one order
+        }
 
 
 
@@ -247,7 +252,7 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task GetOById_InvalidId_ReturnsNotFound()
+        public async Task GetOrderById_InvalidId_ReturnsNotFound()
         {
             // Act
             var response = await _httpClient.GetAsync("api/Order/999");

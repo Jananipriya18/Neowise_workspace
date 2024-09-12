@@ -72,18 +72,5 @@ namespace dotnetapp.Controllers
             return await _context.Orders.Include(o => o.Customer).ToListAsync();
         }
 
-         // GET: api/Order/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(order);
-        }
     }
 }
