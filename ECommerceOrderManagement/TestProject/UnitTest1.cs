@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using dotnetapp.Exceptions;
+using System.Buffers;
 
 
 namespace dotnetapp.Tests
@@ -148,7 +149,7 @@ namespace dotnetapp.Tests
             int customerId = await CreateTestCustomerAndGetId(); // Create a customer and get its ID
             var newOrder = new Order
             {
-                OrderDate = DateTime.UtcNow.ToString("yyyy-MM-dd"), // Convert DateTime to a string
+                OrderDate = DateTime.UtcNow.ToString("yy-MM-dd"),  // Use DateTime for the actual order date
                 TotalAmount = 100M,
                 CustomerId = customerId
             };
@@ -168,6 +169,7 @@ namespace dotnetapp.Tests
             Assert.IsNotNull(customer.Orders);
             Assert.IsTrue(customer.Orders.Any());
         }
+
 
 
 
@@ -245,7 +247,7 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task GetOrderById_InvalidId_ReturnsNotFound()
+        public async Task GetOById_InvalidId_ReturnsNotFound()
         {
             // Act
             var response = await _httpClient.GetAsync("api/Order/999");
