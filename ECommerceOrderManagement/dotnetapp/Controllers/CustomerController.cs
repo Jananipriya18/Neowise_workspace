@@ -28,13 +28,6 @@ namespace dotnetapp.Controllers
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerId }, customer);
         }
 
-        // // GET: api/Customer
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
-        // {
-        //     return await _context.Customers.Include(c => c.Orders).ToListAsync();
-        // }
-
         // GET: api/Customer/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
