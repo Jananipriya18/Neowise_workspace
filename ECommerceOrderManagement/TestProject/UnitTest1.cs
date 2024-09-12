@@ -252,10 +252,10 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task GetOrderById_InvalidId_ReturnsNotFound()
+        public async Task GetCustomerById_InvalidId_ReturnsNotFound()
         {
             // Act
-            var response = await _httpClient.GetAsync("api/Order/999");
+            var response = await _httpClient.GetAsync("api/Customer/999");
 
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
