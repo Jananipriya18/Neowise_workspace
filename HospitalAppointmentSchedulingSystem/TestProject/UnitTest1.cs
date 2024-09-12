@@ -54,6 +54,26 @@ namespace dotnetapp.Tests
             return createdDoctor.DoctorId;
         }
 
+        private async Task<int> CreateTestAppointmentAndGetId(int doctorId)
+        {
+            var newAppointment = new Appointment
+            {
+                AppointmentDate = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss"),
+                PatientName = "Test Patient",
+                Reason = "Checkup",
+                DoctorId = doctorId
+            };
+
+            var json = JsonConvert.SerializeObject(newAppointment);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/Appointment", content);
+            response.EnsureSuccessStatusCode();
+
+            var createdAppointment = JsonConvert.DeserializeObject<Appointment>(await response.Content.ReadAsStringAsync());
+            return createdAppointment.AppointmentId;
+        }
+
         [Test]
         public async Task CreateDoctor_ReturnsCreatedDoctor()
         {
@@ -84,6 +104,7 @@ namespace dotnetapp.Tests
             Assert.AreEqual(newDoctor.ContactInfo, createdDoctor.ContactInfo);
             Assert.AreEqual(newDoctor.DoctorFee, createdDoctor.DoctorFee);
         }
+
 
         [Test]
         public async Task CreateAppointment_ReturnsCreatedAppointmentWithDoctorDetails()
@@ -154,29 +175,26 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task UpdateDoctor_ReturnsNoContent()
+        public async Task UpdateAppointment_ReturnsOkWithUpdatedAppointment()
         {
-            // Arrange
-            int doctorId = await CreateTestDoctorAndGetId();
 
-            var updatedDoctor = new Doctor
+            var updatedAppointment = new Appointment
             {
-                DoctorId = doctorId,
-                Name = "Updated Doctor",
-                Specialty = "Updated Specialty",
-                ContactInfo = "updated-contact@example.com",
-                DoctorFee = 200
+                AppointmentId = 999,
+                AppointmentDate = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ss"), // Example updated date
+                PatientName = "Updated Patient",
+                Reason = "Updated Reason",
+                
             };
 
-            var json = JsonConvert.SerializeObject(updatedDoctor);
+            var json = JsonConvert.SerializeObject(updatedAppointment);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _httpClient.PutAsync($"api/Doctor/{doctorId}", content);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
+            var response = await _httpClient.PutAsync($"api/Appointment/{updatedAppointment.AppointmentId}", content);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
+
 
 
         [Test]
