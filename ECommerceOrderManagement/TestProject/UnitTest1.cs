@@ -143,7 +143,7 @@ namespace dotnetapp.Tests
         }
 
        [Test]
-        public async Task GetCustomerById_ReturnsCustomerWithOrders()
+        public async Task GetCustomerById_ReturnsCustomer()
         {
             // Arrange
             int customerId = await CreateTestCustomerAndGetId(); // Create a customer and get its ID
