@@ -1,0 +1,72 @@
+/* Center-align the table */
+table {
+  margin: 20px auto; /* Adds margin to center the table and some space above and below */
+  border-collapse: collapse; /* Combine border-collapse for table */
+  width: 80%; /* Set a width to keep the form consistent */
+  border: 1px solid #ddd; /* Add border */
+}
+
+/* Style table headers */
+thead th {
+  background-color: #f2f2f2; /* Light grey background for headers */
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Border at the bottom */
+}
+
+/* Style table cells */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Border at the bottom */
+}
+
+/* Style the form control inputs */
+.form-control {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 4px; /* Add rounded corners */
+}
+
+/* Style error messages */
+div {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Style the submit button */
+button {
+  background-color: #d9534f; /* Bootstrap danger color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 4px; /* Add rounded corners */
+}
+
+/* Disabled button style */
+button:disabled {
+  background-color: #cccccc; /* Gray color for disabled state */
+  cursor: not-allowed;
+}
+
+/* Button hover effect */
+button:hover:not(:disabled) {
+  background-color: #c9302c; /* Darker red on hover */
+}
+
+/* Add spacing between the form elements */
+td input,
+td button {
+  margin-top: 10px;
+}
+
+/* Add space between Edit and Delete buttons */
+.actions button {
+  margin-right: 10px; /* Space to the right of each button */
+}

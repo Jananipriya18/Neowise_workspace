@@ -1,0 +1,28 @@
+{
+  "doctors": [
+    {
+      "id": 1,
+      "name": "Dr. Raj Kumar",
+      "age": 40,
+      "specialization": "Neurology",
+      "department": "Neurology",
+      "contactNumber": "852633122"
+    },
+    {
+      "id": 2,
+      "name": "Dr. Aishwarya Singh",
+      "age": 35,
+      "specialization": "Cardiology",
+      "department": "Cardiology",
+      "contactNumber": "912345678"
+    },
+    {
+      "id": 3,
+      "name": "Dr. Arun Gupta",
+      "age": 50,
+      "specialization": "Orthopedics",
+      "department": "Orthopedics",
+      "contactNumber": "987654300"
+    }
+  ]
+}
