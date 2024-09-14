@@ -23,6 +23,14 @@
       "specialization": "Orthopedics",
       "department": "Orthopedics",
       "contactNumber": "987654300"
+    },
+    {
+      "name": "asdfgh",
+      "age": 45,
+      "specialization": "sadfg",
+      "department": "adf",
+      "contactNumber": "9876543210",
+      "id": 4
     }
   ]
 }

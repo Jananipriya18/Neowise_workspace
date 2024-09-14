@@ -7,7 +7,7 @@ import { Doctor } from '../model/doctor.model';
   providedIn: 'root'
 })
 export class DoctorService {
-  public backendUrl = 'Could not paste'; 
+  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/doctors'; 
 
   constructor(private http: HttpClient) { }
 
