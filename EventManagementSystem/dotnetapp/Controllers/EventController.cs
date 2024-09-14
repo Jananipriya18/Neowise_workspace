@@ -42,6 +42,7 @@ namespace dotnetapp.Controllers
             return CreatedAtAction(nameof(GetEvent), new { id = eventModel.EventId }, eventModel);
         }
 
+
         
         // GET: api/Event/{id}
         [HttpGet("{id}")]
