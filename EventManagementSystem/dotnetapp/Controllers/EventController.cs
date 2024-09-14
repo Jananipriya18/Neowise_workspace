@@ -48,6 +48,23 @@ namespace dotnetapp.Controllers
         {
             return await _context.Events.Include(e => e.Attendees).ToListAsync();
         }
+        
+        // GET: api/Event/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Event>> GetEvent(int id)
+        {
+            var eventModel = await _context.Events
+                                        .Include(e => e.Attendees)
+                                        .FirstOrDefaultAsync(e => e.EventId == id);
+
+            if (eventModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(eventModel);
+        }
+
 
 
         //GET: api/Event/SortedByNameDesc
