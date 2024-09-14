@@ -6,7 +6,7 @@ import {
 } from '@angular/core/testing';
 import {
   FormBuilder,
-  ReactiveFormsModule,
+  ReactiveFormsModule,FormsModule,
   Validators,
 } from '@angular/forms';
 import { AddDoctorComponent } from './add-doctor.component';
@@ -28,7 +28,7 @@ describe('AddDoctorComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AddDoctorComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule,FormsModule],
       providers: [DoctorService],
     });
     formBuilder = TestBed.inject(FormBuilder) as any;

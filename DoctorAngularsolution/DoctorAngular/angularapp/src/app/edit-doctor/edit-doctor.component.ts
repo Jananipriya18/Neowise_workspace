@@ -32,7 +32,7 @@ export class EditDoctorComponent implements OnInit {
     if (this.doctor) {
       this.doctorService.updateDoctor(this.doctor.id, this.doctor).subscribe(
         () => {
-          this.router.navigate(['/doctorsList']);
+          this.router.navigate(['/doctors']);
         },
         (err) => {
           console.error(err);
@@ -42,6 +42,6 @@ export class EditDoctorComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/doctorsList']);
+    this.router.navigate(['/doctors']);
   }
 }

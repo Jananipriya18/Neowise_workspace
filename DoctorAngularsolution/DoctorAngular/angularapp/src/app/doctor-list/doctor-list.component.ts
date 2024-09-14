@@ -11,9 +11,8 @@ import { Router } from '@angular/router';
 })
 export class DoctorListComponent implements OnInit {
   doctors: Doctor[] = [];
-  originalDoctors: Doctor[] = []; 
 
-  constructor(private doctorService: DoctorService, private router: Router) {}
+  constructor(private doctorService: DoctorService,private router: Router) {}
 
   ngOnInit(): void {
     this.getDoctors();
@@ -25,7 +24,6 @@ export class DoctorListComponent implements OnInit {
         (res) => {
           console.log(res);
           this.doctors = res;
-          this.originalDoctors = [...res]; // Save a copy of the original list
         },
         (err) => {
           console.log(err);
@@ -37,19 +35,13 @@ export class DoctorListComponent implements OnInit {
   }
 
   editDoctor(id: number): void {
-    this.router.navigate(['/editDoctor', id]);
+    this.router.navigate(['/edit', id]);
   }
+
 
   deleteDoctor(id: any): void {
     this.doctorService.deleteDoctor(id).subscribe(() => {
       this.doctors = this.doctors.filter((doctor) => doctor.id !== id);
     });
-  }
-  sortByDescending(): void {
-    this.doctors.sort((a, b) => b.age - a.age);
-  }
-
-  resetOrder(): void {
-    this.doctors = [...this.originalDoctors];
   }
 }

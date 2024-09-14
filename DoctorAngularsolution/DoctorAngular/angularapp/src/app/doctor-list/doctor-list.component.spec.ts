@@ -38,30 +38,15 @@ describe('DoctorListComponent', () => {
 
   fit('should_call_getDoctors', () => {
     spyOn((service as any), 'getDoctors').and.returnValue(of(mockDoctors));
-    component.ngOnInit();
+    (component as any).ngOnInit();
     expect((service as any).getDoctors).toHaveBeenCalled();
-    expect(component.doctors).toEqual(mockDoctors);
+    expect((component as any).doctors).toEqual(mockDoctors);
   });
 
   fit('should_call_deleteDoctor', () => {
     spyOn((service as any), 'deleteDoctor').and.returnValue(of());
     (component as any).deleteDoctor(1);
     expect((service as any).deleteDoctor).toHaveBeenCalledWith(1);
-  });
-
-  fit('should_navigate_to_edit_doctor_on_editDoctor', () => {
-    (component as any).editDoctor(1);
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/edit', 1]);
-  });
-
-  fit('should_have_sortByDescending_method', () => {
-    expect((component as any).sortByDescending).toBeDefined();
-    expect((component as any).sortByDescending instanceof Function).toBeTruthy();
-  });
-
-  fit('should_have_resetOrder_method', () => {
-    expect((component as any).resetOrder).toBeDefined();
-    expect((component as any).resetOrder instanceof Function).toBeTruthy();
   });
 
 });

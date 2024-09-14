@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/doctorsList', pathMatch: 'full' },
   { path: 'doctorsList', component: DoctorListComponent },
   { path: 'addDoctor', component: AddDoctorComponent },
-  { path: 'editDoctor/:id', component: EditDoctorComponent }
+  { path: 'edit/:id', component: EditDoctorComponent }
 
 ];
 
