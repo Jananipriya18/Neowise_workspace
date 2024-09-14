@@ -31,7 +31,7 @@ export class AddDoctorComponent implements OnInit {
         .subscribe(
           (res) => {
             console.log('Doctor added successfully:', res);
-            this.router.navigateByUrl('/doctors');
+            this.router.navigateByUrl('/doctorsList');
             // Optionally reset the form or show a success message
             this.doctorForm.reset();
           },

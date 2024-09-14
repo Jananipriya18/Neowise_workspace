@@ -53,4 +53,15 @@ describe('DoctorListComponent', () => {
     (component as any).editDoctor(1);
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/edit', 1]);
   });
+
+  fit('should_have_sortByDescending_method', () => {
+    expect((component as any).sortByDescending).toBeDefined();
+    expect((component as any).sortByDescending instanceof Function).toBeTruthy();
+  });
+
+  fit('should_have_resetOrder_method', () => {
+    expect((component as any).resetOrder).toBeDefined();
+    expect((component as any).resetOrder instanceof Function).toBeTruthy();
+  });
+
 });
