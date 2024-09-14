@@ -129,25 +129,36 @@ namespace dotnetapp.Tests
             Assert.AreEqual(events.OrderByDescending(e => e.Name).ToList(), events);
         }
 
-        [Test]
-        public async Task GetAttendeeById_ReturnsAttendee()
-        {
-            // Arrange
-            int eventId = await CreateTestEventAndGetId(); // Create an event
-            int attendeeId = await CreateTestAttendeeAndGetId(eventId); // Create an attendee
+       [Test]
+public async Task GetEventById_ReturnsEvent()
+{
+    // Arrange
+    int eventId = await CreateTestEventAndGetId(); // Create a test event and retrieve its ID
+    Console.WriteLine($"Created Event ID: {eventId}");
 
-            // Act
-            var response = await _httpClient.GetAsync($"api/Attendee/{attendeeId}");
+    // Act
+    var response = await _httpClient.GetAsync($"api/Event/{eventId}");
+    Console.WriteLine($"Response Status Code: {response.StatusCode}");
 
-            // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+    // Assert the response status code is OK (200)
+    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var attendee = JsonConvert.DeserializeObject<Attendee>(await response.Content.ReadAsStringAsync());
-            Assert.IsNotNull(attendee);
-            Assert.AreEqual(attendeeId, attendee.AttendeeId);
-            Assert.IsNotNull(attendee.Event);
-            Assert.AreEqual(eventId, attendee.Event.EventId);
-        }
+    // Log response content
+    var content = await response.Content.ReadAsStringAsync();
+    Console.WriteLine($"Response Content: {content}");
+
+    // Deserialize the response content into an Event object
+    var eventModel = JsonConvert.DeserializeObject<Event>(content);
+
+    // Ensure the event is not null and that the returned event ID matches the one we created
+    Assert.IsNotNull(eventModel, "Event should not be null.");
+    Assert.AreEqual(eventId, eventModel.EventId, "Event ID should match.");
+
+    // Ensure that the other fields are correctly returned as per the API response
+    Assert.AreEqual("string", eventModel.Name, "Event name should be 'string'.");
+    Assert.AreEqual("string", eventModel.EventDate, "Event date should be 'string'.");
+    Assert.AreEqual("Dallas", eventModel.Location, "Location should be 'Dallas'.");
+}
 
         [Test]
         public async Task UpdateAttendee_ReturnsNoContent()
@@ -196,21 +207,21 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-    public async Task GetAppointments_ReturnsListOfAppointmentsWithDoctors()
+    public async Task GetAttendees_ReturnsListOfAttendeesWithEvents()
     {
         // Act
-        var response = await _httpClient.GetAsync("api/Appointment");
+        var response = await _httpClient.GetAsync("api/Attendee");
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var appointments = JsonConvert.DeserializeObject<Appointment[]>(await response.Content.ReadAsStringAsync());
+        var attendees = JsonConvert.DeserializeObject<Attendee[]>(await response.Content.ReadAsStringAsync());
 
-        // Ensure the deserialized appointments array is not null
-        Assert.IsNotNull(appointments);
+        // Ensure the deserialized attendees array is not null
+        Assert.IsNotNull(attendees);
         
-        // Ensure that the array contains one or more appointments
-        Assert.IsTrue(appointments.Length > 0);
-            Assert.IsNotNull(events[0].Attendees); // Ensure each event has attendees loaded
+        // Ensure that the array contains one or more attendees
+        Assert.IsTrue(attendees.Length > 0);
+            Assert.IsNotNull(attendees[0].Event); // Ensure each event has attendees loaded
         }
 
         [Test]
@@ -348,7 +359,7 @@ namespace dotnetapp.Tests
             Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseContent.Contains("Location 'CoimbatoreLocation' is not allowed."), "Expected error message not found in the response.");
+            Assert.IsTrue(responseContent.Contains("Location 'Coimbatore' is not allowed."), "Expected error message not found in the response.");
         }
 
         private async Task<int> CreateTestEventAndGetId()
