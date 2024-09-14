@@ -42,12 +42,6 @@ namespace dotnetapp.Controllers
             return CreatedAtAction(nameof(GetEvent), new { id = eventModel.EventId }, eventModel);
         }
 
-        // GET: api/Event
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
-        {
-            return await _context.Events.Include(e => e.Attendees).ToListAsync();
-        }
         
         // GET: api/Event/{id}
         [HttpGet("{id}")]

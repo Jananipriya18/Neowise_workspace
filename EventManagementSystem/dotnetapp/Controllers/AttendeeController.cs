@@ -20,40 +20,44 @@ namespace dotnetapp.Controllers
         }
 
         // POST: api/Attendee
-        [HttpPost]
-        public async Task<IActionResult> CreateAttendee([FromBody] Attendee attendee)
-        {
-            if (attendee == null)
-            {
-                return BadRequest("Attendee cannot be null.");
-            }
+        // POST: api/Attendee
+[HttpPost]
+public async Task<IActionResult> CreateAttendee([FromBody] Attendee attendee)
+{
+    if (attendee == null)
+    {
+        return BadRequest("Attendee cannot be null.");
+    }
 
-            _context.Attendees.Add(attendee);
-            await _context.SaveChangesAsync();
+    _context.Attendees.Add(attendee);
+    await _context.SaveChangesAsync();
 
-            // Retrieve the attendee with event details
-            var createdAttendee = await _context.Attendees
-                .Include(a => a.Event)  // Eager load the Event
-                .FirstOrDefaultAsync(a => a.AttendeeId == attendee.AttendeeId);
+    // Retrieve the attendee with event details
+    var createdAttendee = await _context.Attendees
+        .Include(a => a.Event)  // Eager load the Event
+        .FirstOrDefaultAsync(a => a.AttendeeId == attendee.AttendeeId);
 
-            return CreatedAtAction(nameof(GetAttendee), new { id = createdAttendee.AttendeeId }, createdAttendee);
-        }
+    // Simply return a 201 status with the createdAttendee data, without linking a GET endpoint
+    return StatusCode(201, createdAttendee);
+}
 
-        // GET: api/Attendee/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Attendee>> GetAttendee(int id)
-        {
-            var attendee = await _context.Attendees
-                .Include(a => a.Event)
-                .FirstOrDefaultAsync(a => a.AttendeeId == id);
+// GET: api/Attendee
+[HttpGet]
+public async Task<ActionResult<IEnumerable<Attendee>>> GetAttendees()
+{
+    var attendees = await _context.Attendees
+        .Include(a => a.Event)  // Eager load the Event details
+        .ToListAsync();
 
-            if (attendee == null)
-            {
-                return NotFound();
-            }
+    if (attendees == null || attendees.Count == 0)
+    {
+        return NotFound("No attendees found.");
+    }
 
-            return attendee;
-        }
+    return Ok(attendees);
+}
+
+
 
         // PUT: api/Attendee/5
         [HttpPut("{id}")]

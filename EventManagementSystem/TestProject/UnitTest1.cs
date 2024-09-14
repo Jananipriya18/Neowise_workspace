@@ -351,6 +351,25 @@ namespace dotnetapp.Tests
             Assert.IsTrue(responseContent.Contains("Location 'CoimbatoreLocation' is not allowed."), "Expected error message not found in the response.");
         }
 
+        private async Task<int> CreateTestEventAndGetId()
+        {
+            var newEvent = new Event
+            {
+                Name = "Test Event",
+                EventDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
+                Location = "Dallas" // Valid location
+            };
+
+            var json = JsonConvert.SerializeObject(newEvent);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/Event", content);
+            response.EnsureSuccessStatusCode();
+
+            var createdEvent = JsonConvert.DeserializeObject<Event>(await response.Content.ReadAsStringAsync());
+            return createdEvent.EventId;
+        }
+
         [TearDown]
         public void Cleanup()
         {
