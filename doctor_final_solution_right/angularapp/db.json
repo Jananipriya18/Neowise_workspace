@@ -1,0 +1,28 @@
+{
+  "doctors": [
+    {
+      "id": 1,
+      "name": "Dr. John Smith",
+      "age": 45,
+      "specialization": "Cardiologist",
+      "department": "Cardiology",
+      "contactNumber": "12345678"
+    },
+    {
+      "id": 2,
+      "name": "Dr. Emily Johnson",
+      "age": 38,
+      "specialization": "Neurologist",
+      "department": "Neurology",
+      "contactNumber": "0987654321"
+    },
+    {
+      "name": "f",
+      "age": 29,
+      "specialization": "w",
+      "department": "",
+      "contactNumber": "1234567891",
+      "id": 4
+    }
+  ]
+}
