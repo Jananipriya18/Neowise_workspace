@@ -1,0 +1,29 @@
+<!-- edit-game.component.html -->
+<div *ngIf="game">
+    <h3>Edit Game</h3>
+    <form (ngSubmit)="saveGame()">
+      <label>
+        Name:
+        <input [(ngModel)]="game.title" name="title" required>
+      </label>
+      <label>
+        Age:
+        <input [(ngModel)]="game.age" name="age" type="number" required>
+      </label>
+      <label>
+        Specialization:
+        <input [(ngModel)]="game.specialization" name="specialization" required>
+      </label>
+      <label>
+        Department:
+        <input [(ngModel)]="game.department" name="department" required>
+      </label>
+      <label>
+        Contact Number:
+        <input [(ngModel)]="game.contactNumber" name="contactNumber" required>
+      </label>
+      <button type="submit">Save</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  
