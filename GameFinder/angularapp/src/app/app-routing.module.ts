@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddDoctorComponent } from './add-doctor/add-doctor.component';
-import { DoctorListComponent } from './doctor-list/doctor-list.component';
-import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
+import { AddGameComponent } from './add-game/add-game.component';
+import { GameListComponent } from './game-list/game-list.component';
+import { EditGameComponent } from './edit-game/edit-game.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/doctorsList', pathMatch: 'full' },
-  { path: 'doctorsList', component: DoctorListComponent },
-  { path: 'addDoctor', component: AddDoctorComponent },
-  { path: 'edit/:id', component: EditDoctorComponent }
+  { path: '', redirectTo: '/gamesList', pathMatch: 'full' },
+  { path: 'gamesList', component: GameListComponent },
+  { path: 'addGame', component: AddGameComponent },
+  { path: 'edit/:id', component: EditGameComponent }
 
 ];
 

@@ -8,7 +8,7 @@
 //   }
   
 
-  export interface Doctor {
+  export interface Game {
     id?: number;
     title: string;
     releaseYear: number;

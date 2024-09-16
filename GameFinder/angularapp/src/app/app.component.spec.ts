@@ -8,10 +8,10 @@ describe('AppComponent', () => {
     declarations: [AppComponent]
   }));
 
-  fit('should_have_as_title_doctor_management_app', () => {
+  fit('should_have_as_title_game_management_app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('doctor-management-app');
+    expect(app.title).toEqual('game-management-app');
   });
 
 });

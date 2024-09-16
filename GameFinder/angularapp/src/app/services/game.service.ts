@@ -7,7 +7,7 @@ import { Game } from '../model/game.model';
   providedIn: 'root'
 })
 export class GameService {
-  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/doctors'; 
+  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/games'; 
 
   constructor(private http: HttpClient) { }
 

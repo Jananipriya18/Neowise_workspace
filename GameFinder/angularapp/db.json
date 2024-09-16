@@ -1,36 +1,12 @@
 {
-  "doctors": [
+  "games": [
     {
-      "id": 1,
-      "name": "Dr. Raj Kumar",
-      "age": 40,
-      "specialization": "Neurology",
-      "department": "Neurology",
-      "contactNumber": "852633122"
-    },
-    {
-      "id": 2,
-      "name": "Dr. Aishwarya Singh",
-      "age": 35,
-      "specialization": "Cardiology",
-      "department": "Cardiology",
-      "contactNumber": "912345678"
-    },
-    {
-      "id": 3,
-      "name": "Dr. Arun Gupta",
-      "age": 50,
-      "specialization": "Orthopedics",
-      "department": "Orthopedics",
-      "contactNumber": "987654300"
-    },
-    {
-      "name": "asdfgh",
-      "age": 45,
-      "specialization": "sadfg",
-      "department": "adf",
-      "contactNumber": "9876543210",
-      "id": 4
+      "title": "Temple Run",
+      "releaseYear": 2006,
+      "genre": "Running",
+      "developer": "Mei",
+      "supportContact": "jan@gmail.com",
+      "id": 1
     }
   ]
 }
