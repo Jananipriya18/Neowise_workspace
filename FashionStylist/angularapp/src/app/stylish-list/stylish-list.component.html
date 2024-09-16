@@ -1,29 +1,27 @@
 <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Expertise</th>
-        <th>StyleSignature</th>
-        <th>Availability</th>
-        <th>Hourly Rate</th>
-        <th>Location</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let doctor of doctors">
-        <td>{{ doctor.name }}</td>
-        <td>{{ doctor.expertise }}</td>
-        <td>{{ doctor.styleSignature }}</td>
-        <td>{{ doctor.availability }}</td>
-        <td>{{ doctor.hourlyRate }}</td>
-        <td>{{ doctor.location }}</td>
-        
-        <td>
-          <button (click)="editDoctor(doctor.id)">Edit</button>
-          <button (click)="deleteDoctor(doctor.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Expertise</th>
+      <th>Style Signature</th>
+      <th>Availability</th>
+      <th>Hourly Rate</th>
+      <th>Location</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let stylist of stylists">
+      <td>{{ stylist.name }}</td>
+      <td>{{ stylist.expertise }}</td>
+      <td>{{ stylist.styleSignature }}</td>
+      <td>{{ stylist.availability }}</td>
+      <td>{{ stylist.hourlyRate | currency }}</td> <!-- Format as currency -->
+      <td>{{ stylist.location }}</td>
+      <td>
+        <button (click)="editStylist(stylist.id)">Edit</button>
+        <button (click)="deleteStylist(stylist.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddDoctorComponent } from './add-doctor/add-doctor.component';
-import { DoctorListComponent } from './doctor-list/doctor-list.component';
-import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
+import { AddStylistComponent } from './add-stylist/add-stylist.component';
+import { StylistListComponent } from '';
+import { EditStylistComponent } from './edit-stylist/edit-stylist.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/doctorsList', pathMatch: 'full' },
-  { path: 'doctorsList', component: DoctorListComponent },
-  { path: 'addDoctor', component: AddDoctorComponent },
-  { path: 'edit/:id', component: EditDoctorComponent }
+  { path: '', redirectTo: '/stylistsList', pathMatch: 'full' },
+  { path: 'stylistsList', component: StylistListComponent },
+  { path: 'addStylist', component: AddStylistComponent },
+  { path: 'edit/:id', component: EditStylistComponent }
 
 ];
 

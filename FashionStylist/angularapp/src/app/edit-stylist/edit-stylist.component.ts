@@ -1,38 +1,38 @@
 // edit-stylist.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Stylish } from '../model/stylist.model';
-import { StylishService } from '../services/stylist.service';
+import { Stylist } from '../model/stylist.model';
+import { StylistService } from '../services/stylist.service';
 
 @Component({
   selector: 'app-edit-stylist',
   templateUrl: './edit-stylist.component.html',
   styleUrls: ['./edit-stylist.component.css']
 })
-export class EditStylishComponent implements OnInit {
-  stylist: Stylish | null = null;
+export class EditStylistComponent implements OnInit {
+  stylist: Stylist | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private stylistService: StylishService
+    private stylistService: StylistService
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.stylistService.getStylishById(+id).subscribe(
+      this.stylistService.getStylistById(+id).subscribe(
         (stylist) => (this.stylist = stylist),
         (err) => console.error(err)
       );
     }
   }
 
-  saveStylish(): void {
+  saveStylist(): void {
     if (this.stylist) {
-      this.stylistService.updateStylish(this.stylist.id, this.stylist).subscribe(
+      this.stylistService.updateStylist(this.stylist.id, this.stylist).subscribe(
         () => {
-          this.router.navigate(['/stylists']);
+          this.router.navigate(['/stylistsList']);
         },
         (err) => {
           console.error(err);
@@ -42,6 +42,6 @@ export class EditStylishComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/stylists']);
+    this.router.navigate(['/stylistsList']);
   }
 }

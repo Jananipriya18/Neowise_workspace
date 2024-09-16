@@ -1,67 +1,69 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EditDoctorComponent } from './edit-doctor.component';
-import { DoctorService } from '../services/doctor.service';
+import { EditStylistComponent } from './edit-stylist.component';
+import { StylistService } from '../services/stylist.service';
 import { of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Doctor } from '../model/stylist.model';
+import { Stylist } from '../model/stylist.model';
 
-describe('EditDoctorComponent', () => {
-  let component: EditDoctorComponent;
-  let fixture: ComponentFixture<EditDoctorComponent>;
-  let service: DoctorService;
+describe('EditStylistComponent', () => {
+  let component: EditStylistComponent;
+  let fixture: ComponentFixture<EditStylistComponent>;
+  let service: StylistService;
   let routerSpy: jasmine.SpyObj<Router>;
 
-  const mockDoctor: Doctor = {
+  const mockStylist: Stylist = {
     id: 1,
-    name: 'Dr. John Smith',
-    age: 45,
-    specialization: 'Cardiology',
-    department: 'Cardiology',
-    contactNumber: '1234567890'
+    name: 'Jane Doe',
+    expertise: 'Fashion Consulting',
+    styleSignature: 'Chic and Elegant',
+    availability: 'Full-time',
+    hourlyRate: 100,
+    location: 'New York'
   };
+
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
-      declarations: [EditDoctorComponent],
+      declarations: [EditStylistComponent],
       imports: [HttpClientTestingModule, RouterTestingModule, FormsModule],
       providers: [
-        DoctorService,
+        StylistService,
         { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => '1' } } } },
         { provide: Router, useValue: spy }
       ]
     });
 
-    fixture = TestBed.createComponent(EditDoctorComponent);
+    fixture = TestBed.createComponent(EditStylistComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(DoctorService);
+    service = TestBed.inject(StylistService);
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  fit('should_create_EditDoctorComponent', () => {
+  fit('should_create_EditStylistComponent', () => {
     expect((component as any)).toBeTruthy();
   });
 
-  fit('should_load_doctor_details_on_init', () => {
-    spyOn((service as any), 'getDoctorById').and.returnValue(of(mockDoctor));
+  fit('should_load_stylist_details_on_init', () => {
+    spyOn((service as any), 'getStylistById').and.returnValue(of(mockStylist));
     (component as any).ngOnInit();
     fixture.detectChanges();
 
-    expect((service as any).getDoctorById).toHaveBeenCalledWith(1);
-    expect((component as any).doctor).toEqual(mockDoctor);
+    expect((service as any).getStylistById).toHaveBeenCalledWith(1);
+    expect((component as any).stylist).toEqual(mockStylist);
   });
 
-  fit('should_save_doctor_details', () => {
-    spyOn((service as any), 'updateDoctor').and.returnValue(of(mockDoctor));
-    (component as any).doctor = { ...mockDoctor };
-    (component as any).saveDoctor();
+  fit('should_save_stylist_details', () => {
+    spyOn((service as any), 'updateStylist').and.returnValue(of(mockStylist));
+    (component as any).stylist = { ...mockStylist };
+    (component as any).saveStylist();
     
-    expect((service as any).updateDoctor).toHaveBeenCalledWith(mockDoctor.id, mockDoctor);
+    expect((service as any).updateStylist).toHaveBeenCalledWith(mockStylist.id, mockStylist);
   });
 
 });
