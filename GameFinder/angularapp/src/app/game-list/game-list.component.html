@@ -1,0 +1,27 @@
+<table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Release Year</th>
+        <th>Genre</th>
+        <th>Developer</th>
+        <th>Support Contact</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let game of games">
+        <td>{{ game.title }}</td>
+        <td>{{ game.releaseYear }}</td>
+        <td>{{ game.genre }}</td>
+        <td>{{ game.developer }}</td>
+        <td>{{ game.supportcontact }}</td>
+        
+        <td>
+          <button (click)="editGame(game.id)">Edit</button>
+          <button (click)="deleteGame(game.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+

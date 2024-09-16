@@ -8,13 +8,17 @@ import { AppComponent } from './app.component';
 import { AddDoctorComponent } from './add-doctor/add-doctor.component';
 import { DoctorListComponent } from './doctor-list/doctor-list.component';
 import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
+import { AddGameComponent } from './add-game/add-game.component';
+import { GameListComponent } from './game-list/game-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddDoctorComponent,
     DoctorListComponent,
-    EditDoctorComponent
+    EditDoctorComponent,
+    AddGameComponent,
+    GameListComponent
   ],
   imports: [
     BrowserModule,

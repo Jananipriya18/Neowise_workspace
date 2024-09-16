@@ -54,11 +54,11 @@ describe('GameService', () => {
 
   fit('should_add_a_game_via_POST', () => {
     const newGame = {
-      name: 'Dr. Jane Doe',
-      age: 38,
-      specialization: 'Neurology',
-      department: 'Neurology',
-      contactNumber: '9876543210'
+      title: 'The Witcher 3: Wild Hunt',
+      releaseYear: 2015,
+      genre: 'Action RPG',
+      developer: 'CD Projekt Red',
+      supportContact: 'support@cdprojektred.com'
     };
     (service as any).addGame(newGame).subscribe((game) => {
       expect(game).toEqual(newGame);
@@ -72,11 +72,11 @@ describe('GameService', () => {
   fit('should_update_a_game_via_PUT', () => {
     const updatedGame = {
       id: 1,
-      name: 'Dr. John Smith',
-      age: 46,
-      specialization: 'Cardiology',
-      department: 'Cardiology',
-      contactNumber: '1234567890'
+      title: 'The Witcher 3: Wild Hunt',
+      releaseYear: 2015,
+      genre: 'Action RPG',
+      developer: 'CD Projekt Red',
+      supportContact: 'support@cdprojektred.com'
     };
     (service as any).updateGame(updatedGame.id, updatedGame).subscribe((game) => {
       expect(game).toEqual(updatedGame);

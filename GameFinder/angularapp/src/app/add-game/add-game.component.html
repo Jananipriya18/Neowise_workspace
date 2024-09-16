@@ -1,0 +1,43 @@
+<form [formGroup]="gameForm" (ngSubmit)="addGame()">
+    <table>
+      <tr>
+        <td>Game Title :</td>
+        <td><input class="form-control" type="text" placeholder="Enter Game Title" formControlName="title"></td>
+      </tr>
+      <tr>
+        <td>Release Year :</td>
+        <td>
+          <input class="form-control" type="number" placeholder="Enter Release Year" formControlName="releaseYear">
+          <div *ngIf="gameForm.get('releaseYear').hasError('min') && gameForm.get('releaseYear').touched">
+            Release year should be greater than 1980.
+          </div>
+          <div *ngIf="gameForm.get('releaseYear').hasError('max') && gameForm.get('releaseYear').touched">
+            Release year cannot be in the future.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Genre :</td>
+        <td><input class="form-control" type="text" placeholder="Enter Genre" formControlName="genre"></td>
+      </tr>
+      <tr>
+        <td>Developer :</td>
+        <td><input class="form-control" type="text" placeholder="Enter Developer" formControlName="developer"></td>
+      </tr>
+      <tr>
+        <td>Support Contact :</td>
+        <td>
+          <input class="form-control" type="email" placeholder="Enter Support Contact (Email)" formControlName="supportContact">
+          <div *ngIf="gameForm.get('supportContact').hasError('pattern') && gameForm.get('supportContact').touched">
+            Please enter a valid email address.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button class="btn btn-danger" type="submit" [disabled]="gameForm.invalid">Add Game</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  
