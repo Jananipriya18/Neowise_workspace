@@ -1,43 +1,38 @@
 <form [formGroup]="stylistForm" (ngSubmit)="addStylist()">
-    <table>
-      <tr>
-        <td>Stylist Name :</td>
-        <td><input class="form-control" type="text" placeholder="Enter Name" formControlName="name"></td>
-      </tr>
-      <tr>
-        <td>Stylist Age :</td>
-        <td>
-          <input class="form-control" type="text" placeholder="Enter age" formControlName="age">
-          <div *ngIf="stylistForm.get('expertise').hasError('min') && stylistForm.get('age').touched">
-            Age should be more than 25 years.
-          </div>
-          <div *ngIf="stylistForm.get('age').hasError('max') && stylistForm.get('age').touched">
-            Age should be less than 70 years.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Specialization :</td>
-        <td><input class="form-control" type="text" placeholder="Enter specialization" formControlName="specialization"></td>
-      </tr>
-      <tr>
-        <td>Department :</td>
-        <td><input class="form-control" type="text" placeholder="Enter department" formControlName="department"></td>
-      </tr>
-      <tr>
-        <td>Contact Number :</td>
-        <td>
-          <input class="form-control" type="text" placeholder="Enter contact number" formControlName="contactNumber">
-          <div *ngIf="stylistForm.get('contactNumber').hasError('pattern') && stylistForm.get('contactNumber').touched">
-            Contact number must be 10 digits.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <button class="btn btn-danger" type="submit" [disabled]="stylistForm.invalid">Add Stylist</button>
-        </td>
-      </tr>
-    </table>
-  </form>
-  
+  <table>
+    <tr>
+      <td>Stylist Name:</td>
+      <td><input class="form-control" type="text" placeholder="Enter Name" formControlName="name"></td>
+    </tr>
+    <tr>
+      <td>Expertise:</td>
+      <td><input class="form-control" type="text" placeholder="Enter expertise" formControlName="expertise"></td>
+    </tr>
+    <tr>
+      <td>Style Signature:</td>
+      <td><input class="form-control" type="text" placeholder="Enter style signature" formControlName="styleSignature"></td>
+    </tr>
+    <tr>
+      <td>Availability:</td>
+      <td><input class="form-control" type="text" placeholder="Enter availability" formControlName="availability"></td>
+    </tr>
+    <tr>
+      <td>Hourly Rate:</td>
+      <td>
+        <input class="form-control" type="number" placeholder="Enter hourly rate" formControlName="hourlyRate">
+        <div *ngIf="stylistForm.get('hourlyRate').hasError('min') && stylistForm.get('hourlyRate').touched">
+          Hourly rate should be a positive number.
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Location:</td>
+      <td><input class="form-control" type="text" placeholder="Enter location" formControlName="location"></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button class="btn btn-danger" type="submit" [disabled]="stylistForm.invalid">Add Stylist</button>
+      </td>
+    </tr>
+  </table>
+</form>

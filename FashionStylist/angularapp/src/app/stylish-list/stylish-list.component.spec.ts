@@ -1,25 +1,60 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { StylistListComponent } from './stylist-list.component';
+import { StylistService } from '../services/stylist.service'; // Adjust the import path as necessary
+import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Router } from '@angular/router';
+import { Stylist } from '../model/stylist.model'; // Adjust the import path as necessary
 
-import { StylishListComponent } from './stylish-list.component';
+describe('StylistListComponent', () => {
+  let component: StylistListComponent;
+  let fixture: ComponentFixture<StylistListComponent>;
+  let service: StylistService;
+  let routerSpy: jasmine.SpyObj<Router>;
 
-describe('StylishListComponent', () => {
-  let component: StylishListComponent;
-  let fixture: ComponentFixture<StylishListComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ StylishListComponent ]
-    })
-    .compileComponents();
-  });
+  const mockStylists: Stylist[] = [
+    {
+      id: 1,
+      name: 'Jane Doe',
+      expertise: 'Fashion Consulting',
+      styleSignature: 'Chic and Elegant',
+      availability: 'Full-time',
+      hourlyRate: 100,
+      location: 'New York'
+    }
+  ];
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StylishListComponent);
+    const spy = jasmine.createSpyObj('Router', ['navigate']);
+
+    TestBed.configureTestingModule({
+      declarations: [StylistListComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [StylistService, { provide: Router, useValue: spy }]
+    });
+
+    fixture = TestBed.createComponent(StylistListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    service = TestBed.inject(StylistService);
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  it('should create', () => {
+  fit('should create StylistListComponent', () => {
     expect(component).toBeTruthy();
   });
+
+  fit('should call getStylists', () => {
+    spyOn((service as any), 'getStylists').and.returnValue(of(mockStylists));
+    (component as any).ngOnInit();
+    expect((service as any).getStylists).toHaveBeenCalled();
+    expect((component as any).stylists).toEqual(mockStylists);
+  });
+
+  fit('should call deleteStylist', () => {
+    spyOn((service as any), 'deleteStylist').and.returnValue(of());
+    (component as any).deleteStylist(1);
+    expect((service as any).deleteStylist).toHaveBeenCalledWith(1);
+  });
+
 });
