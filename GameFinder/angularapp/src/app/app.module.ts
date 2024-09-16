@@ -12,7 +12,6 @@ import { EditGameComponent } from './edit-game/edit-game.component';
   declarations: [
     AppComponent,
     AddGameComponent,
-    GameListComponent,
     EditGameComponent,
     AddGameComponent,
     GameListComponent,

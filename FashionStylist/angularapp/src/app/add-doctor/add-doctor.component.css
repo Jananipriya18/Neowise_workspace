@@ -1,0 +1,56 @@
+/* add-doctor.component.css */
+
+/* Styling the table to center-align it */
+table {
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 10px;
+    width: 50%;
+  }
+  
+  /* Adding some padding and margin to table cells */
+  td {
+    padding: 10px;
+  }
+  
+  /* Styling the form control inputs */
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Styling the error messages */
+  div {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  /* Styling the submit button */
+  button {
+    background-color: #d9534f; /* Bootstrap danger color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:disabled {
+    background-color: #cccccc; /* Gray color for disabled state */
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #c9302c; /* Darker red on hover */
+  }
+  
+  /* Adding some space between the form elements */
+  td input,
+  td button {
+    margin-top: 10px;
+  }
+  
