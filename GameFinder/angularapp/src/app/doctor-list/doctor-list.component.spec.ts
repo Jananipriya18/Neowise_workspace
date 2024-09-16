@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DoctorListComponent } from './doctor-list.component';
-import { DoctorService } from '../services/doctor.service';
+import { DoctorService } from '../services/game.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
-import { Doctor } from '../model/doctor.model';
+import { Doctor } from '../model/game.model';
 
 describe('DoctorListComponent', () => {
   let component: DoctorListComponent;
