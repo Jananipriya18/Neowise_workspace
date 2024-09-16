@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddStylistComponent } from './add-stylist/add-stylist.component';
-import { StylistListComponent } from '';
+import { StylistListComponent } from './stylish-list/stylish-list.component';
 import { EditStylistComponent } from './edit-stylist/edit-stylist.component';
 
 const routes: Routes = [

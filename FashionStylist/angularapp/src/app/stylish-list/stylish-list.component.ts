@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stylist-list',
-  templateUrl: './stylist-list.component.html',
+  templateUrl: './',
   styleUrls: ['./stylist-list.component.css'],
 })
 export class StylistListComponent implements OnInit {

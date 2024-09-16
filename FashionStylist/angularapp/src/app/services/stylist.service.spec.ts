@@ -1,40 +1,45 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { DoctorService } from './stylist.service';
-import { Doctor } from '../model/doctor.model'; // Ensure this import is correct
+import { StylistService } from './stylist.service';
+import { Stylist } from '../model/stylist.model'; // Ensure this import is correct
 
-describe('DoctorService', () => {
-  let service: DoctorService;
+describe('StylistService', () => {
+  let service: StylistService;
   let httpTestingController: HttpTestingController;
 
-  const mockDoctors: Doctor[] = [
+  const mockStylists: Stylist[] = [
     {
       id: 1,
-      name: 'Dr. John Smith',
-      age: 45,
-      specialization: 'Cardiology',
-      department: 'Cardiology',
-      contactNumber: '1234567890'
+      name: 'Jane Doe',
+      expertise: 'Fashion Consulting',
+      styleSignature: 'Chic and Elegant',
+      availability: 'Full-time',
+      hourlyRate: 100,
+      location: 'New York'
     },
     {
       id: 2,
-      name: 'Dr. Jane Doe',
-      age: 38,
-      specialization: 'Neurology',
-      department: 'Neurology',
-      contactNumber: '9876543210'
+      name: 'Henry Cloe',
+      expertise: 'Fashion Consulting',
+      styleSignature: 'Chic and Elegant',
+      availability: 'Full-time',
+      hourlyRate: 100,
+      location: 'New York'
     },
   ];
 
-  const backendUrl = 'api/doctors'; // Adjust based on your actual URL
+  let backendUrl: string;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [DoctorService],
+      providers: [StylistService],
     });
-    service = TestBed.inject(DoctorService);
+    service = TestBed.inject(StylistService);
     httpTestingController = TestBed.inject(HttpTestingController);
+
+    // Access the backendUrl from the service
+    backendUrl = service.backendUrl;
   });
 
   afterEach(() => {
@@ -42,58 +47,60 @@ describe('DoctorService', () => {
     httpTestingController.verify();
   });
 
-  fit('should create the service', () => {
+  it('should create the service', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('should retrieve doctors from the API via GET', () => {
-    service.getDoctors().subscribe((doctors) => {
-      expect(doctors).toEqual(mockDoctors);
+  it('should retrieve stylists from the API via GET', () => {
+    service.getStylists().subscribe((stylists) => {
+      expect(stylists).toEqual(mockStylists);
     });
     const req = httpTestingController.expectOne(backendUrl);
     expect(req.request.method).toEqual('GET');
-    req.flush(mockDoctors);
+    req.flush(mockStylists);
   });
 
-  fit('should add a doctor via POST', () => {
-    const newDoctor: Doctor = {
-      name: 'Dr. Jane Doe',
-      age: 38,
-      specialization: 'Neurology',
-      department: 'Neurology',
-      contactNumber: '9876543210'
+  it('should add a stylist via POST', () => {
+    const newStylist: Stylist = {
+      name: 'Jane Doe',
+      expertise: 'Fashion Consulting',
+      styleSignature: 'Chic and Elegant',
+      availability: 'Full-time',
+      hourlyRate: 100,
+      location: 'New York'
     };
-    service.addDoctor(newDoctor).subscribe((doctor) => {
-      expect(doctor).toEqual(newDoctor);
+    service.addStylist(newStylist).subscribe((stylist) => {
+      expect(stylist).toEqual(newStylist);
     });
     const req = httpTestingController.expectOne(backendUrl);
     expect(req.request.method).toEqual('POST');
-    req.flush(newDoctor);
+    req.flush(newStylist);
   });
 
-  fit('should update a doctor via PUT', () => {
-    const updatedDoctor: Doctor = {
+  it('should update a stylist via PUT', () => {
+    const updatedStylist: Stylist = {
       id: 1,
-      name: 'Dr. John Smith',
-      age: 46,
-      specialization: 'Cardiology',
-      department: 'Cardiology',
-      contactNumber: '1234567890'
+      name: 'Jane Doe',
+      expertise: 'Fashion Consulting',
+      styleSignature: 'Chic and Elegant',
+      availability: 'Full-time',
+      hourlyRate: 120,
+      location: 'New York'
     };
-    service.updateDoctor(updatedDoctor.id, updatedDoctor).subscribe((doctor) => {
-      expect(doctor).toEqual(updatedDoctor);
+    service.updateStylist(updatedStylist.id!, updatedStylist).subscribe((stylist) => {
+      expect(stylist).toEqual(updatedStylist);
     });
-    const req = httpTestingController.expectOne(`${backendUrl}/${updatedDoctor.id}`);
+    const req = httpTestingController.expectOne(`${backendUrl}/${updatedStylist.id}`);
     expect(req.request.method).toEqual('PUT');
-    req.flush(updatedDoctor);
+    req.flush(updatedStylist);
   });
 
-  fit('should delete a doctor via DELETE', () => {
-    const doctorId = 1;
-    service.deleteDoctor(doctorId).subscribe(() => {
+  it('should delete a stylist via DELETE', () => {
+    const stylistId = 1;
+    service.deleteStylist(stylistId).subscribe(() => {
       // No content to assert, but we can ensure the request was made
     });
-    const req = httpTestingController.expectOne(`${backendUrl}/${doctorId}`);
+    const req = httpTestingController.expectOne(`${backendUrl}/${stylistId}`);
     expect(req.request.method).toEqual('DELETE');
     req.flush({});
   });

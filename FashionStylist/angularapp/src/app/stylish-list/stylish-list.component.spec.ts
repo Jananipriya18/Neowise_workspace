@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { StylistListComponent } from './stylist-list.component';
-import { StylistService } from '../services/stylist.service'; // Adjust the import path as necessary
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { Stylist } from '../model/stylist.model'; // Adjust the import path as necessary
+import { StylistListComponent } from './stylish-list.component';
+import { StylistService } from '../services/stylist.service';
 
 describe('StylistListComponent', () => {
   let component: StylistListComponent;
