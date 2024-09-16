@@ -1,36 +1,40 @@
 {
-  "doctors": [
+  "stylists": [
     {
       "id": 1,
-      "name": "Dr. Raj Kumar",
-      "age": 40,
-      "specialization": "Neurology",
-      "department": "Neurology",
-      "contactNumber": "852633122"
+      "name": "Jane Doe",
+      "expertise": "Fashion Consulting",
+      "styleSignature": "Chic and Elegant",
+      "availability": "Full-time",
+      "hourlyRate": 100,
+      "location": "New York"
     },
     {
       "id": 2,
-      "name": "Dr. Aishwarya Singh",
-      "age": 35,
-      "specialization": "Cardiology",
-      "department": "Cardiology",
-      "contactNumber": "912345678"
+      "name": "Henry Cloe",
+      "expertise": "Fashion Consulting",
+      "styleSignature": "Modern and Stylish",
+      "availability": "Part-time",
+      "hourlyRate": 80,
+      "location": "Los Angeles"
     },
     {
       "id": 3,
-      "name": "Dr. Arun Gupta",
-      "age": 50,
-      "specialization": "Orthopedics",
-      "department": "Orthopedics",
-      "contactNumber": "987654300"
+      "name": "Emily Ratajkowski",
+      "expertise": "Personal Styling",
+      "styleSignature": "Classic and Elegant",
+      "availability": "Full-time",
+      "hourlyRate": 120,
+      "location": "San Francisco"
     },
     {
-      "name": "asdfgh",
-      "age": 45,
-      "specialization": "sadfg",
-      "department": "adf",
-      "contactNumber": "9876543210",
-      "id": 4
+      "id": 4,
+      "name": "Alex Smith",
+      "expertise": "Wardrobe Consulting",
+      "styleSignature": "Trendy and Bold",
+      "availability": "Freelance",
+      "hourlyRate": 90,
+      "location": "Chicago"
     }
   ]
 }

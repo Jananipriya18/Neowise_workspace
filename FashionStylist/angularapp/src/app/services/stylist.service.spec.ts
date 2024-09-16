@@ -47,11 +47,11 @@ describe('StylistService', () => {
     httpTestingController.verify();
   });
 
-  it('should create the service', () => {
+  fit('should create the service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should retrieve stylists from the API via GET', () => {
+  fit('should retrieve stylists from the API via GET', () => {
     service.getStylists().subscribe((stylists) => {
       expect(stylists).toEqual(mockStylists);
     });
@@ -60,7 +60,7 @@ describe('StylistService', () => {
     req.flush(mockStylists);
   });
 
-  it('should add a stylist via POST', () => {
+  fit('should add a stylist via POST', () => {
     const newStylist: Stylist = {
       name: 'Jane Doe',
       expertise: 'Fashion Consulting',
@@ -77,7 +77,7 @@ describe('StylistService', () => {
     req.flush(newStylist);
   });
 
-  it('should update a stylist via PUT', () => {
+  fit('should update a stylist via PUT', () => {
     const updatedStylist: Stylist = {
       id: 1,
       name: 'Jane Doe',
@@ -95,7 +95,7 @@ describe('StylistService', () => {
     req.flush(updatedStylist);
   });
 
-  it('should delete a stylist via DELETE', () => {
+  fit('should delete a stylist via DELETE', () => {
     const stylistId = 1;
     service.deleteStylist(stylistId).subscribe(() => {
       // No content to assert, but we can ensure the request was made

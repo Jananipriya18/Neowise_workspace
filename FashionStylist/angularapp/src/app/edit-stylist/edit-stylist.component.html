@@ -1,25 +1,29 @@
-<div *ngIf="doctor">
-  <h3>Edit Doctor</h3>
-  <form (ngSubmit)="saveDoctor()">
+<div *ngIf="stylist">
+  <h3>Edit Stylist</h3>
+  <form (ngSubmit)="saveStylist()">
     <label>
       Name:
-      <input [(ngModel)]="doctor.name" name="name" required>
+      <input [(ngModel)]="stylist.name" name="name" required>
     </label>
     <label>
-      Age:
-      <input [(ngModel)]="doctor.age" name="age" type="number" required>
+      Expertise:
+      <input [(ngModel)]="stylist.expertise" name="expertise" required>
     </label>
     <label>
-      Specialization:
-      <input [(ngModel)]="doctor.specialization" name="specialization" required>
+      Style Signature:
+      <input [(ngModel)]="stylist.styleSignature" name="styleSignature" required>
     </label>
     <label>
-      Department:
-      <input [(ngModel)]="doctor.department" name="department" required>
+      Availability:
+      <input [(ngModel)]="stylist.availability" name="availability" required>
     </label>
     <label>
-      Contact Number:
-      <input [(ngModel)]="doctor.contactNumber" name="contactNumber" required pattern="\d{10}">
+      Hourly Rate:
+      <input [(ngModel)]="stylist.hourlyRate" name="hourlyRate" type="number" required>
+    </label>
+    <label>
+      Location:
+      <input [(ngModel)]="stylist.location" name="location" required>
     </label>
     <button type="submit">Save</button>
     <button type="button" (click)="cancel()">Cancel</button>

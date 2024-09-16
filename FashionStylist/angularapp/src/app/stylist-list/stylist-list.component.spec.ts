@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { Stylist } from '../model/stylist.model'; // Adjust the import path as necessary
-import { StylistListComponent } from './stylish-list.component';
+import { StylistListComponent } from './stylist-list.component';
 import { StylistService } from '../services/stylist.service';
 
 describe('StylistListComponent', () => {
