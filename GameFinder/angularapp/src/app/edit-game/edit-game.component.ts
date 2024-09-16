@@ -32,7 +32,7 @@ export class EditGameComponent implements OnInit {
     if (this.game) {
       this.gameService.updateGame(this.game.id, this.game).subscribe(
         () => {
-          this.router.navigate(['/games']);
+          this.router.navigate(['/gamesList']);
         },
         (err) => {
           console.error(err);
@@ -42,6 +42,6 @@ export class EditGameComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/games']);
+    this.router.navigate(['/gamesList']);
   }
 }

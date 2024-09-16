@@ -1,12 +1,3 @@
 {
-  "games": [
-    {
-      "title": "Temple Run",
-      "releaseYear": 2006,
-      "genre": "Running",
-      "developer": "Mei",
-      "supportContact": "jan@gmail.com",
-      "id": 1
-    }
-  ]
+  "games": []
 }
