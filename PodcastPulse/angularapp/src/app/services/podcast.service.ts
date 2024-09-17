@@ -7,7 +7,7 @@ import { Podcast  } from '../model/podcast .model';
   providedIn: 'root'
 })
 export class PodcastService {
-  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/podcast'; 
+  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/doctors'; 
 
   constructor(private http: HttpClient) { }
 

@@ -1,1 +1,27 @@
-<p>podcast-list works!</p>
+<table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Host Name</th>
+        <th>Category</th>
+        <th>Release Date</th>
+        <th>Episode Count</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let podcast of podcasts">
+        <td>{{ podcast.title }}</td>
+        <td>{{ podcast.hostName }}</td>
+        <td>{{ podcast.category }}</td>
+        <td>{{ podcast.releaseDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ podcast.episodeCount }}</td>
+        
+        <td>
+          <button (click)="editPodcast(podcast.id)">Edit</button>
+          <button (click)="deletePodcast(podcast.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
