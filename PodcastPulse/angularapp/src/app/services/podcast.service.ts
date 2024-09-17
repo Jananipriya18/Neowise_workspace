@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Podcast  } from '../model/podcast .model';
+import { Podcast } from '../model/podcast.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PodcastService {
-  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/doctors'; 
+  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/podcasts'; 
 
   constructor(private http: HttpClient) { }
 
