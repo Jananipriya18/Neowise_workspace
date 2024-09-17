@@ -1,1 +1,36 @@
-<p>edit-podcast works!</p>
+<div *ngIf="podcast">
+    <h3>Edit Podcast</h3>
+    <form (ngSubmit)="savePodcast()">
+      <label>
+        Title:
+        <input [(ngModel)]="podcast.title" name="title" required>
+      </label>
+      <label>
+        Description:
+        <textarea [(ngModel)]="podcast.description" name="description" required></textarea>
+      </label>
+      <label>
+        Host Name:
+        <input [(ngModel)]="podcast.hostName" name="hostName" required>
+      </label>
+      <label>
+        Category:
+        <input [(ngModel)]="podcast.category" name="category" required>
+      </label>
+      <label>
+        Release Date:
+        <input [(ngModel)]="podcast.releaseDate" name="releaseDate" type="date" required>
+      </label>
+      <label>
+        Contact Email (optional):
+        <input [(ngModel)]="podcast.contactEmail" name="contactEmail" type="email">
+      </label>
+      <label>
+        Episode Count:
+        <input [(ngModel)]="podcast.episodeCount" name="episodeCount" type="number" required>
+      </label>
+      <button type="submit">Save</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  

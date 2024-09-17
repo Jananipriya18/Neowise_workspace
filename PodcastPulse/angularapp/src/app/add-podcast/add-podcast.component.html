@@ -1,1 +1,63 @@
-<p>add-podcast works!</p>
+<form [formGroup]="podcastForm" (ngSubmit)="addPodcast()">
+    <table>
+      <!-- Podcast Title -->
+      <tr>
+        <td>Podcast Title :</td>
+        <td><input class="form-control" type="text" placeholder="Enter title" formControlName="title"></td>
+      </tr>
+  
+      <!-- Podcast Description -->
+      <tr>
+        <td>Description :</td>
+        <td><textarea class="form-control" placeholder="Enter description" formControlName="description"></textarea></td>
+      </tr>
+  
+      <!-- Podcast Host Name -->
+      <tr>
+        <td>Host Name :</td>
+        <td><input class="form-control" type="text" placeholder="Enter host name" formControlName="hostName"></td>
+      </tr>
+  
+      <!-- Podcast Category -->
+      <tr>
+        <td>Category :</td>
+        <td><input class="form-control" type="text" placeholder="Enter category" formControlName="category"></td>
+      </tr>
+  
+      <!-- Release Date -->
+      <tr>
+        <td>Release Date :</td>
+        <td><input class="form-control" type="date" placeholder="Enter release date" formControlName="releaseDate"></td>
+      </tr>
+  
+      <!-- Contact Email (optional) -->
+      <tr>
+        <td>Contact Email (Optional):</td>
+        <td>
+          <input class="form-control" type="email" placeholder="Enter contact email" formControlName="contactEmail">
+          <div *ngIf="podcastForm.get('contactEmail').hasError('email') && podcastForm.get('contactEmail').touched">
+            Enter a valid email address.
+          </div>
+        </td>
+      </tr>
+  
+      <!-- Episode Count -->
+      <tr>
+        <td>Episode Count :</td>
+        <td>
+          <input class="form-control" type="number" placeholder="Enter episode count" formControlName="episodeCount">
+          <div *ngIf="podcastForm.get('episodeCount').hasError('min') && podcastForm.get('episodeCount').touched">
+            Episode count must be at least 1.
+          </div>
+        </td>
+      </tr>
+  
+      <!-- Submit Button -->
+      <tr>
+        <td colspan="2">
+          <button class="btn btn-danger" type="submit" [disabled]="podcastForm.invalid">Add Podcast</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  
