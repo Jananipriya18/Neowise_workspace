@@ -1,36 +1,34 @@
 {
-  "doctors": [
+  "comics": [
     {
       "id": 1,
-      "name": "Dr. Raj Kumar",
-      "age": 40,
-      "specialization": "Neurology",
-      "department": "Neurology",
-      "contactNumber": "852633122"
+      "title": "Spider-Man: No Way Home",
+      "author": "Nick Spencer",
+      "series": "Spider-Man",
+      "publisher": "Marvel Comics",
+      "publicationDate": "2021-09-01",
+      "genre": "Superhero",
+      "description": "Peter Parker faces new challenges as Spider-Man in this thrilling continuation of the Spider-Man series."
     },
     {
       "id": 2,
-      "name": "Dr. Aishwarya Singh",
-      "age": 35,
-      "specialization": "Cardiology",
-      "department": "Cardiology",
-      "contactNumber": "912345678"
+      "title": "Batman: The Long Halloween",
+      "author": "Jeph Loeb",
+      "series": "Batman",
+      "publisher": "DC Comics",
+      "publicationDate": "1996-10-01",
+      "genre": "Superhero",
+      "description": "A gripping detective story featuring Batman as he tries to uncover the identity of the mysterious Holiday killer."
     },
     {
       "id": 3,
-      "name": "Dr. Arun Gupta",
-      "age": 50,
-      "specialization": "Orthopedics",
-      "department": "Orthopedics",
-      "contactNumber": "987654300"
-    },
-    {
-      "name": "asdfgh",
-      "age": 45,
-      "specialization": "sadfg",
-      "department": "adf",
-      "contactNumber": "9876543210",
-      "id": 4
+      "title": "Saga",
+      "author": "Brian K. Vaughan",
+      "series": "Saga",
+      "publisher": "Image Comics",
+      "publicationDate": "2012-03-01",
+      "genre": "Science Fiction",
+      "description": "An epic space opera about a family trying to survive in a war-torn universe."
     }
   ]
 }
