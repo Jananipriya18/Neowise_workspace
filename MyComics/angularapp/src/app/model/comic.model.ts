@@ -7,3 +7,5 @@ export interface Doctor {
     contactNumber: string;
   }
   
+
+  DoctorAngularsolution/DoctorAngular/angularapp

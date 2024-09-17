@@ -1,7 +1,7 @@
 // edit-doctor.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Doctor } from '../model/doctor.model';
+import { Doctor } from '../model/comic.model';
 import { DoctorService } from '../services/doctor.service';
 
 @Component({

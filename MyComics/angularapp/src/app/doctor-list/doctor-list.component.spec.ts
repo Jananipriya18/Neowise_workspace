@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
-import { Doctor } from '../model/doctor.model';
+import { Doctor } from '../model/comic.model';
 
 describe('DoctorListComponent', () => {
   let component: DoctorListComponent;
