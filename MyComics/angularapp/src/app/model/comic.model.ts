@@ -8,4 +8,3 @@ export interface Doctor {
   }
   
 
-  DoctorAngularsolution/DoctorAngular/angularapp
