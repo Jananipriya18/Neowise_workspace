@@ -5,7 +5,7 @@ import { PodcastListComponent } from './podcast-list/podcast-list.component';
 import { EditPodcastComponent } from './edit-podcast/edit-podcast.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/podcastsList', pathMatch: 'full' },
+  { path: '', redirectTo: '/podcasts', pathMatch: 'full' },
   { path: 'podcastsList', component: PodcastListComponent },
   { path: 'addPodcast', component: AddPodcastComponent },
   { path: 'edit/:id', component: EditPodcastComponent }

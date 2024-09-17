@@ -45,10 +45,10 @@ describe('PodcastListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should_call_getPodcasts', () => {
-    spyOn(service, 'getPodcasts').and.returnValue(of(mockPodcasts)); // Change method to getPodcasts
+  fit('should_call_getPodcast', () => {
+    spyOn(service, 'getPodcast').and.returnValue(of(mockPodcasts)); // Change method to getPodcast
     component.ngOnInit();
-    expect(service.getPodcasts).toHaveBeenCalled();
+    expect(service.getPodcast).toHaveBeenCalled();
     expect(component.podcasts).toEqual(mockPodcasts);
   });
 
