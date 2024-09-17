@@ -1,0 +1,43 @@
+<form [formGroup]="skillForm" (ngSubmit)="addSkill()">
+    <table>
+      <tr>
+        <td>Skill Title:</td>
+        <td><input class="form-control" type="text" placeholder="Enter Title" formControlName="title"></td>
+      </tr>
+      <tr>
+        <td>Number of Modules:</td>
+        <td>
+          <input class="form-control" type="number" placeholder="Enter the number of modules" formControlName="modules_count">
+          <div *ngIf="skillForm.get('modules_count').hasError('min') && skillForm.get('age').touched">
+            Skill Builder should contain atleast 2 modules.
+          </div>
+          <div *ngIf="skillForm.get('modules_count').hasError('max') && skillForm.get('age').touched">
+            Skill Builder should contain less than 200 modules.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Description :</td>
+        <td><input class="form-control" type="text" placeholder="Enter description" formControlName="description"></td>
+      </tr>
+      <tr>
+        <td>Duration :</td>
+        <td><input class="form-control" type="text" placeholder="Enter duration" formControlName="duration"></td>
+      </tr>
+      <tr>
+        <td>Contact Number :</td>
+        <td>
+          <input class="form-control" type="text" placeholder="Enter contact number" formControlName="contactNumber">
+          <div *ngIf="skillForm.get('contactNumber').hasError('pattern') && skillForm.get('contactNumber').touched">
+            Contact number must be 10 digits.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button class="btn btn-danger" type="submit" [disabled]="skillForm.invalid">Add Skill</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  
