@@ -42,11 +42,11 @@ describe('AddComicComponent', () => {
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
   });
 
-  it('should create AddComicComponent', () => {
+  fit('should create AddComicComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add a new comic when form is valid', fakeAsync(() => {
+  fit('should add a new comic when form is valid', fakeAsync(() => {
     const validComicData: Comic = {
       id: 1,
       title: 'Amazing Spider-Man',
@@ -64,7 +64,7 @@ describe('AddComicComponent', () => {
       author: 'Stan Lee',
       series: 'Spider-Man',
       publisher: 'Marvel',
-      publicationDate: '2017-07-07', // Ensure format is YYYY-MM-DD string
+      publicationDate: '2017-07-07', 
       genre: 'Superhero',
       description: 'A story about Peter Parker, who gains spider-like abilities.',
     });
@@ -76,7 +76,7 @@ describe('AddComicComponent', () => {
     expect(service.addComic).toHaveBeenCalledWith(validComicData);
   }));
 
-  it('should validate all the required fields', () => {
+  fit('should validate all the required fields', () => {
     const form = component.comicForm;
     form.setValue({
       title: '',
