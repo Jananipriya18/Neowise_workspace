@@ -1,7 +1,9 @@
+// add-comic.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ComicService } from '../services/comic.service'; // Adjust the path as necessary
+import { ComicService } from '../services/comic.service';
 import { Router } from '@angular/router';
+import { Comic } from '../model/comic.model';
 
 @Component({
   selector: 'app-add-comic',
@@ -11,17 +13,15 @@ import { Router } from '@angular/router';
 export class AddComicComponent implements OnInit {
   comicForm: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private comicService: ComicService,
-    private router: Router
-  ) {
+  constructor(private formBuilder: FormBuilder, private comicService: ComicService, private router: Router) {
     this.comicForm = this.formBuilder.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
       series: ['', Validators.required],
       publisher: ['', Validators.required],
-      publicationDate: ['', Validators.required]
+      publicationDate: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]], // Ensure the format is YYYY-MM-DD
+      genre: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
 
@@ -29,21 +29,16 @@ export class AddComicComponent implements OnInit {
 
   addComic(): void {
     if (this.comicForm.valid) {
-      console.log(this.comicForm.value);
       this.comicService.addComic(this.comicForm.value).subscribe(
         (res) => {
           console.log('Comic added successfully:', res);
           this.router.navigateByUrl('/comics');
-          // Optionally reset the form or show a success message
           this.comicForm.reset();
         },
         (err) => {
           console.error('Error adding comic:', err);
-          // Handle error, show error message to the user
         }
       );
-    } else {
-      console.log('Form is invalid');
     }
   }
 }

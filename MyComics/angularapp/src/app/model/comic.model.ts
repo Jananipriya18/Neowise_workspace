@@ -1,13 +1,3 @@
-// export interface Doctor {
-//     id?: number;
-//     name: string;
-//     age: number;
-//     specialization: string;
-//     department: string;
-//     contactNumber: string;
-//   }
-  
-
   export interface Comic {
     id?: number;                   // Unique identifier for the comic
     title: string;                // Title of the comic book

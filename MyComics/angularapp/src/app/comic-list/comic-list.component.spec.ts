@@ -20,7 +20,9 @@ describe('ComicListComponent', () => {
       author: 'Stan Lee',
       series: 'Spider-Man',
       publisher: 'Marvel',
-      publicationDate: '2017-07-07'
+      publicationDate: new Date('2017-07-07'),
+      genre: 'Superhero',
+      description: 'A young superhero with spider-like abilities.'
     }
   ];
 

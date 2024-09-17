@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditComicComponent } from './edit-comic.component';
 import { ComicService } from '../services/comic.service';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -21,7 +21,9 @@ describe('EditComicComponent', () => {
     author: 'Mark Millar',
     series: 'Elseworlds',
     publisher: 'DC Comics',
-    publicationDate: '2003-01-01',
+    publicationDate: new Date('2003-01-01'),
+    genre: 'Alternate History',
+    description: 'An Elseworlds story where Superman lands in the Soviet Union.',
   };
 
   beforeEach(() => {
@@ -43,11 +45,11 @@ describe('EditComicComponent', () => {
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  fit('should_create_EditComicComponent', () => {
+  fit('should create EditComicComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should_load_comic_details_on_init', () => {
+  fit('should load comic details on init', () => {
     spyOn(service, 'getComicById').and.returnValue(of(mockComic));
     component.ngOnInit();
     fixture.detectChanges();
@@ -56,7 +58,7 @@ describe('EditComicComponent', () => {
     expect(component.comic).toEqual(mockComic);
   });
 
-  fit('should_save_comic_details', () => {
+  fit('should save comic details', () => {
     spyOn(service, 'updateComic').and.returnValue(of(mockComic));
     component.comic = { ...mockComic };
     component.saveComic();

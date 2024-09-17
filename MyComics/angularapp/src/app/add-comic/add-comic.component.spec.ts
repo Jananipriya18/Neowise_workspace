@@ -10,13 +10,14 @@ import {
   FormsModule,
   Validators,
 } from '@angular/forms';
-import { AddComicComponent } from './add-comic.component'; // Changed to AddComicComponent
-import { ComicService } from '../services/comic.service'; // Changed to ComicService
+import { AddComicComponent } from './add-comic.component';
+import { ComicService } from '../services/comic.service';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { Comic } from '../model/comic.model';
 
 describe('AddComicComponent', () => {
   let component: AddComicComponent;
@@ -32,40 +33,50 @@ describe('AddComicComponent', () => {
       imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, FormsModule],
       providers: [ComicService],
     });
-    formBuilder = TestBed.inject(FormBuilder) as any;
-    fixture = TestBed.createComponent(AddComicComponent) as any;
-    component = fixture.componentInstance as any;
-    service = TestBed.inject(ComicService) as any;
-    fixture.detectChanges();
+
+    formBuilder = TestBed.inject(FormBuilder);
+    fixture = TestBed.createComponent(AddComicComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(ComicService);
     router = TestBed.inject(Router);
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
   });
 
-  fit('should_create_AddComicComponent', () => {
+  it('should create AddComicComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should_add_a_new_comic_when_form_is_valid', fakeAsync(() => {
-    const validComicData = {
+  it('should add a new comic when form is valid', fakeAsync(() => {
+    const validComicData: Comic = {
+      id: 1,
       title: 'Amazing Spider-Man',
       author: 'Stan Lee',
       series: 'Spider-Man',
       publisher: 'Marvel',
-      publicationDate: '1963-03-01',
+      publicationDate: new Date('2017-07-07'),
       genre: 'Superhero',
       description: 'A story about Peter Parker, who gains spider-like abilities.',
     };
 
     spyOn(service, 'addComic').and.returnValue(of(validComicData));
-    component.comicForm.setValue(validComicData); 
-    let value: boolean = component.comicForm.valid;
+    component.comicForm.setValue({
+      title: 'Amazing Spider-Man',
+      author: 'Stan Lee',
+      series: 'Spider-Man',
+      publisher: 'Marvel',
+      publicationDate: '2017-07-07', // Ensure format is YYYY-MM-DD string
+      genre: 'Superhero',
+      description: 'A story about Peter Parker, who gains spider-like abilities.',
+    });
+
     component.addComic();
     tick();
-    expect(value).toBeTruthy();
-    expect(service.addComic).toHaveBeenCalledWith(validComicData);  
+
+    expect(component.comicForm.valid).toBeTruthy();
+    expect(service.addComic).toHaveBeenCalledWith(validComicData);
   }));
 
-  fit('should_validate_all_the_required_fields', () => {
+  it('should validate all the required fields', () => {
     const form = component.comicForm;
     form.setValue({
       title: '',
@@ -86,18 +97,20 @@ describe('AddComicComponent', () => {
     expect(form.get('genre')?.hasError('required')).toBeTruthy();
   });
 
-  fit('should_validate_publication_date_format', () => {
+  fit('should validate publication date format', () => {
     const comicForm = component.comicForm;
     comicForm.setValue({
       title: 'Amazing Spider-Man',
       author: 'Stan Lee',
       series: 'Spider-Man',
       publisher: 'Marvel',
-      publicationDate: '1963-03-01',
+      publicationDate: '2017-07-07', // Valid date format
       genre: 'Superhero',
       description: 'A story about Peter Parker, who gains spider-like abilities.',
     });
+
     expect(comicForm.valid).toBeTruthy();
+
     comicForm.setValue({
       title: 'Amazing Spider-Man',
       author: 'Stan Lee',
@@ -107,7 +120,9 @@ describe('AddComicComponent', () => {
       genre: 'Superhero',
       description: 'A story about Peter Parker, who gains spider-like abilities.',
     });
+
     expect(comicForm.valid).toBeFalsy();
     expect(comicForm.get('publicationDate')?.hasError('pattern')).toBeTruthy();
   });
+
 });
