@@ -46,7 +46,7 @@ describe('PodcastService', () => {
   });
 
   fit('should_retrieve_podcasts_from_the_API_via_GET', () => {
-    (service as any).getPodcasts().subscribe((podcasts) => {
+    (service as any).getPodcast().subscribe((podcasts) => {
       expect(podcasts).toEqual(mockPodcasts);
     });
     const req = httpTestingController.expectOne(`${service['backendUrl']}`);
