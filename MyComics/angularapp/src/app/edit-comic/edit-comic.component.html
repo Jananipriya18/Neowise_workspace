@@ -1,1 +1,27 @@
-<p>edit-comic works!</p>
+<div *ngIf="comic">
+    <h3>Edit Comic</h3>
+    <form (ngSubmit)="saveComic()">
+      <label>
+        Title:
+        <input [(ngModel)]="comic.title" name="title" required>
+      </label>
+      <label>
+        Author:
+        <input [(ngModel)]="comic.author" name="author" required>
+      </label>
+      <label>
+        Series:
+        <input [(ngModel)]="comic.series" name="series" required>
+      </label>
+      <label>
+        Publisher:
+        <input [(ngModel)]="comic.publisher" name="publisher" required>
+      </label>
+      <label>
+        Publication Date:
+        <input [(ngModel)]="comic.publicationDate" name="publicationDate" type="date" required>
+      </label>
+      <button type="submit">Save</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </form>
+</div>

@@ -1,1 +1,27 @@
-<p>comic-list works!</p>
+<table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Series</th>
+        <th>Publisher</th>
+        <th>Publication Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let comic of comics">
+        <td>{{ comic.title }}</td>
+        <td>{{ comic.author }}</td>
+        <td>{{ comic.series }}</td>
+        <td>{{ comic.publisher }}</td>
+        <td>{{ comic.publicationDate }}</td>
+        
+        <td>
+          <button (click)="editComic(comic.id)">Edit</button>
+          <button (click)="deleteComic(comic.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
