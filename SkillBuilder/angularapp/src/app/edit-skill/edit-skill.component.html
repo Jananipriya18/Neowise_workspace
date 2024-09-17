@@ -1,1 +1,29 @@
-<p>edit-skill works!</p>
+<!-- edit-skill.component.html -->
+<div *ngIf="skill">
+    <h3>Edit Skill</h3>
+    <form (ngSubmit)="saveSkill()">
+      <label>
+        Title:
+        <input [(ngModel)]="skill.title" name="title" required>
+      </label>
+      <label>
+        Number of Modules:
+        <input [(ngModel)]="skill.modules_count" name="modules_count" type="number" required min="2" max="200">
+      </label>
+      <label>
+        Description:
+        <input [(ngModel)]="skill.description" name="description" required>
+      </label>
+      <label>
+        Duration:
+        <input [(ngModel)]="skill.duration" name="duration" required>
+      </label>
+      <label>
+        Target Skill Level:
+        <input [(ngModel)]="skill.targetSkillLevel" name="targetSkillLevel" required>
+      </label>
+      <button type="submit">Save</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  

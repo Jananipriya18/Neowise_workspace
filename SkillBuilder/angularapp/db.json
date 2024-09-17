@@ -1,36 +1,36 @@
 {
-  "doctors": [
+  "skills": [
     {
       "id": 1,
-      "name": "Dr. Raj Kumar",
-      "age": 40,
-      "specialization": "Neurology",
-      "department": "Neurology",
-      "contactNumber": "852633122"
+      "title": "Advanced Neurology",
+      "modules_count": 10,
+      "description": "Advanced course on Neurology",
+      "duration": "40 hours",
+      "targetSkillLevel": "Expert"
     },
     {
       "id": 2,
-      "name": "Dr. Aishwarya Singh",
-      "age": 35,
-      "specialization": "Cardiology",
-      "department": "Cardiology",
-      "contactNumber": "912345678"
+      "title": "Fundamentals of Cardiology",
+      "modules_count": 8,
+      "description": "Introduction to Cardiology",
+      "duration": "30 hours",
+      "targetSkillLevel": "Beginner"
     },
     {
       "id": 3,
-      "name": "Dr. Arun Gupta",
-      "age": 50,
-      "specialization": "Orthopedics",
-      "department": "Orthopedics",
-      "contactNumber": "987654300"
+      "title": "Orthopedic Techniques",
+      "modules_count": 12,
+      "description": "Comprehensive study of Orthopedics",
+      "duration": "50 hours",
+      "targetSkillLevel": "Intermediate"
     },
     {
-      "name": "asdfgh",
-      "age": 45,
-      "specialization": "sadfg",
-      "department": "adf",
-      "contactNumber": "9876543210",
-      "id": 4
+      "id": 4,
+      "title": "General Medical Knowledge",
+      "modules_count": 5,
+      "description": "Basic overview of medical knowledge",
+      "duration": "20 hours",
+      "targetSkillLevel": "Beginner"
     }
   ]
 }

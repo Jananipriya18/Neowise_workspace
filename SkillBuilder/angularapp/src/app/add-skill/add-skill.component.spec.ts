@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddSkillComponent } from './add-skill.component'; // Updated component name
-import { SkillbuilderService } from '../services/skillbuilder.service'; // Updated service
+import { SkillService } from '../services/skill.service'; // Updated service
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 describe('AddSkillComponent', () => {
   let component: AddSkillComponent;
   let fixture: ComponentFixture<AddSkillComponent>;
-  let service: SkillbuilderService; // Updated service
+  let service: SkillService; // Updated service
   let debugElement: DebugElement;
   let formBuilder: FormBuilder;
   let router: Router;
@@ -30,12 +30,12 @@ describe('AddSkillComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AddSkillComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, FormsModule],
-      providers: [SkillbuilderService], // Updated service
+      providers: [SkillService], // Updated service
     });
     formBuilder = TestBed.inject(FormBuilder) as any;
     fixture = TestBed.createComponent(AddSkillComponent) as any;
     component = fixture.componentInstance as any;
-    service = TestBed.inject(SkillbuilderService) as any; // Updated service
+    service = TestBed.inject(SkillService) as any; // Updated service
     fixture.detectChanges();
     router = TestBed.inject(Router);
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));

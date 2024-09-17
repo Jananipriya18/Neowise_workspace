@@ -1,0 +1,71 @@
+/* Styling the container div to center-align it */
+div {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling the form control inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Styling the submit and cancel buttons */
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"] {
+    background-color: #4caf50; /* Green color for submit */
+    color: white;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+button[type="button"] {
+    background-color: #f44336; /* Red color for cancel */
+    color: white;
+}
+
+button[type="button"]:hover:not(:disabled) {
+    background-color: #e53935; /* Darker red on hover */
+}
+
+button:disabled {
+    background-color: #cccccc; /* Gray color for disabled state */
+    cursor: not-allowed;
+}
+
+/* Styling the form element spacing */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 15px;
+}
+
+div.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
