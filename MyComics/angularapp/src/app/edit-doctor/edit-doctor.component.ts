@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Doctor } from '../model/comic.model';
-import { DoctorService } from '../services/doctor.service';
+import { DoctorService } from '../services/comic.service';
 
 @Component({
   selector: 'app-edit-doctor',

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DoctorListComponent } from './doctor-list.component';
-import { DoctorService } from '../services/doctor.service';
+import { DoctorService } from '../services/comic.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

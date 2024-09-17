@@ -5,9 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddDoctorComponent } from './add-doctor/add-doctor.component';
-import { DoctorListComponent } from './doctor-list/doctor-list.component';
-import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
+import { AddDoctorComponent } from './add-comic/add-comic.component';
+import { DoctorListComponent } from './comic-list/comic-list.component';
+import { EditDoctorComponent } from './edit-comic/edit-comic.component';
 
 @NgModule({
   declarations: [
