@@ -25,13 +25,8 @@
         <td><input class="form-control" type="text" placeholder="Enter duration" formControlName="duration"></td>
       </tr>
       <tr>
-        <td>Contact Number :</td>
-        <td>
-          <input class="form-control" type="text" placeholder="Enter contact number" formControlName="contactNumber">
-          <div *ngIf="skillForm.get('contactNumber').hasError('pattern') && skillForm.get('contactNumber').touched">
-            Contact number must be 10 digits.
-          </div>
-        </td>
+        <td>TargetSkillLevel</td>
+        <td><input class="form-control" type="text" placeholder="Enter Target Skill Level" formControlName="targetSkillLevel"></td>
       </tr>
       <tr>
         <td colspan="2">

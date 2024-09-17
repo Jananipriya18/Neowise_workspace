@@ -1,0 +1,27 @@
+<table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Count of Modules</th>
+        <th>Description</th>
+        <th>Duration</th>
+        <th>Target Skill Level</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let skill of skills">
+        <td>{{ skill.title }}</td>
+        <td>{{ skill.modules_count }}</td>
+        <td>{{ skill.description }}</td>
+        <td>{{ skill.duration }}</td>
+        <td>{{ skill.targetSkillLevel }}</td>
+        
+        <td>
+          <button (click)="editSkill(skill.id)">Edit</button>
+          <button (click)="deleteSkill(skill.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+

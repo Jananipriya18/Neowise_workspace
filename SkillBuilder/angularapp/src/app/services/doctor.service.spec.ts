@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { DoctorService } from './doctor.service';
+import { DoctorService } from './skill.service';
 
 describe('DoctorService', () => {
   let service: DoctorService;

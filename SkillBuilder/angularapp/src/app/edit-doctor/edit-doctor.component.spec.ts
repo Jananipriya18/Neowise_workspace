@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditDoctorComponent } from './edit-doctor.component';
-import { DoctorService } from '../services/doctor.service';
+import { DoctorService } from '../services/skill.service';
 import { of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';

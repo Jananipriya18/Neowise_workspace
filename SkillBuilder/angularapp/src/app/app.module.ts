@@ -5,17 +5,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddDoctorComponent } from './add-doctor/add-doctor.component';
-import { DoctorListComponent } from './doctor-list/doctor-list.component';
-import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
+import { AddSkillComponent } from './add-skill/add-skill.component';
+import { SkillListComponent } from './skill-list/skill-list.component';
+import { EditSkillComponent } from './edit-skill/edit-skill.component';
 import { AddSkillComponent } from './add-skill/add-skill.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddDoctorComponent,
-    DoctorListComponent,
-    EditDoctorComponent,
+    AddSkillComponent,
+    SkillListComponent,
+    EditSkillComponent,
     AddSkillComponent
   ],
   imports: [
