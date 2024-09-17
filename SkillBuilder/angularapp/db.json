@@ -31,6 +31,14 @@
       "description": "Basic overview of medical knowledge",
       "duration": "20 hours",
       "targetSkillLevel": "Beginner"
+    },
+    {
+      "title": "dfgh",
+      "modules_count": 56,
+      "description": "sdfgh",
+      "duration": "67",
+      "targetSkillLevel": "dfg",
+      "id": 5
     }
   ]
 }
