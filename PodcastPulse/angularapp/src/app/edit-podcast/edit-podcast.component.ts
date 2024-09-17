@@ -32,7 +32,7 @@ export class EditPodcastComponent implements OnInit {
     if (this.podcast) {
       this.podcastService.updatePodcast(this.podcast.id, this.podcast).subscribe(
         () => {
-          this.router.navigate(['/podcasts']);
+          this.router.navigate(['/podcastsList']);
         },
         (err) => {
           console.error(err);
@@ -42,6 +42,6 @@ export class EditPodcastComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/podcasts']);
+    this.router.navigate(['/podcastsList']);
   }
 }

@@ -19,6 +19,7 @@ export class AddPodcastComponent implements OnInit {
       hostName: ['', Validators.required],
       category: ['', Validators.required],
       releaseDate: ['', Validators.required], // Expecting a Date input
+      contactEmail:['',Validators.required],
       episodeCount: ['', [Validators.required, Validators.min(1)]], // Minimum 1 episode
     });
   }
@@ -33,7 +34,7 @@ export class AddPodcastComponent implements OnInit {
         .subscribe(
           (res) => {
             console.log('Podcast added successfully:', res);
-            this.router.navigateByUrl('/podcasts');
+            this.router.navigateByUrl('/podcastsList');
             // Optionally reset the form or show a success message
             this.podcastForm.reset();
           },
