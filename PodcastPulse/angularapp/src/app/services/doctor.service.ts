@@ -1,34 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Doctor } from '../model/doctor.model';
+import { Podcast  } from '../model/podcast .model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorService {
-  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/doctors'; 
+export class Podcast Service {
+  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/podcast'; 
 
   constructor(private http: HttpClient) { }
 
-  getDoctors(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(this.backendUrl);
+  getPodcast s(): Observable<Podcast []> {
+    return this.http.get<Podcast []>(this.backendUrl);
   }
 
-  addDoctor(doctor: Doctor): Observable<Doctor> {
-    return this.http.post<Doctor>(this.backendUrl, doctor);
+  addPodcast (podcast : Podcast ): Observable<Podcast > {
+    return this.http.post<Podcast >(this.backendUrl, podcast );
   }
 
-  getDoctorById(id: number): Observable<Doctor> {
+  getPodcast ById(id: number): Observable<Podcast > {
     const url = `${this.backendUrl}/${id}`;
-    return this.http.get<Doctor>(url);
+    return this.http.get<Podcast >(url);
   }
-  updateDoctor(id: number, doctor: Doctor): Observable<Doctor> {
+  updatePodcast (id: number, podcast : Podcast ): Observable<Podcast > {
     const url = `${this.backendUrl}/${id}`;
-    return this.http.put<Doctor>(url, doctor);
+    return this.http.put<Podcast >(url, podcast );
   }
 
-  deleteDoctor(id: number): Observable<void> {
+  deletePodcast (id: number): Observable<void> {
     const url = `${this.backendUrl}/${id}`;
     return this.http.delete<void>(url);
   }
