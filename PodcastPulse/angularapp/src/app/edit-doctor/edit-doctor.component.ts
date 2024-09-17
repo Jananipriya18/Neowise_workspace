@@ -1,8 +1,8 @@
 // edit-doctor.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Doctor } from '../model/doctor.model';
-import { DoctorService } from '../services/doctor.service';
+import { Doctor } from '../model/podcast.model';
+import { DoctorService } from '../services/podcast.service';
 
 @Component({
   selector: 'app-edit-doctor',

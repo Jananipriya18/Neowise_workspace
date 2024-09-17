@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditDoctorComponent } from './edit-doctor.component';
-import { DoctorService } from '../services/doctor.service';
+import { DoctorService } from '../services/podcast.service';
 import { of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Doctor } from '../model/doctor.model';
+import { Doctor } from '../model/podcast.model';
 
 describe('EditDoctorComponent', () => {
   let component: EditDoctorComponent;

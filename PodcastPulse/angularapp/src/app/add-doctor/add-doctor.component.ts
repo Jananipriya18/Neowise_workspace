@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DoctorService } from '../services/doctor.service'; // Adjust the path as necessary
+import { DoctorService } from '../services/podcast.service'; // Adjust the path as necessary
 import { Router } from '@angular/router';
 
 @Component({

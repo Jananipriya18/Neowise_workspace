@@ -10,7 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddDoctorComponent } from './add-doctor.component';
-import { DoctorService } from '../services/doctor.service';
+import { DoctorService } from '../services/podcast.service';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
