@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <button (click)="filterStylists('basic')">Basic</button>
   <button (click)="filterStylists('premium')">Premium</button>
   <button (click)="filterStylists('luxury')">Luxury</button>
@@ -23,6 +23,38 @@
       <td>{{ stylist.styleSignature }}</td>
       <td>{{ stylist.availability }}</td>
       <td>{{ stylist.hourlyRate | currency }}</td> 
+      <td>{{ stylist.location }}</td>
+      <td>
+        <button (click)="deleteStylist(stylist.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+<div>
+  <button (click)="filterStylists('basic')">Basic</button>
+  <button (click)="filterStylists('premium')">Premium</button>
+  <button (click)="filterStylists('luxury')">Luxury</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Expertise</th>
+      <th>Style Signature</th>
+      <th>Availability</th>
+      <th>Hourly Rate</th>
+      <th>Location</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let stylist of filteredStylists">
+      <td>{{ stylist.name }}</td>
+      <td>{{ stylist.expertise }}</td>
+      <td>{{ stylist.styleSignature }}</td>
+      <td>{{ stylist.availability }}</td>
+      <td>{{ stylist.hourlyRate | currency }}</td>
       <td>{{ stylist.location }}</td>
       <td>
         <button (click)="deleteStylist(stylist.id)">Delete</button>
