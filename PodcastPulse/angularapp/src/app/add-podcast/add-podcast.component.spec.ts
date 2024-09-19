@@ -46,6 +46,7 @@ describe('AddPodcastComponent', () => {
       category: 'Technology',
       releaseDate: new Date(),
       episodeCount: 10,
+      contactEmail: 'demo@gmail.com'
     };
     spyOn(service, 'addPodcast').and.returnValue(of(validPodcastData));
     component.podcastForm.setValue(validPodcastData);
@@ -65,6 +66,7 @@ describe('AddPodcastComponent', () => {
       category: '',
       releaseDate: '',
       episodeCount: '',
+      contactEmail: ''
     });
 
     expect(form.valid).toBeFalsy();
@@ -74,6 +76,7 @@ describe('AddPodcastComponent', () => {
     expect(form.get('category')?.hasError('required')).toBeTruthy();
     expect(form.get('releaseDate')?.hasError('required')).toBeTruthy();
     expect(form.get('episodeCount')?.hasError('required')).toBeTruthy();
+    expect(form.get('contactEmail')?.hasError('required')).toBeTruthy();
   });
 
   fit('should validate episode count', () => {
@@ -85,6 +88,7 @@ describe('AddPodcastComponent', () => {
       category: 'Technology',
       releaseDate: new Date(),
       episodeCount: 0,
+      contactEmail: 'demo@gmail.com'
     });
     expect(podcastForm.valid).toBeFalsy();
     expect(podcastForm.get('episodeCount')?.hasError('min')).toBeTruthy();
@@ -96,6 +100,7 @@ describe('AddPodcastComponent', () => {
       category: 'Technology',
       releaseDate: new Date(),
       episodeCount: 10,
+      contactEmail: 'demo@gmail.com'
     });
     expect(podcastForm.valid).toBeTruthy();
     expect(podcastForm.get('episodeCount')?.hasError('min')).toBeFalsy();

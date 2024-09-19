@@ -52,10 +52,4 @@ describe('PodcastListComponent', () => {
     expect(component.podcasts).toEqual(mockPodcasts);
   });
 
-  fit('should_call_deletePodcast', () => {
-    spyOn(service, 'deletePodcast').and.returnValue(of()); // Change method to deletePodcast
-    component.deletePodcast(1);
-    expect(service.deletePodcast).toHaveBeenCalledWith(1);
-  });
-
 });

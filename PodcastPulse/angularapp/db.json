@@ -6,9 +6,9 @@
       "description": "A general discussion about various health topics and fitness.",
       "hostName": "Host Example",
       "category": "General Health",
-      "releaseDate": "2023-10-01T00:00:00Z",
+      "releaseDate": "2024-09-26",
       "contactEmail": "contact@healthtalk.com",
-      "episodeCount": 10
+      "episodeCount": 100
     },
     {
       "title": "demo",
@@ -17,7 +17,7 @@
       "category": "demo",
       "releaseDate": "2024-09-18",
       "contactEmail": "sdf@gmail.com",
-      "episodeCount": 34,
+      "episodeCount": 134,
       "id": 5
     }
   ]

@@ -88,13 +88,4 @@ describe('PodcastService', () => {
     expect(req.request.method).toEqual('PUT');
     req.flush(updatedPodcast);
   });
-
-  fit('should_delete_a_podcast_via_DELETE', () => {
-    const podcastId = 1;
-    (service as any).deletePodcast(podcastId).subscribe(() => {
-    });
-    const req = httpTestingController.expectOne(`${service['backendUrl']}/${podcastId}`);
-    expect(req.request.method).toEqual('DELETE');
-    req.flush({});
-  });
 });

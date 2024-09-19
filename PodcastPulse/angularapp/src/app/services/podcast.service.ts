@@ -27,9 +27,4 @@ export class PodcastService {
     const url = `${this.backendUrl}/${id}`;
     return this.http.put<Podcast >(url, podcast );
   }
-
-  deletePodcast (id: number): Observable<void> {
-    const url = `${this.backendUrl}/${id}`;
-    return this.http.delete<void>(url);
-  }
 }
