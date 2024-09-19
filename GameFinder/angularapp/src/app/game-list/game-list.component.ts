@@ -62,9 +62,4 @@ searchByDeveloper(): void {
     this.router.navigate(['/edit', id]);
   }
 
-  deleteGame(id: any): void {
-    this.gameService.deleteGame(id).subscribe(() => {
-      this.games = this.games.filter((game) => game.id !== id);
-    });
-  }
 }

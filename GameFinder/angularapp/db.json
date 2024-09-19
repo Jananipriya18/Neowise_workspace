@@ -1,28 +1,12 @@
 {
   "games": [
     {
-      "title": "The Legend of Code",
-      "releaseYear": 2020,
-      "genre": "Adventure",
-      "developer": "CodeMasters",
-      "supportContact": "support@codemasters.com",
-      "id": 1
-    },
-    {
       "title": "Angular Warriors",
       "releaseYear": 2019,
       "genre": "Action",
       "developer": "FrontendHeroes",
       "supportContact": "support@frontendheroes.io",
       "id": 2
-    },
-    {
-      "title": "RxJS Odyssey",
-      "releaseYear": 2021,
-      "genre": "Puzzle",
-      "developer": "CodeMasters",
-      "supportContact": "support@reactiveminds.dev",
-      "id": 3
     },
     {
       "title": "JavaScript Showdown",

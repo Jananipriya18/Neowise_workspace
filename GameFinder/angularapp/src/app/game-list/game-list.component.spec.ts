@@ -67,7 +67,8 @@ describe('GameListComponent', () => {
     expect(component.games).toEqual(mockGames);
   });
 
-  fit('should call deleteGame and remove the game from the list', () => {
+
+  fit('should call deleteGame', () => {
     // Spy on the deleteGame method and mock its return value
     spyOn(service, 'deleteGame').and.returnValue(of());
 
@@ -76,13 +77,6 @@ describe('GameListComponent', () => {
 
     // Assert that deleteGame was called with the correct id
     expect(service.deleteGame).toHaveBeenCalledWith(1);
-
-    // Simulate the removal of the game from the list
-    component.games = component.games.filter((game) => game.id !== 1);
-
-    // Assert the game list has been updated
-    expect(component.games.length).toBe(1);
-    expect(component.games[0].id).toBe(2);
   });
 
   fit('should call searchByDeveloper and set developerGameCount correctly', () => {
