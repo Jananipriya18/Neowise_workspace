@@ -7,7 +7,7 @@
       <th>Availability</th>
       <th>Hourly Rate</th>
       <th>Location</th>
-      <th>Actions</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -16,10 +16,9 @@
       <td>{{ stylist.expertise }}</td>
       <td>{{ stylist.styleSignature }}</td>
       <td>{{ stylist.availability }}</td>
-      <td>{{ stylist.hourlyRate | currency }}</td> <!-- Format as currency -->
+      <td>{{ stylist.hourlyRate | currency }}</td>
       <td>{{ stylist.location }}</td>
       <td>
-        <button (click)="editStylist(stylist.id)">Edit</button>
         <button (click)="deleteStylist(stylist.id)">Delete</button>
       </td>
     </tr>

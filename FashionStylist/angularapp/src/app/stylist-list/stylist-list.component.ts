@@ -34,11 +34,6 @@ export class StylistListComponent implements OnInit {
     }
   }
 
-  editStylist(id: number): void {
-    this.router.navigate(['/edit', id]);
-  }
-
-
   deleteStylist(id: any): void {
     this.stylistService.deleteStylist(id).subscribe(() => {
       this.stylists = this.stylists.filter((stylist) => stylist.id !== id);
