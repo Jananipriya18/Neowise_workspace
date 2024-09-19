@@ -44,6 +44,15 @@
       "hourlyRate": 123,
       "location": "Coimbatore",
       "id": 5
+    },
+    {
+      "name": "Amrutha",
+      "expertise": "Outfit",
+      "styleSignature": "Western",
+      "availability": "Mon",
+      "hourlyRate": 1000,
+      "location": "chennai",
+      "id": 6
     }
   ]
 }
