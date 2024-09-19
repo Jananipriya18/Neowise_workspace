@@ -1,3 +1,21 @@
+<div style="text-align: center;">
+  <input
+    type="text"
+    [(ngModel)]="developerName"
+    class="form-control"
+    placeholder="Enter developer name"
+  />
+  <button (click)="searchByDeveloper()">Search</button>
+</div>
+
+<!-- Display the count of games by the searched developer -->
+<div *ngIf="developerName && developerGameCount > 0" style="text-align: center; margin-top: 10px;">
+  <strong>{{ developerGameCount }} games found for developer "{{ developerName }}"</strong>
+</div>
+<div *ngIf="developerName && developerGameCount === 0" style="text-align: center; margin-top: 10px;">
+  <strong>No games found for developer "{{ developerName }}"</strong>
+</div>
+
 <table>
     <thead>
       <tr>
