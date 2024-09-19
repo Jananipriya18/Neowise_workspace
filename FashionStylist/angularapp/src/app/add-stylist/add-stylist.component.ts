@@ -35,7 +35,7 @@ export class AddStylistComponent implements OnInit {
         .subscribe(
           (res) => {
             console.log('Stylist added successfully:', res);
-            this.router.navigateByUrl('/stylists');
+            this.router.navigateByUrl('/stylistsList');
             // Optionally reset the form or show a success message
             this.stylistForm.reset();
           },

@@ -35,6 +35,15 @@
       "availability": "Freelance",
       "hourlyRate": 90,
       "location": "Chicago"
+    },
+    {
+      "name": "Demo",
+      "expertise": "demo",
+      "styleSignature": "demo",
+      "availability": "demo",
+      "hourlyRate": 123,
+      "location": "Coimbatore",
+      "id": 5
     }
   ]
 }
