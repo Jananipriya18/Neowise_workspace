@@ -86,14 +86,4 @@ describe('GameService', () => {
     req.flush(updatedGame);
   });
 
-
-
-  fit('should_delete_a_game_via_DELETE', () => {
-    const gameId = 1;
-    (service as any).deleteGame(gameId).subscribe(() => {
-    });
-    const req = httpTestingController.expectOne(`${service['backendUrl']}/${gameId}`);
-    expect(req.request.method).toEqual('DELETE');
-    req.flush({});
-  });
 });

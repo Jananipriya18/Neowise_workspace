@@ -28,12 +28,7 @@ export class GameService {
     const url = `${this.backendUrl}/${id}`;
     return this.http.put<Game>(url, game);
   }
-
-  deleteGame(id: number): Observable<void> {
-    const url = `${this.backendUrl}/${id}`;
-    return this.http.delete<void>(url);
-  }
-
+  
   // Method to filter games by developer
   getGamesByDeveloper(developer: string): Observable<Game[]> {
     return this.http.get<Game[]>(`${this.backendUrl}?developer=${developer}`); 
