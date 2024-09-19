@@ -12,7 +12,7 @@
       "title": "Angular Warriors",
       "releaseYear": 2019,
       "genre": "Action",
-      "developer": "Frontend Heroes",
+      "developer": "FrontendHeroes",
       "supportContact": "support@frontendheroes.io",
       "id": 2
     },
@@ -28,7 +28,7 @@
       "title": "JavaScript Showdown",
       "releaseYear": 2018,
       "genre": "Fighting",
-      "developer": "Frontend Heroes",
+      "developer": "FrontendHeroes",
       "supportContact": "help@jsninjas.com",
       "id": 4
     },
@@ -39,6 +39,22 @@
       "developer": "de",
       "supportContact": "de@gmaol.som",
       "id": 5
+    },
+    {
+      "title": "siri",
+      "releaseYear": 2020,
+      "genre": "jan",
+      "developer": "jan",
+      "supportContact": "jan@gmail.com",
+      "id": 6
+    },
+    {
+      "title": "delop",
+      "releaseYear": 2022,
+      "genre": "cd",
+      "developer": "jan",
+      "supportContact": "jan@gmail.com",
+      "id": 7
     }
   ]
 }
