@@ -5,14 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddStylistComponent } from './add-stylist/add-stylist.component';
-import { EditStylistComponent } from './edit-stylist/edit-stylist.component';
 import { StylistListComponent } from './stylist-list/stylist-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddStylistComponent,
-    EditStylistComponent,
     StylistListComponent
   ],
   imports: [
