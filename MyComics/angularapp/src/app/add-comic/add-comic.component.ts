@@ -12,6 +12,7 @@ import { Comic } from '../model/comic.model';
 })
 export class AddComicComponent implements OnInit {
   comicForm: FormGroup;
+  genres: string[] = ['Superhero', 'Fantasy', 'Horror', 'Science Fiction'];
 
   constructor(private formBuilder: FormBuilder, private comicService: ComicService, private router: Router) {
     this.comicForm = this.formBuilder.group({
@@ -19,8 +20,7 @@ export class AddComicComponent implements OnInit {
       author: ['', Validators.required],
       series: ['', Validators.required],
       publisher: ['', Validators.required],
-      publicationDate: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]], // Ensure the format is YYYY-MM-DD
-      genre: ['', Validators.required],
+      genre: ['', Validators.required], // Keep genre as a required field
       description: ['', Validators.required]
     });
   }

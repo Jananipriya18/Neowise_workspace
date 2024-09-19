@@ -9,19 +9,22 @@ describe('ComicService', () => {
   const mockComics = [
     {
       id: 1,
-      name: 'Dr. John Smith',
-      age: 45,
-      specialization: 'Cardiology',
-      department: 'Cardiology',
-      contactNumber: '1234567890'
+      title: 'Spider-Man: No Way Home',
+      author: 'Nick Spencer',
+      series: 'Spider-Man',
+      publisher: 'Marvel Comics',
+      genre: 'Superhero',
+      description: 'Peter Parker faces new challenges as Spider-Man in this thrilling continuation of the Spider-Man series.'
     },
     {
       id: 2,
-      name: 'Dr. Jane Doe',
-      age: 38,
-      specialization: 'Neurology',
-      department: 'Neurology',
-      contactNumber: '9876543210'
+      title: 'Batman: The Long Halloween',
+      author: 'Jeph Loeb',
+      series: 'Batman',
+      publisher: 'DC Comics',
+      publicationDate: '1996-10-01',
+      genre: 'Superhero',
+      description: 'A gripping detective story featuring Batman as he tries to uncover the identity of the mysterious Holiday killer.'
     },
   ];
 
@@ -58,7 +61,6 @@ describe('ComicService', () => {
         author: 'Nick Spencer',
         series: 'Spider-Man',
         publisher: 'Marvel Comics',
-        publicationDate: '2021-09-01',
         genre: 'Superhero',
         description: 'Peter Parker faces new challenges as Spider-Man in this thrilling continuation of the Spider-Man series.'
     };
@@ -78,7 +80,6 @@ describe('ComicService', () => {
       author: 'Nick Spencer',
       series: 'Spider-Man',
       publisher: 'Marvel Comics',
-      publicationDate: '2021-09-01',
       genre: 'Superhero',
       description: 'Peter Parker faces new challenges as Spider-Man in this thrilling continuation of the Spider-Man series.'
     };
@@ -90,14 +91,4 @@ describe('ComicService', () => {
     req.flush(updatedComic);
   });
 
-
-
-  fit('should_delete_a_comic_via_DELETE', () => {
-    const comicId = 1;
-    (service as any).deleteComic(comicId).subscribe(() => {
-    });
-    const req = httpTestingController.expectOne(`${service['backendUrl']}/${comicId}`);
-    expect(req.request.method).toEqual('DELETE');
-    req.flush({});
-  });
 });

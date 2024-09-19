@@ -5,7 +5,7 @@
         <th>Author</th>
         <th>Series</th>
         <th>Publisher</th>
-        <th>Publication Date</th>
+        <th>Genre</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -15,11 +15,9 @@
         <td>{{ comic.author }}</td>
         <td>{{ comic.series }}</td>
         <td>{{ comic.publisher }}</td>
-        <td>{{ comic.publicationDate }}</td>
-        
+        <td>{{ comic.genre }}</td>
         <td>
           <button (click)="editComic(comic.id)">Edit</button>
-          <button (click)="deleteComic(comic.id)">Delete</button>
         </td>
       </tr>
     </tbody>

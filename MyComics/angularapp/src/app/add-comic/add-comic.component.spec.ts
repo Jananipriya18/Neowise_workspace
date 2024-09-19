@@ -53,7 +53,6 @@ describe('AddComicComponent', () => {
       author: 'Stan Lee',
       series: 'Spider-Man',
       publisher: 'Marvel',
-      publicationDate: new Date('2017-07-07'),
       genre: 'Superhero',
       description: 'A story about Peter Parker, who gains spider-like abilities.',
     };
@@ -64,7 +63,6 @@ describe('AddComicComponent', () => {
       author: 'Stan Lee',
       series: 'Spider-Man',
       publisher: 'Marvel',
-      publicationDate: '2017-07-07', 
       genre: 'Superhero',
       description: 'A story about Peter Parker, who gains spider-like abilities.',
     });
@@ -83,7 +81,6 @@ describe('AddComicComponent', () => {
       author: '',
       series: '',
       publisher: '',
-      publicationDate: '',
       genre: '',
       description: '',
     });
@@ -93,36 +90,15 @@ describe('AddComicComponent', () => {
     expect(form.get('author')?.hasError('required')).toBeTruthy();
     expect(form.get('series')?.hasError('required')).toBeTruthy();
     expect(form.get('publisher')?.hasError('required')).toBeTruthy();
-    expect(form.get('publicationDate')?.hasError('required')).toBeTruthy();
     expect(form.get('genre')?.hasError('required')).toBeTruthy();
   });
 
-  fit('should validate publication date format', () => {
-    const comicForm = component.comicForm;
-    comicForm.setValue({
-      title: 'Amazing Spider-Man',
-      author: 'Stan Lee',
-      series: 'Spider-Man',
-      publisher: 'Marvel',
-      publicationDate: '2017-07-07', // Valid date format
-      genre: 'Superhero',
-      description: 'A story about Peter Parker, who gains spider-like abilities.',
-    });
-
-    expect(comicForm.valid).toBeTruthy();
-
-    comicForm.setValue({
-      title: 'Amazing Spider-Man',
-      author: 'Stan Lee',
-      series: 'Spider-Man',
-      publisher: 'Marvel',
-      publicationDate: '03-01-1963', // Invalid date format
-      genre: 'Superhero',
-      description: 'A story about Peter Parker, who gains spider-like abilities.',
-    });
-
-    expect(comicForm.valid).toBeFalsy();
-    expect(comicForm.get('publicationDate')?.hasError('pattern')).toBeTruthy();
+  fit('should populate genre dropdown with predefined values', () => {
+    const genres = component.genres;
+    expect(genres).toEqual(['Superhero', 'Fantasy', 'Horror', 'Science Fiction']);
+    const genreControl = component.comicForm.get('genre');
+    expect(genreControl?.value).toBeFalsy(); // Default is empty
   });
+  
 
 });

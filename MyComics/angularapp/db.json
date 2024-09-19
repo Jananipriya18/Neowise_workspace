@@ -7,7 +7,7 @@
       "series": "Spider-Man",
       "publisher": "Marvel Comics",
       "publicationDate": "2021-09-01",
-      "genre": "Superhero",
+      "genre": "Fantasy",
       "description": "Peter Parker faces new challenges as Spider-Man in this thrilling continuation of the Spider-Man series."
     },
     {
@@ -17,7 +17,7 @@
       "series": "Batman",
       "publisher": "DC Comics",
       "publicationDate": "1996-10-01",
-      "genre": "Superhero",
+      "genre": "Fantasy",
       "description": "A gripping detective story featuring Batman as he tries to uncover the identity of the mysterious Holiday killer."
     },
     {
@@ -29,6 +29,15 @@
       "publicationDate": "2012-03-01",
       "genre": "Science Fiction",
       "description": "An epic space opera about a family trying to survive in a war-torn universe."
+    },
+    {
+      "title": "demo",
+      "author": "demo",
+      "series": "demo",
+      "publisher": "demo",
+      "genre": "Superhero",
+      "description": "Demo",
+      "id": 4
     }
   ]
 }

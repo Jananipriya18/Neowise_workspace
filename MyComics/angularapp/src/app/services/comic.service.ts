@@ -28,8 +28,4 @@ export class ComicService {
     return this.http.put<Comic>(url, comic);
   }
 
-  deleteComic(id: number): Observable<void> {
-    const url = `${this.backendUrl}/${id}`;
-    return this.http.delete<void>(url);
-  }
 }

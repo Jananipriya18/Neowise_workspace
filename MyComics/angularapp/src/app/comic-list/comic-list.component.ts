@@ -34,14 +34,9 @@ export class ComicListComponent implements OnInit {
     }
   }
 
+
   editComic(id: number): void {
     this.router.navigate(['/edit', id]);
   }
 
-
-  deleteComic(id: any): void {
-    this.comicService.deleteComic(id).subscribe(() => {
-      this.comics = this.comics.filter((comic) => comic.id !== id);
-    });
-  }
 }

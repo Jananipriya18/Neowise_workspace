@@ -21,8 +21,7 @@ describe('EditComicComponent', () => {
     author: 'Mark Millar',
     series: 'Elseworlds',
     publisher: 'DC Comics',
-    publicationDate: new Date('2003-01-01'),
-    genre: 'Alternate History',
+    genre: 'Fantasy',
     description: 'An Elseworlds story where Superman lands in the Soviet Union.',
   };
 

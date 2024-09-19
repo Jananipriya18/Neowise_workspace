@@ -20,7 +20,6 @@ describe('ComicListComponent', () => {
       author: 'Stan Lee',
       series: 'Spider-Man',
       publisher: 'Marvel',
-      publicationDate: new Date('2017-07-07'),
       genre: 'Superhero',
       description: 'A young superhero with spider-like abilities.'
     }
@@ -52,9 +51,4 @@ describe('ComicListComponent', () => {
     expect(component.comics).toEqual(mockComics);
   });
 
-  fit('should_call_deleteComic', () => {
-    spyOn(service, 'deleteComic').and.returnValue(of());
-    component.deleteComic(1);
-    expect(service.deleteComic).toHaveBeenCalledWith(1);
-  });
 });
