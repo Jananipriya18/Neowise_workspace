@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class StylistListComponent implements OnInit {
   stylists: Stylist[] = [];
+  filteredStylists: Stylist[] = [];
 
   constructor(private stylistService: StylistService,private router: Router) {}
 
@@ -38,5 +39,15 @@ export class StylistListComponent implements OnInit {
     this.stylistService.deleteStylist(id).subscribe(() => {
       this.stylists = this.stylists.filter((stylist) => stylist.id !== id);
     });
+  }
+
+  filterStylists(category: string): void {
+    if (category === 'basic') {
+      this.filteredStylists = this.stylists.filter(stylist => stylist.hourlyRate < 50);
+    } else if (category === 'premium') {
+      this.filteredStylists = this.stylists.filter(stylist => stylist.hourlyRate >= 50 && stylist.hourlyRate <= 100);
+    } else if (category === 'luxury') {
+      this.filteredStylists = this.stylists.filter(stylist => stylist.hourlyRate > 100);
+    }
   }
 }
