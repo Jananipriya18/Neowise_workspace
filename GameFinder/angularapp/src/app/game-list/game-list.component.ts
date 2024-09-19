@@ -35,24 +35,28 @@ export class GameListComponent implements OnInit {
     }
   }
 
-  // Method to search games by developer
-  searchByDeveloper(): void {
-    if (this.developerName.trim() !== '') {
-      this.gameService.getGamesByDeveloper(this.developerName).subscribe(
-        (res) => {
-          this.games = res;
-          this.developerGameCount = res.length; // Set the count of games
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    } else {
-      // Reset to all games if no developer is entered
-      this.getGames();
-      this.developerGameCount = 0;
-    }
+ // Method to search games by developer
+searchByDeveloper(): void {
+  if (this.developerName.trim() !== '') {
+    // Encode the developer name to handle spaces and special characters
+    const encodedDeveloperName = encodeURIComponent(this.developerName.trim());
+
+    this.gameService.getGamesByDeveloper(encodedDeveloperName).subscribe(
+      (res) => {
+        this.games = res;
+        this.developerGameCount = res.length; // Set the count of games
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  } else {
+    // Reset to all games if no developer is entered
+    this.getGames();
+    this.developerGameCount = 0;
   }
+}
+
 
   editGame(id: number): void {
     this.router.navigate(['/edit', id]);
