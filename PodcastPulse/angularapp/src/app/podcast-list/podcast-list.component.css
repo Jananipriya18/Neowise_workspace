@@ -70,4 +70,10 @@ table {
   .actions button {
     margin-right: 10px; /* Space to the right of each button */
   }
+
+  .recommended {
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
   

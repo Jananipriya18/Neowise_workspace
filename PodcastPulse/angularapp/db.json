@@ -1,36 +1,6 @@
 {
   "podcasts": [
     {
-      "id": 1,
-      "title": "The Brain Science Show",
-      "description": "Exploring the mysteries of neurology and brain health.",
-      "hostName": "Dr. Raj Kumar",
-      "category": "Neurology",
-      "releaseDate": "2024-09-20",
-      "contactEmail": "rajsci@podcasts.com",
-      "episodeCount": 25
-    },
-    {
-      "id": 2,
-      "title": "Heart Health Podcast",
-      "description": "Everything you need to know about keeping your heart healthy.",
-      "hostName": "Dr. Aishwarya Singh",
-      "category": "Cardiology",
-      "releaseDate": "2023-08-10T00:00:00Z",
-      "contactEmail": "aishwarya@hearthealth.com",
-      "episodeCount": 32
-    },
-    {
-      "id": 3,
-      "title": "Strong Bones",
-      "description": "Orthopedic expert Dr. Arun Gupta shares tips on maintaining bone health.",
-      "hostName": "Dr. Arun Gupta",
-      "category": "Orthopedics",
-      "releaseDate": "2023-09-05T00:00:00Z",
-      "contactEmail": "arungupta@strongbones.com",
-      "episodeCount": 45
-    },
-    {
       "id": 4,
       "title": "Health Talk",
       "description": "A general discussion about various health topics and fitness.",

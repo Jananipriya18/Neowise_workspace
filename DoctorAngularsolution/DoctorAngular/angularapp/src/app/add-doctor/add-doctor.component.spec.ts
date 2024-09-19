@@ -1,14 +1,5 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import {
-  FormBuilder,
-  ReactiveFormsModule,FormsModule,
-  Validators,
-} from '@angular/forms';
+import {ComponentFixture, TestBed, fakeAsync, tick,} from '@angular/core/testing';
+import {FormBuilder, ReactiveFormsModule,FormsModule, Validators,} from '@angular/forms';
 import { AddDoctorComponent } from './add-doctor.component';
 import { DoctorService } from '../services/doctor.service';
 import { of } from 'rxjs';

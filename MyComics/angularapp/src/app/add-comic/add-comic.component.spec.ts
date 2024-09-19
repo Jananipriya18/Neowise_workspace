@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AddComicComponent } from './add-comic.component';
 import { ComicService } from '../services/comic.service';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Comic } from '../model/comic.model';
 
@@ -47,6 +47,7 @@ describe('AddComicComponent', () => {
 
   fit('should add a new comic when form is valid', fakeAsync(() => {
     spyOn(service, 'addComic').and.returnValue(of(mockComic));
+    
     component.comicForm.setValue({
       title: 'Amazing Spider-Man',
       author: 'Stan Lee',
@@ -56,10 +57,11 @@ describe('AddComicComponent', () => {
       description: 'A story about Peter Parker, who gains spider-like abilities.',
     });
 
+    expect(component.comicForm.valid).toBeTruthy();
+
     component.addComic();
     tick();
 
-    expect(component.comicForm.valid).toBeTruthy();
     expect(service.addComic).toHaveBeenCalledWith({
       title: 'Amazing Spider-Man',
       author: 'Stan Lee',

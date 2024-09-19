@@ -3,7 +3,6 @@ import { Podcast } from '../model/podcast.model';
 import { PodcastService } from '../services/podcast.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-podcast-list',
   templateUrl: './podcast-list.component.html',
@@ -11,8 +10,9 @@ import { Router } from '@angular/router';
 })
 export class PodcastListComponent implements OnInit {
   podcasts: Podcast[] = [];
+  recommendedPodcast?: Podcast;
 
-  constructor(private podcastService: PodcastService,private router: Router) {}
+  constructor(private podcastService: PodcastService, private router: Router) {}
 
   ngOnInit(): void {
     this.getPodcasts();
@@ -24,6 +24,13 @@ export class PodcastListComponent implements OnInit {
         (res) => {
           console.log(res);
           this.podcasts = res;
+
+          // Find the podcast with the maximum episode count
+          if (this.podcasts.length > 0) {
+            this.recommendedPodcast = this.podcasts.reduce((prev, current) => 
+              (prev.episodeCount > current.episodeCount) ? prev : current
+            );
+          }
         },
         (err) => {
           console.log(err);
@@ -38,10 +45,4 @@ export class PodcastListComponent implements OnInit {
     this.router.navigate(['/edit', id]);
   }
 
-
-  deletePodcast(id: any): void {
-    this.podcastService.deletePodcast(id).subscribe(() => {
-      this.podcasts = this.podcasts.filter((podcast) => podcast.id !== id);
-    });
-  }
 }
