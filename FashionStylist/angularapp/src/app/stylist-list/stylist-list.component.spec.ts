@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Stylist } from '../model/stylist.model'; // Adjust the import path as necessary
 import { StylistListComponent } from './stylist-list.component';
 import { StylistService } from '../services/stylist.service';
+import { By } from '@angular/platform-browser';
 
 describe('StylistListComponent', () => {
   let component: StylistListComponent;
@@ -56,5 +57,50 @@ describe('StylistListComponent', () => {
     (component as any).deleteStylist(1);
     expect((service as any).deleteStylist).toHaveBeenCalledWith(1);
   });
+
+  // Test to check for the presence of the buttons
+  fit('should check if the filter buttons are present', () => {
+    spyOn(service, 'getStylists').and.returnValue(of(mockStylists));
+    fixture.detectChanges(); // Trigger initial data binding
+
+    const basicButton = fixture.debugElement.query(By.css('.filter-basic'));
+    const premiumButton = fixture.debugElement.query(By.css('.filter-premium'));
+    const luxuryButton = fixture.debugElement.query(By.css('.filter-luxury'));
+
+    expect(basicButton).toBeTruthy();
+    expect(premiumButton).toBeTruthy();
+    expect(luxuryButton).toBeTruthy();
+  });
+
+  fit('should filter stylists based on basic, premium, and luxury packages', () => {
+    spyOn(service, 'getStylists').and.returnValue(of(mockStylists));
+    component.ngOnInit(); // Call ngOnInit to load stylists
+  
+    // Test for basic package (Hourly rate < 50)
+    component.filterStylists('basic');
+    const basicStylists = mockStylists.filter(stylist => stylist.hourlyRate < 50);
+    expect(component.filteredStylists.length).toBe(basicStylists.length); // Dynamically check the count
+    basicStylists.forEach(stylist => {
+      expect(stylist.hourlyRate).toBeLessThan(50);
+    });
+  
+    // Test for premium package (50 <= Hourly rate <= 100)
+    component.filterStylists('premium');
+    const premiumStylists = mockStylists.filter(stylist => stylist.hourlyRate >= 50 && stylist.hourlyRate <= 100);
+    expect(component.filteredStylists.length).toBe(premiumStylists.length); // Dynamically check the count
+    premiumStylists.forEach(stylist => {
+      expect(stylist.hourlyRate).toBeGreaterThanOrEqual(50);
+      expect(stylist.hourlyRate).toBeLessThanOrEqual(100);
+    });
+  
+    // Test for luxury package (Hourly rate > 100)
+    component.filterStylists('luxury');
+    const luxuryStylists = mockStylists.filter(stylist => stylist.hourlyRate > 100);
+    expect(component.filteredStylists.length).toBe(luxuryStylists.length); // Dynamically check the count
+    luxuryStylists.forEach(stylist => {
+      expect(stylist.hourlyRate).toBeGreaterThan(100);
+    });
+  });
+  
 
 });
