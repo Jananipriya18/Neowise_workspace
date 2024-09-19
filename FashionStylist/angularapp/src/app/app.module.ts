@@ -7,15 +7,13 @@ import { AppComponent } from './app.component';
 import { AddStylistComponent } from './add-stylist/add-stylist.component';
 import { EditStylistComponent } from './edit-stylist/edit-stylist.component';
 import { StylistListComponent } from './stylist-list/stylist-list.component';
-import { DeleteStylistComponent } from './delete-stylist/delete-stylist.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddStylistComponent,
     EditStylistComponent,
-    StylistListComponent,
-    DeleteStylistComponent
+    StylistListComponent
   ],
   imports: [
     BrowserModule,

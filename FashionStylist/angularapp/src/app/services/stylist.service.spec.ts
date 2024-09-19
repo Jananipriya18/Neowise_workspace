@@ -77,24 +77,6 @@ describe('StylistService', () => {
     req.flush(newStylist);
   });
 
-  fit('should update a stylist via PUT', () => {
-    const updatedStylist: Stylist = {
-      id: 1,
-      name: 'Jane Doe',
-      expertise: 'Fashion Consulting',
-      styleSignature: 'Chic and Elegant',
-      availability: 'Full-time',
-      hourlyRate: 120,
-      location: 'New York'
-    };
-    service.updateStylist(updatedStylist.id!, updatedStylist).subscribe((stylist) => {
-      expect(stylist).toEqual(updatedStylist);
-    });
-    const req = httpTestingController.expectOne(`${backendUrl}/${updatedStylist.id}`);
-    expect(req.request.method).toEqual('PUT');
-    req.flush(updatedStylist);
-  });
-
   fit('should delete a stylist via DELETE', () => {
     const stylistId = 1;
     service.deleteStylist(stylistId).subscribe(() => {

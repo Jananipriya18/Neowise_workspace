@@ -23,10 +23,6 @@ export class StylistService {
     const url = `${this.backendUrl}/${id}`;
     return this.http.get<Stylist>(url);
   }
-  updateStylist(id: number, stylist: Stylist): Observable<Stylist> {
-    const url = `${this.backendUrl}/${id}`;
-    return this.http.put<Stylist>(url, stylist);
-  }
 
   deleteStylist(id: number): Observable<void> {
     const url = `${this.backendUrl}/${id}`;

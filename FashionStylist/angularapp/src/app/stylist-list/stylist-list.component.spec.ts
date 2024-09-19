@@ -51,4 +51,10 @@ describe('StylistListComponent', () => {
     expect((component as any).stylists).toEqual(mockStylists);
   });
 
+  fit('should call deleteStylist', () => {
+    spyOn((service as any), 'deleteStylist').and.returnValue(of());
+    (component as any).deleteStylist(1);
+    expect((service as any).deleteStylist).toHaveBeenCalledWith(1);
+  });
+
 });
