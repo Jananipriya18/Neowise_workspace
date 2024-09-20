@@ -41,11 +41,11 @@ describe('AddStylistComponent', () => {
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
   });
 
-  fit('should create AddStylistComponent', () => {
+  fit('should_create_AddStylistComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should add a new stylist when form is valid', fakeAsync(() => {
+  fit('should_add_a_new_stylist_when_form_is_valid', fakeAsync(() => {
     const validStylistData = {
       name: 'Jane Doe',
       expertise: 'Fashion Consulting',
@@ -63,7 +63,7 @@ describe('AddStylistComponent', () => {
     expect((service as any).addStylist).toHaveBeenCalledWith(validStylistData);  
   }));
 
-  fit('should add all the required fields', () => {
+  fit('should_add_all_the_required_fields', () => {
     const form = (component as any).stylistForm;
     form.setValue({
       name: '',
@@ -83,7 +83,7 @@ describe('AddStylistComponent', () => {
     expect(form.get('location')?.hasError('required')).toBeTruthy();
   });
 
-  fit('should validate hourly rate', () => {
+  fit('should_validate_hourly_rate', () => {
     const stylistForm = (component as any).stylistForm;
     stylistForm.setValue({
       name: 'Jane Doe',
