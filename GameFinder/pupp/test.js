@@ -143,7 +143,7 @@ const puppeteer = require('puppeteer');
     const thTextContent = await page6.evaluate(() => {
       const expectedTexts = [
         'Title',
-        'Age',
+        'Release Year',
         'Genre',
         'Developer',
         'Support Contact',
