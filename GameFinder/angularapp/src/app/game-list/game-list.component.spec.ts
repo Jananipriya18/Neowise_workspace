@@ -51,11 +51,11 @@ describe('GameListComponent', () => {
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  fit('should create the GameListComponent', () => {
+  fit('should_create_the_GameListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should call getGames on initialization', () => {
+  fit('should_call_getGames_on_initialization', () => {
     // Spy on the getGames method and mock its return value
     spyOn(service, 'getGames').and.returnValue(of(mockGames));
 
@@ -67,7 +67,7 @@ describe('GameListComponent', () => {
     expect(component.games).toEqual(mockGames);
   });
 
-  fit('should call searchByDeveloper and set developerGameCount correctly', () => {
+  fit('should_call_searchByDeveloper_and_set_developerGameCount_correctly', () => {
     // Spy on getGamesByDeveloper and mock its return value
     spyOn(service, 'getGamesByDeveloper').and.returnValue(of([mockGames[1]]));
 
