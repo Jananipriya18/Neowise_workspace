@@ -1,3 +1,49 @@
 {
-  "stylists": []
+  "stylists": [
+    {
+      "id": 1,
+      "name": "Sophia Carter",
+      "expertise": "Hair Styling",
+      "styleSignature": "Elegant updos",
+      "availability": "Mon-Fri, 9 AM - 5 PM",
+      "hourlyRate": 50,
+      "location": "New York"
+    },
+    {
+      "id": 2,
+      "name": "Liam Brown",
+      "expertise": "Makeup Artist",
+      "styleSignature": "Natural glam look",
+      "availability": "Weekends only, 10 AM - 6 PM",
+      "hourlyRate": 60,
+      "location": "Los Angeles"
+    },
+    {
+      "id": 3,
+      "name": "Emily Davis",
+      "expertise": "Fashion Stylist",
+      "styleSignature": "Streetwear chic",
+      "availability": "Mon-Wed, 1 PM - 7 PM",
+      "hourlyRate": 75,
+      "location": "Chicago"
+    },
+    {
+      "id": 4,
+      "name": "Noah Wilson",
+      "expertise": "Nail Art",
+      "styleSignature": "Minimalist geometric designs",
+      "availability": "Tue-Fri, 11 AM - 6 PM",
+      "hourlyRate": 45,
+      "location": "Miami"
+    },
+    {
+      "id": 5,
+      "name": "Olivia Smith",
+      "expertise": "Wardrobe Consultant",
+      "styleSignature": "Vintage-inspired modern outfits",
+      "availability": "Mon-Fri, 10 AM - 4 PM",
+      "hourlyRate": 180,
+      "location": "San Francisco"
+    }
+  ]
 }
