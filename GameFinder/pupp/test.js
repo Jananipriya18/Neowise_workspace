@@ -33,7 +33,7 @@ const puppeteer = require('puppeteer');
       await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGame'); // Replace with your actual test page URL
       const formExists = await page2.evaluate(() => {
         const form = document.querySelector('form');
-        const inputFields = ['title', 'age', 'specialization', 'department', 'contactNumber'];
+        const inputFields = ['title', 'releaseYear', 'genre', 'developer', 'supportContact'];
         const formHasInputFields = inputFields.every(field => !!form.querySelector(`[formControlName="${field}"]`));
         return !!form && formHasInputFields;
       });
@@ -74,11 +74,11 @@ const puppeteer = require('puppeteer');
     await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGame'); // Replace with your actual test page URL
 
     const placeholders = {
-      name: 'Enter Name',
-      age: 'Enter age',
-      specialization: 'Enter specialization',
-      department: 'Enter department',
-      contactNumber: 'Enter contact number',
+      title: 'Enter Game Title',
+      releaseYear: 'Enter Release Year',
+      genre: 'Enter Genre',
+      developer: 'Enter Developer',
+      supportContact: 'Enter Support Contact (Email)',
     };
 
     const checkPlaceholders = async () => {
@@ -107,11 +107,11 @@ const puppeteer = require('puppeteer');
     await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGame'); // Replace with your actual test page URL
     // Define expected types for each input
     const inputTypes = {
-      'Enter Name': 'text',
-      'Enter age': 'number',
-      'Enter specialization': 'text',
-      'Enter department': 'text',
-      'Enter contact number': 'text',
+      'Enter Game Title': 'text',
+      'Enter Release Year': 'number',
+      'Enter Genre': 'text',
+      'Enter Developer': 'text',
+      'Enter Support Contact (Email)': 'email',
     };
 
     const checkInputTypes = async () => {
@@ -142,12 +142,12 @@ const puppeteer = require('puppeteer');
     // Check if the th elements with expected text content exist
     const thTextContent = await page6.evaluate(() => {
       const expectedTexts = [
-        'Name',
+        'Title',
         'Age',
-        'Specialization',
-        'Department',
-        'Contact Number',
-        'Actions'
+        'Genre',
+        'Developer',
+        'Support Contact',
+        'Action'
       ];
       const thElements = document.querySelectorAll('table thead th');
       const thTexts = Array.from(thElements).map(th => th.textContent.trim());
