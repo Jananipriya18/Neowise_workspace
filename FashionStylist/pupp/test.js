@@ -112,7 +112,8 @@ const puppeteer = require('puppeteer');
       'Enter expertise': 'text',
       'Enter style signature': 'text',
       'Enter availability': 'text',
-      'Enter Support Contact (Email)': 'email',
+      'Enter hourly rate': 'number',
+      'Enter location':'text'
     };
 
     const checkInputTypes = async () => {
@@ -143,11 +144,12 @@ const puppeteer = require('puppeteer');
     // Check if the th elements with expected text content exist
     const thTextContent = await page6.evaluate(() => {
       const expectedTexts = [
-        'Title',
-        'Release Year',
-        'Genre',
-        'Developer',
-        'Support Contact',
+        'Name',
+        'Expertise',	
+        'Style Signature',
+        'Availability',
+        'Hourly Rate',
+        'Location',
         'Action'
       ];
       const thElements = document.querySelectorAll('table thead th');
