@@ -83,7 +83,7 @@ const puppeteer = require('puppeteer');
 
     const checkPlaceholders = async () => {
       const results = await Promise.all(Object.keys(placeholders).map(async field => {
-        const input = await page4.$(`input[placeholder="${placeholders[field]}"]`);
+        const input = await page4.$(`input[placeholder="${placeholders[field]}"], textarea[placeholder="${placeholders[field]}"]`);
         if (input) {
           const placeholder = await page4.evaluate(el => el.placeholder, input);
           return placeholder === placeholders[field];
@@ -116,7 +116,7 @@ const puppeteer = require('puppeteer');
 
     const checkInputTypes = async () => {
       const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
-        const input = await page5.$(`input[placeholder="${placeholder}"]`);
+        const input = await page5.$(`input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`);
         if (input) {
           const inputType = await page5.evaluate(el => el.type, input);
           return inputType === expectedType;
