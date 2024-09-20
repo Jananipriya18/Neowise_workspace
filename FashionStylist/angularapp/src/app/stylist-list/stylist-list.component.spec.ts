@@ -41,25 +41,25 @@ describe('StylistListComponent', () => {
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  fit('should create StylistListComponent', () => {
+  fit('should_create_StylistListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should call getStylists', () => {
+  fit('should_call_getStylists', () => {
     spyOn((service as any), 'getStylists').and.returnValue(of(mockStylists));
     (component as any).ngOnInit();
     expect((service as any).getStylists).toHaveBeenCalled();
     expect((component as any).stylists).toEqual(mockStylists);
   });
 
-  fit('should call deleteStylist', () => {
+  fit('should_call_deleteStylist', () => {
     spyOn((service as any), 'deleteStylist').and.returnValue(of());
     (component as any).deleteStylist(1);
     expect((service as any).deleteStylist).toHaveBeenCalledWith(1);
   });
 
   // Test to check for the presence of the buttons
-  fit('should check if the filter buttons are present', () => {
+  fit('should_check_if_the_filter_buttons_are_present', () => {
     spyOn(service, 'getStylists').and.returnValue(of(mockStylists));
     fixture.detectChanges(); // Trigger initial data binding
 
@@ -72,7 +72,7 @@ describe('StylistListComponent', () => {
     expect(luxuryButton).toBeTruthy();
   });
 
-  fit('should filter stylists based on basic, premium, and luxury packages', () => {
+  fit('should_filter_stylists_based_on_basic_premium_and_luxury packages', () => {
     spyOn(service, 'getStylists').and.returnValue(of(mockStylists));
     component.ngOnInit(); // Call ngOnInit to load stylists
   
