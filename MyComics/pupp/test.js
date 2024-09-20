@@ -74,10 +74,9 @@ const puppeteer = require('puppeteer');
     await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addComic'); // Replace with your actual test page URL
 
     const placeholders = {
-      title: 'Enter Comic Title',
+      title: 'Enter Title',
       author: 'Enter Author',
       series: 'Enter Series',
-      developer: 'Enter Developer',
       publisher: 'Enter Publisher',
       description: 'Enter Description'
     };
@@ -111,9 +110,9 @@ const puppeteer = require('puppeteer');
       'Enter Title': 'text',
       'Enter Author': 'text',
       'Enter Series': 'text',
-      'Enter Developer': 'text',
-      'Enter Publisher' : 'text',
-    };
+      'Enter Publisher': 'text',
+      'Enter Description': 'textarea'
+    };    
 
     const checkInputTypes = async () => {
       const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
@@ -143,12 +142,7 @@ const puppeteer = require('puppeteer');
     // Check if the th elements with expected text content exist
     const thTextContent = await page6.evaluate(() => {
       const expectedTexts = [
-        'Title',
-        'Release Year',
-        'Genre',
-        'Developer',
-        'Support Contact',
-        'Action'
+        'Title',	'Author',	'Series',	'Publisher',	'Genre',	'Action'
       ];
       const thElements = document.querySelectorAll('table thead th');
       const thTexts = Array.from(thElements).map(th => th.textContent.trim());
