@@ -42,11 +42,11 @@ describe('EditComicComponent', () => {
     service = TestBed.inject(ComicService);
   });
 
-  fit('should create EditComicComponent', () => {
+  fit('should_create_EditComicComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should load comic details on init', fakeAsync(() => {
+  fit('should_load_comic_details_on_init', fakeAsync(() => {
     spyOn(service, 'getComicById').and.returnValue(of(mockComic));
     component.ngOnInit();
     tick(); // Ensure that all async operations are completed
@@ -56,7 +56,7 @@ describe('EditComicComponent', () => {
     expect(component.comic).toEqual(mockComic);
   }));
 
-  fit('should save comic details', fakeAsync(() => {
+  fit('should_save_comic_details', fakeAsync(() => {
     spyOn(service, 'updateComic').and.returnValue(of(mockComic));
     component.comic = { ...mockComic };
     component.saveComic();

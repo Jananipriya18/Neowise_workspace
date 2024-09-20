@@ -41,11 +41,11 @@ describe('AddComicComponent', () => {
     service = TestBed.inject(ComicService);
   });
 
-  fit('should create AddComicComponent', () => {
+  fit('should_create_AddComicComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should add a new comic when form is valid', fakeAsync(() => {
+  fit('should_add_a_new_comic_when_form_is_valid', fakeAsync(() => {
     spyOn(service, 'addComic').and.returnValue(of(mockComic));
     
     component.comicForm.setValue({
@@ -73,7 +73,7 @@ describe('AddComicComponent', () => {
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/comics');
   }));
 
-  fit('should validate all the required fields', () => {
+  fit('should_validate_all_the_required_fields', () => {
     const form = component.comicForm;
     form.setValue({
       title: '',
@@ -92,7 +92,7 @@ describe('AddComicComponent', () => {
     expect(form.get('genre')?.hasError('required')).toBeTruthy();
   });
 
-  fit('should populate genre dropdown with predefined values', () => {
+  fit('should_populate_genre_dropdown_with_predefined_values', () => {
     const genres = component.genres;
     expect(genres).toEqual(['Superhero', 'Fantasy', 'Horror', 'Science Fiction']);
     const genreControl = component.comicForm.get('genre');
