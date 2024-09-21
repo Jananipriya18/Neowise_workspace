@@ -33,7 +33,7 @@ const puppeteer = require('puppeteer');
       await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addPodcast'); // Replace with your actual test page URL
       const formExists = await page2.evaluate(() => {
         const form = document.querySelector('form');
-        const inputFields = ['title', 'releaseYear', 'genre', 'developer', 'supportContact'];
+        const inputFields = ['title', 'description', 'hostName', 'category', 'releaseDate', 'contactEmail', 'episodeCount'];
         const formHasInputFields = inputFields.every(field => !!form.querySelector(`[formControlName="${field}"]`));
         return !!form && formHasInputFields;
       });
@@ -74,16 +74,18 @@ const puppeteer = require('puppeteer');
     await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addPodcast'); // Replace with your actual test page URL
 
     const placeholders = {
-      title: 'Enter Podcast Title',
-      releaseYear: 'Enter Release Year',
-      genre: 'Enter Genre',
-      developer: 'Enter Developer',
-      supportContact: 'Enter Support Contact (Email)',
+      title: 'Enter Title',
+      hostName: 'Enter host name',
+      category: 'Enter category',
+      releaseDate: 'Enter release date',
+      contactEmail: 'Enter contact email',
+      episodeCount: 'Enter episode count',
+      description: 'Enter Description'
     };
 
     const checkPlaceholders = async () => {
       const results = await Promise.all(Object.keys(placeholders).map(async field => {
-        const input = await page4.$(`input[placeholder="${placeholders[field]}"]`);
+        const input = await page4.$(`input[placeholder="${placeholders[field]}"], textarea[placeholder="${placeholders[field]}"]`);
         if (input) {
           const placeholder = await page4.evaluate(el => el.placeholder, input);
           return placeholder === placeholders[field];
@@ -107,16 +109,18 @@ const puppeteer = require('puppeteer');
     await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addPodcast'); // Replace with your actual test page URL
     // Define expected types for each input
     const inputTypes = {
-      'Enter Podcast Title': 'text',
-      'Enter Release Year': 'number',
-      'Enter Genre': 'text',
-      'Enter Developer': 'text',
-      'Enter Support Contact (Email)': 'email',
-    };
+      'Enter Title': 'text',
+      'Enter host name': 'text',
+      'Enter category': 'text',
+      'Enter release date': 'date',
+      'Enter contact email':'email',
+      'episodeCount':'Enter episode count',
+      'Enter Description': 'textarea'
+    };    
 
     const checkInputTypes = async () => {
       const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
-        const input = await page5.$(`input[placeholder="${placeholder}"]`);
+        const input = await page5.$(`input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`);
         if (input) {
           const inputType = await page5.evaluate(el => el.type, input);
           return inputType === expectedType;
@@ -142,12 +146,7 @@ const puppeteer = require('puppeteer');
     // Check if the th elements with expected text content exist
     const thTextContent = await page6.evaluate(() => {
       const expectedTexts = [
-        'Title',
-        'Release Year',
-        'Genre',
-        'Developer',
-        'Support Contact',
-        'Action'
+        'Title',	'Host Name',	'Category',	'Release Date',	'Episode Count',	'Action'
       ];
       const thElements = document.querySelectorAll('table thead th');
       const thTexts = Array.from(thElements).map(th => th.textContent.trim());
