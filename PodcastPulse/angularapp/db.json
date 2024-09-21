@@ -1,6 +1,36 @@
 {
   "podcasts": [
     {
+      id: 1,
+      title: 'Tech Talks',
+      description: 'A podcast about technology trends and innovations.',
+      hostName: 'John Doe',
+      category: 'Technology',
+      releaseDate: new Date('2023-08-15'),
+      contactEmail: 'contact@techtalks.com',
+      episodeCount: 10 // Highest episode count for recommended podcast
+    },
+    {
+      id: 2,
+      title: 'Science Weekly',
+      description: 'A podcast dedicated to scientific discussions and discoveries.',
+      hostName: 'Jane Smith',
+      category: 'Science',
+      releaseDate: new Date('2023-09-01'),
+      contactEmail: 'contact@scienceweekly.com',
+      episodeCount: 5 // Fewer episodes than Tech Talks
+    },
+    {
+      id: 3,
+      title: 'Business Insights',
+      description: 'A deep dive into the world of business, startups, and entrepreneurship.',
+      hostName: 'Robert Johnson',
+      category: 'Business',
+      releaseDate: new Date('2023-07-20'),
+      contactEmail: 'contact@businessinsights.com',
+      episodeCount: 7 // Middle episode count
+    },
+    {
       "id": 4,
       "title": "Health Talk",
       "description": "A general discussion about various health topics and fitness.",
@@ -8,17 +38,7 @@
       "category": "General Health",
       "releaseDate": "2024-09-26",
       "contactEmail": "contact@healthtalk.com",
-      "episodeCount": 100
-    },
-    {
-      "title": "demo",
-      "description": "demo",
-      "hostName": "demo",
-      "category": "demo",
-      "releaseDate": "2024-09-18",
-      "contactEmail": "sdf@gmail.com",
-      "episodeCount": 134,
-      "id": 5
+      "episodeCount": 10
     }
   ]
 }

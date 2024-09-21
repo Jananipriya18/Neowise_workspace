@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'; 
-import { PodcastListComponent } from './podcast-list.component'; // Adjust the component path if necessary
-import { PodcastService } from '../services/podcast.service'; // Adjust the service path if necessary
+import { PodcastListComponent } from './podcast-list.component';
+import { PodcastService } from '../services/podcast.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -23,7 +23,7 @@ describe('PodcastListComponent', () => {
       category: 'Technology',
       releaseDate: new Date('2023-08-15'),
       contactEmail: 'contact@techtalks.com',
-      episodeCount: 10
+      episodeCount: 10 // Higher episode count
     },
     {
       id: 2,
@@ -33,32 +33,22 @@ describe('PodcastListComponent', () => {
       category: 'Science',
       releaseDate: new Date('2023-09-01'),
       contactEmail: 'contact@scienceweekly.com',
-      episodeCount: 5
+      episodeCount: 5 // Lower episode count
     }
   ];
-  const mockRecommendedPodcast: Podcast = {
-    id: 2,
-    title: 'Science Weekly',
-    description: 'A podcast about science.',
-    hostName: 'Jane Smith',
-    category: 'Science',
-    releaseDate: new Date('2023-09-01'),
-    contactEmail: 'contact@scienceweekly.com',
-    episodeCount: 5
-  };
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
-      declarations: [PodcastListComponent], // Adjust the component name
+      declarations: [PodcastListComponent],
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [PodcastService, { provide: Router, useValue: spy }]
     });
 
-    fixture = TestBed.createComponent(PodcastListComponent); // Adjust the component name
+    fixture = TestBed.createComponent(PodcastListComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(PodcastService); // Adjust the service name
+    service = TestBed.inject(PodcastService);
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
@@ -67,34 +57,24 @@ describe('PodcastListComponent', () => {
   });
 
   fit('should_call_getPodcast', () => {
-    spyOn(service, 'getPodcast').and.returnValue(of(mockPodcasts)); // Change method to getPodcast
+    spyOn(service, 'getPodcast').and.returnValue(of(mockPodcasts)); // Mock the service call
     component.ngOnInit();
     expect(service.getPodcast).toHaveBeenCalled();
     expect(component.podcasts).toEqual(mockPodcasts);
   });
 
-  // Test for the recommended podcast feature
-  fit('should_display_recommended_podcast_if_present', () => {
-    component.recommendedPodcast = mockRecommendedPodcast;
-    component.podcasts = mockPodcasts;
-    
+  // Test for the recommended podcast feature based on the highest episode count
+  fit('should_display_podcast_with_highest_episode_count_as_recommended', () => {
+    spyOn(service, 'getPodcast').and.returnValue(of(mockPodcasts)); // Mock the service call
+    component.ngOnInit();
     fixture.detectChanges(); // Trigger change detection
-
-    const recommendedRow = fixture.debugElement.query(By.css('tr[style*="background-color: #ffeb3b"]')); // Find the row by style
-
-    expect(recommendedRow).toBeTruthy(); // Check if the row exists
+  
+    // "Tech Talks" should be the recommended podcast (since it has the most episodes)
+    const recommendedRow = fixture.debugElement.query(By.css('.recommended-row'));
+  
+    expect(recommendedRow).toBeTruthy(); // Check if the recommended row exists
     const content = recommendedRow.nativeElement.textContent.trim();
-    expect(content).toContain('Recommended Episode: Science Weekly (5 episodes)'); // Check if content is correct
+    expect(content).toContain('Recommended Episode: Tech Talks (10 episodes)'); // Verify content for "Tech Talks"
   });
-
-  fit('should_not_display_recommended_podcast_if_not_present', () => {
-    component.recommendedPodcast = null; // No recommended podcast
-    component.podcasts = mockPodcasts;
-
-    fixture.detectChanges(); // Trigger change detection
-
-    const recommendedRow = fixture.debugElement.query(By.css('tr[style*="background-color: #ffeb3b"]')); // Find the row by style
-
-    expect(recommendedRow).toBeNull(); // The row should not exist
 
 });

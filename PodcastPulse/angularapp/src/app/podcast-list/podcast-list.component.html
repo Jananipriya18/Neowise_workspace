@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <!-- Display the recommended podcast as a special row at the top -->
-    <tr *ngIf="recommendedPodcast">
+    <tr *ngIf="recommendedPodcast" class="recommended-row">
       <td colspan="6" style="background-color: #ffeb3b; font-weight: bold;">
         Recommended Episode: {{ recommendedPodcast.title }} ({{ recommendedPodcast.episodeCount }} episodes)
       </td>
