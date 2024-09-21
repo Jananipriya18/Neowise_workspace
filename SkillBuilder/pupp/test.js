@@ -70,72 +70,76 @@ const puppeteer = require('puppeteer');
 
 
   const page4 = await browser.newPage();
-try {
+  try {
     await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addSkill'); // Replace with your actual test page URL
 
     const placeholders = {
-        title: 'Enter Title',
-        modules_count: 'Enter the number of modules',
-        description: 'Enter description',
-        duration: 'Enter duration',
-        targetSkillLevel: 'Enter Target Skill Level',
+      title: 'Enter Title',
+      modules_count: 'Enter the number of modules',
+      description: 'Enter description',
+      duration: 'Enter duration'
     };
+    
 
     const checkPlaceholders = async () => {
-        const results = await Promise.all(Object.keys(placeholders).map(async field => {
-            const input = await page4.$(`input[placeholder="${placeholders[field]}"]`);
-            if (input) {
-                const placeholder = await page4.evaluate(el => el.placeholder, input);
-                console.log(`Found placeholder for ${field}: ${placeholder}`); // Logging found placeholder
-                return placeholder === placeholders[field];
-            }
-            return false;
-        }));
-        return results.every(result => result);
+      const results = await Promise.all(Object.keys(placeholders).map(async field => {
+        const input = await page4.$(`input[placeholder="${placeholders[field]}"]`);
+        if (input) {
+          const placeholder = await page4.evaluate(el => el.placeholder, input);
+          return placeholder === placeholders[field];
+        }
+        return false;
+      }));
+      return results.every(result => result);
     };
 
     if (await checkPlaceholders()) {
-        console.log('TESTCASE:Input_placeholders_exist_and_correct:success');
+      console.log('TESTCASE:Input_placeholders_exist_and_correct:success');
     } else {
-        console.log('TESTCASE:Input_placeholders_exist_and_correct:failure');
+      console.log('TESTCASE:Input_placeholders_exist_and_correct:failure');
     }
-} catch (e) {
-    console.log('TESTCASE:Input_placeholders_exist_and_correct:failure', e);
-}
+    } catch (e) {
+      console.log('TESTCASE:Input_placeholders_exist_and_correct:failure');
+    } 
 
-const page5 = await browser.newPage();
-try {
+    const page5 = await browser.newPage();
+    try {
     await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addSkill'); // Replace with your actual test page URL
     // Define expected types for each input
     const inputTypes = {
-        'Enter Title': 'text',
-        'Enter the number of modules': 'number',
-        'Enter description': 'text',
-        'Enter duration': 'text',
-        'Enter Target Skill Level': 'text',
+      'Enter Title': 'text',
+      'Enter the number of modules': 'number',
+      'Enter description': 'text',
+      'Enter duration': 'text',
+      'Enter Target Skill Level': 'select',
     };
+    
 
     const checkInputTypes = async () => {
-        const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
-            const input = await page5.$(`input[placeholder="${placeholder}"]`);
-            if (input) {
-                const inputType = await page5.evaluate(el => el.type, input);
-                console.log(`Found type for ${placeholder}: ${inputType}`); // Logging found type
-                return inputType === expectedType;
-            }
-            return false;
-        }));
-        return results.every(result => result);
+      const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
+        if (expectedType === 'select') {
+          const select = await page5.$(`select[formControlName="targetSkillLevel"]`);
+          return !!select; // Just checking if the select exists
+        } else {
+          const input = await page5.$(`input[placeholder="${placeholder}"]`);
+          if (input) {
+            const inputType = await page5.evaluate(el => el.type, input);
+            return inputType === expectedType;
+          }
+          return false;
+        }
+      }));
+      return results.every(result => result);
     };
-
     if (await checkInputTypes()) {
-        console.log('TESTCASE:Input_types_are_correct:success');
+      console.log('TESTCASE:Input_types_are_correct:success');
     } else {
-        console.log('TESTCASE:Input_types_are_correct:failure');
+      console.log('TESTCASE:Input_types_are_correct:failure');
     }
-} catch (e) {
-    console.log('TESTCASE:Input_types_are_correct:failure', e);
-}
+  } catch (e) {
+    console.log('TESTCASE:Input_types_are_correct:failure');
+  } 
+
 
   const page6 = await browser.newPage();
   try {
