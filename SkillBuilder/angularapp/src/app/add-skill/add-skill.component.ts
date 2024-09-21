@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AddSkillComponent implements OnInit {
   skillForm: FormGroup;
+  skillLevels: string[] = ['Beginner', 'Intermediate', 'Expert'];
 
   constructor(private formBuilder: FormBuilder, private skillService: SkillService,    private router: Router
     ) {

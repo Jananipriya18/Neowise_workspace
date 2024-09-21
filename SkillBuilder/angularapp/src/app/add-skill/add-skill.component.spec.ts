@@ -112,4 +112,14 @@ describe('AddSkillComponent', () => {
     expect(skillForm.get('modules_count')?.hasError('max')).toBeTruthy();
   });
 
+  fit('should_have_a_dropdown_for_target_skill_level', () => {
+    const dropdown = fixture.nativeElement.querySelector('select[formControlName="targetSkillLevel"]');
+    expect(dropdown).toBeTruthy(); // Check if dropdown exists
+    expect(dropdown.options.length).toBe(4); // Check if it has the correct number of options
+    expect(dropdown.options[0].value).toBe(''); // Check for the default disabled option
+    expect(dropdown.options[1].value).toBe('Beginner'); // Check if 'Beginner' option is present
+    expect(dropdown.options[2].value).toBe('Intermediate'); // Check if 'Intermediate' option is present
+    expect(dropdown.options[3].value).toBe('Expert'); // Check if 'Expert' option is present
+  });
+
 });

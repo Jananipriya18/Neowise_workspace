@@ -26,7 +26,12 @@
       </tr>
       <tr>
         <td>TargetSkillLevel</td>
-        <td><input class="form-control" type="text" placeholder="Enter Target Skill Level" formControlName="targetSkillLevel"></td>
+        <td>
+          <select class="form-control" formControlName="targetSkillLevel">
+            <option value="" disabled selected>Select Skill Level</option>
+            <option *ngFor="let level of skillLevels" [value]="level">{{ level }}</option>
+          </select>
+        </td>
       </tr>
       <tr>
         <td colspan="2">
