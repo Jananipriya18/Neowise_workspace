@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class SkillListComponent implements OnInit {
   skills: Skill[] = [];
+  loading: boolean = false;
+  sortOrder: 'asc' | 'desc' = 'asc';
 
   constructor(private skillService: SkillService,private router: Router) {}
 

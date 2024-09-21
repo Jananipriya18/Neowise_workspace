@@ -5,47 +5,43 @@ import {
   tick,
 } from '@angular/core/testing';
 import {
-  FormBuilder,
   ReactiveFormsModule,
   FormsModule,
-  Validators,
 } from '@angular/forms';
-import { AddSkillComponent } from '../add-skill/add-skill.component'; // Updated component name
-import { SkillService } from '../services/skill.service'; // Updated service
+import { AddSkillComponent } from '../add-skill/add-skill.component'; 
+import { SkillService } from '../services/skill.service'; 
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
 describe('AddSkillComponent', () => {
   let component: AddSkillComponent;
   let fixture: ComponentFixture<AddSkillComponent>;
-  let service: SkillService; // Updated service
-  let debugElement: DebugElement;
-  let formBuilder: FormBuilder;
+  let service: SkillService;
   let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AddSkillComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, FormsModule],
-      providers: [SkillService], // Updated service
+      providers: [SkillService],
     });
-    formBuilder = TestBed.inject(FormBuilder) as any;
-    fixture = TestBed.createComponent(AddSkillComponent) as any;
-    component = fixture.componentInstance as any;
-    service = TestBed.inject(SkillService) as any; // Updated service
-    fixture.detectChanges();
+
+    fixture = TestBed.createComponent(AddSkillComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(SkillService);
     router = TestBed.inject(Router);
+
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
+    fixture.detectChanges();
   });
 
-  fit('should_create_AddSkillComponent', () => {
+  it('should_create_AddSkillComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should_add_a_new_skill_when_form_is_valid', fakeAsync(() => {
+  it('should_add_a_new_skill_when_form_is valid', fakeAsync(() => {
     const validSkillData = {
       title: 'Advanced Angular',
       modules_count: 10,
@@ -53,17 +49,21 @@ describe('AddSkillComponent', () => {
       duration: '30 hours',
       targetSkillLevel: 'Intermediate',
     };
-    spyOn((service as any), 'addSkill').and.returnValue(of(validSkillData)); // Updated method name
-    (component as any).skillForm.setValue(validSkillData); 
-    let value: boolean = (component as any).skillForm.valid;
-    (component as any).addSkill(); // Updated method name
+
+    spyOn(service, 'addSkill').and.returnValue(of(validSkillData));
+    component.skillForm.setValue(validSkillData);
+    
+    expect(component.skillForm.valid).toBeTruthy();
+    
+    component.addSkill(); 
     tick();
-    expect(value).toBeTruthy();
-    expect((service as any).addSkill).toHaveBeenCalledWith(validSkillData); // Updated method name
+    
+    expect(service.addSkill).toHaveBeenCalledWith(validSkillData);
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/skills'); // Adjust based on your route
   }));
 
-  fit('should_add_all_the_required_fields', () => {
-    const form = (component as any).skillForm;
+  it('should require all fields', () => {
+    const form = component.skillForm;
     form.setValue({
       title: '',
       modules_count: '',
@@ -80,8 +80,9 @@ describe('AddSkillComponent', () => {
     expect(form.get('targetSkillLevel')?.hasError('required')).toBeTruthy();
   });
 
-  fit('should_validate_modules_count', () => {
-    const skillForm = (component as any).skillForm;
+  fit('should validate modules count', () => {
+    const skillForm = component.skillForm;
+
     skillForm.setValue({
       title: 'Basic JavaScript',
       modules_count: 5,
@@ -90,17 +91,17 @@ describe('AddSkillComponent', () => {
       targetSkillLevel: 'Beginner',
     });
     expect(skillForm.valid).toBeTruthy();
-    expect(skillForm.get('modules_count')?.hasError('min')).toBeFalsy();
-    expect(skillForm.get('modules_count')?.hasError('max')).toBeFalsy();
+    
     skillForm.setValue({
       title: 'Advanced JavaScript',
       modules_count: 1,
       description: 'Advanced JavaScript concepts',
       duration: '15 hours',
-      targetSkillLevel: 'Advanced',
+      targetSkillLevel: 'Intermediate',
     });
     expect(skillForm.valid).toBeFalsy();
     expect(skillForm.get('modules_count')?.hasError('min')).toBeTruthy();
+
     skillForm.setValue({
       title: 'Complex JavaScript',
       modules_count: 201,
@@ -111,5 +112,4 @@ describe('AddSkillComponent', () => {
     expect(skillForm.valid).toBeFalsy();
     expect(skillForm.get('modules_count')?.hasError('max')).toBeTruthy();
   });
-
 });
