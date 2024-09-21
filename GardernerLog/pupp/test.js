@@ -106,13 +106,13 @@ const puppeteer = require('puppeteer');
     try {
     await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGardener'); // Replace with your actual test page URL
     // Define expected types for each input
-    const inputTypes = {
+     const inputTypes = {
       'Enter Name': 'text',
-      'Enter Age': 'text',
+      'Enter Age': 'number',
       'Enter Task': 'text',
       'Enter Description': 'text',
       'Enter Duration': 'number'
-    };    
+    };     
 
     const checkInputTypes = async () => {
       const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
@@ -142,7 +142,7 @@ const puppeteer = require('puppeteer');
     // Check if the th elements with expected text content exist
     const thTextContent = await page6.evaluate(() => {
       const expectedTexts = [
-        'Title',	'Author',	'Series',	'Publisher',	'Genre',	'Action'
+        'Name',	'Age',	'Task',	'Description',	'Duration (min) / Day',	'Duration (hours/week)',	'Action'
       ];
       const thElements = document.querySelectorAll('table thead th');
       const thTexts = Array.from(thElements).map(th => th.textContent.trim());
