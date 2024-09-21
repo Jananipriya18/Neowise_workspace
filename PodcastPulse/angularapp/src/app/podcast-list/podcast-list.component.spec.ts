@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { Podcast } from '../model/podcast.model';
+import { By } from '@angular/platform-browser';
 
 describe('PodcastListComponent', () => {
   let component: PodcastListComponent;
@@ -23,8 +24,28 @@ describe('PodcastListComponent', () => {
       releaseDate: new Date('2023-08-15'),
       contactEmail: 'contact@techtalks.com',
       episodeCount: 10
+    },
+    {
+      id: 2,
+      title: 'Science Weekly',
+      description: 'A podcast about science.',
+      hostName: 'Jane Smith',
+      category: 'Science',
+      releaseDate: new Date('2023-09-01'),
+      contactEmail: 'contact@scienceweekly.com',
+      episodeCount: 5
     }
   ];
+  const mockRecommendedPodcast: Podcast = {
+    id: 2,
+    title: 'Science Weekly',
+    description: 'A podcast about science.',
+    hostName: 'Jane Smith',
+    category: 'Science',
+    releaseDate: new Date('2023-09-01'),
+    contactEmail: 'contact@scienceweekly.com',
+    episodeCount: 5
+  };
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('Router', ['navigate']);
@@ -51,5 +72,29 @@ describe('PodcastListComponent', () => {
     expect(service.getPodcast).toHaveBeenCalled();
     expect(component.podcasts).toEqual(mockPodcasts);
   });
+
+  // Test for the recommended podcast feature
+  fit('should_display_recommended_podcast_if_present', () => {
+    component.recommendedPodcast = mockRecommendedPodcast;
+    component.podcasts = mockPodcasts;
+    
+    fixture.detectChanges(); // Trigger change detection
+
+    const recommendedRow = fixture.debugElement.query(By.css('tr[style*="background-color: #ffeb3b"]')); // Find the row by style
+
+    expect(recommendedRow).toBeTruthy(); // Check if the row exists
+    const content = recommendedRow.nativeElement.textContent.trim();
+    expect(content).toContain('Recommended Episode: Science Weekly (5 episodes)'); // Check if content is correct
+  });
+
+  fit('should_not_display_recommended_podcast_if_not_present', () => {
+    component.recommendedPodcast = null; // No recommended podcast
+    component.podcasts = mockPodcasts;
+
+    fixture.detectChanges(); // Trigger change detection
+
+    const recommendedRow = fixture.debugElement.query(By.css('tr[style*="background-color: #ffeb3b"]')); // Find the row by style
+
+    expect(recommendedRow).toBeNull(); // The row should not exist
 
 });
