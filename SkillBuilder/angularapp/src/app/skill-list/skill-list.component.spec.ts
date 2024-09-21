@@ -14,12 +14,19 @@ import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { Skill } from '../model/skill.model';
 
 describe('AddSkillComponent', () => {
   let component: AddSkillComponent;
   let fixture: ComponentFixture<AddSkillComponent>;
   let service: SkillService;
   let router: Router;
+
+  const mockSkills: Skill[] = [
+    { id: 1, title: 'Advanced Neurology', modules_count: 10, description: 'Advanced course on Neurology', duration: '40 hours', targetSkillLevel: 'Expert' },
+    { id: 2, title: 'Fundamentals of Cardiology', modules_count: 8, description: 'Introduction to Cardiology', duration: '30 hours', targetSkillLevel: 'Beginner' },
+    { id: 3, title: 'Orthopedic Techniques', modules_count: 12, description: 'Comprehensive study of Orthopedics', duration: '50 hours', targetSkillLevel: 'Intermediate' },
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,11 +44,11 @@ describe('AddSkillComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should_create_AddSkillComponent', () => {
+  fit('should create AddSkillComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should_add_a_new_skill_when_form_is valid', fakeAsync(() => {
+  fit('should add a new skill when form is valid', fakeAsync(() => {
     const validSkillData = {
       title: 'Advanced Angular',
       modules_count: 10,
@@ -62,7 +69,7 @@ describe('AddSkillComponent', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/skills'); // Adjust based on your route
   }));
 
-  it('should require all fields', () => {
+  fit('should require all fields', () => {
     const form = component.skillForm;
     form.setValue({
       title: '',
@@ -112,4 +119,31 @@ describe('AddSkillComponent', () => {
     expect(skillForm.valid).toBeFalsy();
     expect(skillForm.get('modules_count')?.hasError('max')).toBeTruthy();
   });
+
+  fit('should sort skills by target skill level and toggle order', () => {
+    // Set initial skills
+    component.skills = mockSkills;
+
+    // Ascending sort
+    component.sortOrder = 'asc'; // Set to ascending
+    component.sortSkills(); // Call the sort function
+
+    // Verify ascending order: Beginner first, Intermediate second, Expert third
+    expect(component.skills).toEqual([
+      mockSkills[1], // Beginner
+      mockSkills[2], // Intermediate
+      mockSkills[0]  // Expert
+    ]);
+
+    // Toggle to descending order
+    component.sortSkills(); // Call the sort function again
+
+    // Verify descending order: Expert first, Intermediate second, Beginner third
+    expect(component.skills).toEqual([
+      mockSkills[0], // Expert
+      mockSkills[2], // Intermediate
+      mockSkills[1]  // Beginner
+    ]);
+  });
+  
 });
