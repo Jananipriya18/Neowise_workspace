@@ -34,11 +34,11 @@ describe('AddPodcastComponent', () => {
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
   });
 
-  fit('should create AddPodcastComponent', () => {
+  fit('should_create_AddPodcastComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should add a new podcast when form is valid', fakeAsync(() => {
+  fit('should_add_a_new_podcast_when_form_is_valid', fakeAsync(() => {
     const validPodcastData = {
       title: 'Tech Talks',
       description: 'A podcast about the latest in tech.',
@@ -57,7 +57,7 @@ describe('AddPodcastComponent', () => {
     expect(service.addPodcast).toHaveBeenCalledWith(validPodcastData);
   }));
 
-  fit('should validate required fields', () => {
+  fit('should_validate_required_fields', () => {
     const form = component.podcastForm;
     form.setValue({
       title: '',
@@ -79,7 +79,7 @@ describe('AddPodcastComponent', () => {
     expect(form.get('contactEmail')?.hasError('required')).toBeTruthy();
   });
 
-  fit('should validate episode count', () => {
+  fit('should_validate_episode_count', () => {
     const podcastForm = component.podcastForm;
     podcastForm.setValue({
       title: 'Tech Talks',

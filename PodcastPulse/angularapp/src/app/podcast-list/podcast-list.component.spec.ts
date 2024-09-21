@@ -23,7 +23,7 @@ describe('PodcastListComponent', () => {
       category: 'Technology',
       releaseDate: new Date('2023-08-15'),
       contactEmail: 'contact@techtalks.com',
-      episodeCount: 10 // Higher episode count
+      episodeCount: 10 
     },
     {
       id: 2,
@@ -33,7 +33,7 @@ describe('PodcastListComponent', () => {
       category: 'Science',
       releaseDate: new Date('2023-09-01'),
       contactEmail: 'contact@scienceweekly.com',
-      episodeCount: 5 // Lower episode count
+      episodeCount: 105 
     }
   ];
 
@@ -74,7 +74,7 @@ describe('PodcastListComponent', () => {
   
     expect(recommendedRow).toBeTruthy(); // Check if the recommended row exists
     const content = recommendedRow.nativeElement.textContent.trim();
-    expect(content).toContain('Recommended Episode: Tech Talks (10 episodes)'); // Verify content for "Tech Talks"
+    expect(content).toContain('Recommended Episode: Science Weekly (105 episodes)'); // Verify content for "Tech Talks"
   });
 
 });
