@@ -1,149 +1,103 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import {
-  ReactiveFormsModule,
-  FormsModule,
-} from '@angular/forms';
-import { AddSkillComponent } from '../add-skill/add-skill.component'; 
-import { SkillService } from '../services/skill.service'; 
+import { ComponentFixture, TestBed } from '@angular/core/testing'; 
+import { SkillListComponent } from './skill-list.component';
+import { SkillService } from '../services/skill.service';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { Skill } from '../model/skill.model';
+import { By } from '@angular/platform-browser';
 
-describe('AddSkillComponent', () => {
-  let component: AddSkillComponent;
-  let fixture: ComponentFixture<AddSkillComponent>;
+describe('SkillListComponent', () => {
+  let component: SkillListComponent;
+  let fixture: ComponentFixture<SkillListComponent>;
   let service: SkillService;
-  let router: Router;
+  let routerSpy: jasmine.SpyObj<Router>;
 
   const mockSkills: Skill[] = [
-    { id: 1, title: 'Advanced Neurology', modules_count: 10, description: 'Advanced course on Neurology', duration: '40 hours', targetSkillLevel: 'Expert' },
-    { id: 2, title: 'Fundamentals of Cardiology', modules_count: 8, description: 'Introduction to Cardiology', duration: '30 hours', targetSkillLevel: 'Beginner' },
-    { id: 3, title: 'Orthopedic Techniques', modules_count: 12, description: 'Comprehensive study of Orthopedics', duration: '50 hours', targetSkillLevel: 'Intermediate' },
+    {
+      id: 1,
+      title: 'Tech Talks',
+      modules_count: 5,
+      description: 'A skill about technology trends.',
+      duration: '30 mins',
+      targetSkillLevel: 'Beginner',
+    },
+    {
+      id: 2,
+      title: 'Science Weekly',
+      modules_count: 8,
+      description: 'A skill about science.',
+      duration: '45 mins',
+      targetSkillLevel: 'Expert',
+    },
+    {
+      id: 3,
+      title: 'Art History',
+      modules_count: 6,
+      description: 'An overview of significant art movements.',
+      duration: '50 mins',
+      targetSkillLevel: 'Intermediate',
+    },
+    {
+      id: 4,
+      title: 'Advanced Mathematics',
+      modules_count: 10,
+      description: 'In-depth look at complex mathematical concepts.',
+      duration: '60 mins',
+      targetSkillLevel: 'Expert',
+    },
   ];
-
+  
   beforeEach(() => {
+    const spy = jasmine.createSpyObj('Router', ['navigate']);
+
     TestBed.configureTestingModule({
-      declarations: [AddSkillComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, FormsModule],
-      providers: [SkillService],
+      declarations: [SkillListComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [SkillService, { provide: Router, useValue: spy }]
     });
 
-    fixture = TestBed.createComponent(AddSkillComponent);
+    fixture = TestBed.createComponent(SkillListComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(SkillService);
-    router = TestBed.inject(Router);
-
-    spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
-    fixture.detectChanges();
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  fit('should create AddSkillComponent', () => {
+  fit('should_create_SkillListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should add a new skill when form is valid', fakeAsync(() => {
-    const validSkillData = {
-      title: 'Advanced Angular',
-      modules_count: 10,
-      description: 'In-depth Angular training',
-      duration: '30 hours',
-      targetSkillLevel: 'Intermediate',
-    };
-
-    spyOn(service, 'addSkill').and.returnValue(of(validSkillData));
-    component.skillForm.setValue(validSkillData);
-    
-    expect(component.skillForm.valid).toBeTruthy();
-    
-    component.addSkill(); 
-    tick();
-    
-    expect(service.addSkill).toHaveBeenCalledWith(validSkillData);
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/skills'); // Adjust based on your route
-  }));
-
-  fit('should require all fields', () => {
-    const form = component.skillForm;
-    form.setValue({
-      title: '',
-      modules_count: '',
-      description: '',
-      duration: '',
-      targetSkillLevel: '',
-    });
-
-    expect(form.valid).toBeFalsy();
-    expect(form.get('title')?.hasError('required')).toBeTruthy();
-    expect(form.get('modules_count')?.hasError('required')).toBeTruthy();
-    expect(form.get('description')?.hasError('required')).toBeTruthy();
-    expect(form.get('duration')?.hasError('required')).toBeTruthy();
-    expect(form.get('targetSkillLevel')?.hasError('required')).toBeTruthy();
+  fit('should_call_getSkills', () => {
+    spyOn(service, 'getSkills').and.returnValue(of(mockSkills)); // Mock the service call
+    component.ngOnInit();
+    expect(service.getSkills).toHaveBeenCalled();
+    expect(component.skills).toEqual(mockSkills);
   });
 
-  fit('should validate modules count', () => {
-    const skillForm = component.skillForm;
-
-    skillForm.setValue({
-      title: 'Basic JavaScript',
-      modules_count: 5,
-      description: 'Fundamentals of JavaScript',
-      duration: '10 hours',
-      targetSkillLevel: 'Beginner',
-    });
-    expect(skillForm.valid).toBeTruthy();
-    
-    skillForm.setValue({
-      title: 'Advanced JavaScript',
-      modules_count: 1,
-      description: 'Advanced JavaScript concepts',
-      duration: '15 hours',
-      targetSkillLevel: 'Intermediate',
-    });
-    expect(skillForm.valid).toBeFalsy();
-    expect(skillForm.get('modules_count')?.hasError('min')).toBeTruthy();
-
-    skillForm.setValue({
-      title: 'Complex JavaScript',
-      modules_count: 201,
-      description: 'Complex JavaScript patterns',
-      duration: '20 hours',
-      targetSkillLevel: 'Expert',
-    });
-    expect(skillForm.valid).toBeFalsy();
-    expect(skillForm.get('modules_count')?.hasError('max')).toBeTruthy();
+  fit('should_call_deleteSkill', () => {
+    spyOn((service as any), 'deleteSkill').and.returnValue(of());
+    (component as any).deleteSkill(1);
+    expect((service as any).deleteSkill).toHaveBeenCalledWith(1);
   });
 
-  fit('should sort skills by target skill level and toggle order', () => {
-    // Set initial skills
+  fit('should sort skills by targetSkillLevel', () => {
+    // Assign the mockSkills to the component's skills
     component.skills = mockSkills;
-
-    // Ascending sort
-    component.sortOrder = 'asc'; // Set to ascending
-    component.sortSkills(); // Call the sort function
-
-    // Verify ascending order: Beginner first, Intermediate second, Expert third
-    expect(component.skills).toEqual([
-      mockSkills[1], // Beginner
-      mockSkills[2], // Intermediate
-      mockSkills[0]  // Expert
-    ]);
-
-    // Toggle to descending order
-    component.sortSkills(); // Call the sort function again
-
-    // Verify descending order: Expert first, Intermediate second, Beginner third
-    expect(component.skills).toEqual([
-      mockSkills[0], // Expert
-      mockSkills[2], // Intermediate
-      mockSkills[1]  // Beginner
-    ]);
+  
+    // Sort in ascending order
+    component.sortSkills();
+    expect(component.skills[0].targetSkillLevel).toBe('Beginner');
+    expect(component.skills[1].targetSkillLevel).toBe('Intermediate');
+    expect(component.skills[2].targetSkillLevel).toBe('Expert');
+    expect(component.skills[3].targetSkillLevel).toBe('Expert'); // Note: Two 'Expert' levels, maintain order
+  
+    // Sort in descending order
+    component.sortSkills();
+    expect(component.skills[0].targetSkillLevel).toBe('Expert');
+    expect(component.skills[1].targetSkillLevel).toBe('Expert');
+    expect(component.skills[2].targetSkillLevel).toBe('Interediate');
+    expect(component.skills[3].targetSkillLevel).toBe('Beginner');
   });
   
 });
