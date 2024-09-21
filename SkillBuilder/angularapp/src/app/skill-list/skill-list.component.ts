@@ -34,6 +34,20 @@ export class SkillListComponent implements OnInit {
     }
   }
 
+  sortSkills(): void {
+    const orderMultiplier = this.sortOrder === 'asc' ? 1 : -1;
+    const skillLevels = ['Beginner', 'Intermediate', 'Expert'];
+
+    this.skills.sort((a, b) => {
+      const levelA = skillLevels.indexOf(a.targetSkillLevel);
+      const levelB = skillLevels.indexOf(b.targetSkillLevel);
+      return (levelA - levelB) * orderMultiplier;
+    });
+
+    // Toggle sort order for the next click
+    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+  }
+
   deleteSkill(id: any): void {
     this.skillService.deleteSkill(id).subscribe(() => {
       this.skills = this.skills.filter((skill) => skill.id !== id);
