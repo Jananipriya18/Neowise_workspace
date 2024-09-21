@@ -14,49 +14,49 @@ const puppeteer = require('puppeteer');
     // Test Case 1: Check for input placeholder.
     const page1 = await browser.newPage();
     try {
-      await page1.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/comicsList'); // Replace with your actual test page URL
+      await page1.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/gardenersList'); // Replace with your actual test page URL
       await page1.waitForSelector('table tbody tr', { timeout: 5000 });
       
       const rowCount = await page1.$$eval('table tbody tr', rows => rows.length);
   
       if (rowCount > 0) {
-        console.log('TESTCASE:Comic_table_rows_exist:success');
+        console.log('TESTCASE:Gardener_table_rows_exist:success');
       } else {
-        console.log('TESTCASE:Comic_table_rows_exist:failure');
+        console.log('TESTCASE:Gardener_table_rows_exist:failure');
       }
     } catch (e) {
-      console.log('TESTCASE:Comic_table_rows_exist:failure');
+      console.log('TESTCASE:Gardener_table_rows_exist:failure');
     } 
 
     const page2 = await browser.newPage();
     try {
-      await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addComic'); // Replace with your actual test page URL
+      await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGardener'); // Replace with your actual test page URL
       const formExists = await page2.evaluate(() => {
         const form = document.querySelector('form');
-        const inputFields = ['title', 'author', 'series', 'publisher', 'genre', 'description'];
+        const inputFields = ['name', 'age', 'task', 'description', 'durationInMinutes'];
         const formHasInputFields = inputFields.every(field => !!form.querySelector(`[formControlName="${field}"]`));
         return !!form && formHasInputFields;
       });
   
       if (formExists) {
-        console.log('TESTCASE:Comic_form_exists_and_has_required_fields:success');
+        console.log('TESTCASE:Gardener_form_exists_and_has_required_fields:success');
       } else {
-        console.log('TESTCASE:Comic_form_exists_and_has_required_fields:failure');
+        console.log('TESTCASE:Gardener_form_exists_and_has_required_fields:failure');
       }
     } catch (e) {
-      console.log('TESTCASE:Comic_form_exists_and_has_required_fields:failure');
+      console.log('TESTCASE:Gardener_form_exists_and_has_required_fields:failure');
     } 
   
    
     const page3 = await browser.newPage();
     try {
-      await page3.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addComic'); // Replace with your actual test page URL
+      await page3.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGardener'); // Replace with your actual test page URL
       await page3.waitForSelector('form', { timeout: 5000 });
 
     const submitButton = await page3.$('button[type="submit"]');
     if (submitButton) {
       const buttonText = await page3.evaluate(button => button.textContent.trim(), submitButton);
-      if (buttonText === 'Add Comic') {
+      if (buttonText === 'Add Gardener') {
         console.log('TESTCASE:Submit_button_exists_and_has_correct_name:success');
       } else {
         console.log('TESTCASE:Submit_button_exists_and_has_correct_name:failure');
@@ -71,14 +71,14 @@ const puppeteer = require('puppeteer');
 
   const page4 = await browser.newPage();
   try {
-    await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addComic'); // Replace with your actual test page URL
+    await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGardener'); // Replace with your actual test page URL
 
     const placeholders = {
-      title: 'Enter Title',
-      author: 'Enter Author',
-      series: 'Enter Series',
-      publisher: 'Enter Publisher',
-      description: 'Enter Description'
+      name: 'Enter Name',
+      age: 'Enter Age',
+      task: 'Enter Task',
+      description: 'Enter Description',
+      durationInMinutes: 'Enter Duration'
     };
 
     const checkPlaceholders = async () => {
@@ -104,19 +104,19 @@ const puppeteer = require('puppeteer');
 
     const page5 = await browser.newPage();
     try {
-    await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addComic'); // Replace with your actual test page URL
+    await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addGardener'); // Replace with your actual test page URL
     // Define expected types for each input
     const inputTypes = {
-      'Enter Title': 'text',
-      'Enter Author': 'text',
-      'Enter Series': 'text',
-      'Enter Publisher': 'text',
-      'Enter Description': 'textarea'
+      'Enter Name': 'text',
+      'Enter Age': 'text',
+      'Enter Task': 'text',
+      'Enter Description': 'text',
+      'Enter Duration': 'number'
     };    
 
     const checkInputTypes = async () => {
       const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
-        const input = await page5.$(`input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`);
+        const input = await page5.$(`input[placeholder="${placeholder}"]`);
         if (input) {
           const inputType = await page5.evaluate(el => el.type, input);
           return inputType === expectedType;
@@ -137,7 +137,7 @@ const puppeteer = require('puppeteer');
 
   const page6 = await browser.newPage();
   try {
-    await page6.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/comicsList'); // Replace with your actual test page URL
+    await page6.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/gardenersList'); // Replace with your actual test page URL
 
     // Check if the th elements with expected text content exist
     const thTextContent = await page6.evaluate(() => {

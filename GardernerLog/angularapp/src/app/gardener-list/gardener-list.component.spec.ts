@@ -56,4 +56,11 @@ describe('GardenerListComponent', () => { // Update class name
     expect(result).toEqual(expectedWeeklyDuration);
   });
 
+  fit('should_calculate_weekly_duration', () => {
+    const dailyDuration = 60; // Duration in minutes
+    const expectedWeeklyDuration = (dailyDuration * 7) / 60; // 7 days, converting to hours
+    const result = component.calculateWeeklyDuration(dailyDuration); // Call the method to test
+    expect(result).toEqual(expectedWeeklyDuration); // Check if the calculated result matches the expected value
+  });
+
 });
