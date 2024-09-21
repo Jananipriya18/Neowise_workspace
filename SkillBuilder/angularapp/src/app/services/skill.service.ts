@@ -23,11 +23,7 @@ export class SkillService {
     const url = `${this.backendUrl}/${id}`;
     return this.http.get<Skill>(url);
   }
-  updateSkill(id: number, skill: Skill): Observable<Skill> {
-    const url = `${this.backendUrl}/${id}`;
-    return this.http.put<Skill>(url, skill);
-  }
-
+  
   deleteSkill(id: number): Observable<void> {
     const url = `${this.backendUrl}/${id}`;
     return this.http.delete<void>(url);

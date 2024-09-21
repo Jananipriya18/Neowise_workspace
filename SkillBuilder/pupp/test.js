@@ -33,7 +33,7 @@ const puppeteer = require('puppeteer');
       await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addSkill'); // Replace with your actual test page URL
       const formExists = await page2.evaluate(() => {
         const form = document.querySelector('form');
-        const inputFields = ['title', 'releaseYear', 'genre', 'developer', 'supportContact'];
+        const inputFields = ['title', 'modules_count', 'description', 'duration', 'targetSkillLevel'];
         const formHasInputFields = inputFields.every(field => !!form.querySelector(`[formControlName="${field}"]`));
         return !!form && formHasInputFields;
       });
@@ -74,12 +74,13 @@ const puppeteer = require('puppeteer');
     await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addSkill'); // Replace with your actual test page URL
 
     const placeholders = {
-      title: 'Enter Skill Title',
-      releaseYear: 'Enter Release Year',
-      genre: 'Enter Genre',
-      developer: 'Enter Developer',
-      supportContact: 'Enter Support Contact (Email)',
+      title: 'Enter Title',
+      modules_count: 'Enter the number of modules',
+      description: 'Enter description',
+      duration: 'Enter duration',
+      targetSkillLevel: 'Enter Target Skill Level',
     };
+    
 
     const checkPlaceholders = async () => {
       const results = await Promise.all(Object.keys(placeholders).map(async field => {
@@ -107,12 +108,13 @@ const puppeteer = require('puppeteer');
     await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addSkill'); // Replace with your actual test page URL
     // Define expected types for each input
     const inputTypes = {
-      'Enter Skill Title': 'text',
-      'Enter Release Year': 'number',
-      'Enter Genre': 'text',
-      'Enter Developer': 'text',
-      'Enter Support Contact (Email)': 'email',
+      'Enter Title': 'text',
+      'Enter the number of modules': 'number',
+      'Enter description': 'text',
+      'Enter duration': 'text',
+      'Enter Target Skill Level': 'text',
     };
+    
 
     const checkInputTypes = async () => {
       const results = await Promise.all(Object.entries(inputTypes).map(async ([placeholder, expectedType]) => {
@@ -143,10 +145,10 @@ const puppeteer = require('puppeteer');
     const thTextContent = await page6.evaluate(() => {
       const expectedTexts = [
         'Title',
-        'Release Year',
-        'Genre',
-        'Developer',
-        'Support Contact',
+        'Count of Modules',
+        'Description',
+        'Duration',
+        'Target Skill Level',
         'Action'
       ];
       const thElements = document.querySelectorAll('table thead th');

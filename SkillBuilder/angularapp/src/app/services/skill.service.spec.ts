@@ -39,7 +39,7 @@ describe('SkillService', () => {
     httpTestingController.verify();
   });
 
-  fit('should_create_service_skillbuilder', () => {
+  fit('should_create_service_skill', () => {
     expect(service).toBeTruthy();
   });
 
@@ -66,23 +66,6 @@ describe('SkillService', () => {
     const req = httpTestingController.expectOne(`${service['backendUrl']}`);
     expect(req.request.method).toEqual('POST');
     req.flush(newSkill);
-  });
-
-  fit('should_update_a_skill_via_PUT', () => {
-    const updatedSkill = {
-      id: 1,
-      title: 'Advanced Angular',
-      modules_count: 12,
-      description: 'Updated Angular training',
-      duration: '35 hours',
-      targetSkillLevel: 'Advanced',
-    };
-    (service as any).updateSkill(updatedSkill.id, updatedSkill).subscribe((skill) => {
-      expect(skill).toEqual(updatedSkill);
-    });
-    const req = httpTestingController.expectOne(`${service['backendUrl']}/${updatedSkill.id}`);
-    expect(req.request.method).toEqual('PUT');
-    req.flush(updatedSkill);
   });
 
   fit('should_delete_a_skill_via_DELETE', () => {

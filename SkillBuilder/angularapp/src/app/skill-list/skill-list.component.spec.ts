@@ -81,7 +81,7 @@ describe('SkillListComponent', () => {
     expect((service as any).deleteSkill).toHaveBeenCalledWith(1);
   });
 
-  fit('should sort skills by targetSkillLevel', () => {
+  fit('should_sort_skills_by_targetSkillLevel', () => {
     // Assign the mockSkills to the component's skills
     component.skills = mockSkills;
   
@@ -96,7 +96,7 @@ describe('SkillListComponent', () => {
     component.sortSkills();
     expect(component.skills[0].targetSkillLevel).toBe('Expert');
     expect(component.skills[1].targetSkillLevel).toBe('Expert');
-    expect(component.skills[2].targetSkillLevel).toBe('Interediate');
+    expect(component.skills[2].targetSkillLevel).toBe('Intermediate');
     expect(component.skills[3].targetSkillLevel).toBe('Beginner');
   });
   
