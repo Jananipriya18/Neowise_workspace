@@ -5,7 +5,8 @@
         <th>Age</th>
         <th>Task</th>
         <th>Description</th>
-        <th>Duration (min)</th>
+        <th>Duration (min) / Day</th>
+        <th>Duration (hours/week)</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -16,6 +17,7 @@
         <td>{{ gardener.task }}</td> <!-- Update property -->
         <td>{{ gardener.description }}</td> <!-- Update property -->
         <td>{{ gardener.durationInMinutes }}</td> <!-- Update property -->
+        <td>{{ calculateWeeklyDuration(gardener.durationInMinutes) }}</td>
         <td>
           <button (click)="deleteGardener(gardener.id)">Delete</button> <!-- Update method call -->
         </td>

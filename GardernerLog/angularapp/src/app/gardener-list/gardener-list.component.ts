@@ -38,4 +38,8 @@ export class GardenerListComponent implements OnInit { // Update class name
       this.gardeners = this.gardeners.filter((gardener) => gardener.id !== id); // Update filter
     });
   }
+
+  calculateWeeklyDuration(dailyDuration: number): number {
+    return (dailyDuration * 7) / 60; 
+  }
 }
