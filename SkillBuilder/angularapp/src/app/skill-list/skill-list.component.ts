@@ -34,11 +34,6 @@ export class SkillListComponent implements OnInit {
     }
   }
 
-  editSkill(id: number): void {
-    this.router.navigate(['/edit', id]);
-  }
-
-
   deleteSkill(id: any): void {
     this.skillService.deleteSkill(id).subscribe(() => {
       this.skills = this.skills.filter((skill) => skill.id !== id);
