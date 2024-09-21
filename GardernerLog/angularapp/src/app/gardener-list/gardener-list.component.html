@@ -1,0 +1,25 @@
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Task</th>
+        <th>Description</th>
+        <th>Duration (min)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let gardener of gardeners"> <!-- Update variable name -->
+        <td>{{ gardener.name }}</td>
+        <td>{{ gardener.age }}</td>
+        <td>{{ gardener.task }}</td> <!-- Update property -->
+        <td>{{ gardener.description }}</td> <!-- Update property -->
+        <td>{{ gardener.durationInMinutes }}</td> <!-- Update property -->
+        <td>
+          <button (click)="deleteGardener(gardener.id)">Delete</button> <!-- Update method call -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

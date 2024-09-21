@@ -1,29 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Doctor } from '../model/gardener.model';
-import { DoctorService } from '../services/doctor.service';
+import { Gardener } from '../model/gardener.model'; // Update the import
+import { GardenerService } from '../services/gardener.service'; // Adjust the service import
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-doctor-list',
-  templateUrl: './doctor-list.component.html',
-  styleUrls: ['./doctor-list.component.css'],
+  selector: 'app-gardener-list', // Change the selector for better clarity
+  templateUrl: './gardener-list.component.html', // Update template file
+  styleUrls: ['./gardener-list.component.css'], // Update styles file
 })
-export class DoctorListComponent implements OnInit {
-  doctors: Doctor[] = [];
+export class GardenerListComponent implements OnInit { // Update class name
+  gardeners: Gardener[] = []; // Change the array type to Gardener
 
-  constructor(private doctorService: DoctorService,private router: Router) {}
+  constructor(private gardenerService: GardenerService, private router: Router) {} // Update service
 
   ngOnInit(): void {
-    this.getDoctors();
+    this.getGardeners(); // Update the method call
   }
 
-  getDoctors(): void {
+  getGardeners(): void {
     try {
-      this.doctorService.getDoctors().subscribe(
+      this.gardenerService.getGardeners().subscribe( // Update method to use gardener service
         (res) => {
           console.log(res);
-          this.doctors = res;
+          this.gardeners = res; // Update variable to hold gardeners
         },
         (err) => {
           console.log(err);
@@ -34,14 +33,9 @@ export class DoctorListComponent implements OnInit {
     }
   }
 
-  editDoctor(id: number): void {
-    this.router.navigate(['/edit', id]);
-  }
-
-
-  deleteDoctor(id: any): void {
-    this.doctorService.deleteDoctor(id).subscribe(() => {
-      this.doctors = this.doctors.filter((doctor) => doctor.id !== id);
+  deleteGardener(id: any): void { // Update method for deleting
+    this.gardenerService.deleteGardener(id).subscribe(() => {
+      this.gardeners = this.gardeners.filter((gardener) => gardener.id !== id); // Update filter
     });
   }
 }

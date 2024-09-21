@@ -1,0 +1,43 @@
+<p>add-gardener works!</p>
+<form [formGroup]="gardenerForm" (ngSubmit)="addGardener()">
+    <table>
+      <tr>
+        <td>Gardener Name :</td>
+        <td><input class="form-control" type="text" placeholder="Enter Name" formControlName="name"></td>
+      </tr>
+      <tr>
+        <td>Gardener Age :</td>
+        <td>
+          <input class="form-control" type="number" placeholder="Enter Age" formControlName="age">
+          <div *ngIf="gardenerForm.get('age').hasError('min') && gardenerForm.get('age').touched">
+            Age should be more than 18 years.
+          </div>
+          <div *ngIf="gardenerForm.get('age').hasError('max') && gardenerForm.get('age').touched">
+            Age should be less than 70 years.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Task :</td>
+        <td><input class="form-control" type="text" placeholder="Enter Task" formControlName="task"></td>
+      </tr>
+      <tr>
+        <td>Description :</td>
+        <td><input class="form-control" type="text" placeholder="Enter Description" formControlName="description"></td>
+      </tr>
+      <tr>
+        <td>Duration (in minutes) :</td>
+        <td>
+          <input class="form-control" type="number" placeholder="Enter Duration" formControlName="durationInMinutes">
+          <div *ngIf="gardenerForm.get('durationInMinutes').hasError('min') && gardenerForm.get('durationInMinutes').touched">
+            Duration should be at least 1 minute.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button class="btn btn-success" type="submit" [disabled]="gardenerForm.invalid">Add Gardener</button>
+        </td>
+      </tr>
+    </table>
+</form>
