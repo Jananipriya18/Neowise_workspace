@@ -1,34 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Doctor } from '../model/doctor.model';
+import { Gardener } from '../model/gardener.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorService {
-  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/doctors'; 
+export class GardenerService {
+  public backendUrl = 'https://ide-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/proxy/3001/gardeners'; 
 
   constructor(private http: HttpClient) { }
 
-  getDoctors(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(this.backendUrl);
+  getGardeners(): Observable<Gardener[]> {
+    return this.http.get<Gardener[]>(this.backendUrl);
   }
 
-  addDoctor(doctor: Doctor): Observable<Doctor> {
-    return this.http.post<Doctor>(this.backendUrl, doctor);
+  addGardener(gardener: Gardener): Observable<Gardener> {
+    return this.http.post<Gardener>(this.backendUrl, gardener);
   }
 
-  getDoctorById(id: number): Observable<Doctor> {
+  getGardenerById(id: number): Observable<Gardener> {
     const url = `${this.backendUrl}/${id}`;
-    return this.http.get<Doctor>(url);
-  }
-  updateDoctor(id: number, doctor: Doctor): Observable<Doctor> {
-    const url = `${this.backendUrl}/${id}`;
-    return this.http.put<Doctor>(url, doctor);
+    return this.http.get<Gardener>(url);
   }
 
-  deleteDoctor(id: number): Observable<void> {
+  deleteGardener(id: number): Observable<void> {
     const url = `${this.backendUrl}/${id}`;
     return this.http.delete<void>(url);
   }

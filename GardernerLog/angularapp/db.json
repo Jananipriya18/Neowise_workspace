@@ -1,36 +1,44 @@
 {
-  "doctors": [
+  "gardeners": [
     {
       "id": 1,
-      "name": "Dr. Raj Kumar",
-      "age": 40,
-      "specialization": "Neurology",
-      "department": "Neurology",
-      "contactNumber": "852633122"
+      "name": "Alice Johnson",
+      "age": 30,
+      "task": "Water plants",
+      "description": "Daily watering of all garden plants and flowers.",
+      "durationInMinutes": 30
     },
     {
       "id": 2,
-      "name": "Dr. Aishwarya Singh",
-      "age": 35,
-      "specialization": "Cardiology",
-      "department": "Cardiology",
-      "contactNumber": "912345678"
+      "name": "Bob Smith",
+      "age": 45,
+      "task": "Weed garden",
+      "description": "Removing weeds from flower beds and vegetable patches.",
+      "durationInMinutes": 45
     },
     {
       "id": 3,
-      "name": "Dr. Arun Gupta",
-      "age": 50,
-      "specialization": "Orthopedics",
-      "department": "Orthopedics",
-      "contactNumber": "987654300"
+      "name": "Charlie Brown",
+      "age": 28,
+      "task": "Harvest vegetables",
+      "description": "Gathering ripe vegetables from the garden for the week.",
+      "durationInMinutes": 60
     },
     {
-      "name": "asdfgh",
-      "age": 45,
-      "specialization": "sadfg",
-      "department": "adf",
-      "contactNumber": "9876543210",
-      "id": 4
+      "id": 4,
+      "name": "Diana Prince",
+      "age": 35,
+      "task": "Prune bushes",
+      "description": "Trimming and shaping bushes to promote healthy growth.",
+      "durationInMinutes": 50
+    },
+    {
+      "id": 5,
+      "name": "Ethan Hunt",
+      "age": 40,
+      "task": "Mulch garden beds",
+      "description": "Applying mulch to garden beds to retain moisture and suppress weeds.",
+      "durationInMinutes": 40
     }
   ]
 }

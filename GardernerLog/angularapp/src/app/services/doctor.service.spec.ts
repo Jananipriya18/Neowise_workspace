@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { DoctorService } from './doctor.service';
+import { GardenerService } from './gardener.service';
 
-describe('DoctorService', () => {
-  let service: DoctorService;
+describe('GardenerService', () => {
+  let service: GardenerService;
   let httpTestingController: HttpTestingController;
 
-  const mockDoctors = [
+  const mockGardeners = [
     {
       id: 1,
       name: 'Dr. John Smith',
@@ -28,9 +28,9 @@ describe('DoctorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [DoctorService],
+      providers: [GardenerService],
     });
-    service = TestBed.inject(DoctorService);
+    service = TestBed.inject(GardenerService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
@@ -39,38 +39,38 @@ describe('DoctorService', () => {
     httpTestingController.verify();
   });
 
-  fit('should_create_service_doctor', () => {
+  fit('should_create_service_gardener', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('should_retrieve_doctors_from_the_API_via_GET', () => {
-    (service as any).getDoctors().subscribe((doctors) => {
-      expect(doctors).toEqual(mockDoctors);
+  fit('should_retrieve_gardeners_from_the_API_via_GET', () => {
+    (service as any).getGardeners().subscribe((gardeners) => {
+      expect(gardeners).toEqual(mockGardeners);
     });
     const req = httpTestingController.expectOne(`${service['backendUrl']}`);
     expect(req.request.method).toEqual('GET');
-    req.flush(mockDoctors);
+    req.flush(mockGardeners);
   });
 
-  fit('should_add_a_doctor_via_POST', () => {
-    const newDoctor = {
+  fit('should_add_a_gardener_via_POST', () => {
+    const newGardener = {
       name: 'Dr. Jane Doe',
       age: 38,
       specialization: 'Neurology',
       department: 'Neurology',
       contactNumber: '9876543210'
     };
-    (service as any).addDoctor(newDoctor).subscribe((doctor) => {
-      expect(doctor).toEqual(newDoctor);
+    (service as any).addGardener(newGardener).subscribe((gardener) => {
+      expect(gardener).toEqual(newGardener);
     });
     const req = httpTestingController.expectOne(`${service['backendUrl']}`);
     expect(req.request.method).toEqual('POST');
-    req.flush(newDoctor);
+    req.flush(newGardener);
   });
 
 
-  fit('should_update_a_doctor_via_PUT', () => {
-    const updatedDoctor = {
+  fit('should_update_a_gardener_via_PUT', () => {
+    const updatedGardener = {
       id: 1,
       name: 'Dr. John Smith',
       age: 46,
@@ -78,21 +78,21 @@ describe('DoctorService', () => {
       department: 'Cardiology',
       contactNumber: '1234567890'
     };
-    (service as any).updateDoctor(updatedDoctor.id, updatedDoctor).subscribe((doctor) => {
-      expect(doctor).toEqual(updatedDoctor);
+    (service as any).updateGardener(updatedGardener.id, updatedGardener).subscribe((gardener) => {
+      expect(gardener).toEqual(updatedGardener);
     });
-    const req = httpTestingController.expectOne(`${service['backendUrl']}/${updatedDoctor.id}`);
+    const req = httpTestingController.expectOne(`${service['backendUrl']}/${updatedGardener.id}`);
     expect(req.request.method).toEqual('PUT');
-    req.flush(updatedDoctor);
+    req.flush(updatedGardener);
   });
 
 
 
-  fit('should_delete_a_doctor_via_DELETE', () => {
-    const doctorId = 1;
-    (service as any).deleteDoctor(doctorId).subscribe(() => {
+  fit('should_delete_a_gardener_via_DELETE', () => {
+    const gardenerId = 1;
+    (service as any).deleteGardener(gardenerId).subscribe(() => {
     });
-    const req = httpTestingController.expectOne(`${service['backendUrl']}/${doctorId}`);
+    const req = httpTestingController.expectOne(`${service['backendUrl']}/${gardenerId}`);
     expect(req.request.method).toEqual('DELETE');
     req.flush({});
   });
