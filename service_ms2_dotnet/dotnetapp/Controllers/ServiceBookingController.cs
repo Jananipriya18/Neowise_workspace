@@ -47,16 +47,17 @@ namespace dotnetapp.Controllers
                 throw new ServiceBookingException("Service Cost must be at least 1.");
             }
 
-            if (serviceBooking.ServiceCenterId <= 0)
-            {
-                return BadRequest("ServiceCenterId must be provided."); // 400 Bad Request
-            }
-
             _context.ServiceBookings.Add(serviceBooking);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetServiceBooking), new { id = serviceBooking.ServiceBookingId }, serviceBooking); // 201 Created
+            // Eagerly load the ServiceCenter after saving the new ServiceBooking
+            var createdBooking = await _context.ServiceBookings
+                .Include(sb => sb.ServiceCenter)  // Include the ServiceCenter details
+                .FirstOrDefaultAsync(sb => sb.ServiceBookingId == serviceBooking.ServiceBookingId);
+
+            return CreatedAtAction(nameof(GetServiceBooking), new { id = createdBooking.ServiceBookingId }, createdBooking);
         }
+
 
         // DELETE: api/ServiceBooking/{id}
         [HttpDelete("{id}")]
