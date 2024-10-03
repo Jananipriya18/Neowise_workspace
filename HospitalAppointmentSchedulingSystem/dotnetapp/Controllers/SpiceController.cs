@@ -77,7 +77,7 @@ namespace dotnetapp.Controllers
             // Update fields
             existingSpice.Name = spice.Name;
             existingSpice.OriginCountry = spice.OriginCountry;
-            existingSpice.FlavorProfile = spice.FlavorProfile;
+            existingSpice.FlavorProfile = spice.FlavorProfile;  
             existingSpice.StockQuantity = spice.StockQuantity;
             existingSpice.CustomerId = spice.CustomerId;
 
