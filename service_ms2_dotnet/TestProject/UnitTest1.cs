@@ -14,7 +14,7 @@ using System.Linq;
 namespace dotnetapp.Tests
 {
     [TestFixture]
-    public class BookLoanControllerTests
+    public class ServiceBookingControllerTests
     {
         private DbContextOptions<ApplicationDbContext> _dbContextOptions;
         private ApplicationDbContext _context;
@@ -32,267 +32,231 @@ namespace dotnetapp.Tests
             _context = new ApplicationDbContext(_dbContextOptions);
         }
 
-        private async Task<int> CreateTestLibraryAndGetId()
+        private async Task<int> CreateTestVehicleManagerAndGetId()
         {
-            var newLibrary = new LibraryManager
+            var newVehicleManager = new VehicleManager
             {
-                Name = "Test Library",
+                Name = "Test Manager",
                 ContactInfo = "9876543210"
             };
 
-            var json = JsonConvert.SerializeObject(newLibrary);
+            var json = JsonConvert.SerializeObject(newVehicleManager);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/LibraryManager", content);
+            var response = await _httpClient.PostAsync("api/VehicleManager", content);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var createdLibrary = JsonConvert.DeserializeObject<LibraryManager>(responseContent);
+            var createdVehicleManager = JsonConvert.DeserializeObject<VehicleManager>(responseContent);
 
-            return createdLibrary.LibraryManagerId;
+            return createdVehicleManager.VehicleManagerId;
         }
 
-
         [Test]
-        public async Task CreateBookLoan_ReturnsCreatedBookLoan()
+        public async Task CreateServiceBooking_ReturnsCreatedServiceBooking()
         {
-            // Arrange
-            // Make sure CreateTestLibraryAndGetId is working and returning a valid ID
-            int libraryManagerId = await CreateTestLibraryAndGetId(); // Dynamically create a valid LibraryManager
+            int managerId = await CreateTestVehicleManagerAndGetId();
 
-            var newBookLoan = new BookLoan
+            var newServiceBooking = new ServiceBooking
             {
-                BookTitle = "Test Book Loan",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"), // Ensure LoanDate is a string
-                ReturnDate = "2024-09-12",
-                LoanAmount = 5, // Valid loan amount
-                LibraryManagerId = libraryManagerId
+                VehicleType = "Sedan",
+                ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ServiceCost = 200,
+                VehicleManagerId = managerId
             };
 
-            var json = JsonConvert.SerializeObject(newBookLoan);
+            var json = JsonConvert.SerializeObject(newServiceBooking);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // Act
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
+            var response = await _httpClient.PostAsync("api/ServiceBooking", content);
 
-            // Assert
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
+            var createdServiceBooking = JsonConvert.DeserializeObject<ServiceBooking>(responseContent);
 
-            Assert.IsNotNull(createdBookLoan);
-            Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
-            Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
-            Assert.IsNotNull(createdBookLoan.LibraryManager); // Ensure LibraryManager is populated
-            Assert.AreEqual(libraryManagerId, createdBookLoan.LibraryManager.LibraryManagerId); // Check correct library manager is associated
+            Assert.IsNotNull(createdServiceBooking);
+            Assert.AreEqual(newServiceBooking.VehicleType, createdServiceBooking.VehicleType);
+            Assert.IsNotNull(createdServiceBooking.VehicleManager);
+            Assert.AreEqual(managerId, createdServiceBooking.VehicleManager.VehicleManagerId);
         }
 
-
-        [Test]
-        public async Task SearchLibraryManagerByName_InvalidName_ReturnsBadRequest()
+       [Test]
+        public async Task SearchVehicleManagerByName_InvalidName_ReturnsBadRequest()
         {
-            // Act
-            var response = await _httpClient.GetAsync("api/LibraryManager/Search?name=");
-
-            // Assert
+            var response = await _httpClient.GetAsync("api/VehicleManager/Search?name=");
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-     [Test]
-    public async Task PostBookLoan_ReturnsCreatedBookLoanWithLibraryDetails()
-    {
-        // Arrange
-        int libraryId = await CreateTestLibraryAndGetId(); // Dynamically create a valid Library
-
-        var newBookLoan = new BookLoan
+    [Test]
+        public async Task PostServiceBooking_ReturnsCreatedBookingWithManagerDetails()
         {
-            BookTitle = "Test Book Loan",
-            LoanDate = DateTime.Now.ToString("yyyy-MM-dd"), // Convert DateTime to string
-            ReturnDate = "2024-09-12",
-            LoanAmount = 5,
-            LibraryManagerId = libraryId
-        };
+            int managerId = await CreateTestVehicleManagerAndGetId();
 
-        var json = JsonConvert.SerializeObject(newBookLoan);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        // Act
-        var response = await _httpClient.PostAsync("api/BookLoan", content);
-
-        // Assert
-        Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(responseContent);
-
-        Assert.IsNotNull(createdBookLoan);
-        Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
-        Assert.AreEqual(newBookLoan.LoanAmount, createdBookLoan.LoanAmount);
-        Assert.IsNotNull(createdBookLoan.LibraryManager); // Ensure LibraryManager is populated
-        Assert.AreEqual(libraryId, createdBookLoan.LibraryManagerId); // Check correct library is associated
-    }
-
-
-
-       [Test]
-public async Task DeleteBookLoan_ReturnsNoContent()
-{
-    // Arrange
-    int libraryManagerId = await CreateTestLibraryAndGetId(); // Create a valid LibraryManager
-
-    var newBookLoan = new BookLoan
-    {
-        BookTitle = "Book Loan to be deleted",
-        LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-        ReturnDate = "2024-09-12",
-        LoanAmount = 1, // Valid loan amount
-        LibraryManagerId = libraryManagerId
-    };
-
-    // Create a new BookLoan
-    var json = JsonConvert.SerializeObject(newBookLoan);
-    var content = new StringContent(json, Encoding.UTF8, "application/json");
-    var postResponse = await _httpClient.PostAsync("api/BookLoan", content);
-    postResponse.EnsureSuccessStatusCode();
-
-    var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(await postResponse.Content.ReadAsStringAsync());
-    Assert.IsNotNull(createdBookLoan);
-    Assert.AreEqual(newBookLoan.BookTitle, createdBookLoan.BookTitle);
-
-    // Act - Delete the created BookLoan
-    var deleteResponse = await _httpClient.DeleteAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
-
-    // Assert
-    Assert.AreEqual(HttpStatusCode.NoContent, deleteResponse.StatusCode);
-
-    // Optionally verify that the BookLoan was indeed deleted
-    var getResponse = await _httpClient.GetAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
-    Assert.AreEqual(HttpStatusCode.NotFound, getResponse.StatusCode);
-}
-
-
-        [Test]
-        public async Task DeleteBookLoan_InvalidId_ReturnsNotFound()
-        {
-            // Arrange
-            int invalidBookLoanId = 9999; // Use an ID that doesn't exist in the database
-
-            // Act
-            var response = await _httpClient.DeleteAsync($"api/BookLoan/{invalidBookLoanId}");
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Expected 404 Not Found for an invalid BookLoan ID.");
-        }
-
-        [Test]
-        public async Task GetBookLoans_ReturnsListOfBookLoansWithLibraryManagers()
-        {
-            // Act
-            var response = await _httpClient.GetAsync("api/BookLoan");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var bookLoans = JsonConvert.DeserializeObject<BookLoan[]>(responseContent);
-
-            Assert.IsNotNull(bookLoans);
-            Assert.IsTrue(bookLoans.Length > 0);
-            Assert.IsNotNull(bookLoans[0].LibraryManager); // Ensure each book loan has a library manager loaded
-        }
-
-        [Test]
-        public async Task GetBookLoanById_ReturnsBookLoanWithLibraryManagerDetails()
-        {
-            // Arrange
-            var newLibraryManagerId = await CreateTestLibraryAndGetId();
-            var newBookLoan = new BookLoan
+            var newServiceBooking = new ServiceBooking
             {
-                BookTitle = "Book Loan for ID Test",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = "2024-09-12",
-                LoanAmount = 1,
-                LibraryManagerId = newLibraryManagerId
+                VehicleType = "SUV",
+                ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ServiceCost = 150,
+                VehicleManagerId = managerId
             };
 
-            var json = JsonConvert.SerializeObject(newBookLoan);
+            var json = JsonConvert.SerializeObject(newServiceBooking);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
-            var createdBookLoan = JsonConvert.DeserializeObject<BookLoan>(await response.Content.ReadAsStringAsync());
+            var response = await _httpClient.PostAsync("api/ServiceBooking", content);
 
-            // Act
-            var getResponse = await _httpClient.GetAsync($"api/BookLoan/{createdBookLoan.BookLoanId}");
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
-            // Assert
-            getResponse.EnsureSuccessStatusCode();
-            var bookLoan = JsonConvert.DeserializeObject<BookLoan>(await getResponse.Content.ReadAsStringAsync());
-            Assert.IsNotNull(bookLoan);
-            Assert.AreEqual(newBookLoan.BookTitle, bookLoan.BookTitle);
-            Assert.IsNotNull(bookLoan.LibraryManager);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var createdServiceBooking = JsonConvert.DeserializeObject<ServiceBooking>(responseContent);
+
+            Assert.IsNotNull(createdServiceBooking);
+            Assert.AreEqual(newServiceBooking.VehicleType, createdServiceBooking.VehicleType);
+            Assert.IsNotNull(createdServiceBooking.VehicleManager);
+            Assert.AreEqual(managerId, createdServiceBooking.VehicleManagerId);
+        }
+
+
+[Test]
+        public async Task DeleteServiceBooking_ReturnsNoContent()
+        {
+            int managerId = await CreateTestVehicleManagerAndGetId();
+
+            var newServiceBooking = new ServiceBooking
+            {
+                VehicleType = "Truck",
+                ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                ServiceCost = 300,
+                VehicleManagerId = managerId
+            };
+
+            var json = JsonConvert.SerializeObject(newServiceBooking);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var postResponse = await _httpClient.PostAsync("api/ServiceBooking", content);
+            postResponse.EnsureSuccessStatusCode();
+
+            var createdServiceBooking = JsonConvert.DeserializeObject<ServiceBooking>(await postResponse.Content.ReadAsStringAsync());
+
+            var deleteResponse = await _httpClient.DeleteAsync($"api/ServiceBooking/{createdServiceBooking.ServiceBookingId}");
+
+            Assert.AreEqual(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+            var getResponse = await _httpClient.GetAsync($"api/ServiceBooking/{createdServiceBooking.ServiceBookingId}");
+            Assert.AreEqual(HttpStatusCode.NotFound, getResponse.StatusCode);
         }
 
         [Test]
-        public async Task GetBookLoanById_InvalidId_ReturnsNotFound()
+        public async Task DeleteServiceBooking_InvalidId_ReturnsNotFound()
         {
-            // Act
-            var response = await _httpClient.GetAsync("api/BookLoan/999");
-
-            // Assert
+            var response = await _httpClient.DeleteAsync("api/ServiceBooking/9999");
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
 
         [Test]
-        public void LibraryModel_HasAllProperties()
+        public async Task GetServiceBookings_ReturnsListOfServiceBookingsWithManagers()
         {
-            // Arrange
-            var library = new LibraryManager
-            {
-                LibraryManagerId = 1,
-                Name = "Main Library",
-                ContactInfo = "9876543210",
-                BookLoans = new List<BookLoan>() // Ensure the BookLoans collection is properly initialized
-            };
+            var response = await _httpClient.GetAsync("api/ServiceBooking");
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var bookings = JsonConvert.DeserializeObject<ServiceBooking[]>(responseContent);
 
-            // Act & Assert
-            Assert.AreEqual(1, library.LibraryManagerId, "LibraryManagerId does not match.");
-            Assert.AreEqual("Main Library", library.Name, "Name does not match.");
-            Assert.AreEqual("9876543210", library.ContactInfo, "ContactInfo does not match.");
-            Assert.IsNotNull(library.BookLoans, "BookLoans collection should not be null.");
-            Assert.IsInstanceOf<ICollection<BookLoan>>(library.BookLoans, "BookLoans should be of type ICollection<BookLoan>.");
+            Assert.IsNotNull(bookings);
+            Assert.IsTrue(bookings.Length > 0);
+            Assert.IsNotNull(bookings[0].VehicleManager);
         }
 
-        [Test]
-        public void BookLoanModel_HasAllProperties()
-        {
-            // Arrange
-            var library = new LibraryManager
-            {
-                LibraryManagerId = 1,
-                Name = "Main Library",
-                ContactInfo = "9876543210"
-            };
+       [Test]
+public async Task GetServiceBookingById_ReturnsServiceBookingWithVehicleManagerDetails()
+{
+    // Arrange
+    var newVehicleManagerId = await CreateTestVehicleManagerAndGetId();
+    var newServiceBooking = new ServiceBooking
+    {
+        VehicleType = "Car",
+        ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+        ServiceCost = 250,
+        VehicleManagerId = newVehicleManagerId
+    };
 
-            var bookLoan = new BookLoan
-            {
-                BookLoanId = 100,
-                BookTitle = "Test Book Loan",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = "2024-09-12",
-                LoanAmount = 3,
-                LibraryManagerId = 1,
-                LibraryManager = library
-            };
+    var json = JsonConvert.SerializeObject(newServiceBooking);
+    var content = new StringContent(json, Encoding.UTF8, "application/json");
+    var response = await _httpClient.PostAsync("api/ServiceBooking", content);
+    var createdServiceBooking = JsonConvert.DeserializeObject<ServiceBooking>(await response.Content.ReadAsStringAsync());
 
-            // Act & Assert
-            Assert.AreEqual(100, bookLoan.BookLoanId, "BookLoanId does not match.");
-            Assert.AreEqual("Test Book Loan", bookLoan.BookTitle, "BookTitle does not match.");
-            Assert.AreEqual(3, bookLoan.LoanAmount, "LoanAmount does not match.");
-            Assert.AreEqual(1, bookLoan.LibraryManagerId, "LibraryManagerId does not match.");
-            Assert.IsNotNull(bookLoan.LibraryManager, "LibraryManager should not be null.");
-            Assert.AreEqual(library.Name, bookLoan.LibraryManager.Name, "LibraryManager's Name does not match.");
-        }
+    // Act
+    var getResponse = await _httpClient.GetAsync($"api/ServiceBooking/{createdServiceBooking.ServiceBookingId}");
+
+    // Assert
+    getResponse.EnsureSuccessStatusCode();
+    var serviceBooking = JsonConvert.DeserializeObject<ServiceBooking>(await getResponse.Content.ReadAsStringAsync());
+    Assert.IsNotNull(serviceBooking);
+    Assert.AreEqual(newServiceBooking.VehicleType, serviceBooking.VehicleType);
+    Assert.IsNotNull(serviceBooking.VehicleManager);
+}
+
+
+    [Test]
+public async Task GetServiceBookingById_InvalidId_ReturnsNotFound()
+{
+    // Act
+    var response = await _httpClient.GetAsync("api/ServiceBooking/9999");
+
+    // Assert
+    Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+}
+
+
+     [Test]
+public void VehicleManagerModel_HasAllProperties()
+{
+    // Arrange
+    var vehicleManager = new VehicleManager
+    {
+        VehicleManagerId = 1,
+        Name = "John Doe",
+        ContactInfo = "9876543210",
+        ServiceBookings = new List<ServiceBooking>()
+    };
+
+    // Act & Assert
+    Assert.AreEqual(1, vehicleManager.VehicleManagerId, "VehicleManagerId does not match.");
+    Assert.AreEqual("John Doe", vehicleManager.Name, "Name does not match.");
+    Assert.AreEqual("9876543210", vehicleManager.ContactInfo, "ContactInfo does not match.");
+    Assert.IsNotNull(vehicleManager.ServiceBookings, "ServiceBookings collection should not be null.");
+    Assert.IsInstanceOf<ICollection<ServiceBooking>>(vehicleManager.ServiceBookings, "ServiceBookings should be of type ICollection<ServiceBooking>.");
+}
+
+       [Test]
+public void ServiceBookingModel_HasAllProperties()
+{
+    // Arrange
+    var vehicleManager = new VehicleManager
+    {
+        VehicleManagerId = 1,
+        Name = "John Doe",
+        ContactInfo = "9876543210"
+    };
+
+    var serviceBooking = new ServiceBooking
+    {
+        ServiceBookingId = 100,
+        VehicleType = "Sedan",
+        ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+        ServiceCost = 500,
+        VehicleManagerId = 1,
+        VehicleManager = vehicleManager
+    };
+
+    // Act & Assert
+    Assert.AreEqual(100, serviceBooking.ServiceBookingId, "ServiceBookingId does not match.");
+    Assert.AreEqual("Sedan", serviceBooking.VehicleType, "VehicleType does not match.");
+    Assert.AreEqual(500, serviceBooking.ServiceCost, "ServiceCost does not match.");
+    Assert.AreEqual(1, serviceBooking.VehicleManagerId, "VehicleManagerId does not match.");
+    Assert.IsNotNull(serviceBooking.VehicleManager, "VehicleManager should not be null.");
+    Assert.AreEqual(vehicleManager.Name, serviceBooking.VehicleManager.Name, "VehicleManager's Name does not match.");
+}
+
 
         [Test]
         public void DbContext_HasDbSetProperties()
