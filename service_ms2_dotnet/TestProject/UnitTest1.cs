@@ -324,7 +324,7 @@ public async Task PostServiceBooking_ThrowsServiceCostException_ForZeroServiceCo
     var response = await _httpClient.PostAsync("api/ServiceBooking", content);
 
     // Assert
-    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode); // 500 for thrown exception
+    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
     var responseContent = await response.Content.ReadAsStringAsync();
     Assert.IsTrue(responseContent.Contains("Service Cost must be at least 1."), "Expected error message not found in the response.");
 }
