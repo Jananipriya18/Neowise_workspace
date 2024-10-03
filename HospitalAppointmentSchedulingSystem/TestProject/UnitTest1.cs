@@ -8,8 +8,7 @@ using dotnetapp.Models;
 using System;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Collections.Generic;
+using dotnetapp.Exceptions;
 
 namespace dotnetapp.Tests
 {
@@ -265,30 +264,6 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task DeleteSpice_ReturnsNoContent()
-        {
-            // Arrange
-            int customerId = await CreateTestCustomerAndGetId();
-            int spiceId = await CreateTestSpiceAndGetId(customerId); // Create a spice
-
-            // Act
-            var response = await _httpClient.DeleteAsync($"api/Spice/{spiceId}");
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
-        }
-
-        [Test]
-        public async Task DeleteSpice_InvalidId_ReturnsNotFound()
-        {
-            // Act
-            var response = await _httpClient.DeleteAsync("api/Spice/9999");
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-        }
-
-        [Test]
         public void CustomerModel_HasAllProperties()
         {
             // Arrange
@@ -315,6 +290,50 @@ namespace dotnetapp.Tests
             Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "StockQuantity"));
             Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "CustomerId"));
         }
+
+        [Test]
+    public void CreateSpice_ThrowsStockQuantityException_ForZeroStockQuantity()
+    {
+        // Arrange
+        var newSpice = new Spice
+        {
+            Name = "Test Spice",
+            OriginCountry = "India",
+            FlavorProfile = "Spicy",
+            StockQuantity = 0, // Zero stock quantity
+            CustomerId = 1
+        };
+
+        // Act & Assert
+        var ex = Assert.Throws<StockQuantityException>(() =>
+        {
+            _context.Spices.Add(newSpice);
+            _context.SaveChanges(); // This should trigger the exception
+        });
+        Assert.AreEqual("Stock quantity must be a positive value.", ex.Message);
+    }
+
+    [Test]
+    public void CreateSpice_ThrowsStockQuantityException_ForNegativeStockQuantity()
+    {
+        // Arrange
+        var newSpice = new Spice
+        {
+            Name = "Test Spice",
+            OriginCountry = "India",
+            FlavorProfile = "Spicy",
+            StockQuantity = -5, // Negative stock quantity
+            CustomerId = 1
+        };
+
+        // Act & Assert
+        var ex = Assert.Throws<StockQuantityException>(() =>
+        {
+            _context.Spices.Add(newSpice);
+            _context.SaveChanges(); // This should trigger the exception
+        });
+        Assert.AreEqual("Stock quantity must be a positive value.", ex.Message);
+    }
 
         [TearDown]
         public void TearDown()

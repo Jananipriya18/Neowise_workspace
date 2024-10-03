@@ -10,4 +10,4 @@ namespace dotnetapp.Models
         public int? CustomerId { get; set; }  // Many-to-one: Each Spice belongs to one Customer
         public Customer? Customer { get; set; }  // Navigation property back to the Customer
     }
-}
+}   

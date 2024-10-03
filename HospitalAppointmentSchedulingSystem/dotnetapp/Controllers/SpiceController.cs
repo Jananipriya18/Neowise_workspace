@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
+using dotnetapp.Exceptions; // Add this using directive for the exception
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +27,12 @@ namespace dotnetapp.Controllers
             if (spice == null)
             {
                 return BadRequest("Spice cannot be null.");
+            }
+
+            // Check for valid StockQuantity
+            if (spice.StockQuantity <= 0)
+            {
+                throw new StockQuantityException("Stock quantity must be a positive value.");
             }
 
             _context.Spices.Add(spice);
@@ -59,6 +66,12 @@ namespace dotnetapp.Controllers
             if (existingSpice == null)
             {
                 return NotFound();
+            }
+
+            // Check for valid StockQuantity
+            if (spice.StockQuantity <= 0)
+            {
+                throw new StockQuantityException("Stock quantity must be a positive value.");
             }
 
             // Update fields
