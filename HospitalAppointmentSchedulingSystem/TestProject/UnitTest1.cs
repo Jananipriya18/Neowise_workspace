@@ -347,48 +347,66 @@
             }
 
             [Test]
-        public void CreateSpice_ThrowsStockQuantityException_ForZeroStockQuantity()
-        {
-            // Arrange
-            var newSpice = new Spice
+            public async Task CreateSpice_WithZeroStockQuantity_ThrowsException()
             {
-                Name = "Test Spice",
-                OriginCountry = "India",
-                FlavorProfile = "Spicy",
-                StockQuantity = 0, // Zero stock quantity
-                CustomerId = 1
-            };
+                // Arrange
+                int customerId = await CreateTestCustomerAndGetId(); // Ensure a valid customer is created
 
-            // Act & Assert
-            var ex = Assert.Throws<StockQuantityException>(() =>
-            {
-                _context.Spices.Add(newSpice);
-                _context.SaveChanges(); // This should trigger the exception
-            });
-            Assert.AreEqual("Stock quantity must be a positive value.", ex.Message);
-        }
+                var newSpice = new Spice
+                {
+                    Name = "Test Spice Zero",
+                    OriginCountry = "India",
+                    FlavorProfile = "Spicy",
+                    StockQuantity = 0, // Zero stock quantity
+                    CustomerId = customerId
+                };
 
-        [Test]
-        public void CreateSpice_ThrowsStockQuantityException_ForNegativeStockQuantity()
-        {
-            // Arrange
-            var newSpice = new Spice
-            {
-                Name = "Test Spice",
-                OriginCountry = "India",
-                FlavorProfile = "Spicy",
-                StockQuantity = -5, 
-                CustomerId = 1
-            };
+                var json = JsonConvert.SerializeObject(newSpice);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // Act & Assert
-            var ex = Assert.Throws<StockQuantityException>(() =>
+                // Act
+                var response = await _httpClient.PostAsync("api/Spice", content);
+
+                // Assert
+                Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode, 
+                    "Expected InternalServerError for zero stock quantity.");
+                
+                var responseContent = await response.Content.ReadAsStringAsync();
+                Assert.IsTrue(responseContent.Contains("Stock quantity must be a positive value."), 
+                    "Error message for zero stock quantity not found.");
+            }
+
+            [Test]
+            public async Task CreateSpice_WithNegativeStockQuantity_ThrowsException()
             {
-                _context.Spices.Add(newSpice);
-                _context.SaveChanges(); // This should trigger the exception
-            });
-            Assert.AreEqual("Stock quantity must be a positive value.", ex.Message);
-        }
+                // Arrange
+                int customerId = await CreateTestCustomerAndGetId(); // Ensure a valid customer is created
+
+                var newSpice = new Spice
+                {
+                    Name = "Test Spice Zero",
+                    OriginCountry = "India",
+                    FlavorProfile = "Spicy",
+                    StockQuantity = -10, // Zero stock quantity
+                    CustomerId = customerId
+                };
+
+                var json = JsonConvert.SerializeObject(newSpice);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // Act
+                var response = await _httpClient.PostAsync("api/Spice", content);
+
+                // Assert
+                Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode, 
+                    "Expected InternalServerError for zero stock quantity.");
+                
+                var responseContent = await response.Content.ReadAsStringAsync();
+                Assert.IsTrue(responseContent.Contains("Stock quantity must be a positive value."), 
+                    "Error message for zero stock quantity not found.");
+            }
+
+
 
             [TearDown]
             public void TearDown()
