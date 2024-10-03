@@ -5,23 +5,17 @@ namespace dotnetapp.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<BookLoan> BookLoans { get; set; }  
-        public DbSet<LibraryManager> LibraryManagers { get; set; }  
+        public DbSet<ServiceCenter> ServiceCenters { get; set; }  // Represents the ServiceCenters table
+        public DbSet<ServiceBooking> ServiceBookings { get; set; }  // Represents the ServiceBookings table
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BookLoan>()
-                .HasOne(bl => bl.LibraryManager)
-                .WithMany(lm => lm.BookLoans)
-                .HasForeignKey(bl => bl.LibraryManagerId)
-                .OnDelete(DeleteBehavior.Cascade);  
-
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ServiceBooking>()
+                .HasOne(sb => sb.ServiceCenter)
+                .WithMany(sc => sc.ServiceBookings)
+                .HasForeignKey(sb => sb.ServiceCenterId);
         }
     }
 }
