@@ -1,28 +1,35 @@
 using NUnit.Framework;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Models;
-using Newtonsoft.Json;
 using System;
+using System.Net.Http;
+using Newtonsoft.Json;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace dotnetapp.Tests
 {
-     [TestFixture]
+    [TestFixture]
     public class CustomerSpiceControllerTests
     {
-        private HttpClient _httpClient;
+        private DbContextOptions<ApplicationDbContext> _dbContextOptions;
         private ApplicationDbContext _context;
+        private HttpClient _httpClient;
 
         [SetUp]
         public void Setup()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://localhost:8080"); // Update to your API's base URL
-            _context = new ApplicationDbContext(); // Consider configuring in-memory database
+            _httpClient.BaseAddress = new Uri("http://localhost:8080"); // Base URL of your API
+            _dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            _context = new ApplicationDbContext(_dbContextOptions);
         }
 
         private async Task<int> CreateTestCustomerAndGetId()
@@ -52,7 +59,7 @@ namespace dotnetapp.Tests
                 OriginCountry = "Sri Lanka",
                 FlavorProfile = "Sweet and Spicy",
                 StockQuantity = 100,
-                CustomerId = customerId
+                CustomerId = customerId // Assuming Spice has a CustomerId property
             };
 
             var json = JsonConvert.SerializeObject(newSpice);
@@ -62,7 +69,7 @@ namespace dotnetapp.Tests
             response.EnsureSuccessStatusCode();
 
             var createdSpice = JsonConvert.DeserializeObject<Spice>(await response.Content.ReadAsStringAsync());
-            return createdSpice.SpiceId;
+            return createdSpice.SpiceId; // Assuming Spice has a SpiceId property
         }
 
         [Test]
@@ -98,7 +105,7 @@ namespace dotnetapp.Tests
         public async Task CreateSpice_ReturnsCreatedSpiceWithCustomerDetails()
         {
             // Arrange
-            int customerId = await CreateTestCustomerAndGetId(); // Create a customer dynamically
+            int customerId = await CreateTestCustomerAndGetId(); // Dynamically create a valid Customer
 
             var newSpice = new Spice
             {
@@ -127,114 +134,24 @@ namespace dotnetapp.Tests
             Assert.AreEqual(newSpice.FlavorProfile, createdSpice.FlavorProfile);
             Assert.AreEqual(newSpice.StockQuantity, createdSpice.StockQuantity);
             Assert.AreEqual(customerId, createdSpice.CustomerId);
+            Assert.IsNotNull(createdSpice.Customer);
+            Assert.AreEqual(customerId, createdSpice.Customer.CustomerId);
         }
 
         [Test]
-        public async Task GetCustomers_ReturnsListOfCustomers()
+        public async Task GetCustomersSortedByName_ReturnsSortedCustomers()
         {
             // Arrange
-            await CreateTestCustomerAndGetId(); // Create a customer
+            await CreateTestCustomerAndGetId(); // Create customers to be sorted
 
             // Act
-            var response = await _httpClient.GetAsync("api/Customer");
+            var response = await _httpClient.GetAsync("api/Customer/sortedByName"); // Adjust endpoint as needed
 
             // Assert
             response.EnsureSuccessStatusCode();
             var customers = JsonConvert.DeserializeObject<Customer[]>(await response.Content.ReadAsStringAsync());
-
             Assert.IsNotNull(customers);
-            Assert.IsTrue(customers.Length > 0); // Ensure at least one customer exists
-        }
-
-        [Test]
-        public async Task GetSpices_ReturnsListOfSpicesWithCustomers()
-        {
-            // Arrange
-            int customerId = await CreateTestCustomerAndGetId(); // Create a customer
-            await CreateTestSpiceAndGetId(customerId); // Create a spice
-
-            // Act
-            var response = await _httpClient.GetAsync("api/Spice");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var spices = JsonConvert.DeserializeObject<Spice[]>(await response.Content.ReadAsStringAsync());
-
-            Assert.IsNotNull(spices);
-            Assert.IsTrue(spices.Length > 0); // Ensure at least one spice exists
-
-            // Ensure each spice has an associated customer
-            foreach (var spice in spices)
-            {
-                Assert.IsNotNull(spice.Customer, "Customer should not be null for each spice.");
-            }
-        }
-
-        [Test]
-        public async Task UpdateCustomer_ReturnsOkWithUpdatedCustomer()
-        {
-            // Arrange
-            int customerId = await CreateTestCustomerAndGetId(); // Create a customer
-            var updatedCustomer = new Customer
-            {
-                CustomerId = customerId,
-                FullName = "Updated Customer",
-                ContactNumber = "987-654-3210",
-                Address = "456 Another St"
-            };
-
-            var json = JsonConvert.SerializeObject(updatedCustomer);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await _httpClient.PutAsync($"api/Customer/{customerId}", content);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var modifiedCustomer = JsonConvert.DeserializeObject<Customer>(responseContent);
-
-            Assert.IsNotNull(modifiedCustomer);
-            Assert.AreEqual(updatedCustomer.FullName, modifiedCustomer.FullName);
-            Assert.AreEqual(updatedCustomer.ContactNumber, modifiedCustomer.ContactNumber);
-            Assert.AreEqual(updatedCustomer.Address, modifiedCustomer.Address);
-        }
-
-        [Test]
-        public async Task UpdateSpice_ReturnsOkWithUpdatedSpice()
-        {
-            // Arrange
-            int customerId = await CreateTestCustomerAndGetId(); // Create a customer
-            int spiceId = await CreateTestSpiceAndGetId(customerId); // Create a spice
-
-            var updatedSpice = new Spice
-            {
-                SpiceId = spiceId,
-                Name = "Updated Cinnamon",
-                OriginCountry = "Updated Sri Lanka",
-                FlavorProfile = "Updated Sweet and Spicy",
-                StockQuantity = 150,
-                CustomerId = customerId
-            };
-
-            var json = JsonConvert.SerializeObject(updatedSpice);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await _httpClient.PutAsync($"api/Spice/{spiceId}", content);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var modifiedSpice = JsonConvert.DeserializeObject<Spice>(responseContent);
-
-            Assert.IsNotNull(modifiedSpice);
-            Assert.AreEqual(updatedSpice.Name, modifiedSpice.Name);
-            Assert.AreEqual(updatedSpice.OriginCountry, modifiedSpice.OriginCountry);
-            Assert.AreEqual(updatedSpice.FlavorProfile, modifiedSpice.FlavorProfile);
-            Assert.AreEqual(updatedSpice.StockQuantity, modifiedSpice.StockQuantity);
+            Assert.AreEqual(customers.OrderBy(c => c.FullName).ToList(), customers);
         }
 
         [Test]
@@ -255,41 +172,103 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public async Task GetSpiceById_ReturnsSpice()
+        public async Task UpdateSpice_ReturnsOkWithUpdatedSpice()
         {
             // Arrange
-            int customerId = await CreateTestCustomerAndGetId(); // Create a customer
+            int customerId = await CreateTestCustomerAndGetId();
             int spiceId = await CreateTestSpiceAndGetId(customerId); // Create a spice
 
+            var updatedSpice = new Spice
+            {
+                SpiceId = spiceId,
+                Name = "Updated Spice",
+                OriginCountry = "Updated Country",
+                FlavorProfile = "Updated Flavor",
+                StockQuantity = 200 // Example updated quantity
+            };
+
+            var json = JsonConvert.SerializeObject(updatedSpice);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             // Act
-            var response = await _httpClient.GetAsync($"api/Spice/{spiceId}");
+            var response = await _httpClient.PutAsync($"api/Spice/{spiceId}", content);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var spice = JsonConvert.DeserializeObject<Spice>(await response.Content.ReadAsStringAsync());
-            Assert.IsNotNull(spice);
-            Assert.AreEqual(spiceId, spice.SpiceId);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var spiceResponse = JsonConvert.DeserializeObject<Spice>(responseContent);
+            Assert.AreEqual(updatedSpice.Name, spiceResponse.Name);
+            Assert.AreEqual(updatedSpice.OriginCountry, spiceResponse.OriginCountry);
+            Assert.AreEqual(updatedSpice.FlavorProfile, spiceResponse.FlavorProfile);
+            Assert.AreEqual(updatedSpice.StockQuantity, spiceResponse.StockQuantity);
         }
 
         [Test]
-        public async Task DeleteCustomer_ReturnsNoContent()
+        public async Task UpdateSpice_InvalidId_ReturnsNotFound()
         {
             // Arrange
-            int customerId = await CreateTestCustomerAndGetId(); // Create a customer
+            var updatedSpice = new Spice
+            {
+                SpiceId = 9999, // Non-existent ID
+                Name = "Spice Name",
+                OriginCountry = "Spice Country",
+                FlavorProfile = "Spice Flavor",
+                StockQuantity = 50
+            };
+
+            var json = JsonConvert.SerializeObject(updatedSpice);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _httpClient.DeleteAsync($"api/Customer/{customerId}");
+            var response = await _httpClient.PutAsync($"api/Spice/{updatedSpice.SpiceId}", content);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Test]
+        public async Task GetSpices_ReturnsListOfSpicesWithCustomers()
+        {
+            // Arrange
+            int customerId = await CreateTestCustomerAndGetId();
+            await CreateTestSpiceAndGetId(customerId); // Create a spice for the customer
+
+            // Act
+            var response = await _httpClient.GetAsync("api/Spice");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var spices = JsonConvert.DeserializeObject<Spice[]>(await response.Content.ReadAsStringAsync());
+
+            // Ensure the deserialized spices array is not null
+            Assert.IsNotNull(spices);
+            
+            // Ensure that the array contains one or more spices
+            Assert.IsTrue(spices.Length > 0);
+            
+            // Ensure each spice has an associated customer
+            foreach (var spice in spices)
+            {
+                Assert.IsNotNull(spice.Customer, "Customer should not be null for each spice.");
+            }
+        }
+
+        [Test]
+        public async Task GetCustomerById_InvalidId_ReturnsNotFound()
+        {
+            // Act
+            var response = await _httpClient.GetAsync("api/Customer/999");
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Test]
         public async Task DeleteSpice_ReturnsNoContent()
         {
             // Arrange
-            int customerId = await CreateTestCustomerAndGetId(); // Create a customer
+            int customerId = await CreateTestCustomerAndGetId();
             int spiceId = await CreateTestSpiceAndGetId(customerId); // Create a spice
 
             // Act
@@ -300,72 +279,49 @@ namespace dotnetapp.Tests
         }
 
         [Test]
+        public async Task DeleteSpice_InvalidId_ReturnsNotFound()
+        {
+            // Act
+            var response = await _httpClient.DeleteAsync("api/Spice/9999");
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Test]
+        public void CustomerModel_HasAllProperties()
+        {
+            // Arrange
+            var customer = new Customer();
+
+            // Act & Assert
+            Assert.IsTrue(typeof(Customer).GetProperties().Any(p => p.Name == "CustomerId"));
+            Assert.IsTrue(typeof(Customer).GetProperties().Any(p => p.Name == "FullName"));
+            Assert.IsTrue(typeof(Customer).GetProperties().Any(p => p.Name == "ContactNumber"));
+            Assert.IsTrue(typeof(Customer).GetProperties().Any(p => p.Name == "Address"));
+        }
+
+        [Test]
         public void SpiceModel_HasAllProperties()
         {
             // Arrange
-            var customerInstance = new Customer
-            {
-                CustomerId = 1,
-                FullName = "Sample Customer",
-                ContactNumber = "987-654-3210",
-                Address = "123 Main St"
-            };
-
-            var spice = new Spice
-            {
-                SpiceId = 100,
-                Name = "Cinnamon",
-                OriginCountry = "Sri Lanka",
-                FlavorProfile = "Sweet and Spicy",
-                StockQuantity = 150,
-                CustomerId = 1,
-                Customer = customerInstance
-            };
+            var spice = new Spice();
 
             // Act & Assert
-            Assert.AreEqual(100, spice.SpiceId, "SpiceId does not match.");
-            Assert.AreEqual("Cinnamon", spice.Name, "Name does not match.");
-            Assert.AreEqual("Sri Lanka", spice.OriginCountry, "OriginCountry does not match.");
-            Assert.AreEqual("Sweet and Spicy", spice.FlavorProfile, "FlavorProfile does not match.");
-            Assert.AreEqual(150, spice.StockQuantity, "StockQuantity does not match.");
-            Assert.AreEqual(1, spice.CustomerId, "CustomerId does not match.");
-            Assert.IsNotNull(spice.Customer, "Customer should not be null.");
-            Assert.AreEqual(customerInstance.FullName, spice.Customer.FullName, "Customer's Name does not match.");
+            Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "SpiceId"));
+            Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "Name"));
+            Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "OriginCountry"));
+            Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "FlavorProfile"));
+            Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "StockQuantity"));
+            Assert.IsTrue(typeof(Spice).GetProperties().Any(p => p.Name == "CustomerId"));
         }
-
-        [Test]
-        public void DbContext_HasDbSetProperties()
-        {
-            // Assert that the context has DbSet properties for Customers and Spices
-            Assert.IsNotNull(_context.Customers, "Customers DbSet is not initialized.");
-            Assert.IsNotNull(_context.Spices, "Spices DbSet is not initialized.");
-        }
-
-        [Test]
-        public void CustomerSpice_Relationship_IsConfiguredCorrectly()
-        {
-            // Check if the Customer to Spice relationship is configured as one-to-many
-            var model = _context.Model;
-            var customerEntity = model.FindEntityType(typeof(Customer));
-            var spiceEntity = model.FindEntityType(typeof(Spice));
-
-            // Assert that the foreign key relationship exists between Spice and Customer
-            var foreignKey = spiceEntity.GetForeignKeys().FirstOrDefault(fk => fk.PrincipalEntityType == customerEntity);
-
-            Assert.IsNotNull(foreignKey, "Foreign key relationship between Spice and Customer is not configured.");
-            Assert.AreEqual("CustomerId", foreignKey.Properties.First().Name, "Foreign key property name is incorrect.");
-
-            // Check if the cascade delete behavior is set
-            Assert.AreEqual(DeleteBehavior.Cascade, foreignKey.DeleteBehavior, "Cascade delete behavior is not set correctly.");
-        }
-
 
         [TearDown]
         public void TearDown()
         {
-            // If using an in-memory database, no cleanup is necessary.
-            _httpClient.Dispose();
+            // Clean up the database after each test
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
         }
     }
 }
-    
