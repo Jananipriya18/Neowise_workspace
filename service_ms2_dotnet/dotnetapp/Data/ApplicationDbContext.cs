@@ -8,7 +8,7 @@ namespace dotnetapp.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<ServiceCenter> ServiceCenters { get; set; }  // Represents the ServiceCenters table
-        public DbSet<ServiceBooking> ServiceBookings { get; set; }  // Represents the ServiceBookings table
+        public DbSet<ServiceBooking> ServiceBookings { get; set; }  // Represents the ServiceCenters table
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

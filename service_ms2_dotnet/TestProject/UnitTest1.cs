@@ -37,6 +37,7 @@ namespace dotnetapp.Tests
             var newServiceCenter = new ServiceCenter
             {
                 Name = "Test Manager",
+                Location = "Test Location",
                 ContactInfo = "9876543210"
             };
 
@@ -61,6 +62,7 @@ public async Task CreateServiceBooking_ReturnsCreatedServiceBooking()
     {
         VehicleModel = "Sedan", // Updated from VehicleType to VehicleModel
         ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+        Status = "pending",
         ServiceCost = 200,
         ServiceCenterId = serviceCenterId // Updated to use ServiceCenterId
     };
@@ -96,6 +98,7 @@ public async Task CreateServiceBooking_ReturnsCreatedServiceBooking()
             {
                 VehicleModel = "SUV",
                 ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                 Status = "pending",
                 ServiceCost = 150,
                 ServiceCenterId = managerId
             };
@@ -126,6 +129,7 @@ public async Task CreateServiceBooking_ReturnsCreatedServiceBooking()
             {
                 VehicleModel = "Truck",
                 ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                Status = "pending",
                 ServiceCost = 300,
                 ServiceCenterId = managerId
             };
@@ -174,6 +178,7 @@ public async Task GetServiceBookingById_ReturnsServiceBookingWithServiceCenterDe
     {
         VehicleModel = "Car",
         ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+        Status = "pending",
         ServiceCost = 250,
         ServiceCenterId = newServiceCenterId
     };
@@ -290,6 +295,7 @@ public async Task PostServiceBooking_ThrowsServiceCostException_ForNegativeServi
     {
         VehicleModel = "Bike", // Updated from VehicleType to VehicleModel
         ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+         Status = "pending",
         ServiceCost = -100,  // Invalid negative service cost
         ServiceCenterId = 1  // Updated to use ServiceCenterId
     };
@@ -313,6 +319,7 @@ public async Task PostServiceBooking_ThrowsServiceCostException_ForZeroServiceCo
     {
         VehicleModel = "Bike",
         ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+         Status = "pending",
         ServiceCost = 0,  // Invalid zero service cost
         ServiceCenterId = 1
     };
