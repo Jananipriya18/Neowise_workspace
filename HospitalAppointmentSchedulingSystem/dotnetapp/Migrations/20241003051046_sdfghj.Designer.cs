@@ -12,7 +12,7 @@ using dotnetapp.Data;
 namespace dotnetapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240911120637_sdfghj")]
+    [Migration("20241003051046_sdfghj")]
     partial class sdfghj
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,77 +24,77 @@ namespace dotnetapp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("dotnetapp.Models.Appointment", b =>
+            modelBuilder.Entity("dotnetapp.Models.Customer", b =>
                 {
-                    b.Property<int>("AppointmentId")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
 
-                    b.Property<string>("AppointmentDate")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PatientName")
+                    b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Reason")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AppointmentId");
+                    b.HasKey("CustomerId");
 
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("Appointments");
+                    b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Doctor", b =>
+            modelBuilder.Entity("dotnetapp.Models.Spice", b =>
                 {
-                    b.Property<int>("DoctorId")
+                    b.Property<int>("SpiceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpiceId"), 1L, 1);
 
-                    b.Property<string>("ContactInfo")
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FlavorProfile")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DoctorFee")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Specialty")
+                    b.Property<string>("OriginCountry")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DoctorId");
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
 
-                    b.ToTable("Doctors");
+                    b.HasKey("SpiceId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Spices");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Appointment", b =>
+            modelBuilder.Entity("dotnetapp.Models.Spice", b =>
                 {
-                    b.HasOne("dotnetapp.Models.Doctor", "Doctor")
-                        .WithMany("Appointments")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("dotnetapp.Models.Customer", "Customer")
+                        .WithMany("Spices")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("Doctor");
+                    b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Doctor", b =>
+            modelBuilder.Entity("dotnetapp.Models.Customer", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("Spices");
                 });
 #pragma warning restore 612, 618
         }

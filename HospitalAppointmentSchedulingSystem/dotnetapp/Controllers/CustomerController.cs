@@ -11,63 +11,50 @@ namespace dotnetapp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DoctorController : ControllerBase
+    public class CustomerController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public DoctorController(ApplicationDbContext context)
+        public CustomerController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // POST: api/Doctor
+        // POST: api/Customer
         [HttpPost]
-        public async Task<ActionResult<Doctor>> CreateDoctor([FromBody] Doctor doctor)
+        public async Task<ActionResult<Customer>> CreateCustomer([FromBody] Customer customer)
         {
-            // Validate DoctorFee
-            if (doctor.DoctorFee <= 0)
-            {
-                throw new PriceException("DoctorFee must be greater than 0");
-            }
-
-            _context.Doctors.Add(doctor);
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetDoctor), new { id = doctor.DoctorId }, doctor);
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerId }, customer);
         }
 
-        // GET: api/Doctor
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
-        // {
-        //     return await _context.Doctors.Include(d => d.Appointments).ToListAsync();
-        // }
-
-        // GET: api/Doctor/5
+        // GET: api/Customer/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Doctor>> GetDoctor(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var doctor = await _context.Doctors
-                .Include(d => d.Appointments)
-                .FirstOrDefaultAsync(d => d.DoctorId == id);
+            var customer = await _context.Customers
+                .Include(c => c.Spices)
+                .FirstOrDefaultAsync(c => c.CustomerId == id);
 
-            if (doctor == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return doctor;
+            return customer;
         }
 
-        [HttpGet("sortedByFee")]
-        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctorsSortedByFee()
+        [HttpGet("sortedByName")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersSortedByName()
         {
-            var doctors = await _context.Doctors
-                .OrderByDescending(d => d.DoctorFee) 
-                .Include(d => d.Appointments) 
+            var customers = await _context.Customers
+                .OrderBy(c => c.FullName)  // Sort customers by FullName
+                .Include(c => c.Spices)  // Include related spices
                 .ToListAsync();
 
-            return Ok(doctors);
+            return Ok(customers);
         }
     }
 }
