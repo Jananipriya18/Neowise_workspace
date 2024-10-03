@@ -258,89 +258,82 @@ public void ServiceBookingModel_HasAllProperties()
 }
 
 
-        [Test]
-        public void DbContext_HasDbSetProperties()
-        {
-            // Assert that the context has DbSet properties for Libraries and BookLoans
-            Assert.IsNotNull(_context.LibraryManagers, "Libraries DbSet is not initialized.");
-            Assert.IsNotNull(_context.BookLoans, "BookLoans DbSet is not initialized.");
-        }
+      [Test]
+public void DbContext_HasDbSetProperties()
+{
+    // Assert that the context has DbSet properties for VehicleManagers and ServiceBookings
+    Assert.IsNotNull(_context.VehicleManagers, "VehicleManagers DbSet is not initialized.");
+    Assert.IsNotNull(_context.ServiceBookings, "ServiceBookings DbSet is not initialized.");
+}
+       [Test]
+public void VehicleManagerServiceBooking_Relationship_IsConfiguredCorrectly()
+{
+    // Check if the VehicleManager to ServiceBooking relationship is configured as one-to-many
+    var model = _context.Model;
+    var vehicleManagerEntity = model.FindEntityType(typeof(VehicleManager));
+    var serviceBookingEntity = model.FindEntityType(typeof(ServiceBooking));
 
-        [Test]
-        public void LibraryManagerBookLoan_Relationship_IsConfiguredCorrectly()
-        {
-            // Check if the LibraryManager to BookLoan relationship is configured as one-to-many
-            var model = _context.Model;
-            var libraryEntity = model.FindEntityType(typeof(LibraryManager));
-            var bookLoanEntity = model.FindEntityType(typeof(BookLoan));
+    // Assert that the foreign key relationship exists between ServiceBooking and VehicleManager
+    var foreignKey = serviceBookingEntity.GetForeignKeys().FirstOrDefault(fk => fk.PrincipalEntityType == vehicleManagerEntity);
 
-            // Assert that the foreign key relationship exists between BookLoan and LibraryManager
-            var foreignKey = bookLoanEntity.GetForeignKeys().FirstOrDefault(fk => fk.PrincipalEntityType == libraryEntity);
+    Assert.IsNotNull(foreignKey, "Foreign key relationship between ServiceBooking and VehicleManager is not configured.");
+    Assert.AreEqual("VehicleManagerId", foreignKey.Properties.First().Name, "Foreign key property name is incorrect.");
 
-            Assert.IsNotNull(foreignKey, "Foreign key relationship between BookLoan and LibraryManager is not configured.");
-            Assert.AreEqual("LibraryManagerId", foreignKey.Properties.First().Name, "Foreign key property name is incorrect.");
+    // Check if the cascade delete behavior is set
+    Assert.AreEqual(DeleteBehavior.Cascade, foreignKey.DeleteBehavior, "Cascade delete behavior is not set correctly.");
+}
+       [Test]
+public async Task PostServiceBooking_ThrowsServiceCostException_ForNegativeServiceCost()
+{
+    // Arrange
+    var newServiceBooking = new ServiceBooking
+    {
+        VehicleType = "Bike",
+        ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+        ServiceCost = -100,  // Invalid negative service cost
+        VehicleManagerId = 1
+    };
 
-            // Check if the cascade delete behavior is set
-            Assert.AreEqual(DeleteBehavior.Cascade, foreignKey.DeleteBehavior, "Cascade delete behavior is not set correctly.");
-        }
+    var json = JsonConvert.SerializeObject(newServiceBooking);
+    var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        [Test]
-        public async Task PostBookLoan_ThrowsLoanAmountException_ForNegativeLoanAmount()
-        {
-            // Arrange
-            var newBookLoan = new BookLoan
-            {
-                BookTitle = "Test Book Loan",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = "2024-09-12",
-                LoanAmount = -1,  // Invalid negative loan amount
-                LibraryManagerId = 1
-            };
+    // Act
+    var response = await _httpClient.PostAsync("api/ServiceBooking", content);
 
-            var json = JsonConvert.SerializeObject(newBookLoan);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseContent.Contains("Loan Amount must be at least 1."), "Expected error message not found in the response.");
-        }
-
-        [Test]
-        public async Task PostBookLoan_ThrowsLoanAmountException_ForZeroLoanAmount()
-        {
-            // Arrange
-            var newBookLoan = new BookLoan
-            {
-                BookTitle = "Test Book Loan",
-                LoanDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                ReturnDate = "20-09-2024",
-                LoanAmount = 0,  // Invalid zero loan amount
-                LibraryManagerId = 1
-            };
-
-            var json = JsonConvert.SerializeObject(newBookLoan);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await _httpClient.PostAsync("api/BookLoan", content);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseContent.Contains("Loan Amount must be at least 1."), "Expected error message not found in the response.");
-        }
-
-        [TearDown]
-        public void Cleanup()
-        {
-            _context.Dispose();
-        }
-    }
+    // Assert
+    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+    var responseContent = await response.Content.ReadAsStringAsync();
+    Assert.IsTrue(responseContent.Contains("Service Cost must be at least 0."), "Expected error message not found in the response.");
 }
 
+[Test]
+public async Task PostServiceBooking_ThrowsServiceCostException_ForZeroServiceCost()
+{
+    // Arrange
+    var newServiceBooking = new ServiceBooking
+    {
+        VehicleType = "Bike",
+        ServiceDate = DateTime.Now.ToString("yyyy-MM-dd"),
+        ServiceCost = 0,  // Invalid zero service cost
+        VehicleManagerId = 1
+    };
+
+    var json = JsonConvert.SerializeObject(newServiceBooking);
+    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+    // Act
+    var response = await _httpClient.PostAsync("api/ServiceBooking", content);
+
+    // Assert
+    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+    var responseContent = await response.Content.ReadAsStringAsync();
+    Assert.IsTrue(responseContent.Contains("Service Cost must be at least 1."), "Expected error message not found in the response.");
+}
+
+[TearDown]
+public void Cleanup()
+{
+    _context.Dispose();
+}
+    }
+}
