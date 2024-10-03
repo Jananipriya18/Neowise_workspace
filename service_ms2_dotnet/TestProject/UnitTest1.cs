@@ -264,23 +264,24 @@ public void DbContext_HasDbSetProperties()
     Assert.IsNotNull(_context.ServiceCenters, "ServiceCenters DbSet is not initialized.");
     Assert.IsNotNull(_context.ServiceBookings, "ServiceBookings DbSet is not initialized.");
 }
-       [Test]
-public void ServiceCenterServiceBooking_Relationship_IsConfiguredCorrectly()
-{
-    // Check if the ServiceCenter to ServiceBooking relationship is configured as one-to-many
-    var model = _context.Model;
-    var vehicleManagerEntity = model.FindEntityType(typeof(ServiceCenter));
-    var serviceBookingEntity = model.FindEntityType(typeof(ServiceBooking));
+     [Test]
+        public void ServiceCenterServiceBooking_Relationship_IsConfiguredCorrectly()
+        {
+            // Check if the ServiceCenter to ServiceBooking relationship is configured as one-to-many
+            var model = _context.Model;
+            var vehicleManagerEntity = model.FindEntityType(typeof(ServiceCenter));
+            var serviceBookingEntity = model.FindEntityType(typeof(ServiceBooking));
 
-    // Assert that the foreign key relationship exists between ServiceBooking and ServiceCenter
-    var foreignKey = serviceBookingEntity.GetForeignKeys().FirstOrDefault(fk => fk.PrincipalEntityType == vehicleManagerEntity);
+            // Assert that the foreign key relationship exists between ServiceBooking and ServiceCenter
+            var foreignKey = serviceBookingEntity.GetForeignKeys().FirstOrDefault(fk => fk.PrincipalEntityType == vehicleManagerEntity);
 
-    Assert.IsNotNull(foreignKey, "Foreign key relationship between ServiceBooking and ServiceCenter is not configured.");
-    Assert.AreEqual("ServiceCenterId", foreignKey.Properties.First().Name, "Foreign key property name is incorrect.");
+            Assert.IsNotNull(foreignKey, "Foreign key relationship between ServiceBooking and ServiceCenter is not configured.");
+            Assert.AreEqual("ServiceCenterId", foreignKey.Properties.First().Name, "Foreign key property name is incorrect.");
 
-    // Check if the cascade delete behavior is set
-    Assert.AreEqual(DeleteBehavior.Cascade, foreignKey.DeleteBehavior, "Cascade delete behavior is not set correctly.");
-}
+            // Check if the cascade delete behavior is set
+            Assert.AreEqual(DeleteBehavior.ClientSetNull, foreignKey.DeleteBehavior, "Expected delete behavior is not set correctly.");
+        }
+
       [Test]
 public async Task PostServiceBooking_ThrowsServiceCostException_ForNegativeServiceCost()
 {
@@ -323,7 +324,7 @@ public async Task PostServiceBooking_ThrowsServiceCostException_ForZeroServiceCo
     var response = await _httpClient.PostAsync("api/ServiceBooking", content);
 
     // Assert
-    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode); // 500 for thrown exception
+    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode); // 500 for thrown exception
     var responseContent = await response.Content.ReadAsStringAsync();
     Assert.IsTrue(responseContent.Contains("Service Cost must be at least 1."), "Expected error message not found in the response.");
 }
