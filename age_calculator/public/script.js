@@ -127,6 +127,13 @@ function showProductDetails(productId) {
     productModal.style.display = 'block';
 }
 
+// Toggle Cart Function
+function toggleCart() {
+    // Toggle the display of the cart modal
+    cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+}
+
+
 function toggleProductModal() {
     productModal.style.display = 'none';
 }

@@ -19,7 +19,6 @@
                 <li><a href="#women">Women</a></li>
                 <li><a href="#kids">Kids</a></li>
                 <li><a href="#new-arrivals">New Arrivals</a></li>
-                <!-- <li><a href="#sale">On Sale</a></li> -->
                 <li><a href="#" id="loginBtn">Login</a></li>
                 <li><a href="#" id="registerBtn">Register</a></li>
                 <li><a href="#" id="cartBtn" class="cart-btn">Cart (<span id="cartCount">0</span>)</a></li>
@@ -36,20 +35,20 @@
         </div>
     </header>
 
-    <!-- Categories -->
+    <!-- Categories Section -->
     <section class="categories">
         <div class="container">
             <h2>Shop by Category</h2>
             <div class="category-grid">
-                <div class="category-card" data-category="men">
+                <div class="category-card" data-category="men" id="men">
                     <img src="https://placehold.co/400x300" alt="Men's Fashion">
                     <h3>Men's Fashion</h3>
                 </div>
-                <div class="category-card" data-category="women">
+                <div class="category-card" data-category="women" id="women">
                     <img src="https://placehold.co/400x300" alt="Women's Fashion">
                     <h3>Women's Fashion</h3>
                 </div>
-                <div class="category-card" data-category="kids">
+                <div class="category-card" data-category="kids" id="kids">
                     <img src="https://placehold.co/400x300" alt="Kids' Fashion">
                     <h3>Kids' Fashion</h3>
                 </div>
@@ -77,7 +76,7 @@
         </div>
     </section>
 
-    <!-- Products -->
+    <!-- Products Section -->
     <section class="products" id="products">
         <div class="container">
             <h2>Featured Products</h2>
@@ -155,17 +154,46 @@
         </div>
     </section>
 
-    <!-- Newsletter -->
-    <section class="newsletter">
+   
+
+    <!-- About Us Section -->
+    <section id="about" class="about">
         <div class="container">
-            <h2>Subscribe to Our Newsletter</h2>
-            <p>Get the latest updates on new products and upcoming sales</p>
-            <form id="newsletterForm">
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit" class="btn">Subscribe</button>
-            </form>
+            <h2>About Us</h2>
+            <p>Welcome to Fashion Store, your one-stop destination for the latest and greatest in fashion. Our mission is to provide high-quality fashion for everyone, no matter the occasion.</p>
         </div>
     </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>We’d love to hear from you! Whether you have questions about our products or need support, feel free to reach out.</p>
+            <p>Email: info@fashionstore.com</p>
+            <p>Phone: (555) 123-4567</p>
+            <p>Address: 123 Fashion Street, Style City, CA 90210</p>
+        </div>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section id="privacy" class="privacy">
+        <div class="container">
+            <h2>Privacy Policy</h2>
+            <p>At Fashion Store, we respect your privacy and are committed to protecting your personal data. This policy outlines how we collect, use, and safeguard your information.</p>
+        </div>
+    </section>
+
+     <!-- Newsletter Section -->
+     <section class="newsletter">
+      <div class="container">
+          <h2>Subscribe to Our Newsletter</h2>
+          <p>Get the latest updates on new products and upcoming sales</p>
+          <form id="newsletterForm">
+              <input type="email" placeholder="Enter your email" required>
+              <button type="submit" class="btn">Subscribe</button>
+          </form>
+      </div>
+  </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -201,18 +229,21 @@
         </div>
     </footer>
 
-    <!-- Cart Modal -->
-    <div class="modal" id="cartModal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeCart">&times;</span>
-            <h2>Your Cart</h2>
-            <div id="cartItems"></div>
-            <div class="cart-total">
-                Total: $<span id="cartTotal">0</span>
-            </div>
-            <button class="btn" id="checkoutBtn">Proceed to Checkout</button>
+    
+
+  <!-- Cart Modal -->
+<div class="modal" id="cartModal" style="display: none;"> <!-- Hidden initially -->
+    <div class="modal-content">
+        <span class="close-btn" id="closeCart">&times;</span>
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <div class="cart-total">
+            Total: $<span id="cartTotal">0</span>
         </div>
+        <button class="btn" id="checkoutBtn">Proceed to Checkout</button>
     </div>
+</div>
+
 
     <!-- Product Modal -->
     <div class="modal" id="productModal">
