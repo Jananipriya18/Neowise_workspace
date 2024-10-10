@@ -3,7 +3,7 @@ const products = [
     {
         id: 1,
         name: 'Classic White T-Shirt',
-        price: 29.99,
+        price: 100.99,
         category: 'men',
         image: 'https://placehold.co/300x400',
         description: 'Premium cotton crew neck t-shirt',
@@ -23,7 +23,7 @@ const products = [
     {
         id: 3,
         name: 'Summer Dress',
-        price: 39.99,
+        price: 60.99,
         category: 'women',
         image: 'https://placehold.co/300x400',
         description: 'Lightweight summer dress with floral patterns',
@@ -54,6 +54,7 @@ const cartItems = document.getElementById('cartItems');
 const cartTotal = document.getElementById('cartTotal');
 const categoryFilter = document.getElementById('categoryFilter');
 const searchInput = document.getElementById('searchInput');
+const priceFilter = document.getElementById('priceFilter');
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
 
@@ -68,6 +69,7 @@ navToggle.addEventListener('click', () => {
 });
 
 categoryFilter.addEventListener('change', filterProducts);
+priceFilter.addEventListener('change', filterProducts);
 searchInput.addEventListener('input', filterProducts);
 
 document.getElementById('cartBtn').addEventListener('click', toggleCart);
@@ -104,6 +106,28 @@ function filterProducts() {
         const matchCategory = category === 'all' || product.category === category;
         const matchSearchTerm = product.name.toLowerCase().includes(searchTerm);
         return matchCategory && matchSearchTerm;
+    });
+
+    displayProducts(filteredProducts);
+}
+
+function filterProducts() {
+    const category = categoryFilter.value;
+    const priceRange = priceFilter.value;
+    const searchTerm = searchInput.value.toLowerCase();
+
+    const filteredProducts = products.filter(product => {
+        const matchCategory = category === 'all' || product.category === category;
+        const matchSearchTerm = product.name.toLowerCase().includes(searchTerm);
+
+        // Handle price filtering
+        let matchPrice = true;
+        if (priceRange !== 'all') {
+            const [min, max] = priceRange.split('-').map(Number);
+            matchPrice = product.price >= min && product.price < (max || Infinity);
+        }
+
+        return matchCategory && matchSearchTerm && matchPrice;
     });
 
     displayProducts(filteredProducts);
