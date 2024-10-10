@@ -10,7 +10,36 @@ const products = [
         sizes: ['S', 'M', 'L', 'XL'],
         colors: ['white', 'black', 'gray']
     },
-    // Add more products as needed
+    {
+        id: 2,
+        name: 'Blue Denim Jeans',
+        price: 49.99,
+        category: 'men',
+        image: 'https://placehold.co/300x400',
+        description: 'Stylish denim jeans with a slim fit',
+        sizes: ['M', 'L', 'XL'],
+        colors: ['blue']
+    },
+    {
+        id: 3,
+        name: 'Summer Dress',
+        price: 39.99,
+        category: 'women',
+        image: 'https://placehold.co/300x400',
+        description: 'Lightweight summer dress with floral patterns',
+        sizes: ['S', 'M', 'L'],
+        colors: ['red', 'yellow', 'blue']
+    },
+    {
+        id: 4,
+        name: 'Kids Casual Set',
+        price: 25.99,
+        category: 'kids',
+        image: 'https://placehold.co/300x400',
+        description: 'Comfortable t-shirt and shorts set',
+        sizes: ['XS', 'S', 'M'],
+        colors: ['green', 'blue']
+    }
 ];
 
 // Cart functionality
@@ -72,4 +101,76 @@ function filterProducts() {
     const searchTerm = searchInput.value.toLowerCase();
 
     const filteredProducts = products.filter(product => {
-        const matchCategory
+        const matchCategory = category === 'all' || product.category === category;
+        const matchSearchTerm = product.name.toLowerCase().includes(searchTerm);
+        return matchCategory && matchSearchTerm;
+    });
+
+    displayProducts(filteredProducts);
+}
+
+// Show product details in a modal
+function showProductDetails(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    productModal.querySelector('#productDetails').innerHTML = `
+        <h2>${product.name}</h2>
+        <img src="${product.image}" alt="${product.name}">
+        <p>${product.description}</p>
+        <p class="price">$${product.price.toFixed(2)}</p>
+        <p>Available Sizes: ${product.sizes.join(', ')}</p>
+        <p>Available Colors: ${product.colors.join(', ')}</p>
+        <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
+    `;
+
+    productModal.style.display = 'block';
+}
+
+function toggleProductModal() {
+    productModal.style.display = 'none';
+}
+
+// Cart Functions
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    const cartItem = cart.find(item => item.product.id === productId);
+
+    if (cartItem) {
+        cartItem.quantity++;
+    } else {
+        cart.push({ product, quantity: 1 });
+    }
+
+    saveCart();
+    loadCart();
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.product.id !== productId);
+    saveCart();
+    loadCart();
+}
+
+function loadCart() {
+    cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <span>${item.product.name}</span>
+            <span>Qty: ${item.quantity}</span>
+            <span>$${(item.product.price * item.quantity).toFixed(2)}</span>
+            <button class="btn" onclick="removeFromCart(${item.product.id})">Remove</button>
+        </div>
+    `).join('');
+
+    const total = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    cartTotal.textContent = total.toFixed(2);
+    cartCount.textContent = cart.length;
+}
+
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function toggleCart() {
+    cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+}
