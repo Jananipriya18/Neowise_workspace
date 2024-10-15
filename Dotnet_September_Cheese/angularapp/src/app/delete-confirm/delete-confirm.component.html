@@ -1,0 +1,16 @@
+<div class="container" *ngIf="cartoonEpisode">
+  <h2>Delete Confirmation</h2>
+  <div class="confirmation-message">
+    <p>Are you sure you want to delete this cartoon episode?</p>
+    <p>Cartoon Series Name: {{ cartoonEpisode.cartoonSeriesName }}</p>
+    <p>Episode Title: {{ cartoonEpisode.episodeTitle }}</p>
+    <p>Release Date: {{ cartoonEpisode.releaseDate }}</p>
+    <p>Director Name: {{ cartoonEpisode.directorName }}</p>
+    <p>Duration: {{ cartoonEpisode.duration }}</p>
+    <p>Description: {{ cartoonEpisode.description }}</p>
+  </div>
+  <div class="form-buttons">
+    <button type="button" id="confirm" class="confirm-button" (click)="confirmDelete(episodeId)">Confirm Delete</button>
+    <button type="button" id="cancel" class="cancel-button" (click)="cancelDelete()">Cancel</button>
+  </div>
+</div>
