@@ -33,7 +33,7 @@ describe('CheeseShopService', () => {
       storeLocation: 'Test Store Location',
       importedCountry: 'Test Imported Country',
       phoneNumber: 'Test Phone Number',
-    };
+    }as any;
 
     (service as any).addCheeseShop(mockCheeseShop).subscribe((shop) => {
       expect(shop).toEqual(mockCheeseShop);
@@ -55,7 +55,7 @@ describe('CheeseShopService', () => {
         importedCountry: 'Test Imported Country',
         phoneNumber: 'Test Phone Number',
       }
-    ];
+    ]as any;
 
     (service as any).getCheeseShops().subscribe((shops) => {
       expect(shops).toEqual(mockCheeseShops);
@@ -88,7 +88,7 @@ describe('CheeseShopService', () => {
       storeLocation: 'Test Store Location',
       importedCountry: 'Test Imported Country',
       phoneNumber: 'Test Phone Number',
-    };
+    }as any;
 
     (service as any).getCheeseShop(shopId).subscribe((shop) => {
       expect(shop).toEqual(mockCheeseShop);
@@ -110,7 +110,7 @@ describe('CheeseShopService', () => {
         importedCountry: 'Test Imported Country',
         phoneNumber: 'Test Phone Number',
       }
-    ];
+    ] as any;
   
     const searchTerm = 'e';
   

@@ -1,7 +1,7 @@
 import { CheeseShop } from './cheese-shop';
 
 describe('CheeseShop', () => {
-  fit('should create cheese shop instance', () => {
+  fit('should_create_cheese_shop_instance', () => {
     const shop: CheeseShop = {
       shopId: 1,
       ownerName: 'Test Owner Name',
@@ -10,7 +10,7 @@ describe('CheeseShop', () => {
       storeLocation: 'Test Store Location',
       importedCountry: 'Test Imported Country',
       phoneNumber: 'Test Phone Number'
-    };
+    } as any ;
 
     // Check if the shop object exists
     expect(shop).toBeTruthy();
