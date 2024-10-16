@@ -137,7 +137,7 @@ try {
   const fieldsToCheck = [
     { id: '#ownerName', message: 'Owner name is required' },
     { id: '#cheeseSpecialties', message: 'Cheese specialties are required' },
-    { id: '#experienceYears', message: 'Experience years is required' },
+    { id: '#experienceYears', message: 'Years of experience is required' },
     { id: '#storeLocation', message: 'Store location is required' },
     { id: '#importedCountry', message: 'Imported country is required' },
     { id: '#phoneNumber', message: 'Phone number is required' },
@@ -172,7 +172,7 @@ try {
     width: 1200,
     height: 1200,
   });
-  console.log('Navigated to:', page6.url());
+  // console.log('Navigated to:', page6.url());
 
   // Fill out the cheese shop creation form
   await page6.type('#ownerName', 'Test Owner Name');
@@ -181,19 +181,19 @@ try {
   await page6.type('#storeLocation', 'Test Store Location');
   await page6.type('#importedCountry', 'Test Imported Country');
   await page6.type('#phoneNumber', '1234567890');
-  console.log('Form filled out');
+  // console.log('Form filled out');
 
   // Submit the form
   await page6.click('button[type="submit"]');
-  console.log('Form submitted');
+  // console.log('Form submitted');
 
   // Wait for navigation or URL change
   await page6.waitForNavigation({ waitUntil: 'networkidle0' });
   const urlAfterClick = page6.url();
-  console.log('URL after form submission:', urlAfterClick);
+  // console.log('URL after form submission:', urlAfterClick);
 
   // Check if navigated to the view cheese shops page
-  if (urlAfterClick.toLowerCase().includes('viewShops')) {
+  if (urlAfterClick.toLowerCase().includes('viewshops')) {
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:success');
   } else {  
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
@@ -252,7 +252,7 @@ try {
   });
 
   // Log the owner names found
-  console.log('Owner Names Found:', ownerNames);
+  // console.log('Owner Names Found:', ownerNames);
 
   // Check if the search results include shops with the last letter 'e'
   const expectedSearchTerm = 'e'; // The letter used for searching
