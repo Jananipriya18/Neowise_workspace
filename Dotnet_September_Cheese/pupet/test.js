@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer');
   const page1 = await browser.newPage();
 // Test Case: Check if table body is present
 try {
-  await page1.goto('https://api.example.com/viewEpisodes');
+  await page1.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewshops');
 
   await page1.waitForSelector('table tbody tr', { timeout: 5000 });
   
@@ -20,47 +20,47 @@ try {
       // console.log(rowCount);
       if (rowCount > 0) 
       {
-        console.log('TESTCASE:CartoonEpisodes_table_rows_exist:success');
+        console.log('TESTCASE:CheeseShops_table_rows_exist:success');
       } 
       else 
       {
-        console.log('TESTCASE:CartoonEpisodes_table_rows_exist:failure');
+        console.log('TESTCASE:CheeseShops_table_rows_exist:failure');
       }
     } 
     catch (e) 
     {
-        console.log('TESTCASE:CartoonEpisodes_table_rows_exist:failure');
+        console.log('TESTCASE:CheeseShops_table_rows_exist:failure');
     }
 
   
 
   const page2 = await browser.newPage();
 try {
-  await page2.goto('https://api.example.com/addNewEpisode');
+  await page2.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewShop');
 
   // Test Case: Check if form exists and specific input fields are present
   const formExists = await page2.evaluate(() => {
     const form = document.querySelector('form');
-    const inputFields = ['cartoonSeriesName', 'episodeTitle', 'releaseDate', 'directorName', 'duration', 'description'];
+    const inputFields = ['ownerName', 'cheeseSpecialties', 'experienceYears', 'storeLocation', 'importedCountry', 'phoneNumber'];
     const formHasInputFields = inputFields.every(field => !!form.querySelector(`[name="${field}"]`));
     return !!form && formHasInputFields;
   });
 
   if (formExists) {
-    console.log('TESTCASE:CreateCartoonEpisode_form_exists_and_input_fields_present_in_Create_CartoonEpisode:success');
+    console.log('TESTCASE:CreateCheeseShop_form_exists_and_input_fields_present_in_Create_CheeseShop:success');
   } else {
-    console.log('TESTCASE:CreateCartoonEpisode_form_exists_and_input_fields_present_in_Create_CartoonEpisode:failure');
+    console.log('TESTCASE:CreateCheeseShop_form_exists_and_input_fields_present_in_Create_CheeseShop:failure');
   }
 
 } catch (e) {
-  console.log('TESTCASE:CreateCartoonEpisode_form_exists_and_input_fields_present_in_Create_CartoonEpisode:failure');
+  console.log('TESTCASE:CreateCheeseShop_form_exists_and_input_fields_present_in_Create_CheeseShop:failure');
 }
 
 const page3 = await browser.newPage();
   // Test Case: Check if table headers are present
 
 try {
-  await page3.goto('https://api.example.com/viewEpisodes');
+  await page3.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewshops');
 
   // Wait for the table to be rendered
   // await page3.waitForSelector('table');
@@ -71,22 +71,22 @@ try {
     return thElements.map(th => th.textContent.trim());
   });
 
-  const expectedHeaders = ['Cartoon Series Name', 'Episode Title', 'Release Date', 'Director Name', 'Duration', 'Description'];
+  const expectedHeaders = ['Owner Name', 'Cheese Specialties', 'Experience Years', 'Store Location', 'Imported Country', 'Phone Number'];
 
   const headerMatch = expectedHeaders.every(header => tableHeaderContent.includes(header));
 
   if (headerMatch) {
-    console.log('TESTCASE:CartoonEpisodes_table_header_content:success');
+    console.log('TESTCASE:CheeseShops_table_header_content:success');
   } else {
-    console.log('TESTCASE:CartoonEpisodes_table_header_content:failure');
+    console.log('TESTCASE:CheeseShops_table_header_content:failure');
   }
 } catch (e) {
-  console.log('TESTCASE:CartoonEpisodes_table_header_content:failure');
+  console.log('TESTCASE:CheeseShops_table_header_content:failure');
 }
 
 const page4 = await browser.newPage();
 try {
-  await page4.goto('https://api.example.com/viewEpisodes');
+  await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewshops');
   await page4.setViewport({
     width: 1200,
     height: 1200,
@@ -112,22 +112,22 @@ try {
 
 const page5 = await browser.newPage();
 try {
-  await page5.goto('https://api.example.com/addNewEpisode');
+  await page5.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewShop');
   await page5.setViewport({
     width: 1200,
     height: 1200,
   });
   
   // Wait for the form elements to load
-  await page5.waitForSelector('#cartoonSeriesName', { timeout: 1000 });
-  await page5.waitForSelector('#episodeTitle', { timeout: 1000 });
-  await page5.waitForSelector('#releaseDate', { timeout: 1000 });
-  await page5.waitForSelector('#directorName', { timeout: 1000 });
-  await page5.waitForSelector('#duration', { timeout: 1000 });
-  await page5.waitForSelector('#description', { timeout: 1000 });
+  await page5.waitForSelector('#ownerName', { timeout: 1000 });
+  await page5.waitForSelector('#cheeseSpecialties', { timeout: 1000 });
+  await page5.waitForSelector('#experienceYears', { timeout: 1000 });
+  await page5.waitForSelector('#storeLocation', { timeout: 1000 });
+  await page5.waitForSelector('#importedCountry', { timeout: 1000 });
+  await page5.waitForSelector('#phoneNumber', { timeout: 1000 });
   await page5.waitForSelector('button[type="submit"]' , { timeout: 1000 });
 
-  // Click the Add CartoonEpisodes button without entering any data
+  // Click the Add CheeseShops button without entering any data
   await page5.click('button[type="submit"]');
 
   // Wait for a short period for validation to take effect
@@ -135,12 +135,12 @@ try {
     
   // Define an array of field IDs and their corresponding error messages
   const fieldsToCheck = [
-    { id: '#cartoonSeriesName', message: 'Cartoon series name is required' },
-    { id: '#episodeTitle', message: 'Episode title is required' },
-    { id: '#releaseDate', message: 'Release date is required' },
-    { id: '#directorName', message: 'Director name is required' },
-    { id: '#duration', message: 'Duration is required' },
-    { id: '#description', message: 'Description is required' },
+    { id: '#ownerName', message: 'Owner name is required' },
+    { id: '#cheeseSpecialties', message: 'Cheese specialties are required' },
+    { id: '#experienceYears', message: 'Experience years is required' },
+    { id: '#storeLocation', message: 'Store location is required' },
+    { id: '#importedCountry', message: 'Imported country is required' },
+    { id: '#phoneNumber', message: 'Phone number is required' },
   ];
 
   let isValidationFailed = false;
@@ -155,32 +155,32 @@ try {
 
   // Log a single failure message if any validation fails
   if (isValidationFailed) {
-    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
+    console.log('TESTCASE:Verify_required_validation_on_Add_CheeseShops_button:failure');
   } else {
-    console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:success');
+    console.log('TESTCASE:Verify_required_validation_on_Add_CheeseShops_button:success');
   }
 } catch (error) {
-  console.log('TESTCASE:Verify_required_validation_on_Add_CartoonEpisodes_button:failure');
+  console.log('TESTCASE:Verify_required_validation_on_Add_CheeseShops_button:failure');
 }
 
 
 const page6 = await browser.newPage();
 try {
-  // Navigate to the add new episode page
-  await page6.goto('https://api.example.com/addNewEpisode');
+  // Navigate to the add new cheese shop page
+  await page6.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewShop');
   await page6.setViewport({
     width: 1200,
     height: 1200,
   });
   console.log('Navigated to:', page6.url());
 
-  // Fill out the episode creation form
-  await page6.type('#cartoonSeriesName', 'Test CartoonEpisodes name');
-  await page6.type('#episodeTitle', 'Test CartoonEpisodes title');
-  await page6.type('#releaseDate', '2024-07-10');
-  await page6.type('#directorName', 'Test Director name');
-  await page6.type('#duration', '45');
-  await page6.type('#description', 'Test Description');
+  // Fill out the cheese shop creation form
+  await page6.type('#ownerName', 'Test Owner Name');
+  await page6.type('#cheeseSpecialties', 'Test Cheese Specialties');
+  await page6.type('#experienceYears', '10');
+  await page6.type('#storeLocation', 'Test Store Location');
+  await page6.type('#importedCountry', 'Test Imported Country');
+  await page6.type('#phoneNumber', '1234567890');
   console.log('Form filled out');
 
   // Submit the form
@@ -192,8 +192,8 @@ try {
   const urlAfterClick = page6.url();
   console.log('URL after form submission:', urlAfterClick);
 
-  // Check if navigated to the view episodes page
-  if (urlAfterClick.toLowerCase().includes('viewepisodes')) {
+  // Check if navigated to the view cheese shops page
+  if (urlAfterClick.toLowerCase().includes('viewshops')) {
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:success');
   } else {  
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
@@ -205,29 +205,29 @@ try {
 
 const page7 = await browser.newPage();
 try {
-  // Step 1: Navigate to the add episode page and insert dummy data
-  await page7.goto('https://api.example.com/addNewEpisode');
+  // Step 1: Navigate to the add cheese shop page and insert dummy data
+  await page7.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewShop');
   await page7.setViewport({
     width: 1200,
     height: 1200,
   });
 
   // Wait for the form elements to load
-  await page7.waitForSelector('#cartoonSeriesName' , { timeout: 1000 });
-  await page7.waitForSelector('#episodeTitle', { timeout: 1000 });
-  await page7.waitForSelector('#releaseDate', { timeout: 1000 });
-  await page7.waitForSelector('#directorName', { timeout: 1000 });
-  await page7.waitForSelector('#duration', { timeout: 1000 });
-  await page7.waitForSelector('#description', { timeout: 1000 });
+  await page7.waitForSelector('#ownerName' , { timeout: 1000 });
+  await page7.waitForSelector('#cheeseSpecialties', { timeout: 1000 });
+  await page7.waitForSelector('#experienceYears', { timeout: 1000 });
+  await page7.waitForSelector('#storeLocation', { timeout: 1000 });
+  await page7.waitForSelector('#importedCountry', { timeout: 1000 });
+  await page7.waitForSelector('#phoneNumber', { timeout: 1000 });
   await page7.waitForSelector('button[type="submit"]', { timeout: 1000 });
 
   // Fill out the form with dummy data
-  await page7.type('#cartoonSeriesName', 'SuperFun');
-  await page7.type('#episodeTitle', 'Test Episode');
-  await page7.type('#releaseDate', '2024-08-01');
-  await page7.type('#directorName', 'John Doe');
-  await page7.type('#duration', '30');
-  await page7.type('#description', 'This is a test episode description.');
+  await page7.type('#ownerName', 'John Cheese');
+  await page7.type('#cheeseSpecialties', 'Cheddar, Gouda');
+  await page7.type('#experienceYears', '15');
+  await page7.type('#storeLocation', 'Cheese Street');
+  await page7.type('#importedCountry', 'France');
+  await page7.type('#phoneNumber', '1234567890');
 
   // Submit the form
   await page7.click('button[type="submit"]');
@@ -235,37 +235,37 @@ try {
   // Wait for the data to be processed and page to reload
   await page7.waitForTimeout(2000); // Adjust this timeout as necessary
 
-  // Perform search for the last letter of CartoonSeriesName
+  // Perform search for the last letter of OwnerName
   await page7.waitForSelector('#searchBox', { timeout: 5000 });
   
-  // Search for the last letter of the CartoonSeriesName
-  await page7.type('#searchBox', 'n'); // Search for the letter 'n'
+  // Search for the last letter of the OwnerName
+  await page7.type('#searchBox', 'e'); // Search for the letter 'e'
   await page7.click('#searchButton');
 
   // Wait for the search results to load
   await page7.waitForTimeout(2000); // Ensure the search results have time to load
   
   // Evaluate the search results
-  const episodeNames = await page7.evaluate(() => {
-    const episodeRows = Array.from(document.querySelectorAll('.cartoon-episode-item'));
-    return episodeRows.map(row => row.querySelector('td:first-child').textContent.trim());
+  const ownerNames = await page7.evaluate(() => {
+    const shopRows = Array.from(document.querySelectorAll('.cheese-shop-item'));
+    return shopRows.map(row => row.querySelector('td:first-child').textContent.trim());
   });
 
-  // Log the episode names found
-  console.log('Episode Names Found:', episodeNames);
+  // Log the owner names found
+  console.log('Owner Names Found:', ownerNames);
 
-  // Check if the search results include episodes with the last letter 'n'
-  const expectedSearchTerm = 'n'; // The letter used for searching
-  const searchResults = episodeNames.some(name => name.toLowerCase().includes(expectedSearchTerm.toLowerCase()));
+  // Check if the search results include shops with the last letter 'e'
+  const expectedSearchTerm = 'e'; // The letter used for searching
+  const searchResults = ownerNames.some(name => name.toLowerCase().includes(expectedSearchTerm.toLowerCase()));
 
   if (searchResults) {
-    console.log('TESTCASE:Search_events_by_name:success');
+    console.log('TESTCASE:Search_shops_by_name:success');
   } else {
-    console.log('TESTCASE:Search_events_by_name:failure');
+    console.log('TESTCASE:Search_shops_by_name:failure');
   }
 
 } catch (e) {
-  console.log('TESTCASE:Search_events_by_name:failure');
+  console.log('TESTCASE:Search_shops_by_name:failure');
 }
 
 
@@ -283,4 +283,3 @@ try {
 
   await browser.close();
 })();
-

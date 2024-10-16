@@ -21,8 +21,6 @@ export class CheeseShopListComponent implements OnInit {
     this.cheeseShopService.getCheeseShops().subscribe(cheeseShops => this.cheeseShops = cheeseShops);
   }
 
-  
-
   deleteCheeseShop(shopId: number): void { 
     this.router.navigate(['/confirmDelete', shopId]);
   }

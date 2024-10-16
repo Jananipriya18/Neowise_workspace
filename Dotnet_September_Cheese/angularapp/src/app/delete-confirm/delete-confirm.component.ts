@@ -36,7 +36,7 @@ export class DeleteConfirmComponent implements OnInit {
     this.cheeseShopService.deleteCheeseShop(shopId).subscribe(
       () => {
         console.log('Cheese shop deleted successfully.');
-        this.router.navigate(['/viewCheeseShops']); 
+        this.router.navigate(['/viewShops']); 
       },
       (error) => {
         console.error('Error deleting cheese shop:', error);
@@ -45,6 +45,6 @@ export class DeleteConfirmComponent implements OnInit {
   }
 
   cancelDelete(): void {
-    this.router.navigate(['/viewCheeseShops']); 
+    this.router.navigate(['/viewShops']); 
   }
 }
