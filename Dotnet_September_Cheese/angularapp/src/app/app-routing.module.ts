@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CartoonEpisodeFormComponent } from './cartoonepisode-form/cartoonepisode-form.component';
-import { CartoonEpisodeListComponent } from './cartoonepisode-list/cartoonepisode-list.component';
-import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component'; // Assuming this component can be reused
+import { CheeseShopFormComponent } from './cheese-shop-form/cheese-shop-form.component';
+import { CheeseShopListComponent } from './cheese-shop-list/cheese-shop-list.component';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 const routes: Routes = [
-  { path: 'addNewEpisode', component: CartoonEpisodeFormComponent },
-  { path: 'viewEpisodes', component: CartoonEpisodeListComponent },
+  { path: 'addNewShop', component: CheeseShopFormComponent },
+  { path: 'viewShops', component: CheeseShopListComponent },
   { path: 'confirmDelete/:id', component: DeleteConfirmComponent},
 ];
 
