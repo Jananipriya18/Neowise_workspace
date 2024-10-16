@@ -1,0 +1,43 @@
+<div class="container">
+    <h2>Cheese Shop List</h2>
+  
+    <div>
+      <input type="text" id="searchBox" [(ngModel)]="searchTerm" placeholder="Search by owner name">
+      <button id="searchButton" class="search-button" (click)="searchCheeseShops()">Search</button>
+    </div>
+  
+    <div *ngIf="searchTerm && cheeseShops.length === 0" class="error-message">
+      The searched cheese shop does not exist.
+    </div>
+  
+    <div *ngIf="!searchTerm && cheeseShops.length === 0" class="no-cheese-shops-message">
+      No cheese shops available.
+    </div>
+  
+    <table *ngIf="cheeseShops.length > 0" class="cheeseShops-table">
+      <thead>
+        <tr>
+          <th>Owner Name</th>
+          <th>Cheese Specialties</th>
+          <th>Experience Years</th>
+          <th>Store Location</th>
+          <th>Imported Country</th>
+          <th>Phone Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let shop of cheeseShops" class="cheese-shop-item">
+          <td>{{ shop.ownerName }}</td>
+          <td>{{ shop.cheeseSpecialties }}</td>
+          <td>{{ shop.experienceYears }}</td>
+          <td>{{ shop.storeLocation }}</td>
+          <td>{{ shop.importedCountry }}</td>
+          <td>{{ shop.phoneNumber }}</td>
+          <td>
+            <button id="delete" class="delete-button" (click)="deleteCheeseShop(shop.shopId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

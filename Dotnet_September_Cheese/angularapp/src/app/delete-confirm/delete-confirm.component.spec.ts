@@ -6,24 +6,24 @@ import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CartoonEpisodeService } from '../services/cartoonepisode.service'; 
-import { CartoonEpisode } from '../models/cartoonepisode.model'; 
+import { CheeseShopService } from '../services/cheese-shop.service'; 
+import { CheeseShop } from '../models/cheese-shop'; 
 
 describe('DeleteConfirmComponent', () => {
     let component: DeleteConfirmComponent;
     let fixture: ComponentFixture<DeleteConfirmComponent>;
     let router: Router;
     let activatedRoute: ActivatedRoute;
-    let mockCartoonEpisodeService: jasmine.SpyObj<CartoonEpisodeService>; 
+    let mockCheeseShopService: jasmine.SpyObj<CheeseShopService>; 
 
     beforeEach(waitForAsync(() => {
-        mockCartoonEpisodeService = jasmine.createSpyObj<CartoonEpisodeService>('CartoonEpisodeService', ['getCartoonEpisode', 'deleteCartoonEpisode'] as any); 
+        mockCheeseShopService = jasmine.createSpyObj<CheeseShopService>('CheeseShopService', ['getCheeseShop', 'deleteCheeseShop'] as any); 
 
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, HttpClientModule, FormsModule, HttpClientTestingModule],
             declarations: [DeleteConfirmComponent],
             providers: [
-                { provide: CartoonEpisodeService, useValue: mockCartoonEpisodeService } 
+                { provide: CheeseShopService, useValue: mockCheeseShopService } 
             ]
         }).compileComponents();
         router = TestBed.inject(Router);
@@ -40,13 +40,13 @@ describe('DeleteConfirmComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    fit('DeleteConfirmComponent_should_call_deleteCartoonEpisode_method_when_confirmDelete_is_called', () => {
-        const episodeId = 1; 
+    fit('DeleteConfirmComponent_should_call_deleteCheeseShop_method_when_confirmDelete_is_called', () => {
+        const shopId = 1; 
         
-        mockCartoonEpisodeService.deleteCartoonEpisode.and.returnValue(of(null)); 
+        mockCheeseShopService.deleteCheeseShop.and.returnValue(of(null)); 
 
-        component.confirmDelete(episodeId); 
+        component.confirmDelete(shopId); 
 
-        expect(mockCartoonEpisodeService.deleteCartoonEpisode).toHaveBeenCalledWith(episodeId); 
+        expect(mockCheeseShopService.deleteCheeseShop).toHaveBeenCalledWith(shopId); 
     });
 });

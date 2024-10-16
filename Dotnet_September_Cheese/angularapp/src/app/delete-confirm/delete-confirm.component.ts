@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartoonEpisodeService } from '../services/cartoonepisode.service'; 
-import { CartoonEpisode } from '../models/cartoonepisode.model';
+import { CheeseShopService } from '../services/cheese-shop.service'; 
+import { CheeseShop } from '../models/cheese-shop';
 
 @Component({
   selector: 'app-delete-confirm',
@@ -9,42 +9,42 @@ import { CartoonEpisode } from '../models/cartoonepisode.model';
   styleUrls: ['./delete-confirm.component.css']
 })
 export class DeleteConfirmComponent implements OnInit {
-  episodeId: number;
-  cartoonEpisode: CartoonEpisode = {} as CartoonEpisode; 
+  shopId: number;
+  cheeseShop: CheeseShop = {} as CheeseShop; 
 
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private cartoonEpisodeService: CartoonEpisodeService 
+    private cheeseShopService: CheeseShopService 
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.episodeId = +params['id'];
-      this.cartoonEpisodeService.getCartoonEpisode(this.episodeId).subscribe(
-        (cartoonEpisode: CartoonEpisode) => {
-          this.cartoonEpisode = cartoonEpisode;
+      this.shopId = +params['id'];
+      this.cheeseShopService.getCheeseShop(this.shopId).subscribe(
+        (cheeseShop: CheeseShop) => {
+          this.cheeseShop = cheeseShop;
         },
         error => {
-          console.error('Error fetching cartoon episode:', error);
+          console.error('Error fetching cheese shop:', error);
         }
       );
     });
   }
 
-  confirmDelete(episodeId: number): void { 
-    this.cartoonEpisodeService.deleteCartoonEpisode(episodeId).subscribe(
+  confirmDelete(shopId: number): void { 
+    this.cheeseShopService.deleteCheeseShop(shopId).subscribe(
       () => {
-        console.log('Cartoon episode deleted successfully.');
-        this.router.navigate(['/viewEpisodes']); 
+        console.log('Cheese shop deleted successfully.');
+        this.router.navigate(['/viewCheeseShops']); 
       },
       (error) => {
-        console.error('Error deleting cartoon episode:', error);
+        console.error('Error deleting cheese shop:', error);
       }
     );
   }
 
   cancelDelete(): void {
-    this.router.navigate(['/viewEpisodes']); 
+    this.router.navigate(['/viewCheeseShops']); 
   }
 }

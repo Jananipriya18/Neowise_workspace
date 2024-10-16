@@ -7,7 +7,7 @@ import { CheeseShop } from '../models/cheese-shop';
   providedIn: 'root'
 })
 export class CheeseShopService {
-  private apiUrl = 'https://8080-aabdbffdadabafcfd316416016aeedaeedfeone.premiumproject.examly.io';
+  private apiUrl = 'https://8080-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io';
 
   constructor(private http: HttpClient) { }
 
