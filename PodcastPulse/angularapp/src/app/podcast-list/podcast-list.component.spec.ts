@@ -64,17 +64,17 @@ describe('PodcastListComponent', () => {
   });
 
   // Test for the recommended podcast feature based on the highest episode count
-  fit('should_display_podcast_with_highest_episode_count_as_recommended', () => {
+  fit('should_display_podcast_with_highest_episode_count', () => {
     spyOn(service, 'getPodcast').and.returnValue(of(mockPodcasts)); // Mock the service call
     component.ngOnInit();
     fixture.detectChanges(); // Trigger change detection
   
     // "Tech Talks" should be the recommended podcast (since it has the most episodes)
-    const recommendedRow = fixture.debugElement.query(By.css('.recommended-row'));
+    const recommendedRow = fixture.debugElement.query(By.css('.episodeCount-row'));
   
     expect(recommendedRow).toBeTruthy(); // Check if the recommended row exists
     const content = recommendedRow.nativeElement.textContent.trim();
-    expect(content).toContain('Recommended Episode: Science Weekly (105 episodes)'); // Verify content for "Tech Talks"
+    expect(content).toContain('Podcast with highest Count of Episodes: Science Weekly (105 episodes)'); // Verify content for "Tech Talks"
   });
 
 });
