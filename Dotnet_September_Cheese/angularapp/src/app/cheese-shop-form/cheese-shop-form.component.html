@@ -4,32 +4,32 @@
       <div class="form-group">
         <label for="ownerName">Owner Name</label>
         <input type="text" id="ownerName" [(ngModel)]="newShop.ownerName" name="ownerName" required>
-        <div *ngIf="!newShop.ownerName && formSubmitted" class="error">Owner name is required</div>
+        <div *ngIf="!newShop.ownerName && formSubmitted" class="error-message">Owner name is required</div>
       </div>
       <div class="form-group">
         <label for="cheeseSpecialties">Cheese Specialties</label>
         <input type="text" id="cheeseSpecialties" [(ngModel)]="newShop.cheeseSpecialties" name="cheeseSpecialties" required>
-        <div *ngIf="!newShop.cheeseSpecialties && formSubmitted" class="error">Cheese specialties are required</div>
+        <div *ngIf="!newShop.cheeseSpecialties && formSubmitted" class="error-message">Cheese specialties are required</div>
       </div>
       <div class="form-group">
         <label for="experienceYears">Years of Experience</label>
         <input type="number" id="experienceYears" [(ngModel)]="newShop.experienceYears" name="experienceYears" required>
-        <div *ngIf="!newShop.experienceYears && formSubmitted" class="error">Years of experience is required</div>
+        <div *ngIf="!newShop.experienceYears && formSubmitted" class="error-message">Years of experience is required</div>
       </div>
       <div class="form-group">
         <label for="storeLocation">Store Location</label>
         <input type="text" id="storeLocation" [(ngModel)]="newShop.storeLocation" name="storeLocation" required>
-        <div *ngIf="!newShop.storeLocation && formSubmitted" class="error">Store location is required</div>
+        <div *ngIf="!newShop.storeLocation && formSubmitted" class="error-message">Store location is required</div>
       </div>
       <div class="form-group">
         <label for="importedCountry">Imported Country</label>
         <input type="text" id="importedCountry" [(ngModel)]="newShop.importedCountry" name="importedCountry" required>
-        <div *ngIf="!newShop.importedCountry && formSubmitted" class="error">Imported country is required</div>
+        <div *ngIf="!newShop.importedCountry && formSubmitted" class="error-message">Imported country is required</div>
       </div>
       <div class="form-group">
         <label for="phoneNumber">Phone Number</label>
         <input type="text" id="phoneNumber" [(ngModel)]="newShop.phoneNumber" name="phoneNumber" required>
-        <div *ngIf="!newShop.phoneNumber && formSubmitted" class="error">Phone number is required</div>
+        <div *ngIf="!newShop.phoneNumber && formSubmitted" class="error-message">Phone number is required</div>
       </div>
       <button type="submit">Add Cheese Shop</button>
     </form>
