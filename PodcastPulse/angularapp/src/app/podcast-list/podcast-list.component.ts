@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class PodcastListComponent implements OnInit {
   podcasts: Podcast[] = [];
-  recommendedPodcast?: Podcast;
+  highestEpisodeCount?: Podcast;
 
   constructor(private podcastService: PodcastService, private router: Router) {}
 
@@ -27,7 +27,7 @@ export class PodcastListComponent implements OnInit {
 
           // Find the podcast with the maximum episode count
           if (this.podcasts.length > 0) {
-            this.recommendedPodcast = this.podcasts.reduce((prev, current) => 
+            this.highestEpisodeCount = this.podcasts.reduce((prev, current) => 
               (prev.episodeCount > current.episodeCount) ? prev : current
             );
           }
