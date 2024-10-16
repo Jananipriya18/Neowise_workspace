@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer');
   const page1 = await browser.newPage();
 // Test Case: Check if table body is present
 try {
-  await page1.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewshops');
+  await page1.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewShops');
 
   await page1.waitForSelector('table tbody tr', { timeout: 5000 });
   
@@ -60,7 +60,7 @@ const page3 = await browser.newPage();
   // Test Case: Check if table headers are present
 
 try {
-  await page3.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewshops');
+  await page3.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewShops');
 
   // Wait for the table to be rendered
   // await page3.waitForSelector('table');
@@ -86,7 +86,7 @@ try {
 
 const page4 = await browser.newPage();
 try {
-  await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewshops');
+  await page4.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewShops');
   await page4.setViewport({
     width: 1200,
     height: 1200,
@@ -146,7 +146,7 @@ try {
   let isValidationFailed = false;
 
   for (const fieldData of fieldsToCheck) {
-        const errorMessage = await page5.$eval(fieldData.id + ' + .error', el => el.textContent);
+        const errorMessage = await page5.$eval(fieldData.id + ' + .error-message', el => el.textContent);
         if (!errorMessage.includes(fieldData.message)) {
           isValidationFailed = true;
         }
@@ -193,7 +193,7 @@ try {
   console.log('URL after form submission:', urlAfterClick);
 
   // Check if navigated to the view cheese shops page
-  if (urlAfterClick.toLowerCase().includes('viewshops')) {
+  if (urlAfterClick.toLowerCase().includes('viewShops')) {
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:success');
   } else {  
     console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
