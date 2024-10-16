@@ -222,7 +222,7 @@ try {
   await page7.waitForSelector('button[type="submit"]', { timeout: 1000 });
 
   // Fill out the form with dummy data
-  await page7.type('#ownerName', 'John Cheese');
+  await page7.type('#ownerName', 'John');
   await page7.type('#cheeseSpecialties', 'Cheddar, Gouda');
   await page7.type('#experienceYears', '15');
   await page7.type('#storeLocation', 'Cheese Street');

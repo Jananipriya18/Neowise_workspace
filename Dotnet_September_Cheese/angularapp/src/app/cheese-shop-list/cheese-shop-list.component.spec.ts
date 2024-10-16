@@ -31,16 +31,16 @@ describe('CheeseShopListComponent', () => {
     });
 
     fit('should_create_CheeseShopListComponent', () => {
-        expect(component).toBeTruthy();
+        expect((component as any)).toBeTruthy();
     });
 
     fit('CheeseShopListComponent_should_call_loadCheeseShops_on_ngOnInit', () => {
-        spyOn(component, 'loadCheeseShops'); // Adjust the method name
+        spyOn((component as any), 'loadCheeseShops'); // Adjust the method name
         fixture.detectChanges();
-        expect(component.loadCheeseShops).toHaveBeenCalled(); // Adjust the method name
+        expect((component as any).loadCheeseShops).toHaveBeenCalled(); // Adjust the method name
     });
 
     fit('CheeseShopListComponent_should_have_searchCheeseShops_method', () => {
-        expect(component.searchCheeseShops).toBeDefined();
+        expect((component as any).searchCheeseShops).toBeDefined();
     });
 });

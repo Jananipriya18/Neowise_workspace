@@ -20,7 +20,7 @@ describe('HeaderComponent', () => {
     });
 
     fit('should_create_HeaderComponent', () => {
-        expect(component).toBeTruthy();
+        expect((component as any)).toBeTruthy();
     });
 
 });

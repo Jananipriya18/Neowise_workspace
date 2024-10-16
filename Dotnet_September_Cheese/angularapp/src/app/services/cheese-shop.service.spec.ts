@@ -21,7 +21,7 @@ describe('CheeseShopService', () => {
   });
 
   fit('CheeseShopService_should_be_created', () => {
-    expect(service).toBeTruthy();
+    expect((service as any)).toBeTruthy();
   });
 
   fit('CheeseShopService_should_add_a_shop_and_return_it', () => {
@@ -35,11 +35,11 @@ describe('CheeseShopService', () => {
       phoneNumber: 'Test Phone Number',
     };
 
-    service.addCheeseShop(mockCheeseShop).subscribe((shop) => {
+    (service as any).addCheeseShop(mockCheeseShop).subscribe((shop) => {
       expect(shop).toEqual(mockCheeseShop);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CheeseShop`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${(service as any)['apiUrl']}/api/CheeseShop`); // Adjusted API endpoint
     expect(req.request.method).toBe('POST');
     req.flush(mockCheeseShop);
   });
@@ -57,11 +57,11 @@ describe('CheeseShopService', () => {
       }
     ];
 
-    service.getCheeseShops().subscribe((shops) => {
+    (service as any).getCheeseShops().subscribe((shops) => {
       expect(shops).toEqual(mockCheeseShops);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CheeseShop`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${(service as any)['apiUrl']}/api/CheeseShop`); // Adjusted API endpoint
     expect(req.request.method).toBe('GET');
     req.flush(mockCheeseShops);
   });
@@ -69,11 +69,11 @@ describe('CheeseShopService', () => {
   fit('CheeseShopService_should_delete_shop', () => {
     const shopId = 100;
 
-    service.deleteCheeseShop(shopId).subscribe(() => {
+    (service as any).deleteCheeseShop(shopId).subscribe(() => {
       expect().nothing();
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CheeseShop/${shopId}`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${(service as any)['apiUrl']}/api/CheeseShop/${shopId}`); // Adjusted API endpoint
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
@@ -90,11 +90,11 @@ describe('CheeseShopService', () => {
       phoneNumber: 'Test Phone Number',
     };
 
-    service.getCheeseShop(shopId).subscribe((shop) => {
+    (service as any).getCheeseShop(shopId).subscribe((shop) => {
       expect(shop).toEqual(mockCheeseShop);
     });
 
-    const req = httpTestingController.expectOne(`${service['apiUrl']}/api/CheeseShop/${shopId}`); // Adjusted API endpoint
+    const req = httpTestingController.expectOne(`${(service as any)['apiUrl']}/api/CheeseShop/${shopId}`); // Adjusted API endpoint
     expect(req.request.method).toBe('GET');
     req.flush(mockCheeseShop);
   });
@@ -119,7 +119,7 @@ describe('CheeseShopService', () => {
     });
   
     const req = httpTestingController.expectOne((request) => 
-      request.url.includes(`${service['apiUrl']}/api/CheeseShop/search`) && 
+      request.url.includes(`${(service as any)['apiUrl']}/api/CheeseShop/search`) && 
       request.params.get('searchTerm') === searchTerm
     );
   

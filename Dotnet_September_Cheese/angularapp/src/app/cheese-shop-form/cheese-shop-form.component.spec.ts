@@ -32,7 +32,7 @@ describe('CheeseShopFormComponent', () => {
   });
 
   fit('should_create_CheeseShopFormComponent', () => {
-    expect(component).toBeTruthy();
+    expect((component as any)).toBeTruthy();
   });
 
   // fit('CheeseShopFormComponent_should_render_error_messages_when_required_fields_are_empty_on_submit', () => {
@@ -78,10 +78,10 @@ describe('CheeseShopFormComponent', () => {
       storeLocation: 'Test Store Location',
       importedCountry: 'Test Imported Country',
       phoneNumber: 'Test Phone Number'
-    };
+    } as any;
 
-    const addCheeseShopSpy = spyOn(component, 'addCheeseShop').and.callThrough();
-    component.addCheeseShop();
+    const addCheeseShopSpy = spyOn((component as any), 'addCheeseShop').and.callThrough();
+    (component as any).addCheeseShop();
     expect(addCheeseShopSpy).toHaveBeenCalled();
   });
 });

@@ -37,16 +37,16 @@ describe('DeleteConfirmComponent', () => {
     });
 
     fit('should_create_DeleteConfirmComponent', () => {
-        expect(component).toBeTruthy();
+        expect((component as any)).toBeTruthy();
     });
 
     fit('DeleteConfirmComponent_should_call_deleteCheeseShop_method_when_confirmDelete_is_called', () => {
         const shopId = 1; 
         
-        mockCheeseShopService.deleteCheeseShop.and.returnValue(of(null)); 
+        (mockCheeseShopService as any).deleteCheeseShop.and.returnValue(of(null)); 
 
-        component.confirmDelete(shopId); 
+        (component as any).confirmDelete(shopId); 
 
-        expect(mockCheeseShopService.deleteCheeseShop).toHaveBeenCalledWith(shopId); 
+        expect((mockCheeseShopService as any).deleteCheeseShop).toHaveBeenCalledWith(shopId); 
     });
 });
