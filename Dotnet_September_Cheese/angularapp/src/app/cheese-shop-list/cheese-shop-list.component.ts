@@ -21,15 +21,20 @@ export class CheeseShopListComponent implements OnInit {
     this.cheeseShopService.getCheeseShops().subscribe(cheeseShops => this.cheeseShops = cheeseShops);
   }
 
+  
+
   deleteCheeseShop(shopId: number): void { 
     this.router.navigate(['/confirmDelete', shopId]);
   }
   
   searchCheeseShops(): void {
     if (this.searchTerm) {
-      this.cheeseShopService.searchCheeseShops(this.searchTerm).subscribe(cheeseShops => this.cheeseShops = cheeseShops);
+      this.cheeseShops = this.cheeseShops.filter(shop =>
+        shop.ownerName.toLowerCase().endsWith(this.searchTerm.toLowerCase())
+      );
     } else {
       this.loadCheeseShops();
     }
   }
+  
 }

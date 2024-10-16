@@ -7,12 +7,13 @@
     </div>
   
     <div *ngIf="searchTerm && cheeseShops.length === 0" class="error-message">
-      The searched cheese shop does not exist.
+      No matching cheese shop found for "{{ searchTerm }}".
     </div>
-  
+    
     <div *ngIf="!searchTerm && cheeseShops.length === 0" class="no-cheese-shops-message">
       No cheese shops available.
     </div>
+    
   
     <table *ngIf="cheeseShops.length > 0" class="cheeseShops-table">
       <thead>
