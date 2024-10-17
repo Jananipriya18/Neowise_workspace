@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PlaylistService } from '../services/playlist.service' // Adjusted service name
-import { Playlist } from '../models/playlist.model'; // Adjusted model name
+import { VendorService } from '../services/vendor.service' // Adjusted service name
+import { Vendor } from '../models/vendor.model'; // Adjusted model name
 
 @Component({
   selector: 'app-delete-confirm',
@@ -9,42 +9,42 @@ import { Playlist } from '../models/playlist.model'; // Adjusted model name
   styleUrls: ['./delete-confirm.component.css']
 })
 export class DeleteConfirmComponent implements OnInit {
-  playlistId: number;
-  event: Playlist = {} as Playlist; // Initialize event property with an empty object
+  vendorId: number;
+  vendor: Vendor = {} as Vendor; // Initialize vendor property with an empty object
 
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private eventService: PlaylistService // Adjusted service name
+    private vendorService: VendorService // Adjusted service name
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.playlistId = +params['id']; // Adjust parameter name to 'id' if it matches the route parameter
-      this.eventService.getPlaylist(this.playlistId).subscribe(
-        (event: Playlist) => {
-          this.event = event;
+      this.vendorId = +params['id']; // Adjust parameter name to 'id' if it matches the route parameter
+      this.vendorService.getVendor(this.vendorId).subscribe(
+        (vendor: Vendor) => {
+          this.vendor = vendor;
         },
         error => {
-          console.error('Error fetching event:', error);
+          console.error('Error fetching vendor:', error);
         }
       );
     });
   }
 
-  confirmDelete(playlistId: number): void { // Adjust method signature
-    this.eventService.deletePlaylist(playlistId).subscribe(
+  confirmDelete(vendorId: number): void { // Adjust method signature
+    this.vendorService.deleteVendor(vendorId).subscribe(
       () => {
-        console.log('Playlist deleted successfully.');
-        this.router.navigate(['/viewPlaylists']); // Adjust the route to navigate after deletion
+        console.log('Vendor deleted successfully.');
+        this.router.navigate(['/viewVendors']); // Adjust the route to navigate after deletion
       },
       (error) => {
-        console.error('Error deleting event:', error);
+        console.error('Error deleting vendor:', error);
       }
     );
   }
 
   cancelDelete(): void {
-    this.router.navigate(['/viewPlaylists']); // Adjust the route to navigate on cancel
+    this.router.navigate(['/viewVendors']); // Adjust the route to navigate on cancel
   }
 }

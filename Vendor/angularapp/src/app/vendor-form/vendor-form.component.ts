@@ -14,9 +14,9 @@ export class VendorFormComponent {
     name: '',
     productOfferings: '',
     experience: '',
-    artistName: '',
-    genre: '',
-    MovieName: ''
+    storeLocation: '',
+    operatingHours: '',
+    phoneNumber: ''
   }; // Initialize newVendor with empty fields
 
   formSubmitted = false; // Track form submission
@@ -27,9 +27,9 @@ export class VendorFormComponent {
     this.formSubmitted = true; // Set formSubmitted to true on form submission
 
     // Validate if any required field is empty
-    if (!this.newVendor.vendorName || !this.newVendor.songName || 
-        !this.newVendor.yearOfRelease || !this.newVendor.artistName || 
-        !this.newVendor.genre || !this.newVendor.MovieName) {
+    if (!this.newVendor.name || !this.newVendor.productOfferings || 
+        !this.newVendor.experience || !this.newVendor.storeLocation || 
+        !this.newVendor.operatingHours || !this.newVendor.phoneNumber) {
       console.log('Form is invalid.');
       return;
     }

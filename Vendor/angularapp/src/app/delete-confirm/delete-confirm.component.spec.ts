@@ -6,24 +6,24 @@ import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { PlaylistService } from '../services/playlist.service'; // Adjusted service name
-import { Playlist } from '../models/playlist.model'; // Adjusted model name
+import { VendorService } from '../services/vendor.service'; // Adjusted service name
+import { Vendor } from '../models/vendor.model'; // Adjusted model name
 
 describe('DeleteConfirmComponent', () => {
     let component: DeleteConfirmComponent;
     let fixture: ComponentFixture<DeleteConfirmComponent>;
     let router: Router;
     let activatedRoute: ActivatedRoute;
-    let mockPlaylistService: jasmine.SpyObj<PlaylistService>; // Adjusted service name
+    let mockVendorService: jasmine.SpyObj<VendorService>; // Adjusted service name
 
     beforeEach(waitForAsync(() => {
-        mockPlaylistService = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylist', 'deletePlaylist'] as any); // Adjusted service name and methods
+        mockVendorService = jasmine.createSpyObj<VendorService>('VendorService', ['getVendor', 'deleteVendor'] as any); // Adjusted service name and methods
 
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, HttpClientModule, FormsModule, HttpClientTestingModule],
             declarations: [DeleteConfirmComponent],
             providers: [
-                { provide: PlaylistService, useValue: mockPlaylistService } // Adjusted service name
+                { provide: VendorService, useValue: mockVendorService } // Adjusted service name
             ]
         }).compileComponents();
         router = TestBed.inject(Router);
@@ -37,17 +37,17 @@ describe('DeleteConfirmComponent', () => {
     });
 
     fit('should_create_DeleteConfirmComponent', () => {
-        expect(component).toBeTruthy();
+        expect((component as any)).toBeTruthy();
     });
 
-    fit('DeleteConfirmComponent_should_call_deletePlaylist_method_when_confirmDelete_is_called', () => {
-        const playlistId = 1; // Adjusted ID name
+    fit('DeleteConfirmComponent_should_call_deleteVendor_method_when_confirmDelete_is_called', () => {
+        const vendorId = 1; // Adjusted ID name
         
-        mockPlaylistService.deletePlaylist.and.returnValue(of(null)); // Adjusted method name
+        mockVendorService.deleteVendor.and.returnValue(of(null)); // Adjusted method name
 
-        component.confirmDelete(playlistId); // Adjusted parameter name
+        (component as any).confirmDelete(vendorId); // Adjusted parameter name
 
-        expect(mockPlaylistService.deletePlaylist).toHaveBeenCalledWith(playlistId); // Adjusted method name and parameter
+        expect(mockVendorService.deleteVendor).toHaveBeenCalledWith(vendorId); // Adjusted method name and parameter
     });
 });
 

@@ -1,47 +1,47 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { PlaylistService } from '../services/playlist.service'; // Import PlaylistService
-import { PlaylistListComponent } from './vendor-list.component'; // Adjust the import path
+import { VendorService } from '../services/vendor.service'; // Import VendorService
+import { VendorListComponent } from './vendor-list.component'; // Adjust the import path
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Playlist } from '../models/playlist.model'; // Import Playlist model
+import { Vendor } from '../models/vendor.model'; // Import Vendor model
 
-describe('PlaylistListComponent', () => {
-    let component: PlaylistListComponent;
-    let fixture: ComponentFixture<PlaylistListComponent>;
-    let mockPlaylistService: jasmine.SpyObj<PlaylistService>; // Specify the type of mock
+describe('VendorListComponent', () => {
+    let component: VendorListComponent;
+    let fixture: ComponentFixture<VendorListComponent>;
+    let mockVendorService: jasmine.SpyObj<VendorService>; // Specify the type of mock
 
     beforeEach(waitForAsync(() => {
         // Create a spy object with the methods you want to mock
-        mockPlaylistService = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'deletePlaylist'] as any);
+        mockVendorService = jasmine.createSpyObj<VendorService>('VendorService', ['getVendors', 'deleteVendor'] as any);
 
         TestBed.configureTestingModule({
-            declarations: [PlaylistListComponent],
+            declarations: [VendorListComponent],
             imports: [RouterTestingModule, HttpClientTestingModule],
             providers: [
                 // Provide the mock service instead of the actual service
-                { provide: PlaylistService, useValue: mockPlaylistService }
+                { provide: VendorService, useValue: mockVendorService }
             ]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PlaylistListComponent);
+        fixture = TestBed.createComponent(VendorListComponent);
         component = fixture.componentInstance;
     });
 
-    fit('should_create_PlaylistListComponent', () => { // Change the function name
-        expect(component).toBeTruthy();
+    fit('should_create_VendorListComponent', () => { // Change the function name
+        expect((component as any)).toBeTruthy();
     });
 
-    fit('PlaylistListComponent_should_call_loadPlaylists_on_ngOnInit', () => { // Change the function name
-        spyOn(component, 'loadPlaylists'); // Adjust the method name
+    fit('VendorListComponent_should_call_loadVendors_on_ngOnInit', () => { // Change the function name
+        spyOn((component as any), 'loadVendors'); // Adjust the method name
         fixture.detectChanges();
-        expect(component.loadPlaylists).toHaveBeenCalled(); // Adjust the method name
+        expect((component as any).loadVendors).toHaveBeenCalled(); // Adjust the method name
     });
 
-    fit('PlaylistListComponent_should_have_searchPlaylists_method', () => {
-        expect(component.searchPlaylists).toBeDefined();
+    fit('VendorListComponent_should_have_searchVendors_method', () => {
+        expect((component as any).searchVendors).toBeDefined();
       }); 
 
 });
