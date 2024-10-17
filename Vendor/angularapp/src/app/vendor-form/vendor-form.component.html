@@ -24,9 +24,9 @@
         </div>
     </div>    
     <div>
-        <label for="storeLocation">Vendor Location:</label>
+        <label for="storeLocation">Store Location:</label>
         <input type="text" id="storeLocation" [(ngModel)]="newVendor.storeLocation" name="storeLocation" required maxlength="100">
-        <div *ngIf="!newVendor.storeLocation && formSubmitted" class="error-message">Vendor Location is required</div>
+        <div *ngIf="!newVendor.storeLocation && formSubmitted" class="error-message">Store Location is required</div>
     </div>
     <div>
         <label for="operatingHours">Operating Hours:</label>

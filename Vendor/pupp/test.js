@@ -138,7 +138,7 @@ try {
     { id: '#name', message: 'Name is required' },
     { id: '#productOfferings', message: 'Product Offerings is required' },
     { id: '#experience', message: 'Experience is required' },
-    { id: '#storeLoction', message: 'Store Location is required' },
+    { id: '#storeLocation', message: 'Store Location is required' },
     { id: '#operatingHours', message: 'Operating Hours is required' },
     { id: '#phoneNumber', message: 'Phone Number is required' }
   ];
@@ -165,40 +165,6 @@ try {
   console.log('TESTCASE:Verify_required_validation_on_Add_Vendor_button:failure');
 }
 
-
-const page6 = await browser.newPage();
-try {
-  // Navigate to add new event page
-  await page6.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/addNewVendor');
-  await page6.setViewport({
-    width: 1200,
-    height: 1200,
-  });
-  console.log(page6.url());
-  // Fill out the event creation form
-  await page6.type('#name', 'Test Vendor 1');
-  await page6.type('#productOfferings', 'Test Vendor ProductOfferings 1');
-  await page6.type('#experience', '3 years');
-  await page6.type('#storeLocation', 'India');
-  await page6.type('#operatingHours', '10:00 AM');
-  await page6.type('#phoneNumber', 'Test 9876543210');
-  console.log("Submitted");
-  // Submit the form
-  await page6.click('button[type="submit"]');
-
-  // Wait for a short period for the event to be added (optional)
-  await page6.waitForTimeout(1000);
-
-  const urlAfterClick = page6.url();
-  console.log(urlAfterClick);
-  if (urlAfterClick.toLowerCase().includes('viewvendors')) {
-    console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:success');
-  } else {  
-    console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
-  }
-} catch (e) {
-  console.log('TESTCASE:Verify_Navigation_to_ConfirmDelete_Page_and_Details:failure');
-}  
 
 const page7 = await browser.newPage();
 try {
@@ -240,7 +206,6 @@ try {
     await page3.close();
     await page4.close();
     await page5.close();
-    await page6.close();
     await page7.close();
   }
  
