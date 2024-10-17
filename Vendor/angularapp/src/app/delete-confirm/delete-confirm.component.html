@@ -1,0 +1,17 @@
+<div class="container" *ngIf="event">
+    <h2>Delete Confirmation</h2>
+    <div class="confirmation-message">
+      <p>Are you sure you want to delete this event?</p>
+      <p>Playlist Name: {{ event.playlistName }}</p>
+      <p>Song Name: {{ event.songName }}</p>
+      <p>Year of Release: {{ event.yearOfRelease }}</p>
+      <p>Artist Name: {{ event.artistName }}</p>
+      <p>Genre: {{ event.genre }}</p>
+      <p>Movie Name: {{ event.movieName }}</p>
+    </div>
+    <div class="form-buttons">
+      <button type="button" id="confirm" class="confirm-button" (click)="confirmDelete(playlistId)">Confirm Delete</button>
+      <button type="button" id="cancel" class="cancel-button" (click)="cancelDelete()">Cancel</button>
+    </div>
+  </div>
+  
