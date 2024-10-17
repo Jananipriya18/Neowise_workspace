@@ -36,6 +36,9 @@ export class VendorListComponent implements OnInit {
       this.vendorService.searchVendors(this.searchTerm).subscribe(
         vendors => {
           this.vendors = vendors;
+          if (this.vendors.length === 0) {
+            this.errorMessage = 'The searched Vendor does not exist.';
+          }
         },
         (error: HttpErrorResponse) => {
           console.error('Error searching vendors:', error);
@@ -48,8 +51,7 @@ export class VendorListComponent implements OnInit {
         }
       );
     } else {
-      this.errorMessage = 'Search term cannot be empty.';
-      this.vendors = [];
+      this.loadVendors(); // Load all vendors when search term is empty
     }
 
   }
