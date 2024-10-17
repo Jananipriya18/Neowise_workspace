@@ -1,32 +1,49 @@
 .header-container {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 10px;
-  }
-  
-  nav ul {
-    list-style-type: none;
-    display: flex;
-  }
-  
-  nav ul li {
-    margin-right: 20px;
-  }
-  
-  nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  nav ul li a:hover {
-    color: #ffd700; 
-  }
+  background-color: #4b6584; /* Unique dark blue-gray background */
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.header-container h1 {
+  color: #f7b731; /* Bright yellow text for the title */
+  font-size: 2.5rem;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+.header-container nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
 
+.header-container nav ul li {
+  display: inline;
+}
+
+.header-container nav ul li a {
+  text-decoration: none;
+  color: #f5f6fa; /* Soft white for the nav links */
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  background-color: #3867d6; /* Vibrant blue for buttons */
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.header-container nav ul li a:hover {
+  background-color: #273c75; /* Darker blue for hover effect */
+}
+
+.header-container nav ul li a:active {
+  background-color: #192a56; /* Even darker blue when active */
+}
+
+.header-container nav ul li a:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(247, 183, 49, 0.5); /* Yellow shadow on focus */
+}
