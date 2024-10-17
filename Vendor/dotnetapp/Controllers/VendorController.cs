@@ -77,16 +77,16 @@ namespace dotnetapp.Controllers
 
             var lowerSearchTerm = searchTerm.ToLower();
 
-            var events = await _context.Vendors
+            var vendors = await _context.Vendors
                 .Where(e => e.name.ToLower().Equals(lowerSearchTerm))
                 .ToListAsync();
 
-            if (!events.Any())
+            if (!vendors.Any())
             {
                 return NotFound("The searched Vendor does not exist.");
             }
 
-            return events;
+            return vendors;
         }
     }
 }

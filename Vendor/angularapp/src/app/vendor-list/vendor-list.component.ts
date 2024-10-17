@@ -1,8 +1,8 @@
 // vendor-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Vendor } from '../models/vendor.model'; // Import Vendor model
 import { VendorService } from '../services/vendor.service'; // Import VendorService
 import { Router } from '@angular/router';
+import { Vendor } from '../models/vendor.model';
 
 @Component({
   selector: 'app-vendor-list', // Changed selector to 'app-vendor-list'
