@@ -5,12 +5,12 @@
       <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Search by vendor name">
       <button id="search" class="search-button" (click)="searchVendors()">Search</button>
     </div>
-  
-    <div *ngIf="searchTerm && vendors.length === 0" class="error-message">
-      The searched vendor does not exist.
+    
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
     </div>
-  
-    <div *ngIf="!searchTerm && vendors.length === 0" class="no-vendors-message">
+    
+    <div *ngIf="vendors.length === 0 && !errorMessage" class="no-vendors-message">
       No vendors available.
     </div>
     
