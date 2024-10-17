@@ -1,37 +1,37 @@
-// playlist-list.component.ts
+// vendor-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Playlist } from '../models/playlist.model'; // Import Playlist model
-import { PlaylistService } from '../services/playlist.service'; // Import PlaylistService
+import { Vendor } from '../models/vendor.model'; // Import Vendor model
+import { VendorService } from '../services/vendor.service'; // Import VendorService
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-playlist-list', // Changed selector to 'app-playlist-list'
-  templateUrl: './playlist-list.component.html', // Adjusted the template URL
-  styleUrls: ['./playlist-list.component.css'] // Adjusted the style URL
+  selector: 'app-vendor-list', // Changed selector to 'app-vendor-list'
+  templateUrl: './vendor-list.component.html', // Adjusted the template URL
+  styleUrls: ['./vendor-list.component.css'] // Adjusted the style URL
 })
-export class PlaylistListComponent implements OnInit {
-  playlists: Playlist[] = []; // Changed recipes to playlists
+export class VendorListComponent implements OnInit {
+  vendors: Vendor[] = []; // Changed recipes to vendors
   searchTerm: string = '';
 
-  constructor(private playlistService: PlaylistService, private router: Router) { } // Adjusted service name
+  constructor(private vendorService: VendorService, private router: Router) { } // Adjusted service name
 
   ngOnInit(): void {
-    this.loadPlaylists(); // Adjusted the method name
+    this.loadVendors(); // Adjusted the method name
   }
 
-  loadPlaylists(): void {
-    this.playlistService.getPlaylists().subscribe(playlists => this.playlists = playlists); // Adjusted the service method name
+  loadVendors(): void {
+    this.vendorService.getVendors().subscribe(vendors => this.vendors = vendors); // Adjusted the service method name
   }
 
-  deletePlaylist(playlistId: number): void { // Adjusted the method name and parameter
-    // Navigate to confirm delete page with the playlist ID as a parameter
-    this.router.navigate(['/confirmDelete', playlistId]);
+  deleteVendor(vendorId: number): void { // Adjusted the method name and parameter
+    // Navigate to confirm delete page with the vendor ID as a parameter
+    this.router.navigate(['/confirmDelete', vendorId]);
   }
-  searchPlaylists(): void {
+  searchVendors(): void {
     if (this.searchTerm) {
-      this.playlistService.searchPlaylists(this.searchTerm).subscribe(playlists => this.playlists = playlists);
+      this.vendorService.searchVendors(this.searchTerm).subscribe(vendors => this.vendors = vendors);
     } else {
-      this.loadPlaylists();
+      this.loadVendors();
     }
   }
 }
