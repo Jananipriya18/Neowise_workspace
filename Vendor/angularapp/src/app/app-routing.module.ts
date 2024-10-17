@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PlaylistFormComponent } from './playlist-form/playlist-form.component';
-import { PlaylistListComponent } from './playlist-list/playlist-list.component';
+import { PlaylistFormComponent } from './vendor-form/vendor-form.component';
+import { PlaylistListComponent } from './vendor-list/vendor-list.component';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 

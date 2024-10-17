@@ -1,0 +1,44 @@
+<div class="container">
+    <h2>Vendor List</h2>
+    
+    <div>
+      <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Search by vendor name">
+      <button id="search" class="search-button" (click)="searchVendors()">Search</button>
+    </div>
+  
+    <div *ngIf="searchTerm && vendors.length === 0" class="error-message">
+      The searched vendor does not exist.
+    </div>
+  
+    <div *ngIf="!searchTerm && vendors.length === 0" class="no-vendors-message">
+      No vendors available.
+    </div>
+    
+    <table *ngIf="vendors.length > 0" class="vendor-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Product Offerings</th>
+          <th>Experience</th>
+          <th>Store Location</th>
+          <th>Operating Hours</th>
+          <th>Phone Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vendor of vendors" class="vendor-item">
+          <td>{{ vendor.name }}</td>
+          <td>{{ vendor.productOfferings }}</td>
+          <td>{{ vendor.experience }}</td>
+          <td>{{ vendor.storeLocation }}</td>
+          <td>{{ vendor.operatingHours }}</td>
+          <td>{{ vendor.phoneNumber }}</td>
+          <td>
+            <button id="delete" class="delete-button" (click)="deleteVendor(vendor.vendorId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

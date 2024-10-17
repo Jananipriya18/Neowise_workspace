@@ -47,7 +47,7 @@ namespace dotnetapp.Controllers
             _context.Vendors.Add(Vendor);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendor", new { id = Vendor.VendorId }, Vendor);
+            return CreatedAtAction("GetVendor", new { id = Vendor.vendorId }, Vendor);
         }
 
         // DELETE: api/Vendor/5
@@ -78,7 +78,7 @@ namespace dotnetapp.Controllers
             var lowerSearchTerm = searchTerm.ToLower();
 
             var events = await _context.Vendors
-                .Where(e => e.VendorName.ToLower().Equals(lowerSearchTerm))
+                .Where(e => e.name.ToLower().Equals(lowerSearchTerm))
                 .ToListAsync();
 
             if (!events.Any())
