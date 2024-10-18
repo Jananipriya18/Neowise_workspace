@@ -18,7 +18,7 @@ export class AddPodcastComponent implements OnInit {
       description: ['', Validators.required],
       hostName: ['', Validators.required],
       category: ['', Validators.required],
-      releaseDate: ['', Validators.required], // Expecting a Date input
+      releaseDate: ['', Validators.required], 
       contactEmail:['',Validators.required],
       episodeCount: ['', [Validators.required, Validators.min(1)]], // Minimum 1 episode
     });
