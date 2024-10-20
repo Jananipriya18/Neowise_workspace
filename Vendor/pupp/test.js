@@ -177,7 +177,7 @@ try {
   
   // Perform search for the newly added event
   await page7.waitForSelector('#search', { timeout: 5000 });
-  await page7.type('#search', 'Test Vendor 1');
+  await page7.type('#search', 'Test Vendor Name');
   await page7.click('.search-button');
 
   // Wait for the search results to load
@@ -190,8 +190,7 @@ try {
   });
 
   // Check if the searched event is found and matches exactly
-  if (vendorNames.includes('Test Vendor 1')) {
-    // && vendorNames.length === 1
+  if (vendorNames.includes('Test Vendor Name')) {
     console.log('TESTCASE:Search_vendors_by_name:success');
   } else {
     console.log('TESTCASE:Search_vendors_by_name:failure');
