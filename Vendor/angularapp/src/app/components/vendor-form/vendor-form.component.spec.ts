@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { VendorFormComponent } from './vendor-form.component';
-import { VendorService } from '../services/vendor.service';
+import { VendorService } from '../../services/vendor.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { Vendor } from '../models/vendor.model';
+import { Vendor } from '../../models/vendor.model';
 
 describe('VendorFormComponent', () => {
   let component: VendorFormComponent;
@@ -51,4 +51,5 @@ describe('VendorFormComponent', () => {
     (component as any).addVendor();
     expect(addVendorSpy).toHaveBeenCalled();
   });
+ 
 });

@@ -5,10 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { VendorFormComponent } from './vendor-form/vendor-form.component';
-import { HeaderComponent } from './header/header.component';
-import { VendorListComponent } from './vendor-list/vendor-list.component';
-import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
+import { VendorFormComponent } from './components/vendor-form/vendor-form.component';
+import { HeaderComponent } from './components/header/header.component';
+import { VendorListComponent } from './components/vendor-list/vendor-list.component';
+import { DeleteConfirmComponent } from './components/delete-confirm/delete-confirm.component';
 
 @NgModule({
   declarations: [

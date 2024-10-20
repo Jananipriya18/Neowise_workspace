@@ -1,8 +1,8 @@
 // vendor-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { VendorService } from '../services/vendor.service'; // Import VendorService
+import { VendorService } from '../../services/vendor.service'; // Import VendorService
 import { Router } from '@angular/router';
-import { Vendor } from '../models/vendor.model';
+import { Vendor } from '../../models/vendor.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

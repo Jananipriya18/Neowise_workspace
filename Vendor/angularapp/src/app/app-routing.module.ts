@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VendorFormComponent } from './vendor-form/vendor-form.component';
-import { VendorListComponent } from './vendor-list/vendor-list.component';
-import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
+import { VendorFormComponent } from './components/vendor-form/vendor-form.component';
+import { VendorListComponent } from './components/vendor-list/vendor-list.component';
+import { DeleteConfirmComponent } from './components/delete-confirm/delete-confirm.component';
 
 
 const routes: Routes = [

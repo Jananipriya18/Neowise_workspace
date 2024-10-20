@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { VendorService } from '../services/vendor.service'; // Import VendorService
+import { VendorService } from '../../services/vendor.service'; // Import VendorService
 import { VendorListComponent } from './vendor-list.component'; // Adjust the import path
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Vendor } from '../models/vendor.model'; // Import Vendor model
+import { Vendor } from '../../models/vendor.model'; // Import Vendor model
 
 describe('VendorListComponent', () => {
     let component: VendorListComponent;

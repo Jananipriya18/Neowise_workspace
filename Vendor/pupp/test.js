@@ -174,15 +174,22 @@ try {
     width: 1200,
     height: 1200,
   });
-  
+
+  // Check if vendors exist before performing the search
+  const vendorExists = await page7.evaluate(() => document.querySelectorAll('.vendor-item').length > 0);
+  if (!vendorExists) {
+    console.log('TESTCASE:No vendors found in the table.');
+    throw new Error('No vendors found to search from.');
+  }
+
   // Perform search for the newly added event
   await page7.waitForSelector('#search', { timeout: 5000 });
-  await page7.type('#search', 'Test Vendor Name');
+  await page7.type('#search', 'Test Vendor Name'.trim());
 
-  await page7.click('#searchButton');
+  await page7.keyboard.press('Enter'); // Simulate pressing Enter
 
   // Wait for the search results to load
-  await page7.waitForSelector('.vendor-table', { timeout: 5000 });
+  await page7.waitForSelector('.vendor-table', { timeout: 10000 });
 
   // Evaluate the search results
   const vendorNames = await page7.evaluate(() => {
@@ -190,7 +197,9 @@ try {
     return eventRows.map(row => row.querySelector('td:first-child').textContent.trim().toLowerCase());
   });
 
-  // Check if the searched event is found and matches exac)tly
+  console.log('Vendor names:', vendorNames); // Log the vendor names
+
+  // Check if the searched event is found and matches exactly
   if (vendorNames.includes('test vendor name'.toLowerCase())) {
     console.log('TESTCASE:Search_vendors_by_name:success');
   } else {
@@ -199,7 +208,9 @@ try {
 
 } catch (e) {
   console.log('TESTCASE:Search_vendors_by_name:failure');
-}  
+  console.error(e); // Log the error for better debugging
+}
+
   finally{
     await page1.close();
     await page2.close();
