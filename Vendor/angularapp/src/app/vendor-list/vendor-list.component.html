@@ -3,7 +3,7 @@
     
     <div>
       <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Search by vendor name">
-      <button id="search" class="search-button" (click)="searchVendors()">Search</button>
+      <button id="searchButton" class="search-button" (click)="searchVendors()">Search</button>
     </div>
     
     <div *ngIf="errorMessage" class="error-message">

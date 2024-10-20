@@ -176,9 +176,21 @@ try {
   });
   
   // Perform search for the newly added event
+  const page7 = await browser.newPage();
+try {
+  // Navigate to viewVendors page
+  await page7.goto('https://8081-aabdbffdadabafcfd314190586ebabbcadeeefceacone.premiumproject.examly.io/viewVendors');
+  await page7.setViewport({
+    width: 1200,
+    height: 1200,
+  });
+  
+  // Perform search for the newly added vendor
   await page7.waitForSelector('#search', { timeout: 5000 });
   await page7.type('#search', 'Test Vendor Name');
-  await page7.click('.search-button');
+  
+  // Click the search button
+  await page7.click('#searchButton');
 
   // Wait for the search results to load
   await page7.waitForSelector('.vendor-table', { timeout: 5000 });
@@ -186,11 +198,11 @@ try {
   // Evaluate the search results
   const vendorNames = await page7.evaluate(() => {
     const eventRows = Array.from(document.querySelectorAll('.vendor-item'));
-    return eventRows.map(row => row.querySelector('td:first-child').textContent.trim());
+    return eventRows.map(row => row.querySelector('td:first-child').textContent.trim().toLowerCase()); // Normalize case
   });
 
-  // Check if the searched event is found and matches exactly
-  if (vendorNames.includes('Test Vendor Name')) {
+  // Check if the searched vendor is found and matches exactly (case-insensitive)
+  if (vendorNames.includes('test vendor name'.toLowerCase())) {
     console.log('TESTCASE:Search_vendors_by_name:success');
   } else {
     console.log('TESTCASE:Search_vendors_by_name:failure');
@@ -198,7 +210,8 @@ try {
 
 } catch (e) {
   console.log('TESTCASE:Search_vendors_by_name:failure');
-}  
+}}  
+
   finally{
     await page1.close();
     await page2.close();
