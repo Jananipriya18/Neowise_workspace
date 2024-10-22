@@ -5,7 +5,7 @@ using System.Linq;
 public class Vehicle
 {
     public string VehicleName { get; set; }
-    public int VehicleID { get; set; }
+    public string VehicleNumber { get; set; }
     public string Type { get; set; }
     public decimal DailyRentalRate { get; set; }
     public int SeatingCapacity { get; set; }
@@ -13,7 +13,7 @@ public class Vehicle
     public void DisplayVehicleDetails()
     {
         Console.WriteLine($"Vehicle Name: {VehicleName}");
-        Console.WriteLine($"Vehicle ID: {VehicleID}");
+        Console.WriteLine($"Vehicle Number: {VehicleNumber}");
         Console.WriteLine($"Type: {Type}");
         Console.WriteLine($"Daily Rental Rate: {DailyRentalRate}");
         Console.WriteLine($"Seating Capacity: {SeatingCapacity}");
@@ -24,12 +24,12 @@ public class Program
 {
     private static List<Vehicle> vehicles = new List<Vehicle>();
 
-    public static void AddVehicle(string name, int id, string type, decimal rentalRate, int seatingCapacity)
+    public static void AddVehicle(string name, string number, string type, decimal rentalRate, int seatingCapacity)
     {
         Vehicle vehicle = new Vehicle
         {
             VehicleName = name,
-            VehicleID = id,
+            VehicleNumber = number,
             Type = type,
             DailyRentalRate = rentalRate,
             SeatingCapacity = seatingCapacity
@@ -75,7 +75,7 @@ public class Program
         }
     }
 
-    public static void DeleteVehicle(int idToDelete)
+    public static void DeleteVehicle(string numberToDelete)
     {
         if (vehicles.Count == 0)
         {
@@ -83,16 +83,16 @@ public class Program
             return;
         }
 
-        Vehicle vehicleToDelete = vehicles.FirstOrDefault(v => v.VehicleID == idToDelete);
+        Vehicle vehicleToDelete = vehicles.FirstOrDefault(v => v.VehicleNumber == numberToDelete);
 
         if (vehicleToDelete != null)
         {
             vehicles.Remove(vehicleToDelete);
-            Console.WriteLine($"Vehicle with ID {idToDelete} has been deleted.");
+            Console.WriteLine($"Vehicle with Number {numberToDelete} has been deleted.");
         }
         else
         {
-            Console.WriteLine($"No vehicle found with ID {idToDelete}.");
+            Console.WriteLine($"No vehicle found with Number {numberToDelete}.");
         }
     }
 
@@ -113,12 +113,12 @@ public class Program
             {
                 case "1": // Add vehicle
                     string name = Console.ReadLine();
-                    int id = int.Parse(Console.ReadLine());
+                    string number = Console.ReadLine();
                     string type = Console.ReadLine();
                     decimal rentalRate = decimal.Parse(Console.ReadLine());
                     int seatingCapacity = int.Parse(Console.ReadLine());
 
-                    AddVehicle(name, id, type, rentalRate, seatingCapacity);
+                    AddVehicle(name, number, type, rentalRate, seatingCapacity);
                     break;
 
                 case "2": // Display vehicles
@@ -138,15 +138,9 @@ public class Program
                     break;
 
                 case "4": // Delete vehicle
-                    // Console.Write("Enter the Vehicle ID to delete: ");
-                    if (int.TryParse(Console.ReadLine(), out int idToDelete))
-                    {
-                        DeleteVehicle(idToDelete);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input. Please enter a valid Vehicle ID.");
-                    }
+                    // Console.Write("Enter the Vehicle Number to delete: ");
+                    string numberToDelete = Console.ReadLine();
+                    DeleteVehicle(numberToDelete);
                     break;
 
                 case "5": // Exit
