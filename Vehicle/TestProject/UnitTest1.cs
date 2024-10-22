@@ -63,7 +63,7 @@ namespace dotnetapp.Tests
         {
             var vehicle = Activator.CreateInstance(vehicleType);
             vehicleType.GetProperty("VehicleName").SetValue(vehicle, "Car A");
-            vehicleType.GetProperty("VehicleID").SetValue(vehicle, "V001");
+            vehicleType.GetProperty("VehicleID").SetValue(vehicle, 1);
             vehicleType.GetProperty("Type").SetValue(vehicle, "Sedan");
             vehicleType.GetProperty("DailyRentalRate").SetValue(vehicle, 50.00m);
             vehicleType.GetProperty("SeatingCapacity").SetValue(vehicle, 5);
@@ -74,7 +74,7 @@ namespace dotnetapp.Tests
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                method.Invoke(instance, new object[] { "Car A", "V001", "Sedan", 50.00m, 5 });
+                method.Invoke(instance, new object[] { "Car A", 1, "Sedan", 50.00m, 5 });
                 var output = sw.ToString().Trim();
                 Assert.AreEqual("Vehicle added successfully.", output);
             }
@@ -89,7 +89,7 @@ namespace dotnetapp.Tests
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                addMethod.Invoke(instance, new object[] { "Car A", "V001", "Sedan", 50.00m, 5 });
+                addMethod.Invoke(instance, new object[] { "Car A", 1, "Sedan", 50.00m, 5 });
             }
 
             var searchMethod = programType.GetMethod("SearchBySeatingCapacity");
@@ -99,7 +99,7 @@ namespace dotnetapp.Tests
                 searchMethod.Invoke(instance, new object[] { 5 });
                 var output = sw.ToString().Trim();
                 StringAssert.Contains("Vehicle Name: Car A", output);
-                StringAssert.Contains("Vehicle ID: V001", output);
+                StringAssert.Contains("Vehicle ID: 1", output);
                 StringAssert.Contains("Type: Sedan", output);
                 StringAssert.Contains("Daily Rental Rate: 50.00", output);
                 StringAssert.Contains("Seating Capacity: 5", output);
@@ -130,16 +130,16 @@ namespace dotnetapp.Tests
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                addMethod.Invoke(instance, new object[] { "Car A", "V001", "Sedan", 50.00m, 5 });
+                addMethod.Invoke(instance, new object[] { "Car A", 1, "Sedan", 50.00m, 5 });
             }
 
             var deleteMethod = programType.GetMethod("DeleteVehicle");
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                deleteMethod.Invoke(instance, new object[] { "V001" });
+                deleteMethod.Invoke(instance, new object[] { 1 });
                 var output = sw.ToString().Trim();
-                Assert.AreEqual("Vehicle with ID V001 has been deleted.", output);
+                Assert.AreEqual("Vehicle with ID 1 has been deleted.", output);
             }
         }
 
@@ -152,9 +152,9 @@ namespace dotnetapp.Tests
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                deleteMethod.Invoke(instance, new object[] { "V999" });
+                deleteMethod.Invoke(instance, new object[] { 999 });
                 var output = sw.ToString().Trim();
-                Assert.AreEqual("No vehicle found with ID V999.", output);
+                Assert.AreEqual("No vehicle found with ID 999.", output);
             }
         }
 
@@ -167,8 +167,8 @@ namespace dotnetapp.Tests
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                addMethod.Invoke(instance, new object[] { "Car A", "V001", "Sedan", 50.00m, 5 });
-                addMethod.Invoke(instance, new object[] { "Car B", "V002", "SUV", 70.00m, 7 });
+                addMethod.Invoke(instance, new object[] { "Car A", 1, "Sedan", 50.00m, 5 });
+                addMethod.Invoke(instance, new object[] { "Car B", 2, "SUV", 70.00m, 7 });
             }
 
             var displayMethod = programType.GetMethod("DisplayVehicles");
@@ -178,12 +178,12 @@ namespace dotnetapp.Tests
                 displayMethod.Invoke(instance, null);
                 var output = sw.ToString().Trim();
                 StringAssert.Contains("Vehicle Name: Car A", output);
-                StringAssert.Contains("Vehicle ID: V001", output);
+                StringAssert.Contains("Vehicle ID: 1", output);
                 StringAssert.Contains("Type: Sedan", output);
                 StringAssert.Contains("Daily Rental Rate: 50.00", output);
                 StringAssert.Contains("Seating Capacity: 5", output);
                 StringAssert.Contains("Vehicle Name: Car B", output);
-                StringAssert.Contains("Vehicle ID: V002", output);
+                StringAssert.Contains("Vehicle ID: 2", output);
                 StringAssert.Contains("Type: SUV", output);
                 StringAssert.Contains("Daily Rental Rate: 70.00", output);
                 StringAssert.Contains("Seating Capacity: 7", output);
