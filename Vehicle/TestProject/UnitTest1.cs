@@ -38,12 +38,6 @@ namespace dotnetapp.Tests
         }
 
         [Test]
-        public void ProgramClass_ShouldExist()
-        {
-            Assert.IsNotNull(programType, "Program class does not exist.");
-        }
-
-        [Test]
         public void ProgramClass_ShouldHaveCorrectFields()
         {
             Assert.IsNotNull(programType.GetField("vehicles", BindingFlags.NonPublic | BindingFlags.Static), "Program class does not have 'vehicles' field.");
