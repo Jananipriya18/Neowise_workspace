@@ -1,19 +1,35 @@
 ﻿using System;
-using System.Threading.Tasks;
+
+class Engine
+{
+    public void Start()
+    {
+        Console.WriteLine("Engine started.");
+    }
+}
+
+class Car
+{
+    private Engine _engine;
+
+    public Car()
+    {
+        // The Car class is responsible for creating the Engine
+        _engine = new Engine();
+    }
+
+    public void Drive()
+    {
+        _engine.Start();
+        Console.WriteLine("Car is driving.");
+    }
+}
 
 class Program
 {
-    static async Task Main(string[] args)
+    static void Main(string[] args)
     {
-        Console.WriteLine("Program started.");
-        await SimulateTaskAsync();
-        Console.WriteLine("Program ended.");
-    }
-
-    static async Task SimulateTaskAsync()
-    {
-        Console.WriteLine("Task started...");
-        await Task.Delay(2000); // Simulates a delay
-        Console.WriteLine("Task completed.");
+        Car myCar = new Car();  // Car creates its own Engine
+        myCar.Drive();
     }
 }
