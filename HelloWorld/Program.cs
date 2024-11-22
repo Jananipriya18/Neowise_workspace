@@ -3,22 +3,22 @@
 class Program
 {
     // Step 1: Declare a delegate
-    public delegate void MessageDelegate(string message);
+    public delegate void TextDelegate(string text);
 
     // Step 2: Declare an event using the delegate
-    public static event MessageDelegate MessageEvent;
+    public static event TextDelegate TextEvent;
 
     static void Main(string[] args)
     {
         // Step 3: Subscribe to the event
-        MessageEvent += PrintMessage;
+        TextEvent += PrintText;
 
         // Step 4: Trigger the event
-        MessageEvent?.Invoke("Hello using an event!");
+        TextEvent?.Invoke("Hello using an event!");
     }
 
-    static void PrintMessage(string message)
+    static void PrintText(string text)
     {
-        Console.WriteLine(message);
+        Console.WriteLine(text);
     }
 }
