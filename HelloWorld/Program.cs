@@ -1,24 +1,35 @@
 ﻿using System;
 
-class Program
+namespace SimpleDelegateEventDemo
 {
-    // Step 1: Declare a delegate
-    public delegate void TextDelegate(string text);
+    public delegate void ButtonClickHandler();
 
-    // Step 2: Declare an event using the delegate
-    public static event TextDelegate TextEvent;
-
-    static void Main(string[] args)
+    class Button
     {
-        // Step 3: Subscribe to the event
-        TextEvent += PrintText;
+        public event ButtonClickHandler ButtonClicked;
 
-        // Step 4: Trigger the event
-        TextEvent?.Invoke("Hello using an event!");
+        public void Click()
+        {
+            Console.WriteLine("Button was clicked!");
+            ButtonClicked?.Invoke();
+        }
     }
 
-    static void PrintText(string text)
+    class Program
     {
-        Console.WriteLine(text);
+        static void Main(string[] args)
+        {
+            Button button = new Button();
+            button.ButtonClicked += OnButtonClicked;
+            Console.WriteLine("Press Enter to 'click' the button.");
+            Console.ReadLine();
+            button.Click();
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+        }
+        static void OnButtonClicked()
+        {
+            Console.WriteLine("Event Triggered: ButtonClickHandler invoked!");
+        }
     }
 }
