@@ -1,35 +1,19 @@
 ﻿using System;
+using System.Threading.Tasks;
 
-namespace SimpleDelegateEventDemo
+class Program
 {
-    public delegate void ButtonClickHandler();
-
-    class Button
+    static async Task Main(string[] args)
     {
-        public event ButtonClickHandler ButtonClicked;
-
-        public void Click()
-        {
-            Console.WriteLine("Button was clicked!");
-            ButtonClicked?.Invoke();
-        }
+        Console.WriteLine("Program started.");
+        await SimulateTaskAsync();
+        Console.WriteLine("Program ended.");
     }
 
-    class Program
+    static async Task SimulateTaskAsync()
     {
-        static void Main(string[] args)
-        {
-            Button button = new Button();
-            button.ButtonClicked += OnButtonClicked;
-            Console.WriteLine("Press Enter to 'click' the button.");
-            Console.ReadLine();
-            button.Click();
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-        }
-        static void OnButtonClicked()
-        {
-            Console.WriteLine("Event Triggered: ButtonClickHandler invoked!");
-        }
+        Console.WriteLine("Task started...");
+        await Task.Delay(2000); // Simulates a delay
+        Console.WriteLine("Task completed.");
     }
 }
